@@ -1,0 +1,405 @@
+html {
+  overscroll-behavior: contain;
+}
+
+body, #root {
+  background: #282c34;
+  font-family: "Dalek";
+  overflow-x: hidden;
+  overscroll-behavior: contain;
+}
+
+body::-webkit-scrollbar {
+  display: none;
+}
+
+@font-face {
+  font-family: "Dalek";
+  src: url("DALEK.ttf") format("truetype");
+}
+
+.App-logo {
+  -webkit-animation: App-logo-spin infinite 20s linear;
+          animation: App-logo-spin infinite 20s linear;
+  height: 40vmin;
+  pointer-events: none;
+}
+
+.App-header {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+@media only screen and (max-width: 768px) {
+  .add-margin {
+    margin-top: 10%;
+  }
+}
+
+.app-container {
+  width: 100%;
+  min-height: 100vh;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.cardlist-container {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  width: 100%;
+}
+
+.card-list {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  position: relative;
+  height: 100vh;
+}
+
+.card-list > img {
+  position: absolute;
+  overflow: visible;
+  pointer-events: auto;
+  -webkit-transform-origin: 50% 50% 0px;
+          transform-origin: 50% 50% 0px;
+  line-height: 96px;
+  width: 700px;
+  max-width: 100%;
+  height: auto;
+  cursor: pointer;
+}
+
+.button {
+  background: red;
+  cursor: pointer;
+}
+
+.player-selector {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  list-style: none;
+  cursor: pointer;
+}
+
+.player-selector .player-item {
+  padding-right: 15px;
+  cursor: pointer;
+}
+
+.player-selector .player-item.selected {
+  color: blue;
+}
+
+.player-selector .player-item.disabled {
+  pointer-events: none;
+  opacity: 0.5;
+}
+
+.hades {
+  position: absolute;
+  display: block;
+  top: 0;
+  opacity: 0;
+  pointer-events: none;
+  width: 700px;
+  max-width: 100%;
+  overflow: visible;
+  pointer-events: auto;
+  -webkit-transform-origin: 50% 50% 0px;
+          transform-origin: 50% 50% 0px;
+  line-height: 96px;
+  height: auto;
+  border: 1px solid black;
+  cursor: pointer;
+}
+
+.favors {
+  position: absolute;
+  width: 450px;
+  max-width: 80%;
+  height: auto;
+}
+
+.hadesContainer {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  max-width: 100%;
+  width: 700px;
+  margin: 0 auto;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  margin-bottom: 10px;
+  font-size: 2rem;
+}
+
+@media only screen and (max-width: 450px) {
+  .hadesContainer {
+    font-size: 1rem;
+  }
+}
+
+.hadesCounterContainer {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  position: relative;
+  width: 100%;
+}
+
+.hadesCounter {
+  position: absolute;
+  display: inline-block;
+  top: 0;
+  height: 3rem;
+  width: 3rem;
+  background-color: #bbb;
+  border-radius: 50%;
+  opacity: 0.9;
+  background: radial-gradient(circle at 100px 100px, grey, lightgrey);
+}
+
+@media only screen and (max-width: 450px) {
+  .hadesCounter {
+    height: 1.5rem;
+    width: 1.5rem;
+  }
+}
+
+.favor-container {
+  width: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+.numbers {
+  list-style: none;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  width: 100%;
+  padding: 0;
+  margin: 0;
+}
+
+.numbers li {
+  cursor: pointer;
+}
+
+.options {
+  margin: auto auto;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  height: 100%;
+  font-size: 5rem;
+}
+
+.options .checkbox-container {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+}
+
+.options .checkbox-container .checkbox-item {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  cursor: pointer;
+}
+
+.options .checkbox-container .checkbox-item.disabled {
+  pointer-events: none;
+  opacity: 0.7;
+}
+
+.options .checkbox-container input[type="checkbox"] {
+  width: 45px;
+  height: 45px;
+  margin-left: 5%;
+  cursor: pointer;
+}
+
+@media only screen and (max-width: 1024px) {
+  .options {
+    font-size: 5rem;
+  }
+}
+
+@media only screen and (max-width: 450px) {
+  .options {
+    font-size: 2.5rem;
+  }
+}
+
+.active-text {
+  cursor: pointer;
+  color: gold;
+  font-size: 3rem;
+}
+
+.active-text.disabled {
+  pointer-events: none;
+  opacity: 0.7;
+}
+
+@media only screen and (min-width: 451px) and (max-width: 1024px) {
+  .active-text {
+    font-size: 3rem;
+  }
+}
+
+@media only screen and (max-width: 450px) {
+  .active-text {
+    font-size: 2rem;
+  }
+}
+
+.start {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  width: 100%;
+  height: 100vh;
+  margin: 0;
+  list-style: none;
+  font-size: 5rem;
+  padding: 0;
+}
+
+.start .img {
+  width: 100%;
+  height: 100%;
+  background-image: url("/teobot/background.jpg");
+  position: absolute;
+  background-size: contain;
+  z-index: 1;
+  opacity: 0.5;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
+  background-attachment: fixed;
+}
+
+.start li {
+  cursor: pointer;
+  z-index: 2;
+  color: gold;
+}
+
+.player-text {
+  margin-right: 10px;
+}
+
+.top-container {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  position: absolute;
+  width: 100%;
+  top: 0;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  margin-bottom: 10px;
+  z-index: 999;
+}
+
+.dice-container {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.dice-face {
+  background: black;
+  padding: 5px;
+  width: 30px;
+  height: 30px;
+  margin: 10px;
+  line-height: 1.5rem;
+  color: gold;
+  font-weight: bold;
+  font-size: 1.5rem;
+  text-align: center;
+  border-radius: 10%;
+  -webkit-box-shadow: inset 0 5px grey, inset 0 -5px grey, inset 5px 0 grey, inset -5px 0 grey;
+          box-shadow: inset 0 5px grey, inset 0 -5px grey, inset 5px 0 grey, inset -5px 0 grey;
+}
+/*# sourceMappingURL=App.css.map */
