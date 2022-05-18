@@ -9,6 +9,7 @@
     "lodash-es": "4.17.11",
     "lodash-move": "^1.1.1",
     "lodash.clamp": "^4.0.3",
+    "lodash.every": "^4.6.0",
     "lodash.filter": "^4.6.0",
     "lodash.find": "^4.6.0",
     "lodash.findlastindex": "^4.6.0",
@@ -23,7 +24,7 @@
     "react-dice": "^1.0.1",
     "react-dom": "^16.8.6",
     "react-scripts": "3.0.1",
-    "react-spring": "^8.0.20",
+    "react-spring": "^9.4.5",
     "react-use-gesture": "5.0.0"
   },
   "scripts": {

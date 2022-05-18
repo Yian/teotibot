@@ -6,8 +6,10 @@ import { Checkbox } from "./Checkbox";
 import { PlayerSelector } from "./PlayerSelector";
 import { appContainer, mainImg, start, options } from "./AppContainer.css";
 import { activeText } from "./TileList.css";
+import shuffle from "lodash.shuffle";
 
-const initialGodOrdering = [0, 1, 2, 3, 4, 5, 6, 7, 8];
+const initialOrdering = [0, 1, 2, 3, 4, 5, 6];
+const initialDirectionOrdering = [0, 1];
 const players = [3, 4, 5, 6];
 
 const baseBotTiles = [
@@ -18,8 +20,11 @@ const baseBotTiles = [
   { name: "mastery" },
   { name: "nobles" },
   { name: "worship" },
-  { name: "left" },
-  { name: "right" },
+];
+
+const directionTiles = [
+  { name: "left"},
+  { name: "right"},
 ];
 
 export class AppContainer extends React.Component {
@@ -33,11 +38,13 @@ export class AppContainer extends React.Component {
       cycleCount: 0,
       lastPlayerIndex: 4,
       tiles: baseBotTiles,
-      ordering: initialGodOrdering,
+      directionTiles,
+      ordering: shuffle(initialOrdering),
+      directionOrdering: shuffle(initialDirectionOrdering),
       shuffleHistory: [
         {
           cycle: 0,
-          order: initialGodOrdering,
+          order: initialOrdering,
           wasShuffled: true
         }
       ]
@@ -88,6 +95,12 @@ export class AppContainer extends React.Component {
   setOrdering = newOrder => {
     this.setState({
       ordering: newOrder
+    });
+  };
+
+  setDirectionOrdering = newOrder => {
+    this.setState({
+      directionOrdering: newOrder
     });
   };
 
@@ -145,25 +158,18 @@ export class AppContainer extends React.Component {
       return (
         <TileList
           ordering={this.state.ordering}
+          directionOrdering={this.state.directionOrdering}
           setOrdering={this.setOrdering}
+          setDirectionOrdering={this.setDirectionOrdering}
           addToHistory={this.addToShuffleHistory}
           incrementCycle={this.incrementCycleCount}
-          rollForHades={this.rollForHades}
-          setHadesActive={this.setHadesActive}
-          resetHades={this.resetHades}
-          setHades={this.setHades}
           back={this.back}
           lastPlayerIndex={this.state.lastPlayerIndex}
           cycleCount={this.state.cycleCount}
           tiles={this.state.tiles}
-          isTitans={this.state.isTitans}
-          isHades={this.state.isHades}
-          isFavors={this.state.isFavors}
+          directionTiles={this.state.directionTiles}
           shuffleHistory={this.state.shuffleHistory}
           playerCount={this.state.playerCount}
-          hadesActive={this.state.hadesActive}
-          setFavorTiles={this.setFavorTiles}
-          favorTiles={this.state.favorTiles}
           defaultFavorTiles={this.state.defaultFavorTiles}
           dice1={this.state.dice1}
           dice2={this.state.dice2}
