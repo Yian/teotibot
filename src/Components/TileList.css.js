@@ -1,5 +1,4 @@
-
-import { css } from '@emotion/react'
+import { css } from "@emotion/react";
 
 export const tileListContainer = css`
   display: flex;
@@ -8,21 +7,43 @@ export const tileListContainer = css`
 `;
 
 export const tileList = css`
-    display: flex;
-    justify-content: center;
-    position: relative;
-    height: 100vh;
-  
-    > img {
-      position: absolute;
-      overflow: visible;
-      pointer-events: auto;
-      transform-origin: 50% 50% 0px;
-      line-height: 96px;
-      width: 400px;
-      max-width: 100%;
-      cursor: pointer;
+  display: flex;
+  justify-content: center;
+  position: relative;
+  height: 100vh;
+
+  > img {
+    position: absolute;
+    overflow: visible;
+    pointer-events: auto;
+    transform-origin: 50% 50% 0px;
+    line-height: 96px;
+    width: 400px;
+    max-width: 100%;
+    cursor: pointer;
+
+    @media only screen and (max-width: 500px) {
+      width: 200px;
     }
+  }
+`;
+
+export const driectionTileList = css`
+  display: flex;
+  justify-content: center;
+  position: relative;
+  height: 100vh;
+
+  > img {
+    position: absolute;
+    overflow: visible;
+    pointer-events: auto;
+    transform-origin: 50% 50% 0px;
+    line-height: 96px;
+    width: 400px;
+    max-width: 100%;
+    cursor: pointer;
+  }
 `;
 
 export const topContainer = css`

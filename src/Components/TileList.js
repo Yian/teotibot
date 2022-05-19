@@ -1,47 +1,51 @@
 /** @jsx jsx */
 import React, { useCallback, useEffect, useState } from "react";
 import { jsx } from "@emotion/react";
-import { useGesture } from "react-use-gesture";
-import clamp from "lodash.clamp";
-import swap from "lodash-move";
-import every from "lodash.every";
 import { useSprings, animated, to } from "@react-spring/web";
 
 import {
   tileListContainer,
-  topContainer,
   tileList,
+  driectionTileList,
+  topContainer,
   activeText,
 } from "./TileList.css";
-import shuffle from "lodash.shuffle";
-import { indexOf } from "lodash-es";
 
 let tileWidth = 0;
 let tileHeight = 0;
 
 const row1YVal = 50;
-const row2YVal = 275;
-const row3YVal = 525;
-const row4XVal = 800;
+const row2YVal = 250;
 
-const figureW = (tile, round, bothTilesFlipped) => {
-  let w = tile.nextWValue ?? 0;
-  return w;
-};
-
-const fn2 = (order, tiles, round, bothTilesFlipped) => (index) => {
+const fn2 = (order, tiles) => (index) => {
   const tile = tiles[index];
   const imageUrl = process.env.PUBLIC_URL + "/" + tile.name + ".png";
 
+  const figureX2 = (index) => {
+    var result = 0;
+    switch(index) {
+      case 0:
+        result = tileWidth * 2
+        break;
+        case 1:
+          result = tileWidth*2
+          break;
+          default:
+            result =tileWidth*2
+    }
+    return result;
+  }
+
   var result = {
     y: order.indexOf(index) === 0 ? row1YVal : row2YVal,
+    x: figureX2(index),
     src: imageUrl,
-    w: figureW(tile, round, bothTilesFlipped),
+    w: tile.nextWValue ?? 0,
     scale: 1,
-    backgroundColor: tile.name === "left" ? "red" : "blue",
     shadow: 1,
     immediate: false,
   };
+
   return { ...{ z: 0 }, ...result };
 };
 
@@ -49,8 +53,6 @@ const fn =
   (
     order,
     tiles,
-    lastPlayerIndex,
-    heightCalculated,
     originalIndex,
     curIndex,
     y
@@ -65,25 +67,25 @@ const fn =
 
       switch (index) {
         case 0:
-          result = row1YVal;
+          result = 0;
           break;
         case 1:
-          result = row2YVal;
+          result = tileWidth/2;
           break;
         case 2:
-          result = row2YVal;
+          result = tileWidth/2;
           break;
         case 3:
-          result = row3YVal;
+          result = tileWidth;
           break;
         case 4:
-          result = row3YVal;
+          result = tileWidth;
           break;
         case 5:
-          result = row3YVal;
+          result = tileWidth;
           break;
         default:
-          result = row3YVal;
+          result = tileWidth;
       }
       return result;
     };
@@ -92,25 +94,25 @@ const fn =
       var result = 0;
       switch (index) {
         case 0:
-          result = -150;
+          result = 0;
           break;
         case 1:
-          result = -450;
+          result = -tileWidth/2;
           break;
         case 2:
-          result = 50;
+          result = tileWidth/2;
           break;
         case 3:
-          result = -650;
+          result = -tileWidth;
           break;
         case 4:
-          result = -200;
+          result = tileWidth/100;
           break;
         case 5:
-          result = 250;
+          result = tileWidth;
           break;
         default:
-          result = 800;
+          result = tileWidth*2;
       }
       return result;
     };
@@ -143,35 +145,51 @@ export const TileList = (props) => {
   const lastPlayerIndex = props.lastPlayerIndex;
   const [round, setRound] = useState(0);
   const [tileSizeCalculated, setTileSizeCalculated] = useState(false);
-  const [bothTilesFlipped, setBothTilesFlipped] = useState(false);
 
-  const [tileSprings, setSprings] = useSprings(
+  const [tileSprings, setTiles] = useSprings(
     tiles.length,
     fn(ordering, tiles, lastPlayerIndex)
   ); // Create springs, each corresponds to an item, controlling its transform, scale, etc.
 
-  const [directionTileSprings, setDirectionTileSprings] = useSprings(
+  const [directionTileSprings, setDirectionTiles] = useSprings(
     directionTiles.length,
-    fn2(directionOrdering, directionTiles, round)
+    fn2(directionOrdering, directionTiles)
   );
 
   const swapArrayLocs = (arr, index1, index2) => {
     [arr[index1], arr[index2]] = [arr[index2], arr[index1]];
   };
 
-  const shuffleTiles = () => {
+  const shuffleTiles = (tileIndex) => {
     setRound(round + 1);
-
     props.incrementCycle();
+
+    if (ordering.indexOf(tileIndex) >= 6) return; //clicked extra tile
+
     let newOrder;
     let newDirectionOrder;
     let wasShuffled;
 
-    swapArrayLocs(ordering, 0, 6);
+     swapArrayLocs(ordering, 0, 6);
+     swapArrayLocs(ordering, 1, 0);
+     swapArrayLocs(ordering, 4, 1);
+
     newOrder = ordering;
+
 
     swapArrayLocs(directionOrdering, 0, 1);
     newDirectionOrder = directionOrdering;
+
+    directionTiles.forEach((directionTile, index) => {
+      if (newDirectionOrder.indexOf(index) === 0) {
+        //to move to top
+        directionTile.top = true;
+      } else {
+        //top to bottom, and flip
+        directionTile.top = false;
+        directionTile.toFlip = true;
+      }
+    });
 
     props.addToHistory({
       cycle: props.cycleCount,
@@ -186,34 +204,24 @@ export const TileList = (props) => {
   };
 
   const animateTiles = useCallback((newOrder, newDirectionOrder) => {
-    setSprings(fn(newOrder, tiles, lastPlayerIndex));
+    setTiles(fn(newOrder, tiles));
+
+    const flippedValue = 180;
+    const defaultValue = 0;
 
     directionTiles.forEach((directionTile, index) => {
-      if (newDirectionOrder.indexOf(index) === 0) {
-        //to move to top
-        directionTile.top = true;
-      } else {
-        //top to bottom, and flip
-        directionTile.top = false;
-        directionTile.toFlip = true;
-      }
-    });
-
-    directionTiles.forEach((directionTile, index) => {
-        if (directionTile.toFlip && !directionTile.flipped) {
-          directionTile.nextWValue = 180;
-        }
-        if (directionTile.toFlip && directionTile.flipped) {
-          directionTile.nextWValue = 0;
-          if (directionTile.nextWValue === directionTile.curWValue) {
-            directionTile.nextWValue = 180;
+        if (!directionTile.curWValue && directionTile.toFlip) {
+          directionTile.nextWValue = flippedValue;
+        } else if (directionTile.curWValue && directionTile.toFlip) {
+          if (directionTile.curWValue === directionTile.nextWValue) {
+            directionTile.nextWValue = defaultValue;
           }
         }
     })
 
-    setDirectionTileSprings(fn2(newDirectionOrder, directionTiles, round, bothTilesFlipped));
+    setDirectionTiles(fn2(newDirectionOrder, directionTiles));
 
-    directionTiles.forEach((directionTile, index) => {
+    directionTiles.forEach((directionTile) => {
       if (directionTile.toFlip === true) {
         directionTile.flipped = true;
         directionTile.toFlip = false;
@@ -224,17 +232,18 @@ export const TileList = (props) => {
 
   useEffect(() => {
     if (round === 0) {
-      setSprings(fn(props.ordering, tiles, lastPlayerIndex));
+      setTiles(fn(props.ordering, tiles));
+      setDirectionTiles(fn2(props.directionOrdering, directionTiles));
     }
-  }, [lastPlayerIndex, props.ordering, round, setSprings, tiles]);
+  }, [lastPlayerIndex, props.ordering, props.directionOrdering, setTiles, setDirectionTiles, tiles, directionTiles, round]);
 
   const getTileSize = (element) => {
     if (element) {
       tileHeight = element.getBoundingClientRect().height;
       tileWidth = element.getBoundingClientRect().width;
 
-      //console.log(tileHeight);
-      //console.log(element.getBoundingClientRect());
+      console.log(tileHeight);
+      console.log(element.getBoundingClientRect());
 
       if (!tileSizeCalculated) {
         setTileSizeCalculated(true);
@@ -252,16 +261,17 @@ export const TileList = (props) => {
           Cycle: {props.cycleCount}
         </div>
       </div>
-      <div css={tileList} style={{ height: tiles.length }}>
+      <div css={tileList} style={{ height: tiles.length}}>
         {tileSprings.map(
           (
-            { zIndex, shadow, x, y, z, scale, opacity, backgroundColor, src },
+            { zIndex, shadow, y, x, z, scale, opacity, backgroundColor, src },
             i
           ) => (
             <animated.img
               ref={getTileSize}
               draggable="false"
               key={i}
+              onClick={() => {shuffleTiles(i)}}
               src={src}
               style={{
                 backgroundColor,
@@ -280,9 +290,9 @@ export const TileList = (props) => {
           )
         )}
       </div>
-      <div css={tileList} style={{ height: tiles.length }}>
+      <div css={driectionTileList} style={{ height: tiles.length}}>
         {directionTileSprings.map(
-          ({ zIndex, y, z, w, scale, opacity, backgroundColor, src }, i) => (
+          ({ zIndex, x, y, z, w, scale, opacity, backgroundColor, src }, i) => (
             <animated.img
               draggable="false"
               key={i}
@@ -291,9 +301,9 @@ export const TileList = (props) => {
                 backgroundColor,
                 zIndex,
                 transform: to(
-                  [y, scale, z, w],
-                  (y, s, z, w) =>
-                    `rotateY(${w}deg) rotateZ(${z}deg) translate3d(0px,${y}px,0) scale(${s})`
+                  [y, x, scale, z, w],
+                  (y, x, s, z, w) =>
+                    `translate3d(${x}px,${y}px,0) rotateY(${w}deg) rotateZ(${z}deg) scale(${s})` //https://stackoverflow.com/questions/31079910/translate3d-rotatey-working-but-perspective-origin-not-working-why
                 ),
               }}
             />
