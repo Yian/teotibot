@@ -10,12 +10,13 @@ import {
   topContainer,
   activeText,
 } from "./TileList.css";
+import { toInteger } from "lodash-es";
 
 let tileWidth = 0;
 let tileHeight = 0;
 
-const row1YVal = 50;
-const row2YVal = 250;
+const row1YVal = 15;
+const row2YVal = 200;
 
 const fn2 = (order, tiles) => (index) => {
   const tile = tiles[index];
@@ -23,18 +24,18 @@ const fn2 = (order, tiles) => (index) => {
 
   const figureX2 = (index) => {
     var result = 0;
-    switch(index) {
+    switch (index) {
       case 0:
-        result = tileWidth * 2
+        result = tileWidth * 2;
         break;
-        case 1:
-          result = tileWidth*2
-          break;
-          default:
-            result =tileWidth*2
+      case 1:
+        result = tileWidth * 2;
+        break;
+      default:
+        result = tileWidth * 2;
     }
     return result;
-  }
+  };
 
   var result = {
     y: order.indexOf(index) === 0 ? row1YVal : row2YVal,
@@ -44,98 +45,95 @@ const fn2 = (order, tiles) => (index) => {
     scale: 1,
     shadow: 1,
     immediate: false,
+    config: { duration: 500, velocity: 0, friction: 10 }
   };
 
   return { ...{ z: 0 }, ...result };
 };
 
-const fn =
-  (
-    order,
-    tiles,
-    originalIndex,
-    curIndex,
-    y
-  ) =>
-  (index) => {
-    var result = {};
-    const tile = tiles[index];
-    const imageUrl = process.env.PUBLIC_URL + "/" + tile.name + ".png";
+const fn = (order, tiles, originalIndex, curIndex, y) => (index) => {
+  var result = {};
+  const tile = tiles[index];
+  const imageUrl = process.env.PUBLIC_URL + "/" + tile.name + ".png";
 
-    const figureY = (index) => {
-      var result = 0;
+  const figureY = (index) => {
+    var result = 0;
 
-      switch (index) {
-        case 0:
-          result = 0;
-          break;
-        case 1:
-          result = tileWidth/2;
-          break;
-        case 2:
-          result = tileWidth/2;
-          break;
-        case 3:
-          result = tileWidth;
-          break;
-        case 4:
-          result = tileWidth;
-          break;
-        case 5:
-          result = tileWidth;
-          break;
-        default:
-          result = tileWidth;
-      }
-      return result;
-    };
-
-    const figureX = (index) => {
-      var result = 0;
-      switch (index) {
-        case 0:
-          result = 0;
-          break;
-        case 1:
-          result = -tileWidth/2;
-          break;
-        case 2:
-          result = tileWidth/2;
-          break;
-        case 3:
-          result = -tileWidth;
-          break;
-        case 4:
-          result = tileWidth/100;
-          break;
-        case 5:
-          result = tileWidth;
-          break;
-        default:
-          result = tileWidth*2;
-      }
-      return result;
-    };
-
-    index === originalIndex
-      ? (result = {
-          y: curIndex + y,
-          scale: 1,
-          shadow: 15,
-          immediate: (n) => n === "y" || n === "zIndex",
-        })
-      : // initial position
-        (result = {
-          x: figureX(order.indexOf(index)),
-          y: figureY(order.indexOf(index, tile.type)),
-          scale: 1,
-          shadow: 1,
-          immediate: false,
-          src: imageUrl,
-        });
-
-    return { ...{ opacity: 1, z: 0 }, ...result };
+    switch (index) {
+      case 0:
+        result = 0;
+        break;
+      case 1:
+        result = tileWidth / 2;
+        break;
+      case 2:
+        result = tileWidth / 2;
+        break;
+      case 3:
+        result = tileWidth;
+        break;
+      case 4:
+        result = tileWidth;
+        break;
+      case 5:
+        result = tileWidth;
+        break;
+      default:
+        result = tileWidth;
+    }
+    return result;
   };
+
+  const figureX = (index) => {
+    var result = 0;
+    switch (index) {
+      case 0:
+        result = 0;
+        break;
+      case 1:
+        result = -tileWidth / 2;
+        break;
+      case 2:
+        result = tileWidth / 2;
+        break;
+      case 3:
+        result = -tileWidth;
+        break;
+      case 4:
+        result = tileWidth / 100;
+        break;
+      case 5:
+        result = tileWidth;
+        break;
+      default:
+        result = tileWidth * 2;
+    }
+    return result;
+  };
+
+  index === originalIndex
+    ? (result = {
+        y: curIndex + y,
+        scale: 1,
+        shadow: 15,
+        immediate: (n) => n === "y" || n === "zIndex",
+      })
+    : // initial position
+      (result = {
+        x: figureX(order.indexOf(index)),
+        y: figureY(order.indexOf(index, tile.type)),
+        scale: 1,
+        shadow: 1,
+        immediate: false,
+        src: imageUrl,
+        config: { velocity: 0, friction: 10 }
+      });
+
+  return { ...{ opacity: 1, z: 0 }, ...result };
+};
+
+const right = "right";
+const left = "left";
 
 export const TileList = (props) => {
   const tiles = props.tiles;
@@ -160,6 +158,98 @@ export const TileList = (props) => {
     [arr[index1], arr[index2]] = [arr[index2], arr[index1]];
   };
 
+  const orderTiles = (tileIndex) => {
+    var topDirectionTile = directionTiles[directionOrdering[0]];
+    var bottomDirectionTile = directionTiles[directionOrdering[1]];
+
+    const topTileRight =
+      (topDirectionTile.name === right && !topDirectionTile.flipped) ||
+      (topDirectionTile.name === left && topDirectionTile.flipped);
+
+    const topTileLeft =
+      (topDirectionTile.name === left && !topDirectionTile.flipped) ||
+      (topDirectionTile.name === right && topDirectionTile.flipped);
+
+    const bottomTileLeft =
+      (bottomDirectionTile.name === left && !bottomDirectionTile.flipped) ||
+      (bottomDirectionTile.name === right && bottomDirectionTile.flipped);
+
+    const bottomTileRight =
+      (bottomDirectionTile.name === right && !bottomDirectionTile.flipped) ||
+      (bottomDirectionTile.name === left && bottomDirectionTile.flipped);
+
+    if (tileIndex === 0) {
+      swapArrayLocs(ordering, tileIndex, 6);
+      // right, left
+      if (topTileRight && bottomTileLeft) {
+        swapArrayLocs(ordering, 1, tileIndex);
+        swapArrayLocs(ordering, 4, 1);
+      }
+
+      // left, right
+      if (topTileLeft && bottomTileRight) {
+        swapArrayLocs(ordering, 2, tileIndex);
+        swapArrayLocs(ordering, 4, 2);
+      }
+
+      // right right
+      if (topTileRight && bottomTileRight) {
+        swapArrayLocs(ordering, 1, tileIndex);
+        swapArrayLocs(ordering, 3, 1);
+      }
+
+      // left left
+      if (topTileLeft && bottomTileLeft) {
+        swapArrayLocs(ordering, 2, tileIndex);
+        swapArrayLocs(ordering, 5, 2);
+      }
+    }
+
+    if (tileIndex === 1) {
+      // right, left || right, right
+      if (topTileRight) {
+        swapArrayLocs(ordering, tileIndex, 6);
+        swapArrayLocs(ordering, 3, tileIndex);
+      }
+
+      // left, right || left left
+      if (topTileLeft) {
+        swapArrayLocs(ordering, tileIndex, 6);
+        swapArrayLocs(ordering, 4, tileIndex);
+      }
+    }
+
+    //Position 2
+    if (tileIndex === 2) {
+      // right, left || right, right
+      if (topTileRight) {
+        swapArrayLocs(ordering, tileIndex, 6);
+        swapArrayLocs(ordering, 4, tileIndex);
+      }
+
+      // left, right || left left
+      if (topTileLeft) {
+        swapArrayLocs(ordering, tileIndex, 6);
+        swapArrayLocs(ordering, 5, tileIndex);
+      }
+    }
+
+    //Position 3
+    if (tileIndex === 3) {
+      swapArrayLocs(ordering, tileIndex, 6);
+    }
+
+    //Position 4
+    if (tileIndex === 4) {
+      swapArrayLocs(ordering, tileIndex, 6);
+    }
+
+    //Position 5
+    if (tileIndex === 5) {
+      swapArrayLocs(ordering, tileIndex, 6);
+    }
+  };
+
   const shuffleTiles = (tileIndex) => {
     setRound(round + 1);
     props.incrementCycle();
@@ -170,12 +260,8 @@ export const TileList = (props) => {
     let newDirectionOrder;
     let wasShuffled;
 
-     swapArrayLocs(ordering, 0, 6);
-     swapArrayLocs(ordering, 1, 0);
-     swapArrayLocs(ordering, 4, 1);
-
+    orderTiles(ordering.indexOf(tileIndex));
     newOrder = ordering;
-
 
     swapArrayLocs(directionOrdering, 0, 1);
     newDirectionOrder = directionOrdering;
@@ -209,21 +295,22 @@ export const TileList = (props) => {
     const flippedValue = 180;
     const defaultValue = 0;
 
-    directionTiles.forEach((directionTile, index) => {
-        if (!directionTile.curWValue && directionTile.toFlip) {
-          directionTile.nextWValue = flippedValue;
-        } else if (directionTile.curWValue && directionTile.toFlip) {
-          if (directionTile.curWValue === directionTile.nextWValue) {
-            directionTile.nextWValue = defaultValue;
-          }
+    directionTiles.forEach((directionTile) => {
+      if (!directionTile.curWValue && directionTile.toFlip) {
+        directionTile.nextWValue = flippedValue;
+        directionTile.flipped = true;
+      } else if (directionTile.curWValue && directionTile.toFlip) {
+        if (directionTile.curWValue === directionTile.nextWValue) {
+          directionTile.nextWValue = defaultValue;
+          directionTile.flipped = false;
         }
-    })
+      }
+    });
 
     setDirectionTiles(fn2(newDirectionOrder, directionTiles));
 
     directionTiles.forEach((directionTile) => {
       if (directionTile.toFlip === true) {
-        directionTile.flipped = true;
         directionTile.toFlip = false;
         directionTile.curWValue = directionTile.nextWValue;
       }
@@ -235,15 +322,24 @@ export const TileList = (props) => {
       setTiles(fn(props.ordering, tiles));
       setDirectionTiles(fn2(props.directionOrdering, directionTiles));
     }
-  }, [lastPlayerIndex, props.ordering, props.directionOrdering, setTiles, setDirectionTiles, tiles, directionTiles, round]);
+  }, [
+    lastPlayerIndex,
+    props.ordering,
+    props.directionOrdering,
+    setTiles,
+    setDirectionTiles,
+    tiles,
+    directionTiles,
+    round,
+  ]);
 
   const getTileSize = (element) => {
     if (element) {
       tileHeight = element.getBoundingClientRect().height;
       tileWidth = element.getBoundingClientRect().width;
 
-      console.log(tileHeight);
-      console.log(element.getBoundingClientRect());
+      //console.log(tileHeight);
+      //console.log(element.getBoundingClientRect());
 
       if (!tileSizeCalculated) {
         setTileSizeCalculated(true);
@@ -261,7 +357,7 @@ export const TileList = (props) => {
           Cycle: {props.cycleCount}
         </div>
       </div>
-      <div css={tileList} style={{ height: tiles.length}}>
+      <div css={tileList} style={{ height: tiles.length }}>
         {tileSprings.map(
           (
             { zIndex, shadow, y, x, z, scale, opacity, backgroundColor, src },
@@ -271,7 +367,9 @@ export const TileList = (props) => {
               ref={getTileSize}
               draggable="false"
               key={i}
-              onClick={() => {shuffleTiles(i)}}
+              onClick={() => {
+                shuffleTiles(i);
+              }}
               src={src}
               style={{
                 backgroundColor,
@@ -290,7 +388,7 @@ export const TileList = (props) => {
           )
         )}
       </div>
-      <div css={driectionTileList} style={{ height: tiles.length}}>
+      <div css={driectionTileList} style={{ height: tiles.length }}>
         {directionTileSprings.map(
           ({ zIndex, x, y, z, w, scale, opacity, backgroundColor, src }, i) => (
             <animated.img
