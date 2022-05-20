@@ -1,7 +1,8 @@
 /** @jsx jsx */
-import React, { useCallback, useEffect, useState } from "react";
+import React, { Component, useCallback, useEffect, useState } from "react";
 import { jsx } from "@emotion/react";
 import { useSprings, animated, to } from "@react-spring/web";
+import { mainImg } from './AppContainer.css';
 
 import {
   tileListContainer,
@@ -10,11 +11,9 @@ import {
   topContainer,
   activeText,
 } from "./TileList.css";
-import { toInteger } from "lodash-es";
+import { QuestionForm } from "./QuestionForm";
 
 let tileWidth = 0;
-let tileHeight = 0;
-
 const row1YVal = 15;
 const row2YVal = 200;
 
@@ -88,13 +87,13 @@ const fn = (order, tiles, originalIndex, curIndex, y) => (index) => {
     var result = 0;
     switch (index) {
       case 0:
-        result = 0;
+        result = -tileWidth;
         break;
       case 1:
-        result = -tileWidth / 2;
+        result = -tileWidth;
         break;
       case 2:
-        result = tileWidth / 2;
+        result = tileWidth/2;
         break;
       case 3:
         result = -tileWidth;
@@ -126,7 +125,7 @@ const fn = (order, tiles, originalIndex, curIndex, y) => (index) => {
         shadow: 1,
         immediate: false,
         src: imageUrl,
-        config: { velocity: 0, friction: 10 }
+        config: { velocity: 0, friction: 75 }
       });
 
   return { ...{ opacity: 1, z: 0 }, ...result };
@@ -143,6 +142,8 @@ export const TileList = (props) => {
   const lastPlayerIndex = props.lastPlayerIndex;
   const [round, setRound] = useState(0);
   const [tileSizeCalculated, setTileSizeCalculated] = useState(false);
+  const [tilesDisabled, setTilesDisabled] = useState(false);
+  const [showForm, setShowForm] = useState(false);
 
   const [tileSprings, setTiles] = useSprings(
     tiles.length,
@@ -253,6 +254,12 @@ export const TileList = (props) => {
   const shuffleTiles = (tileIndex) => {
     setRound(round + 1);
     props.incrementCycle();
+    if (tilesDisabled) return;
+    setTilesDisabled(true);
+
+    setTimeout(() => {
+      setTilesDisabled(false);
+    }, 1000);
 
     if (ordering.indexOf(tileIndex) >= 6) return; //clicked extra tile
 
@@ -335,7 +342,6 @@ export const TileList = (props) => {
 
   const getTileSize = (element) => {
     if (element) {
-      tileHeight = element.getBoundingClientRect().height;
       tileWidth = element.getBoundingClientRect().width;
 
       //console.log(tileHeight);
@@ -347,16 +353,19 @@ export const TileList = (props) => {
     }
   };
 
+  const showSteps = (i) => {
+    setShowForm(true);
+  }
+
+  const onCloseClick = (i) => {
+    setShowForm(false);
+    shuffleTiles(i);
+  }
+
   return (
     <div css={tileListContainer}>
-      <div css={topContainer}>
-        <div css={activeText} onClick={props.back}>
-          Back
-        </div>
-        <div css={activeText} onClick={shuffleTiles}>
-          Cycle: {props.cycleCount}
-        </div>
-      </div>
+      <div css={mainImg} onClick={onCloseClick} />
+      <div>{showForm && <QuestionForm onCloseClick={onCloseClick}/>}</div>
       <div css={tileList} style={{ height: tiles.length }}>
         {tileSprings.map(
           (
@@ -368,7 +377,7 @@ export const TileList = (props) => {
               draggable="false"
               key={i}
               onClick={() => {
-                shuffleTiles(i);
+                showSteps(i);
               }}
               src={src}
               style={{

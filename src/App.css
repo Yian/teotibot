@@ -4,7 +4,7 @@ html {
 
 body, #root {
   background: #282c34;
-  font-family: "Dalek";
+  font-family: "Mayan";
   overflow-x: hidden;
   overscroll-behavior: contain;
 }
@@ -14,8 +14,8 @@ body::-webkit-scrollbar {
 }
 
 @font-face {
-  font-family: "Dalek";
-  src: url("DALEK.ttf") format("truetype");
+  font-family: "Mayan";
+  src: url("Mayan.ttf") format("truetype");
 }
 
 .App-logo {
