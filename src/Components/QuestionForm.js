@@ -4,6 +4,7 @@ import { jsx } from "@emotion/react";
 import {
   buttons,
   questionModal,
+  modalClose,
   questionModalContent,
 } from "./QuestionForm.css";
 
@@ -72,6 +73,7 @@ export class QuestionForm extends React.Component {
     return (
       <div css={questionModal}>
         <div css={questionModalContent}>
+         <div css={modalClose} onClick={this.onExitForm}>close</div>
           {this.state.showQuestion1 && (
             <Question
               onYesClick={this.onQ1YesClick}
@@ -89,11 +91,15 @@ export class QuestionForm extends React.Component {
               onRestartQuestions={this.onRestartQuestions}
             >
               <div>
-                spends 2 gold and places the topmost Decoration tile onto an
+                The bot spends 2 gold and places the topmost Decoration tile onto an
                 available Decorations space on the Pyramid grid on the Main
-                Board (clockwise from the top). Then the bot: ▪ Scores 5 Victory
-                Points. ▪Advances on the Pyramid track. ▪Advances on any temple
-                by one
+                Board (clockwise from the top). 
+                Then the bot:
+                <ul>
+                    <li>Scores 5 Victory Points.</li>
+                    <li>Advances on the Pyramid track.</li>
+                    <li>Advances on any temple by one.</li>
+                </ul>
               </div>
               <PowerUp />
             </Answer>
@@ -161,7 +167,7 @@ function CloseForm(props) {
 function PowerUp() {
   return (
     <div>
-      power up a worker on the relevant Action Board (this might trigger an
+      Power up a worker on the relevant Action Board (this might trigger an
       Ascension, which is resolved normally). Then advance the powered-up worker
       (or the new worker, if the old one triggered Ascension)
     </div>

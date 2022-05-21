@@ -8,37 +8,21 @@ import {
   tileListContainer,
   tileList,
   driectionTileList,
-  topContainer,
-  activeText,
 } from "./TileList.css";
 import { QuestionForm } from "./QuestionForm";
+import { calculateXDirectionTile, calculateXTile, calculateYTile, right, left } from "./Logic";
 
 let tileWidth = 0;
 const row1YVal = 15;
 const row2YVal = 200;
 
-const fn2 = (order, tiles) => (index) => {
+const directionTileApi = (order, tiles) => (index) => {
   const tile = tiles[index];
   const imageUrl = process.env.PUBLIC_URL + "/" + tile.name + ".png";
 
-  const figureX2 = (index) => {
-    var result = 0;
-    switch (index) {
-      case 0:
-        result = tileWidth * 2;
-        break;
-      case 1:
-        result = tileWidth * 2;
-        break;
-      default:
-        result = tileWidth * 2;
-    }
-    return result;
-  };
-
   var result = {
     y: order.indexOf(index) === 0 ? row1YVal : row2YVal,
-    x: figureX2(index),
+    x: calculateXDirectionTile(index, tileWidth),
     src: imageUrl,
     w: tile.nextWValue ?? 0,
     scale: 1,
@@ -50,65 +34,10 @@ const fn2 = (order, tiles) => (index) => {
   return { ...{ z: 0 }, ...result };
 };
 
-const fn = (order, tiles, originalIndex, curIndex, y) => (index) => {
+const tilesApi = (order, tiles, originalIndex, curIndex, y) => (index) => {
   var result = {};
   const tile = tiles[index];
-  const imageUrl = process.env.PUBLIC_URL + "/" + tile.name + ".png";
-
-  const figureY = (index) => {
-    var result = 0;
-
-    switch (index) {
-      case 0:
-        result = 0;
-        break;
-      case 1:
-        result = tileWidth / 2;
-        break;
-      case 2:
-        result = tileWidth / 2;
-        break;
-      case 3:
-        result = tileWidth;
-        break;
-      case 4:
-        result = tileWidth;
-        break;
-      case 5:
-        result = tileWidth;
-        break;
-      default:
-        result = tileWidth;
-    }
-    return result;
-  };
-
-  const figureX = (index) => {
-    var result = 0;
-    switch (index) {
-      case 0:
-        result = -tileWidth;
-        break;
-      case 1:
-        result = -tileWidth;
-        break;
-      case 2:
-        result = tileWidth/2;
-        break;
-      case 3:
-        result = -tileWidth;
-        break;
-      case 4:
-        result = tileWidth / 100;
-        break;
-      case 5:
-        result = tileWidth;
-        break;
-      default:
-        result = tileWidth * 2;
-    }
-    return result;
-  };
+  const imageUrl = process.env.PUBLIC_URL + "/BotTiles/" + tile.name + ".png";
 
   index === originalIndex
     ? (result = {
@@ -119,8 +48,8 @@ const fn = (order, tiles, originalIndex, curIndex, y) => (index) => {
       })
     : // initial position
       (result = {
-        x: figureX(order.indexOf(index)),
-        y: figureY(order.indexOf(index, tile.type)),
+        x: calculateXTile(order.indexOf(index), tileWidth),
+        y: calculateYTile(order.indexOf(index, tile.type), tileWidth),
         scale: 1,
         shadow: 1,
         immediate: false,
@@ -130,9 +59,6 @@ const fn = (order, tiles, originalIndex, curIndex, y) => (index) => {
 
   return { ...{ opacity: 1, z: 0 }, ...result };
 };
-
-const right = "right";
-const left = "left";
 
 export const TileList = (props) => {
   const tiles = props.tiles;
@@ -147,12 +73,12 @@ export const TileList = (props) => {
 
   const [tileSprings, setTiles] = useSprings(
     tiles.length,
-    fn(ordering, tiles, lastPlayerIndex)
+    tilesApi(ordering, tiles, lastPlayerIndex)
   ); // Create springs, each corresponds to an item, controlling its transform, scale, etc.
 
   const [directionTileSprings, setDirectionTiles] = useSprings(
     directionTiles.length,
-    fn2(directionOrdering, directionTiles)
+    directionTileApi(directionOrdering, directionTiles)
   );
 
   const swapArrayLocs = (arr, index1, index2) => {
@@ -297,7 +223,7 @@ export const TileList = (props) => {
   };
 
   const animateTiles = useCallback((newOrder, newDirectionOrder) => {
-    setTiles(fn(newOrder, tiles));
+    setTiles(tilesApi(newOrder, tiles));
 
     const flippedValue = 180;
     const defaultValue = 0;
@@ -314,7 +240,7 @@ export const TileList = (props) => {
       }
     });
 
-    setDirectionTiles(fn2(newDirectionOrder, directionTiles));
+    setDirectionTiles(directionTileApi(newDirectionOrder, directionTiles));
 
     directionTiles.forEach((directionTile) => {
       if (directionTile.toFlip === true) {
@@ -326,8 +252,8 @@ export const TileList = (props) => {
 
   useEffect(() => {
     if (round === 0) {
-      setTiles(fn(props.ordering, tiles));
-      setDirectionTiles(fn2(props.directionOrdering, directionTiles));
+      setTiles(tilesApi(props.ordering, tiles));
+      setDirectionTiles(directionTileApi(props.directionOrdering, directionTiles));
     }
   }, [
     lastPlayerIndex,

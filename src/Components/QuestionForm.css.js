@@ -13,12 +13,23 @@ export const questionModal = css`
 `;
 
 export const questionModalContent = css`
+  display: flex;
+  justify-content: center;
   background-color: gray;
+  position: relative;
   margin: 15% auto; /* 15% from the top and centered */
   padding: 20px;
   border: 1px solid #888;
-  width: 80%; /* Could be more or less, depending on screen size */
+  width: 50%; /* Could be more or less, depending on screen size */
   color: whitesmoke;
+  border-radius: 12px;
+`;
+
+export const modalClose = css`
+    position: absolute;
+    top: 0;
+    right: 0;
+    cursor: pointer;
 `;
 
 export const buttons = css`
