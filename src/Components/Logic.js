@@ -69,5 +69,4 @@ export const calculateXDirectionTile = (index, tileWidth)=> {
       result = tileWidth * 2;
   }
   return result;
-}
-
+};

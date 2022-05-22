@@ -28,7 +28,7 @@ export const tileList = css`
   }
 `;
 
-export const driectionTileList = css`
+export const directionTileList = css`
   display: flex;
   justify-content: center;
   position: relative;

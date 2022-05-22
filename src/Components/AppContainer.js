@@ -1,31 +1,14 @@
 /** @jsx jsx */
 import React from "react";
 import { jsx } from '@emotion/react';
-import { TileList } from "./TileList";
+import { TileList } from "./Tiles/TileList";
+import { Setup } from "./Setup";
 import { Checkbox } from "./Checkbox";
 import { PlayerSelector } from "./PlayerSelector";
 import { appContainer, mainImg, start, options } from "./AppContainer.css";
-import { activeText } from "./TileList.css";
+import { activeText } from "./Tiles/TileList.css";
 import shuffle from "lodash.shuffle";
-
-const initialOrdering = [0, 1, 2, 3, 4, 5, 6];
-const initialDirectionOrdering = [0, 1];
-const players = [3, 4, 5, 6];
-
-const baseBotTiles = [
-  { name: "alchemy" },
-  { name: "construction" },
-  { name: "decorations" },
-  { name: "mask_collection" },
-  { name: "mastery" },
-  { name: "nobles" },
-  { name: "worship" },
-];
-
-const directionTiles = [
-  { name: "left"},
-  { name: "right"},
-];
+import { baseBotTiles, directionTiles, initialOrdering, initialDirectionOrdering, baseStartTiles } from './Constants';
 
 export class AppContainer extends React.Component {
   constructor(props) {
@@ -34,7 +17,6 @@ export class AppContainer extends React.Component {
       screenMode: 1,
       isOptions: false,
       playerCount: 5,
-      players,
       cycleCount: 0,
       lastPlayerIndex: 4,
       tiles: baseBotTiles,
@@ -52,10 +34,16 @@ export class AppContainer extends React.Component {
   }
 
   componentDidMount() {
-    baseBotTiles.forEach((picture) => {
+    //Preloading images
+    baseBotTiles.forEach((tile) => {
         const img = new Image();
-        img.src = process.env.PUBLIC_URL + "/" + picture + ".png";
+        img.src = process.env.PUBLIC_URL + "/" + tile.name + ".png";
     });
+
+    baseStartTiles.forEach((tile) => {
+      const img = new Image();
+      img.src = process.env.PUBLIC_URL + "/StartTiles/base/" + tile.name + ".jpg";
+  });
 
     const img = new Image();
     img.src = process.env.PUBLIC_URL + "/" + "blank.png";
@@ -154,7 +142,12 @@ export class AppContainer extends React.Component {
           </li>
         </ul>
       );
-    } else if (this.state.screenMode === 2) {
+    } 
+    else if (this.state.screenMode === 2) {
+      return (
+        <Setup />
+      );
+    } else if (this.state.screenMode === 3) {
       return (
         <TileList
           ordering={this.state.ordering}
@@ -175,7 +168,7 @@ export class AppContainer extends React.Component {
           dice2={this.state.dice2}
         />
       );
-    } else if (this.state.screenMode === 3) {
+    } else if (this.state.screenMode === 4) {
       return (
         <div css={options}>
           <div css={activeText} onClick={this.back}>
