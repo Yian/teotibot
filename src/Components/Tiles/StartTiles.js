@@ -67,8 +67,6 @@ export const StartTiles = (props) => {
   });
   
   const [state, toggle] = useState(true);
-  const [selectedTiles, setSelectedTiles] = useState([]);
-
 
   const { x, api } = useSpring({
     from: { x: 0 },
@@ -90,8 +88,9 @@ export const StartTiles = (props) => {
   }, [x, items]);
 
   const onClick = (item) => {
-    find(items, ['name', item.name]).selected = true;
-    setSelectedTiles([2]);
+    var listItem = find(items, ['name', item.name]);
+    listItem.selected = !listItem.selected;
+    props.selectedStartTiles(item);
   }
 
   return (
@@ -101,7 +100,8 @@ export const StartTiles = (props) => {
         <a.div css={startTile}
         style={style}>
         <a.img
-        css={startTile}
+        css={startTile
+        }
           style={getStyle(item)}
           onClick={() => {onClick(item)}}
           src={
@@ -114,13 +114,3 @@ export const StartTiles = (props) => {
     </div>
   );
 };
-
-//   return (
-//     <div css={startTileContainer}>
-//         <ReactTooltip />
-//         {baseStartTiles.map(tile => (
-//             <img css={startTile} src={process.env.PUBLIC_URL + "/StartTiles/base/" + tile.name + ".jpg"} data-tip={tile.tooltip} alt="tile.name"/>
-//         ))};
-//         <div>Continue</div>
-//     </div>
-//   );

@@ -26,21 +26,5 @@ export const templeTile = css`
 export const startTileContainer = css`
     display: flex;
     flex-direction: row;
-`;
-
-const lolzorific = (x) => keyframes`
-    0% {
-    transform: translateX(${x}px) scale(1, 1);
-    }
-
-    50% {
-    transform: translateX(${x}px) scale(1.1, 1.1);
-    }
-
-    100% {
-    transform: translateX(${x}px) scale(1, 1);
-    }
-`
-export const animationTest = (x) => css`
-  animation: ${lolzorific(600)} 1s linear infinite;
+    cursor: pointer;
 `;
