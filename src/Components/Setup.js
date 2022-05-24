@@ -7,12 +7,15 @@ import { TempleTiles } from "./Tiles/TempleTiles";
 import { useSpring, useTransition, a, useSpringRef } from "@react-spring/web";
 import { resources } from "./Constants";
 import { animationTest, startTileContainer, startTile } from "./Tiles/Setup.css";
+import { start } from "./AppContainer.css";
+import find from "lodash.find";
+import remove from "lodash.remove";
 
 export const Setup = (props) => {
   const [selectedStartTiles, setSelectedStartTiles] = useState([]);
 
   const getResources = (selectedTiles) => {
-      return selectedTiles.resources;
+      return selectedTiles;
   };
 
   const transitions = useTransition(getResources(selectedStartTiles), {
@@ -25,8 +28,25 @@ export const Setup = (props) => {
     trail: 100,
   });
 
-  const selectedTile = (starttile) => {
-    setSelectedStartTiles(starttile);
+  const selectedTile = (startTile) => {
+    let newTitle = startTile;
+    var newHistory = [...selectedStartTiles];
+
+    var listItem = find(selectedStartTiles, ['name', startTile.name]);
+
+    if (listItem == null) {
+      if (newHistory.length < 2) {
+        newTitle.selected = !startTile.selected;
+        newHistory = [...selectedStartTiles, newTitle];
+      }
+    } else {
+      listItem.selected = !listItem.selected;
+      if (listItem.selected == false) {
+        remove(newHistory, (item) => {return item.name === listItem.name});
+      }
+    }
+
+    setSelectedStartTiles(newHistory);
   };
 
   return (

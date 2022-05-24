@@ -41,10 +41,11 @@ export const baseStartTiles = [
     tooltip:
       "Advance on the Avenue of the Dead track and gain 2 cocoa and 3 wood.",
     resources: [
-      { q: 1, t: avenue },
-      { q: 2, t: cocoa },
-      { q: 3, t: wood },
+      { quantity: 1, type: avenue },
+      { quantity: 2, type: cocoa },
+      { quantity: 3, type: wood },
     ],
+    selected: false,
   },
   {
     name: "ST2",
@@ -52,10 +53,11 @@ export const baseStartTiles = [
     tooltip:
       "Advance on the green temple (gaining its reward) and gain 2 stone and 3 gold.",
     resources: [
-      { q: 1, t: templeGreen },
-      { q: 2, t: stone },
-      { q: 3, t: gold },
+      { quantity: 1, type: templeGreen },
+      { quantity: 2, type: stone },
+      { quantity: 3, type: gold },
     ],
+    selected: false,
   },
   {
     name: "ST3",
@@ -63,10 +65,11 @@ export const baseStartTiles = [
     tooltip:
       "Advance on the blue temple (gaining its reward) and gain 4 wood and 1 stone.",
     resources: [
-      { q: 1, t: templeBlue },
-      { q: 4, t: wood },
-      { q: 1, t: stone },
+      { quantity: 1, type: templeBlue },
+      { quantity: 4, type: wood },
+      { quantity: 1, type: stone },
     ],
+    selected: false,
   },
   {
     name: "ST4",
@@ -74,10 +77,11 @@ export const baseStartTiles = [
     tooltip:
       "Advance on the red temple (gaining its reward), increase the power of one of your starting workers, and gain 5 cocoa.",
     resources: [
-      { q: 1, t: templeRed },
-      { q: 1, t: powerup },
-      { q: 5, t: cocoa },
+      { quantity: 1, type: templeRed },
+      { quantity: 1, type: powerup },
+      { quantity: 5, type: cocoa },
     ],
+    selected: false,
   },
   {
     name: "ST5",
@@ -85,9 +89,10 @@ export const baseStartTiles = [
     tooltip:
       "Select the lowest numbered Technology tile on the Alchemy (5) Action Board, and place your marker on it for free. Gain the associated temple advance (and its reward) plus 2 gold.",
     resources: [
-      { q: 1, t: tech },
-      { q: 2, t: gold },
+      { quantity: 1, type: tech },
+      { quantity: 2, type: gold },
     ],
+    selected: false,
   },
   {
     name: "ST6",
@@ -95,10 +100,11 @@ export const baseStartTiles = [
     tooltip:
       "Increase the power of one of your starting workers. Gain 3 wood and 2 gold.",
     resources: [
-      { q: 1, t: powerup },
-      { q: 3, t: wood },
-      { q: 2, t: gold },
+      { quantity: 1, type: powerup },
+      { quantity: 3, type: wood },
+      { quantity: 2, type: gold },
     ],
+    selected: false,
   },
   {
     name: "ST7",
@@ -106,9 +112,10 @@ export const baseStartTiles = [
     tooltip:
       "Select the lowest numbered Technology tile on the Alchemy (5) Action Board, and place your marker on it for free. Gain the associated temple advance (and its reward) plus any 2 resources.",
     resources: [
-      { q: 1, t: tech },
-      { q: 2, t: any },
+      { quantity: 1, type: tech },
+      { quantity: 2, type: any },
     ],
+    selected: false,
   },
   {
     name: "ST8",
@@ -116,20 +123,22 @@ export const baseStartTiles = [
     tooltip:
       "Advance on the blue temple (gaining its reward) and gain 2 cocoa and 4 stone.",
     resources: [
-      { q: 1, t: templeBlue },
-      { q: 2, t: cocoa },
-      { q: 4, t: stone },
+      { quantity: 1, type: templeBlue },
+      { quantity: 2, type: cocoa },
+      { quantity: 4, type: stone },
     ],
+    selected: false,
   },
   {
     name: "ST9",
     numbers: [5, 6],
     tooltip: "Advance on each of the three temples (gaining rewards).",
     resources: [
-      { q: 1, t: templeBlue },
-      { q: 1, t: templeRed },
-      { q: 1, t: templeGreen },
+      { quantity: 1, type: templeBlue },
+      { quantity: 1, type: templeRed },
+      { quantity: 1, type: templeGreen },
     ],
+    selected: false,
   },
   {
     name: "ST10",
@@ -137,87 +146,96 @@ export const baseStartTiles = [
     tooltip:
       "Advance on the red temple (gaining its reward), increase the power of one of your starting workers, and gain 5 cocoa.",
     resources: [
-      { q: 1, t: templeRed },
-      { q: 5, t: cocoa },
+      { quantity: 1, type: templeRed },
+      { quantity: 5, type: cocoa },
     ],
+    selected: false,
   },
   {
     name: "ST11",
     numbers: [6, 8],
     tooltip: "Advance on the green temple (gaining its reward), increase the power of one of your starting workers, and gain 5 cocoa.",
     resources: [
-      { q: 1, t: templeGreen },
-      { q: 1, t: powerup },
-      { q: 5, t: cocoa },
+      { quantity: 1, type: templeGreen },
+      { quantity: 1, type: powerup },
+      { quantity: 5, type: cocoa },
     ],
+    selected: false,
   },
   {
     name: "ST12",
     numbers: [5, 7],
     tooltip: "Advance on the blue and red temples (gaining rewards), and gain any 2 resources.",
     resources: [
-      { q: 1, t: templeBlue },
-      { q: 1, t: templeRed },
-      { q: 2, t: any },
+      { quantity: 1, type: templeBlue },
+      { quantity: 1, type: templeRed },
+      { quantity: 2, type: any },
     ],
+    selected: false,
   },
   {
     name: "ST13",
     numbers: [3, 5],
     tooltip: "Gain 3 cocoa and 5 wood.",
     resources: [
-      { q: 3, t: cocoa },
-      { q: 5, t: wood },
+      { quantity: 3, type: cocoa },
+      { quantity: 5, type: wood },
     ],
+    selected: false,
   },
   {
     name: "ST14",
     numbers: [3, 7],
     tooltip: "Gain 3 stone and 1 gold. You may claim a random Discovery tile (by paying its cost). You may look at the Discovery tile before deciding to pick this tile.",
     resources: [
-      { q: 3, t: stone },
-      { q: 1, t: gold },
-      { q: 1, t: discovery },
+      { quantity: 3, type: stone },
+      { quantity: 1, type: gold },
+      { quantity: 1, type: discovery },
     ],
+    selected: false,
   },
   {
     name: "ST15",
     numbers: [2, 6],
     tooltip: "Gain 1 wood, 2 stone, and 3 gold.",
     resources: [
-      { q: 1, t: wood },
-      { q: 3, t: gold },
+      { quantity: 1, type: wood },
+      { quantity: 3, type: gold },
     ],
+    selected: false,
   },
   {
     name: "ST16",
     numbers: [4, 8],
     tooltip: "Gain 2 cocoa and 3 gold. You may claim a random Discovery tile (by paying its cost). You may look at the Discovery tile before deciding to pick this tile.",
     resources: [
-      { q: 2, t: cocoa },
-      { q: 3, t: gold },
-      { q: 1, t: discovery },
+      { quantity: 2, type: cocoa },
+      { quantity: 3, type: gold },
+      { quantity: 1, type: discovery },
     ],
+    selected: false,
   },
   {
     name: "ST17",
     numbers: [3, 8],
     tooltip: "Gain 3 cocoa, 2 wood, and 3 stone.",
     resources: [
-      { q: 3, t: cocoa },
-      { q: 2, t: wood },
-      { q: 3, t: stone },
+      { quantity: 3, type: cocoa },
+      { quantity: 2, type: wood },
+      { quantity: 3, type: stone },
     ],
+    selected: false,
   },
   {
     name: "ST18",
     numbers: [2, 7],
     tooltip: "Advance on the Avenue of the Dead track and gain 1 wood and 2 stone.",
     resources: [
-      { q: 1, t: avenue },
-      { q: 1, t: wood },
-      { q: 2, t: stone },
+      { quantity: 1, type: avenue },
+      { quantity: 1, type: wood },
+      { quantity: 2, type: stone },
     ],
+    selected: false,
   },
 ];
 

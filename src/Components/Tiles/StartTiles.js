@@ -89,8 +89,7 @@ export const StartTiles = (props) => {
 
   const onClick = (item) => {
     var listItem = find(items, ['name', item.name]);
-    listItem.selected = !listItem.selected;
-    props.selectedStartTiles(item);
+    props.selectedStartTiles(listItem);
   }
 
   return (
