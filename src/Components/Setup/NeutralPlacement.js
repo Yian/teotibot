@@ -16,15 +16,12 @@ export const NeutralPlacement = (props) => {
     var shuffledTiles = shuffle(remainingStartTiles);
     //Draw 2 random start tiles
     var index = Math.floor(Math.random() * (remainingStartTiles.length - 1)) + 1;
-    console.log(shuffledTiles);
-    console.log(index);
+    
     var numbers1 = shuffledTiles[index].numbers;
 
     shuffledTiles.splice(index, 1);
     index = Math.floor(Math.random() * (shuffledTiles.length - 1)) + 1;
 
-    console.log(index);
-    console.log(shuffledTiles);
     var numbers2 = shuffledTiles[index].numbers;
     var mergedNumbers = union(numbers1, numbers2);
 

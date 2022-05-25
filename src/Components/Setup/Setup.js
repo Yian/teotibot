@@ -10,13 +10,15 @@ import find from "lodash.find";
 import remove from "lodash.remove";
 import { NeutralPlacement } from "./NeutralPlacement";
 import { baseStartTiles } from "../Constants";
+import union from "lodash.union";
+import sortBy from "lodash.sortby";
 
 export const Setup = (props) => {
   const [selectedStartTiles, setSelectedStartTiles] = useState([]);
 
   function remainingStartTiles() {
     if (selectedStartTiles.length >= 2) {
-      return baseStartTiles.filter(function (el) {
+      return baseStartTiles.filter((el) => {
         return (
           el.name !== selectedStartTiles[0].name &&
           el.name !== selectedStartTiles[1].name
@@ -25,7 +27,7 @@ export const Setup = (props) => {
     }
   }
 
-  function add(arr, item) {
+  function addTileResource(arr, item) {
     const { length } = arr;
     const found = arr.some((el) => el.type === item.type);
     let index = arr.findIndex((el) => el.type === item.type);
@@ -39,21 +41,55 @@ export const Setup = (props) => {
     return arr;
   }
 
-  const merge = (first, second) => {
-    for (let i = 0; i < second.length; i++) {
-      add(first, { ...second[i] });
+  function addTileNumber(arr, tileNumber, i, arrTileNumbers) {
+    const { length } = arr;
+    arr.push({ type: `no${tileNumber}`, x: (i === 0 ? (arr[length - 1].x + 200) : (arr[length - 1].x + arrTileNumbers.length * 20)) });
+
+    return arr;
+  }
+
+  const mergeResources = (resources, arrTileResources) => {
+    for (let i = 0; i < arrTileResources.length; i++) {
+      addTileResource(resources, arrTileResources[i]);
     }
 
-    return first;
+    return resources;
   };
 
-  function getResources(st) {
-    const resources = [];
-    let result = [];
-    st.forEach((selectedStartTile) => {
-      result = merge(resources, selectedStartTile.resources);
-    });
-    return result;
+  const mergeNumbers = (resources, arrTileNumbers) => {
+    for (let i = 0; i < arrTileNumbers.length; i++) {
+      addTileNumber(resources, arrTileNumbers[i], i, arrTileNumbers);
+    }
+
+    return resources;
+  }
+
+
+  function getResources(selectedStartTiles) {
+    if (selectedStartTiles.length >= 2) {
+      const resources = [];
+      let numbers = [];
+      let result = [];
+
+      selectedStartTiles.forEach((selectedStartTile) => {
+        result = mergeResources(
+          resources,
+          selectedStartTile.resources,
+        );
+      });
+
+      selectedStartTiles.forEach((selectedStartTile) => {
+        numbers = [...numbers, ...selectedStartTile.numbers]
+      });
+
+      result = mergeNumbers(
+        resources,
+        union(numbers),
+      );
+
+      var lol = sortBy(result, ["quantity", "type"]);
+      return lol;
+    }
   }
 
   const transitions = useTransition(getResources(selectedStartTiles), {
