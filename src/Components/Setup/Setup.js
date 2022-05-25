@@ -1,28 +1,32 @@
 /** @jsx jsx */
-import React, { useState, useEffect, useMemo, useCallback } from "react";
+import { useCallback, useState } from "react";
 import { jsx } from "@emotion/react";
-import { StartTiles } from "./Tiles/StartTiles";
-import { TechTiles } from "./Tiles/TechTiles";
-import { TempleTiles } from "./Tiles/TempleTiles";
-import { useSpring, useTransition, a, useSpringRef } from "@react-spring/web";
-import { resources } from "./Constants";
-import {
-  animationTest,
-  startTileContainer,
-  startResource,
-  resourceContainer,
-} from "./Tiles/Setup.css";
-import { start } from "./AppContainer.css";
+import { StartTiles } from "./StartTiles";
+import { TechTiles } from "./TechTiles";
+import { TempleTiles } from "./TempleTiles";
+import { useTransition, a } from "@react-spring/web";
+import { startResource, resourceContainer } from "./Setup.css";
 import find from "lodash.find";
-import flatten from "lodash-es";
 import remove from "lodash.remove";
+import { NeutralPlacement } from "./NeutralPlacement";
+import { baseStartTiles } from "../Constants";
 
 export const Setup = (props) => {
   const [selectedStartTiles, setSelectedStartTiles] = useState([]);
 
+  function remainingStartTiles() {
+    if (selectedStartTiles.length >= 2) {
+      return baseStartTiles.filter(function (el) {
+        return (
+          el.name !== selectedStartTiles[0].name &&
+          el.name !== selectedStartTiles[1].name
+        );
+      });
+    }
+  }
+
   function add(arr, item) {
     const { length } = arr;
-
     const found = arr.some((el) => el.type === item.type);
     let index = arr.findIndex((el) => el.type === item.type);
 
@@ -31,6 +35,7 @@ export const Setup = (props) => {
     }
 
     if (!found) arr.push({ ...item, x: length * 100 });
+
     return arr;
   }
 
@@ -53,8 +58,8 @@ export const Setup = (props) => {
 
   const transitions = useTransition(getResources(selectedStartTiles), {
     key: (item) => item.name,
-    from: ({ x }) => ({ x: 0, y: 0, opacity: 0 }),
-    enter: ({ x }) => ({ x, y: 800, opacity: 1 }),
+    from: ({ x }) => ({ x, y: 0, opacity: 0 }),
+    enter: ({ x }) => ({ x, y: 700, opacity: 1 }),
     update: ({ x }) => ({ x }),
     leave: { height: 0, opacity: 0, y: 0 },
     config: { mass: 5, tension: 500, friction: 50 },
@@ -62,30 +67,36 @@ export const Setup = (props) => {
   });
 
   const selectedTile = (startTile) => {
-    let newTitle = startTile;
-    var newHistory = [...selectedStartTiles];
-    var listItem = find(newHistory, ["name", startTile.name]);
+    if (startTile) {
+      let newTitle = startTile;
+      var newHistory = [...selectedStartTiles];
+      var listItem = find(newHistory, ["name", startTile.name]);
 
-    if (listItem == null) {
-      if (newHistory.length < 2) {
-        newTitle.selected = !startTile.selected;
-        newHistory = [...selectedStartTiles, newTitle];
+      //add
+      if (listItem == null) {
+        if (newHistory.length < 2) {
+          newTitle.selected = !startTile.selected;
+          newHistory = [...selectedStartTiles, newTitle];
+        } else {
+          return;
+        }
+      } else {
+        //update
+        listItem.selected = !listItem.selected;
+        if (listItem.selected === false) {
+          remove(newHistory, (item) => {
+            return item.name === listItem.name;
+          });
+        }
       }
-    } else {
-      listItem.selected = !listItem.selected;
-      if (listItem.selected == false) {
-        remove(newHistory, (item) => {
-          return item.name === listItem.name;
-        });
-      }
+
+      setSelectedStartTiles(newHistory);
     }
-
-    setSelectedStartTiles(newHistory);
   };
 
   return (
     <div>
-      {transitions((props, item, state, index) => {
+      {transitions((props, item) => {
         return (
           <a.div
             css={resourceContainer}
@@ -109,6 +120,7 @@ export const Setup = (props) => {
       <StartTiles selectedStartTiles={selectedTile} />
       <TechTiles />
       <TempleTiles />
+      <NeutralPlacement remainingStartTiles={remainingStartTiles()} />
     </div>
   );
 };

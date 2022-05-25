@@ -2,7 +2,7 @@
 import React from "react";
 import { jsx } from '@emotion/react';
 import { TileList } from "./Tiles/TileList";
-import { Setup } from "./Setup";
+import { Setup } from "./Setup/Setup";
 import { Checkbox } from "./Checkbox";
 import { PlayerSelector } from "./PlayerSelector";
 import { appContainer, mainImg, start, options } from "./AppContainer.css";
