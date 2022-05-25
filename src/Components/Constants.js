@@ -23,12 +23,12 @@ export const directionTiles = [{ name: "left" }, { name: "right" }];
 
 const avenue = "avenue";
 const any = "any";
-const wood = "woood";
+const wood = "wood";
 const gold = "gold";
 const stone = "stone";
 const cocoa = "cocoa";
-const templeRed = "rg";
-const templeBlue = "bg";
+const templeRed = "tr";
+const templeBlue = "tb";
 const templeGreen = "tg";
 const powerup = "powerup";
 const tech = "tech";
@@ -75,11 +75,11 @@ export const baseStartTiles = [
     name: "ST4",
     numbers: [1, 4],
     tooltip:
-      "Advance on the red temple (gaining its reward), increase the power of one of your starting workers, and gain 5 cocoa.",
+      "Advance on the red temple (gaining its reward) and gain 5 cocoa and 2 gold.",
     resources: [
       { quantity: 1, type: templeRed },
-      { quantity: 1, type: powerup },
       { quantity: 5, type: cocoa },
+      { quantity: 2, type: gold },
     ],
     selected: false,
   },
@@ -147,6 +147,7 @@ export const baseStartTiles = [
       "Advance on the red temple (gaining its reward), increase the power of one of your starting workers, and gain 5 cocoa.",
     resources: [
       { quantity: 1, type: templeRed },
+      {quantity: 1, type: powerup},
       { quantity: 5, type: cocoa },
     ],
     selected: false,
@@ -259,10 +260,4 @@ export const baseTempleTiles = [
   { name: "BT5", tooltip: "" },
   { name: "BT6", tooltip: "" },
   { name: "BT7", tooltip: "" },
-];
-
-export const resources = [
-  { name: wood, x: 100 },
-  { name: stone, x: 300 },
-  { name: gold, x: 400 },
 ];

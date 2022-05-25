@@ -32,7 +32,7 @@ export const StartTiles = (props) => {
         items.pop();
         set(shuffle);
       }
-    }, 100);
+    }, 50);
     return () => clearInterval(t);
   }, [items]);
 
