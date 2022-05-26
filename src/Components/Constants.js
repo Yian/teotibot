@@ -9,6 +9,29 @@ export const tileToolTip = [
 export const initialDirectionOrdering = [0, 1];
 export const players = [3, 4, 5, 6];
 
+export const getRandom = (arr, n) => {
+  var result = new Array(n),
+      len = arr.length,
+      taken = new Array(len);
+  if (n > len)
+      throw new RangeError("getRandom: more elements taken than available");
+  while (n--) {
+      var x = Math.floor(Math.random() * len);
+      result[n] = arr[x in taken ? taken[x] : x];
+      taken[x] = --len in taken ? taken[len] : len;
+  }
+  return result;
+}
+
+export const diceFaces = [
+  {name: "d1", value: 1},
+  {name: "d2", value: 2},
+  {name: "d3", value: 3},
+  {name: "d4", value: 4},
+  {name: "d5", value: 5},
+  {name: "d6", value: 6}
+]
+
 export const baseBotTiles = [
   { name: "alchemy" },
   { name: "construction" },

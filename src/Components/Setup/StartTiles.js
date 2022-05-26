@@ -8,7 +8,7 @@ import { startTileContainer, startTile } from "./Setup.css";
 import ReactTooltip from "react-tooltip";
 import shuffle from "lodash.shuffle";
 import { baseStartTiles } from "../Constants";
-import find from 'lodash.find';
+import find from "lodash.find";
 
 export const StartTiles = (props) => {
   const tileHeight = 800;
@@ -25,7 +25,7 @@ export const StartTiles = (props) => {
   const [items, set] = useState(baseStartTiles);
 
   // Hook4: shuffle data every 2 seconds
-  useEffect(() => {  
+  useEffect(() => {
     const t = setInterval(() => {
       if (items.length >= 5) {
         items.pop();
@@ -58,13 +58,13 @@ export const StartTiles = (props) => {
   const transitions = useTransition(gridItems, {
     key: (item) => item.name,
     from: ({ x }) => ({ x, opacity: 0 }),
-    enter: ({ x }) => ({ x, opacity: 1}),
-    update: ({ x }) => ({ x}),
+    enter: ({ x }) => ({ x, opacity: 1 }),
+    update: ({ x }) => ({ x }),
     leave: { height: 0, opacity: 0 },
     config: { mass: 5, tension: 500, friction: 50 },
     trail: 25,
   });
-  
+
   const [state, toggle] = useState(true);
 
   const { x, api } = useSpring({
@@ -72,41 +72,44 @@ export const StartTiles = (props) => {
     x: state ? 1 : 0,
     config: { duration: 1000 },
     loop: true,
-  })
+  });
 
-  const getStyle = useCallback((item) => {
-    var itemList = find(items, ['name', item.name]);
-    var test = 
-    {
-      scale:  x.to({
-        range: [0, 0.25, 0.35, 0.45, 0.55, 0.65, 0.75, 1],
-        output: [1, 0.97, 0.9, 1.1, 0.9, 1.1, 1.03, 1],
-      })}
+  const getStyle = useCallback(
+    (item) => {
+      var itemList = find(items, ["name", item.name]);
+      var test = {
+        scale: x.to({
+          range: [0, 0.25, 0.35, 0.45, 0.55, 0.65, 0.75, 1],
+          output: [1, 0.97, 0.9, 1.1, 0.9, 1.1, 1.03, 1],
+        }),
+      };
 
       return itemList?.selected ? test : {};
-  }, [x, items]);
+    },
+    [x, items]
+  );
 
   const onClick = (item) => {
-    var listItem = find(items, ['name', item.name]);
+    var listItem = find(items, ["name", item.name]);
     props.selectedStartTiles(listItem);
-  }
+  };
 
   return (
     <div ref={ref} css={startTileContainer} style={{ height: 260 }}>
       <ReactTooltip />
       {transitions((style, item) => (
-        <a.div css={startTile}
-        style={style}>
-        <a.img
-        css={startTile
-        }
-          style={getStyle(item)}
-          onClick={() => {onClick(item)}}
-          src={
-            process.env.PUBLIC_URL + "/StartTiles/base/" + item.name + ".jpg"
-          }
-          data-tip={item.tooltip}
-        />
+        <a.div css={startTile} style={style}>
+          <a.img
+            css={startTile}
+            style={getStyle(item)}
+            onClick={() => {
+              onClick(item);
+            }}
+            src={
+              process.env.PUBLIC_URL + "/StartTiles/base/" + item.name + ".jpg"
+            }
+            data-tip={item.tooltip}
+          />
         </a.div>
       ))}
     </div>

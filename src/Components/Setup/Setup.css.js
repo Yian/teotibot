@@ -1,4 +1,13 @@
-import { css, keyframes } from "@emotion/react";
+import { css } from "@emotion/react";
+
+export const setupContainer = css`
+  color: #eeeddb;
+`
+export const startTileContainer = css`
+    display: flex;
+    flex-direction: row;
+    cursor: pointer;
+`;
 
 export const startTile = css`
     width: 100px;
@@ -43,8 +52,10 @@ export const templeTile = css`
     position: absolute;
 `;
 
-export const startTileContainer = css`
-    display: flex;
-    flex-direction: row;
-    cursor: pointer;
+export const diceFace = css`
+  width: 50px;
+`;
+
+export const neutralContainer = css`
+  display: flex;
 `;

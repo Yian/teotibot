@@ -1,37 +1,30 @@
 /** @jsx jsx */
 import { useState, useEffect, useMemo } from "react";
 import { jsx } from "@emotion/react";
-import useMedia from "../UseMedia";
-import useMeasure from "react-use-measure";
 import { useTransition, a } from "@react-spring/web";
-import { startTileContainer, templeTile } from "../Setup/Setup.css";
-import ReactTooltip from "react-tooltip";
-import shuffle from "lodash.shuffle";
-import { baseTempleTiles } from "../Constants";
+import { diceFace, neutralContainer } from "./Setup.css";
+import useMeasure from "react-use-measure";
+import useMedia from "../UseMedia";
 
-export const TempleTiles = (props) => {
-  const tileHeight = 300;
+export const DicePlacement = (props) => {
+  const tileHeight = 200;
+
   // Hook1: Tie media queries to the number of columns
   const columns = useMedia(
     ["(min-width: 1500px)", "(min-width: 1000px)", "(min-width: 600px)"],
     [3, 3, 3],
     3
   );
-  // Hook2: Measure the width of the container element
+  
   const [ref, { width }] = useMeasure();
+
   // Hook3: Hold items
-  const [items, set] = useState(baseTempleTiles);
+  const [items, set] = useState(props.dicePlacements);
 
   // Hook4: shuffle data every 2 seconds
   useEffect(() => {
-    const t = setInterval(() => {
-      if (items.length >= 4) {
-        items.pop();
-        set(shuffle);
-      }
-    }, 100);
-    return () => clearInterval(t);
-  }, [items]);
+    set(props.dicePlacements);
+  }, [props.dicePlacements]);
 
   // Hook5: Form a grid of stacked items using width & columns we got from hooks 1 & 2
   const [heights, gridItems] = useMemo(() => {
@@ -40,38 +33,43 @@ export const TempleTiles = (props) => {
       const column = heights.indexOf(Math.min(...heights)); // Basic masonry-grid placing, puts tile into the smallest column using Math.min
       const x = (width / columns) * column; // x = container width / number of columns * column index,
       const y = (heights[column] += tileHeight / 2) - tileHeight / 2; // y = it's just the height of the current column
-      return { ...child, x, y, width: width / columns, height: tileHeight / 2 };
+
+      return {
+        ...child,
+        x,
+        y,
+        width: width / columns,
+        height: tileHeight / 2,
+      };
     });
     return [heights, gridItems];
   }, [columns, items, width]);
 
-  // Hook6: Turn the static grid values into animated transitions, any addition, removal or change will be animated
   const transitions = useTransition(gridItems, {
     key: (item) => item.name,
-    from: ({ x, y }) => ({ x, y, opacity: 0 }),
-    enter: ({ x, y }) => ({ x, y, opacity: 1 }),
+    from: ({ x }) => ({ x: 0, opacity: 0 }),
+    enter: ({ x }) => ({ x, opacity: 1 }),
     update: ({ x, y }) => ({ x, y }),
-    leave: { height: 0, opacity: 0 },
+    leave: { x: 0, opacity: 0 },
     config: { mass: 5, tension: 500, friction: 50 },
     trail: 25,
   });
 
   return (
-    <div
-      ref={ref}
-      css={startTileContainer}
-      style={{ height: Math.max(...heights) }}
-    >
-      <ReactTooltip />
+    <div ref={ref} css={neutralContainer} style={{ height: Math.max(...heights) }}>
       {transitions((style, item) => (
-        <a.img
-          css={templeTile}
-          style={style}
-          src={
-            process.env.PUBLIC_URL + "/TempleTiles/base/" + item.name + ".jpg"
-          }
-          data-tip={item.tooltip}
-        />
+        <a.div key={item.name} style={style}>
+          <a.img
+            css={diceFace}
+            src={process.env.PUBLIC_URL + `/resources/no${item.number}.png`}
+          />
+          <a.img
+            css={diceFace}
+            src={
+              process.env.PUBLIC_URL + "/Dice/" + item.diceFace.name + ".png"
+            }
+          />
+        </a.div>
       ))}
     </div>
   );
