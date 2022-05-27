@@ -106,7 +106,7 @@ export const StartTiles = (props) => {
               onClick(item);
             }}
             src={
-              process.env.PUBLIC_URL + "/StartTiles/base/" + item.name + ".jpg"
+              `${process.env.PUBLIC_URL}/StartTiles/base/${item.name}.jpg`
             }
             data-tip={item.tooltip}
           />

@@ -68,7 +68,7 @@ export const TempleTiles = (props) => {
           css={templeTile}
           style={style}
           src={
-            process.env.PUBLIC_URL + "/TempleTiles/base/" + item.name + ".jpg"
+            `${process.env.PUBLIC_URL}/TempleTiles/base/${item.name}.jpg`
           }
           data-tip={item.tooltip}
         />

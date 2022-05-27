@@ -18,7 +18,7 @@ const row2YVal = 200;
 
 const directionTileApi = (order, tiles) => (index) => {
   const tile = tiles[index];
-  const imageUrl = process.env.PUBLIC_URL + "/BotTiles/" + tile.name + ".png";
+  const imageUrl = `${process.env.PUBLIC_URL}/BotTiles/${tile.name}.png`;
 
   var result = {
     y: order.indexOf(index) === 0 ? row1YVal : row2YVal,
@@ -37,7 +37,7 @@ const directionTileApi = (order, tiles) => (index) => {
 const tilesApi = (order, tiles, originalIndex, curIndex, y) => (index) => {
   var result = {};
   const tile = tiles[index];
-  const imageUrl = process.env.PUBLIC_URL + "/BotTiles/" + tile.name + ".png";
+  const imageUrl = `${process.env.PUBLIC_URL}/BotTiles/${tile.name}.png`;
 
   index === originalIndex
     ? (result = {

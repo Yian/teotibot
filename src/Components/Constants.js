@@ -269,6 +269,21 @@ export const baseStartTiles = [
   },
 ];
 
+export const xitleStartTiles = [
+  {
+    name: "XST1",
+    numbers: [1, 2],
+    tooltip:
+      "Advance on the Avenue of the Dead track and gain 2 cocoa and 3 wood.",
+    resources: [
+      { quantity: 1, type: avenue },
+      { quantity: 2, type: cocoa },
+      { quantity: 3, type: wood },
+    ],
+    selected: false,
+  },
+]
+
 export const baseTechTiles = [
   {
     name: "TT1",

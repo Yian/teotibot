@@ -61,12 +61,12 @@ export const DicePlacement = (props) => {
         <a.div key={item.name} style={style}>
           <a.img
             css={diceFace}
-            src={process.env.PUBLIC_URL + `/resources/no${item.number}.png`}
+            src={`${process.env.PUBLIC_URL}/resources/no${item.number}.png`}
           />
           <a.img
             css={diceFace}
             src={
-              process.env.PUBLIC_URL + "/Dice/" + item.diceFace.name + ".png"
+              `${process.env.PUBLIC_URL}/Dice/${item.diceFace.name}.png`
             }
           />
         </a.div>

@@ -230,7 +230,7 @@ export const Setup = (props) => {
               <div>{item.quantity}</div>
               <a.img
                 src={
-                  process.env.PUBLIC_URL + "/resources/" + item.type + ".png"
+                  `${process.env.PUBLIC_URL}/resources/${item.type}.png`
                 }
               />
             </div>

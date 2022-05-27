@@ -37,16 +37,16 @@ export class AppContainer extends React.Component {
     //Preloading images
     baseBotTiles.forEach((tile) => {
         const img = new Image();
-        img.src = process.env.PUBLIC_URL + "/" + tile.name + ".png";
+        img.src = `${process.env.PUBLIC_URL}/${tile.name}.png`;
     });
 
     baseStartTiles.forEach((tile) => {
       const img = new Image();
-      img.src = process.env.PUBLIC_URL + "/StartTiles/base/" + tile.name + ".jpg";
+      img.src = `${process.env.PUBLIC_URL}/StartTiles/base/${tile.name}.jpg`;
   });
 
     const img = new Image();
-    img.src = process.env.PUBLIC_URL + "/" + "blank.png";
+    img.src = `${process.env.PUBLIC_URL}/blank.png`;
 }
 
   incrementCycleCount = () => {
