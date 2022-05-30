@@ -23,6 +23,16 @@ export const getRandom = (arr, n) => {
   return result;
 }
 
+export const actionNames = [
+  {name: "Palace", value: 1, color: '#9a3b2e'},
+  {name: "Forest", value: 2, color: '#c6beaf'},
+  {name: "Stone Quarry", value: 3, color: '#917c6d'},
+  {name: "Gold Deposit", value: 4, color: '#917c6d'},
+  {name: "Alchemy", value: 5, color: '#a5743e'},
+  {name: "Nobles", value: 6, color: '#647f8b'},
+  {name: "Decorations", value: 7, color: '#8aa89e'},
+  {name: "Construction", value: 8, color: '#a3655a'},
+]
 export const diceFaces = [
   {name: "d1", value: 1},
   {name: "d2", value: 2},

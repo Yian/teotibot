@@ -12,6 +12,8 @@ import {
 import { QuestionForm } from "../QuestionForm";
 import { calculateXDirectionTile, calculateXTile, calculateYTile, right, left } from "../Logic";
 
+
+
 let tileWidth = 0;
 const row1YVal = 15;
 const row2YVal = 200;

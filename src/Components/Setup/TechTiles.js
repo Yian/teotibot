@@ -4,13 +4,13 @@ import { jsx } from "@emotion/react";
 import useMedia from "../UseMedia";
 import useMeasure from "react-use-measure";
 import { useTransition, a } from "@react-spring/web";
-import { startTileContainer, techTile } from "./Setup.css";
+import { tileContainer, techTile } from "./Setup.css";
 import ReactTooltip from "react-tooltip";
 import shuffle from "lodash.shuffle";
 import { baseTechTiles } from "../Constants";
 
 export const TechTiles = (props) => {
-  const tileHeight = 500;
+  const tileHeight = 350;
   // Hook1: Tie media queries to the number of columns
   const columns = useMedia(
     ["(min-width: 1500px)", "(min-width: 1000px)", "(min-width: 600px)"],
@@ -40,7 +40,7 @@ export const TechTiles = (props) => {
       const column = heights.indexOf(Math.min(...heights)); // Basic masonry-grid placing, puts tile into the smallest column using Math.min
       const x = (width / columns) * column; // x = container width / number of columns * column index,
       const y = (heights[column] += tileHeight / 2) - tileHeight / 2; // y = it's just the height of the current column
-      return { ...child, x, y, width: width / columns, height: tileHeight / 2 };
+      return { ...child, x, y };
     });
     return [heights, gridItems];
   }, [columns, items, width]);
@@ -48,16 +48,16 @@ export const TechTiles = (props) => {
   // Hook6: Turn the static grid values into animated transitions, any addition, removal or change will be animated
   const transitions = useTransition(gridItems, {
     key: (item) => item.name,
-    from: ({ x }) => ({ x, opacity: 0 }),
-    enter: ({ x }) => ({ x, opacity: 1 }),
-    update: ({ x }) => ({ x }),
+    from: ({ x, y,}) => ({ x, y, opacity: 0 }),
+    enter: ({ x, y, }) => ({ x, y, opacity: 1 }),
+    update: ({ x, y, }) => ({ x, y, }),
     leave: { height: 0, opacity: 0 },
     config: { mass: 5, tension: 500, friction: 50 },
     trail: 25,
   });
 
   return (
-    <div ref={ref} css={startTileContainer} style={{ height: 260 }}>
+    <div ref={ref} css={tileContainer} style={{ height: Math.max(...heights) }}>
       <ReactTooltip />
       {transitions((style, item) => (
         <a.img

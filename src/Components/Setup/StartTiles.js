@@ -11,7 +11,7 @@ import { baseStartTiles } from "../Constants";
 import find from "lodash.find";
 
 export const StartTiles = (props) => {
-  const tileHeight = 800;
+  const tileHeight = 400;
   // Hook1: Tie media queries to the number of columns
   const columns = useMedia(
     ["(min-width: 1500px)", "(min-width: 1000px)", "(min-width: 600px)"],
@@ -47,8 +47,6 @@ export const StartTiles = (props) => {
         ...child,
         x,
         y,
-        width: width / columns,
-        height: tileHeight / 2,
       };
     });
     return [heights, gridItems];
@@ -95,7 +93,7 @@ export const StartTiles = (props) => {
   };
 
   return (
-    <div ref={ref} css={startTileContainer} style={{ height: 260 }}>
+    <div ref={ref} css={startTileContainer} style={{ height: Math.max(...heights) }}>
       <ReactTooltip />
       {transitions((style, item) => (
         <a.div css={startTile} style={style}>

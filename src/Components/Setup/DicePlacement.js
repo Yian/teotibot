@@ -2,20 +2,21 @@
 import { useState, useEffect, useMemo } from "react";
 import { jsx } from "@emotion/react";
 import { useTransition, a } from "@react-spring/web";
-import { diceFace, neutralContainer } from "./Setup.css";
+import { diceFace, neutralContainer, action, actionText, diceContainer } from "./Setup.css";
 import useMeasure from "react-use-measure";
 import useMedia from "../UseMedia";
+import { numberNames } from "../Constants";
 
 export const DicePlacement = (props) => {
   const tileHeight = 200;
 
   // Hook1: Tie media queries to the number of columns
   const columns = useMedia(
-    ["(min-width: 1500px)", "(min-width: 1000px)", "(min-width: 600px)"],
-    [3, 3, 3],
-    3
+    ["(min-width: 1500px)", "(min-width: 1000px)", "(min-width: 600px)", "(min-width: 480px)"],
+    [6, 6, 6, 18],
+    6
   );
-  
+
   const [ref, { width }] = useMeasure();
 
   // Hook3: Hold items
@@ -27,7 +28,7 @@ export const DicePlacement = (props) => {
   }, [props.dicePlacements]);
 
   // Hook5: Form a grid of stacked items using width & columns we got from hooks 1 & 2
-  const [heights, gridItems] = useMemo(() => {
+  const [gridItems] = useMemo(() => {
     let heights = new Array(columns).fill(0); // Each column gets a height starting with zero
     let gridItems = items?.map((child, i) => {
       const column = heights.indexOf(Math.min(...heights)); // Basic masonry-grid placing, puts tile into the smallest column using Math.min
@@ -38,11 +39,9 @@ export const DicePlacement = (props) => {
         ...child,
         x,
         y,
-        width: width / columns,
-        height: tileHeight / 2,
       };
     });
-    return [heights, gridItems];
+    return [gridItems];
   }, [columns, items, width]);
 
   const transitions = useTransition(gridItems, {
@@ -56,19 +55,24 @@ export const DicePlacement = (props) => {
   });
 
   return (
-    <div ref={ref} css={neutralContainer} style={{ height: Math.max(...heights) }}>
+    <div
+      ref={ref}
+      css={neutralContainer}
+      style={{  }}
+    >
       {transitions((style, item) => (
-        <a.div key={item.name} style={style}>
-          <a.img
-            css={diceFace}
-            src={`${process.env.PUBLIC_URL}/resources/no${item.number}.png`}
-          />
-          <a.img
-            css={diceFace}
-            src={
-              `${process.env.PUBLIC_URL}/Dice/${item.diceFace.name}.png`
-            }
-          />
+        <a.div css={diceContainer} key={item.name} style={style}>
+          <div>
+            <a.img
+              css={diceFace}
+              src={`${process.env.PUBLIC_URL}/Dice/${item.diceFace.name}.png`}
+            />
+            <a.img
+              css={action}
+              src={`${process.env.PUBLIC_URL}/Actions/no${item.number}.png`}
+            />
+            </div>
+          <span style={{color: item.color}} css={actionText}>{item.actionName}</span>
         </a.div>
       ))}
     </div>
