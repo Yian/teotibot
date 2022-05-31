@@ -23,6 +23,10 @@ export const questionModalContent = css`
   width: 50%; /* Could be more or less, depending on screen size */
   color: whitesmoke;
   border-radius: 12px;
+  /* background-image: url("/testBackground.jpg");
+  background-attachment: fixed;
+  background-size: auto 100%;
+  background-position: center; */
 `;
 
 export const modalClose = css`

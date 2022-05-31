@@ -6,23 +6,24 @@ import useMeasure from "react-use-measure";
 import { useSpring, useTransition, a } from "@react-spring/web";
 import { startTileContainer, startTile } from "./Setup.css";
 import ReactTooltip from "react-tooltip";
-import shuffle from "lodash.shuffle";
-import { baseStartTiles } from "../Constants";
-import find from "lodash.find";
+import {shuffle, find} from "lodash";
+import { baseStartTiles, xitleStartTiles } from "../Constants";
 
 export const StartTiles = (props) => {
   const tileHeight = 400;
   // Hook1: Tie media queries to the number of columns
   const columns = useMedia(
     ["(min-width: 1500px)", "(min-width: 1000px)", "(min-width: 600px)"],
-    [4, 4, 4],
-    4
+    [8, 8, 8],
+    8
   );
   // Hook2: Measure the width of the container element
   const [ref, { width }] = useMeasure();
 
+  const startTiles  = props.isXitle ? [...baseStartTiles, ...xitleStartTiles] : baseStartTiles;
+  
   // Hook3: Hold items
-  const [items, set] = useState(baseStartTiles);
+  const [items, set] = useState(startTiles);
 
   // Hook4: shuffle data every 2 seconds
   useEffect(() => {
@@ -104,7 +105,7 @@ export const StartTiles = (props) => {
               onClick(item);
             }}
             src={
-              `${process.env.PUBLIC_URL}/StartTiles/base/${item.name}.jpg`
+              `${process.env.PUBLIC_URL}/StartTiles/${item.src}/${item.name}.jpg`
             }
             data-tip={item.tooltip}
           />

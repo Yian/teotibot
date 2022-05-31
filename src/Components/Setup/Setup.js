@@ -1,14 +1,10 @@
 /** @jsx jsx */
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { jsx } from "@emotion/react";
 import { StartTiles } from "./StartTiles";
 import { TechTiles } from "./TechTiles";
 import { TempleTiles } from "./TempleTiles";
-import { useTransition, a } from "@react-spring/web";
 import {
-  startResource,
-  resourceContainer,
-  resource,
   setupContainer,
 } from "./Setup.css";
 import { DicePlacement } from "./DicePlacement";
@@ -18,14 +14,7 @@ import {
   diceFaces,
   getRandom,
 } from "../Constants";
-import find from "lodash.find";
-import remove from "lodash.remove";
-import union from "lodash.union";
-import sortBy from "lodash.sortby";
-import cloneDeep from "lodash.clonedeep";
-import shuffle from "lodash.shuffle";
-import useMeasure from "react-use-measure";
-import useMedia from "../UseMedia";
+import {find, remove, union, cloneDeep, shuffle} from "lodash";
 import { StartingResources } from "./StartingResources";
 
 export const Setup = (props) => {
@@ -246,26 +235,26 @@ export const Setup = (props) => {
     <div css={setupContainer}>
       {showTechs && (
         <div>
-          <h3>Upgrade tiles</h3>
-          <TechTiles />
+          <h4>Upgrade tiles</h4>
+          <TechTiles isXitle={props.isXitle} />
         </div>
       )}
       {showTemples && (
         <div>
-          <h3>Temple tiles</h3>
-          <TempleTiles />
+          <h4>Temple tiles</h4>
+          <TempleTiles isXitle={props.isXitle} />
         </div>
       )}
       {showStartTiles && (
         <div>
           {" "}
-          <h3>Select 2 tiles:</h3>
-          <StartTiles selectedStartTiles={selectedTile} />
+          <h4>Select 2 tiles:</h4>
+          <StartTiles isXitle={props.isXitle} selectedStartTiles={selectedTile} />
         </div>
       )}
       {showStartingResources && (
         <div>
-          <h3>Starting Resources:</h3>
+          <h4>Starting Resources:</h4>
           <StartingResources startingResources={selectedResources} />
         </div>
       )}
@@ -277,19 +266,19 @@ export const Setup = (props) => {
       )}
       {showTeotibotDice && (
         <div>
-          <h3>Teotibot Placement</h3>
+          <h4>Teotibot Placement</h4>
           <DicePlacement dicePlacements={teotibotPlacements} />
         </div>
       )}
       {showNeutralPlayer1 && (
         <div>
-          <h3>Neutral player 1</h3>
+          <h4>Neutral player 1</h4>
           <DicePlacement dicePlacements={neutralPlacements1} />
         </div>
       )}
       {showNeutralPlayer2 && (
         <div>
-          <h3>Neutral player 2</h3>
+          <h4>Neutral player 2</h4>
           <DicePlacement dicePlacements={neutralPlacements2} />
         </div>
       )}

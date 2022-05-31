@@ -20,9 +20,7 @@ export const startTile = css`
   }
 `;
 
-export const resourceContainer = css`
-  
-`;
+export const resourceContainer = css``;
 
 export const resource = css`
   display: flex;

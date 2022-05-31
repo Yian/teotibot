@@ -6,21 +6,22 @@ import useMeasure from "react-use-measure";
 import { useTransition, a } from "@react-spring/web";
 import { tileContainer, techTile } from "./Setup.css";
 import ReactTooltip from "react-tooltip";
-import shuffle from "lodash.shuffle";
-import { baseTechTiles } from "../Constants";
+import {shuffle} from "lodash";
+import { baseTechTiles, xitleTechTiles } from "../Constants";
 
 export const TechTiles = (props) => {
   const tileHeight = 350;
   // Hook1: Tie media queries to the number of columns
   const columns = useMedia(
     ["(min-width: 1500px)", "(min-width: 1000px)", "(min-width: 600px)"],
-    [6, 6, 3],
+    [12, 12, 3],
     3
   );
   // Hook2: Measure the width of the container element
   const [ref, { width }] = useMeasure();
   // Hook3: Hold items
-  const [items, set] = useState(baseTechTiles);
+  const templeTiles  = props.isXitle ? [...baseTechTiles, ...xitleTechTiles] : baseTechTiles;
+  const [items, set] = useState(templeTiles);
 
   // Hook4: shuffle data every 2 seconds
   useEffect(() => {
@@ -63,7 +64,7 @@ export const TechTiles = (props) => {
         <a.img
           css={techTile}
           style={style}
-          src={`${process.env.PUBLIC_URL}/TechTiles/base/${item.name}.jpg`}
+          src={`${process.env.PUBLIC_URL}/TechTiles/${item.src}/${item.name}.jpg`}
           data-tip={item.tooltip}
         />
       ))}

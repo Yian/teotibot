@@ -6,7 +6,7 @@ import useMeasure from "react-use-measure";
 import { useTransition, a } from "@react-spring/web";
 import { tileContainer, templeTile } from "../Setup/Setup.css";
 import ReactTooltip from "react-tooltip";
-import shuffle from "lodash.shuffle";
+import {shuffle} from "lodash";
 import { baseTempleTiles } from "../Constants";
 
 export const TempleTiles = (props) => {
@@ -19,8 +19,10 @@ export const TempleTiles = (props) => {
   );
   // Hook2: Measure the width of the container element
   const [ref, { width }] = useMeasure();
+
   // Hook3: Hold items
-  const [items, set] = useState(baseTempleTiles);
+  const templeTiles  = baseTempleTiles;
+  const [items, set] = useState(templeTiles);
 
   // Hook4: shuffle data every 2 seconds
   useEffect(() => {

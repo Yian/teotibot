@@ -5,7 +5,7 @@ import { useTransition, a } from "@react-spring/web";
 import { resourceContainer, startResource, resource } from "./Setup.css";
 import useMeasure from "react-use-measure";
 import useMedia from "../UseMedia";
-import sortBy from "lodash.sortby";
+import {orderBy}  from "lodash";
 
 export const StartingResources = (props) => {
   const columns = useMedia(
@@ -15,7 +15,7 @@ export const StartingResources = (props) => {
       "(min-width: 600px)",
       "(min-width: 480px)",
     ],
-    [10, 10, 10, 10],
+    [20, 20, 20, 20],
     10
   );
 
@@ -31,7 +31,7 @@ export const StartingResources = (props) => {
 
   const [heights, resources] = useMemo(() => {
     let heights = new Array(columns).fill(0); // Each column gets a height starting with zero
-    let resources = sortBy(startingResources, ["quantity", "type"]).map(
+    let resources = orderBy(startingResources, ["quantity", "type"], ["desc", "desc"]).map(
       (child, i) => {
         const column = heights.indexOf(Math.min(...heights)); // Basic masonry-grid placing, puts tile into the smallest column using Math.min
         const x = (width / columns) * column; // x = container width / number of columns * column index,
