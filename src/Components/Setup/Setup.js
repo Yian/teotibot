@@ -26,17 +26,18 @@ import cloneDeep from "lodash.clonedeep";
 import shuffle from "lodash.shuffle";
 import useMeasure from "react-use-measure";
 import useMedia from "../UseMedia";
+import { StartingResources } from "./StartingResources";
 
 export const Setup = (props) => {
   const [selectedStartTiles, setSelectedStartTiles] = useState([]);
   const [selectedResources, setSelectedResources] = useState([]);
-  const [selectedActions, setSelectedActions] = useState([]);
   const [remainingStartTiles, setRemainingStartTiles] = useState([]);
+  const [playerPlacements, setPlayerPlacements] = useState([]);
   const [teotibotPlacements, setTeotibotPlacements] = useState([]);
   const [neutralPlacements1, setNeutralPlacements1] = useState([]);
   const [neutralPlacements2, setNeutralPlacements2] = useState([]);
-  const [showStartingResources, setStartingResources] = useState(false);
-  const [showStartingPlacements, setStartingPlacements] = useState(false);
+  const [showStartingResources, setShowStartingResources] = useState(false);
+  const [showPlayerPlacements, setShowPlayerPlacements] = useState(false);
   const [showTechs, setShowTechs] = useState(false);
   const [showTemples, setShowTemples] = useState(false);
   const [showStartTiles, setShowStartTiles] = useState(false);
@@ -46,21 +47,12 @@ export const Setup = (props) => {
 
   const noNeutralDice = 3;
 
-  const columns = useMedia(
-    [
-      "(min-width: 1500px)",
-      "(min-width: 1000px)",
-      "(min-width: 600px)",
-      "(min-width: 480px)",
-    ],
-    [7, 7, 7, 7],
-    7
-  );
-
-  const [ref, { width }] = useMeasure();
-
   function getRandomArrayIndex(arr) {
     return Math.floor(Math.random() * (arr.length - 1)) + 1;
+  }
+
+  function getActionItem(item) {
+    return find(actionNames, ["value", item]);
   }
 
   const getNeutralPlacement = useCallback((shuffledTiles) => {
@@ -75,7 +67,7 @@ export const Setup = (props) => {
 
     shuffledTiles.splice(index, 1);
 
-    let mergedNumbers = union(numbers1, numbers2);
+    let mergedActions = union(numbers1, numbers2);
 
     //Get the 3 dice values
     let dice = getRandom(diceFaces, noNeutralDice);
@@ -83,45 +75,66 @@ export const Setup = (props) => {
     return [
       {
         diceFace: dice[0],
-        number: [mergedNumbers[0]],
-        actionName: getActionItem(0).name,
-        color: getActionItem(0).color,
+        number: [mergedActions[0]],
+        actionName: getActionItem(mergedActions[0]).name,
+        color: getActionItem(mergedActions[0]).color,
       },
       {
         diceFace: dice[1],
-        number: [mergedNumbers[1]],
+        number: [mergedActions[1]],
+        actionName: getActionItem(mergedActions[1]).name,
+        color: getActionItem(mergedActions[1]).color,
+      },
+      {
+        diceFace: dice[2],
+        number: [mergedActions[2]],
+        actionName: getActionItem(mergedActions[2]).name,
+        color: getActionItem(mergedActions[2]).color,
+      },
+    ];
+  }, []);
+
+  const getPlayerPlacements = useCallback((selectedStartTiles) => {
+    let actions = [];
+
+    selectedStartTiles.forEach((selectedStartTile) => {
+      actions = union([...actions, ...selectedStartTile.numbers]);
+    });
+
+    return [
+      {
+        diceFace: diceFaces[0],
+        number: [actions[0]],
         actionName: getActionItem(1).name,
         color: getActionItem(1).color,
       },
       {
-        diceFace: dice[2],
-        number: [mergedNumbers[2]],
+        diceFace: diceFaces[0],
+        number: [actions[1]],
         actionName: getActionItem(2).name,
         color: getActionItem(2).color,
       },
+      {
+        diceFace: diceFaces[0],
+        number: [actions[2]],
+        actionName: getActionItem(3).name,
+        color: getActionItem(3).color,
+      },
     ];
-
-    function getActionItem(value) {
-      return find(actionNames, ["value", mergedNumbers[value]]);
-    }
   }, []);
 
   const calcDicePlacements = useCallback(() => {
     let shuffledTiles = shuffle(remainingStartTiles);
+    setPlayerPlacements(getPlayerPlacements(selectedStartTiles));
     setTeotibotPlacements(getNeutralPlacement(shuffledTiles));
     setNeutralPlacements1(getNeutralPlacement(shuffledTiles));
     setNeutralPlacements2(getNeutralPlacement(shuffledTiles));
-  }, [getNeutralPlacement, remainingStartTiles]);
-
-  const getActions = (selectedStartTiles) => {
-    let actions = [];
-
-    selectedStartTiles.forEach((selectedStartTile) => {
-      actions = [...actions, ...selectedStartTile.numbers];
-    });
-
-    return actions;
-  };
+  }, [
+    selectedStartTiles,
+    getPlayerPlacements,
+    getNeutralPlacement,
+    remainingStartTiles,
+  ]);
 
   function addResourceQuantities(arr, item) {
     const found = arr.some((el) => el.type === item.type);
@@ -162,23 +175,21 @@ export const Setup = (props) => {
         })
       );
       setSelectedResources(getResources(selectedStartTiles));
-      setSelectedActions(getActions(selectedStartTiles));
+      setShowPlayerPlacements(true);
       setShowTeotibotDice(true);
       setShowNeutralPlayer1(true);
       setShowNeutralPlayer2(true);
-      setStartingPlacements(true);
-      setStartingResources(true);
+      setShowStartingResources(true);
     } else {
-      setNeutralPlacements1([]);
-      setNeutralPlacements2([]);
-      setTeotibotPlacements([]);
+      setShowPlayerPlacements(false);
       setShowTeotibotDice(false);
       setShowNeutralPlayer1(false);
       setShowNeutralPlayer2(false);
+      setShowStartingResources(false);
+      setNeutralPlacements1([]);
+      setNeutralPlacements2([]);
+      setTeotibotPlacements([]);
       setSelectedResources([]);
-      setSelectedActions([]);
-      setStartingPlacements(false);
-      setStartingResources(false);
     }
   }, [getResources, selectedStartTiles]);
 
@@ -202,54 +213,6 @@ export const Setup = (props) => {
       clearInterval(v);
     };
   }, [calcDicePlacements, remainingStartTiles]);
-
-  const [resourceHeights, actionHeights, actions, resources] = useMemo(() => {
-    let resourceHeights = new Array(columns).fill(0); // Each column gets a height starting with zero
-    let actionHeights = new Array(columns).fill(0); // Each column gets a height starting with zero
-
-    let actions = selectedActions.map((child, i) => {
-      const column = actionHeights.indexOf(Math.min(...actionHeights)); // Basic masonry-grid placing, puts tile into the smallest column using Math.min
-      const x = (width / columns) * column; // x = container width / number of columns * column index,
-      const y = (actionHeights[column] += 150 / 2) - 150 / 2; // y = it's just the height of the current column
-      return {
-        value: child,
-        y,
-        x,
-      };
-    });
-
-    let resources = sortBy(selectedResources, ['quantity', 'type']).map((child, i) => {
-      const column = resourceHeights.indexOf(Math.min(...resourceHeights)); // Basic masonry-grid placing, puts tile into the smallest column using Math.min
-      const x = (width / columns) * column; // x = container width / number of columns * column index,
-      const y = (resourceHeights[column] += 150 / 2) - 150 / 2; // y = it's just the height of the current column
-      return {
-        ...child,
-        y,
-        x,
-      };
-    });
-    return [resourceHeights, actionHeights, actions, resources];
-  }, [selectedActions, width, columns, selectedResources]);
-
-  const resourceTransitions = useTransition(resources, {
-    key: (item) => item.name,
-    from: ({ x }) => ({ x, y: -1000, opacity: 0 }),
-    enter: ({ x, y }) => ({ x, y, opacity: 1 }),
-    update: ({ x }) => ({ x }),
-    leave: { height: 0, opacity: 0, y: -1000 },
-    config: { mass: 5, tension: 500, friction: 50 },
-    trail: 100,
-  });
-
-  const actionTransitions = useTransition(actions, {
-    key: (item) => item.name,
-    from: ({ x }) => ({ x, y: -1000, opacity: 0 }),
-    enter: ({ x, y }) => ({ x, y, opacity: 1 }),
-    update: ({ x }) => ({ x }),
-    leave: { height: 0, opacity: 0, y: -1000 },
-    config: { mass: 5, tension: 500, friction: 50 },
-    trail: 100,
-  });
 
   const selectedTile = (startTile) => {
     if (startTile) {
@@ -301,59 +264,15 @@ export const Setup = (props) => {
         </div>
       )}
       {showStartingResources && (
-        <div
-          ref={ref}
-          css={resourceContainer}
-          style={{ height: Math.max(...resourceHeights) }}
-        >
-          <span>Starting Resources:</span>
-          {resourceTransitions((props, item) => {
-            return (
-              <a.div
-                css={resource}
-                key={item.name}
-                style={{
-                  ...props,
-                }}
-                className="box"
-              >
-                <div css={startResource}>
-                  <div>{item.quantity}</div>
-                  <a.img
-                    src={`${process.env.PUBLIC_URL}/resources/${item.type}.png`}
-                  />
-                </div>
-              </a.div>
-            );
-          })}
+        <div>
+          <h3>Starting Resources:</h3>
+          <StartingResources startingResources={selectedResources} />
         </div>
       )}
-      {showStartingPlacements && (
-        <div
-          ref={ref}
-          css={resourceContainer}
-          style={{ height: Math.max(...actionHeights) }}
-        >
+      {showPlayerPlacements && (
+        <div>
           <span>Starting Placements:</span>
-          {actionTransitions((props, item) => {
-            return (
-              <a.div
-                css={resource}
-                key={item.name}
-                style={{
-                  ...props,
-                }}
-                className="box"
-              >
-                <div css={startResource}>
-                  <div>{item.quantity}</div>
-                  <a.img
-                    src={`${process.env.PUBLIC_URL}/actions/no${item.value}.png`}
-                  />
-                </div>
-              </a.div>
-            );
-          })}
+          <DicePlacement dicePlacements={playerPlacements} />
         </div>
       )}
       {showTeotibotDice && (

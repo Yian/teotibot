@@ -5,7 +5,6 @@ import { useTransition, a } from "@react-spring/web";
 import { diceFace, neutralContainer, action, actionText, diceContainer } from "./Setup.css";
 import useMeasure from "react-use-measure";
 import useMedia from "../UseMedia";
-import { numberNames } from "../Constants";
 
 export const DicePlacement = (props) => {
   const tileHeight = 200;
@@ -22,12 +21,10 @@ export const DicePlacement = (props) => {
   // Hook3: Hold items
   const [items, set] = useState(props.dicePlacements);
 
-  // Hook4: shuffle data every 2 seconds
   useEffect(() => {
     set(props.dicePlacements);
   }, [props.dicePlacements]);
 
-  // Hook5: Form a grid of stacked items using width & columns we got from hooks 1 & 2
   const [gridItems] = useMemo(() => {
     let heights = new Array(columns).fill(0); // Each column gets a height starting with zero
     let gridItems = items?.map((child, i) => {

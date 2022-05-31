@@ -23,7 +23,7 @@ export const tileList = css`
     cursor: pointer;
 
     @media only screen and (max-width: 500px) {
-      width: 200px;
+     // width: 200px;
     }
   }
 `;

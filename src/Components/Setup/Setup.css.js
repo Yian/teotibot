@@ -21,8 +21,7 @@ export const startTile = css`
 `;
 
 export const resourceContainer = css`
-  height: 50px;
-  margin-top: 75px;
+  
 `;
 
 export const resource = css`

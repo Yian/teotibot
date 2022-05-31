@@ -11,8 +11,7 @@ import {
 } from "./TileList.css";
 import { QuestionForm } from "../QuestionForm";
 import { calculateXDirectionTile, calculateXTile, calculateYTile, right, left } from "../Logic";
-
-
+import useMeasure from "react-use-measure";
 
 let tileWidth = 0;
 const row1YVal = 15;
@@ -36,46 +35,41 @@ const directionTileApi = (order, tiles) => (index) => {
   return { ...{ z: 0 }, ...result };
 };
 
-const tilesApi = (order, tiles, originalIndex, curIndex, y) => (index) => {
+const tilesApi = (order, tiles, width) => (index) => {
   var result = {};
   const tile = tiles[index];
   const imageUrl = `${process.env.PUBLIC_URL}/BotTiles/${tile.name}.png`;
 
-  index === originalIndex
-    ? (result = {
-        y: curIndex + y,
-        scale: 1,
-        shadow: 15,
-        immediate: (n) => n === "y" || n === "zIndex",
-      })
-    : // initial position
-      (result = {
+  console.log(width);
+      result = {
         x: calculateXTile(order.indexOf(index), tileWidth),
         y: calculateYTile(order.indexOf(index, tile.type), tileWidth),
         scale: 1,
         shadow: 1,
         immediate: false,
         src: imageUrl,
+        width: width,
         config: { velocity: 0, friction: 75 }
-      });
+      };
 
   return { ...{ opacity: 1, z: 0 }, ...result };
 };
 
 export const TileList = (props) => {
+  const [ref, measureAPI] = useMeasure();
   const tiles = props.tiles;
   const directionTiles = props.directionTiles;
   const ordering = props.ordering; //inital ordering;
   const directionOrdering = props.directionOrdering;
-  const lastPlayerIndex = props.lastPlayerIndex;
   const [round, setRound] = useState(0);
   const [tileSizeCalculated, setTileSizeCalculated] = useState(false);
   const [tilesDisabled, setTilesDisabled] = useState(false);
   const [showForm, setShowForm] = useState(false);
 
+  console.log(measureAPI);
   const [tileSprings, setTiles] = useSprings(
     tiles.length,
-    tilesApi(ordering, tiles, lastPlayerIndex)
+    tilesApi(ordering, tiles, measureAPI.width)
   ); // Create springs, each corresponds to an item, controlling its transform, scale, etc.
 
   const [directionTileSprings, setDirectionTiles] = useSprings(
@@ -225,7 +219,7 @@ export const TileList = (props) => {
   };
 
   const animateTiles = useCallback((newOrder, newDirectionOrder) => {
-    setTiles(tilesApi(newOrder, tiles));
+    setTiles(tilesApi(newOrder, tiles, measureAPI.width));
 
     const flippedValue = 180;
     const defaultValue = 0;
@@ -254,11 +248,10 @@ export const TileList = (props) => {
 
   useEffect(() => {
     if (round === 0) {
-      setTiles(tilesApi(props.ordering, tiles));
+      setTiles(tilesApi(props.ordering, tiles, measureAPI.width));
       setDirectionTiles(directionTileApi(props.directionOrdering, directionTiles));
     }
   }, [
-    lastPlayerIndex,
     props.ordering,
     props.directionOrdering,
     setTiles,
@@ -266,6 +259,7 @@ export const TileList = (props) => {
     tiles,
     directionTiles,
     round,
+    measureAPI.width
   ]);
 
   const getTileSize = (element) => {
@@ -294,10 +288,10 @@ export const TileList = (props) => {
     <div css={tileListContainer}>
       <div css={mainImg} onClick={onCloseClick} />
       <div>{showForm && <QuestionForm onCloseClick={onCloseClick}/>}</div>
-      <div css={tileList} style={{ height: tiles.length }}>
+      <div ref={ref} css={tileList} style={{ height: tiles.length }}>
         {tileSprings.map(
           (
-            { zIndex, shadow, y, x, z, scale, opacity, backgroundColor, src },
+            { zIndex, shadow, y, x, z, scale, opacity, backgroundColor, src, width },
             i
           ) => (
             <animated.img
@@ -311,6 +305,7 @@ export const TileList = (props) => {
               style={{
                 backgroundColor,
                 zIndex,
+                width: width,
                 opacity,
                 boxShadow: shadow.to(
                   (s) => `rgba(0, 0, 0, 0.15) 0px ${s}px ${2 * s}px 0px`
