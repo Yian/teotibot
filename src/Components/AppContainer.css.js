@@ -43,6 +43,12 @@ export const start = css`
   }
 `;
 
+export const optionsButton = css`
+  position: absolute;
+  top: 0;
+  right: 0;
+`;
+
 export const options = css`
   margin: auto auto;
   flex-direction: column;

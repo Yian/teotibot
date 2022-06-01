@@ -56,6 +56,11 @@ export const templeTile = css`
   position: absolute;
 `;
 
+export const priestPriestessTile = css`
+  width: 580px;
+  position: absolute;
+`;
+
 export const action = css`
   width: 35px;
 `;

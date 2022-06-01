@@ -19,6 +19,11 @@ const templeWild = "tw";
 const base = "base";
 const xitle = "xitle";
 
+export const StartScreen = 1;
+export const SetupScreen = 2;
+export const AppScreen = 3;
+export const OptionsScreen = 4;
+
 export const initialOrdering = [0, 1, 2, 3, 4, 5, 6];
 export const tileToolTip = [
   [2, 3],
@@ -435,55 +440,55 @@ export const baseTechTiles = [
     name: "TT1",
     tooltip:
       "Each time you land on or move a worker over the Palace (1) Action Board, you gain 1 cocoa.",
-      src: base,
+    src: base,
   },
   {
     name: "TT2",
     tooltip:
       "Each time you perform the Main action of Alchemy (5) or Nobles (6) Action Boards, gain 3 Victory Points.",
-      src: base,
+    src: base,
   },
   {
     name: "TT3",
     tooltip:
       "Each time you perform the Main action of Forest (2), Stone Quarry (3), Gold Deposits (4), you get one (additional) wood, stone, gold, respectively.",
-      src: base,
+    src: base,
   },
   {
     name: "TT4",
     tooltip:
       "Each time you perform the Main action of the Forest (2), Stone Quarry (3), or Gold Deposits (4) Action Boards, gain 1 cocoa and 1 Victory Point.",
-      src: base,
+    src: base,
   },
   {
     name: "TT5",
     tooltip:
       "Each time you perform the Main action of the Decorations (7) Action Board, gain 4 Victory Points.",
-      src: base,
+    src: base,
   },
   {
     name: "TT6",
     tooltip:
       "Each time you perform the Main action of the Construction (8) Action Board, gain 3 Victory Points (regardless of the number of tiles placed).",
-      src: base,
+    src: base,
   },
   {
     name: "TT7",
     tooltip:
       "Each time one of your workers gains a power-up as part of a Main action, you may pay 1 cocoa to power up once more (same or different worker) on the same Action Board.",
-      src: base,
+    src: base,
   },
   {
     name: "TT8",
     tooltip:
       "Each time you perform the Main action of the Construction (8) Action Board, resolve it as if you had an additional worker, that also granted a discount of 1 resource.",
-      src: base,
+    src: base,
   },
   {
     name: "TT9",
     tooltip:
       "Each time you perform the Main action of the Construction (8) Action Board, advance on one temple (regardless of the number of tiles placed).",
-      src: base,
+    src: base,
   },
 ];
 
@@ -549,6 +554,7 @@ export const xitleTechTiles = [
     src: xitle,
   },
 ];
+
 // Temple Tiles
 export const baseTempleTiles = [
   {
@@ -567,26 +573,46 @@ export const baseTempleTiles = [
     name: "BT4",
     tooltip:
       "Score 3 Victory Points for each step you progressed on the Avenue of the Dead track.",
-      src: base,
+    src: base,
   },
   {
     name: "BT5",
     tooltip:
       "Score 9 Victory Points for each Bonus tile you unlocked, including this tile.",
-      src: base,
+    src: base,
   },
   {
     name: "BT6",
     tooltip:
       "Score 2 Victory Points for each nonmask Discovery tile you have (used or unused).",
-      src: base,
+    src: base,
   },
   {
     name: "BT7",
     tooltip:
       "Score for your workers: for each worker with 1-3 power, score 4 Victory Points; for each worker with 4-5 power, score 9 Victory Points.",
-      src: base,
+    src: base,
   },
 ];
 
-export const xileTempleTiles = [];
+export const basePriestPriestessTiles = [
+  { name: "pp1", src: base },
+  { name: "pp2", src: base },
+  { name: "pp3", src: base },
+  { name: "pp4", src: base },
+  { name: "pp5", src: base },
+  { name: "pp6", src: base },
+  { name: "pp7", src: base },
+  { name: "pp8", src: base },
+  { name: "pp9", src: base },
+  { name: "pp10", src: base },
+];
+
+export const baseTeotiPriestPriestessTiles = [
+  { name: "ppt1", src: base },
+  { name: "ppt2", src: base },
+  { name: "ppt3", src: base },
+  { name: "ppt4", src: base },
+  { name: "ppt5", src: base },
+  { name: "ppt6", src: base },
+];

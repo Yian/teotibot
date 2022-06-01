@@ -4,9 +4,7 @@ import { jsx } from "@emotion/react";
 import { StartTiles } from "./StartTiles";
 import { TechTiles } from "./TechTiles";
 import { TempleTiles } from "./TempleTiles";
-import {
-  setupContainer,
-} from "./Setup.css";
+import { setupContainer } from "./Setup.css";
 import { DicePlacement } from "./DicePlacement";
 import {
   actionNames,
@@ -14,8 +12,9 @@ import {
   diceFaces,
   getRandom,
 } from "../Constants";
-import {find, remove, union, cloneDeep, shuffle} from "lodash";
+import { find, remove, union, cloneDeep, shuffle } from "lodash";
 import { StartingResources } from "./StartingResources";
+import { PriestPriestessTiles } from "./PriestPriestessTiles";
 
 export const Setup = (props) => {
   const [selectedStartTiles, setSelectedStartTiles] = useState([]);
@@ -30,6 +29,8 @@ export const Setup = (props) => {
   const [showTechs, setShowTechs] = useState(false);
   const [showTemples, setShowTemples] = useState(false);
   const [showStartTiles, setShowStartTiles] = useState(false);
+  const [showPriestPriestessTiles, setShowPriestPriestessTiles] =
+    useState(false);
   const [showTeotibotDice, setShowTeotibotDice] = useState(false);
   const [showNeutralPlayer1, setShowNeutralPlayer1] = useState(false);
   const [showNeutralPlayer2, setShowNeutralPlayer2] = useState(false);
@@ -169,12 +170,14 @@ export const Setup = (props) => {
       setShowNeutralPlayer1(true);
       setShowNeutralPlayer2(true);
       setShowStartingResources(true);
+      setShowPriestPriestessTiles(true);
     } else {
       setShowPlayerPlacements(false);
       setShowTeotibotDice(false);
       setShowNeutralPlayer1(false);
       setShowNeutralPlayer2(false);
       setShowStartingResources(false);
+      setShowPriestPriestessTiles(false);
       setNeutralPlacements1([]);
       setNeutralPlacements2([]);
       setTeotibotPlacements([]);
@@ -248,25 +251,40 @@ export const Setup = (props) => {
       {showStartTiles && (
         <div>
           {" "}
-          <h4>Select 2 tiles:</h4>
-          <StartTiles isXitle={props.isXitle} selectedStartTiles={selectedTile} />
+          <h4>Select 2 Start Tiles:</h4>
+          <StartTiles
+            isXitle={props.isXitle}
+            selectedStartTiles={selectedTile}
+          />
         </div>
       )}
       {showStartingResources && (
         <div>
-          <h4>Starting Resources:</h4>
+          <h4>Starting resources:</h4>
           <StartingResources startingResources={selectedResources} />
+        </div>
+      )}
+      {showPriestPriestessTiles && props.isPriestAndPriestess && (
+        <div>
+          <h4>Priest/Priestess tiles (choose 1)</h4>
+          <PriestPriestessTiles numberToPick={2} />
         </div>
       )}
       {showPlayerPlacements && (
         <div>
-          <span>Starting Placements:</span>
+          <span>Player placements:</span>
           <DicePlacement dicePlacements={playerPlacements} />
+        </div>
+      )}
+      {showPriestPriestessTiles && props.isPriestAndPriestess && (
+        <div>
+          <h4>Teotibot Priest/Priestess tile:</h4>
+          <PriestPriestessTiles numberToPick={1} isTeotibot={true} />
         </div>
       )}
       {showTeotibotDice && (
         <div>
-          <h4>Teotibot Placement</h4>
+          <h4>Teotibot placement</h4>
           <DicePlacement dicePlacements={teotibotPlacements} />
         </div>
       )}

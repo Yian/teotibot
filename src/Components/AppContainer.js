@@ -3,10 +3,12 @@ import React from "react";
 import { jsx } from "@emotion/react";
 import { TileList } from "./Tiles/TileList";
 import { Setup } from "./Setup/Setup";
-import { Checkbox } from "./Checkbox";
-import { PlayerSelector } from "./PlayerSelector";
-import { appContainer, mainImg, start, options } from "./AppContainer.css";
-import { activeText } from "./Tiles/TileList.css";
+import {
+  appContainer,
+  mainImg,
+  start,
+  optionsButton,
+} from "./AppContainer.css";
 import shuffle from "lodash";
 import {
   baseBotTiles,
@@ -14,13 +16,19 @@ import {
   initialOrdering,
   initialDirectionOrdering,
   baseStartTiles,
+  StartScreen,
+  SetupScreen,
+  AppScreen,
+  OptionsScreen,
 } from "./Constants";
+import { Options } from "./Options";
 
 export class AppContainer extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      screenMode: 1,
+      screenMode: StartScreen,
+      lastScreen: StartScreen,
       isOptions: false,
       playerCount: 5,
       cycleCount: 0,
@@ -30,6 +38,9 @@ export class AppContainer extends React.Component {
       ordering: shuffle(initialOrdering),
       directionOrdering: shuffle(initialDirectionOrdering),
       isXitle: false,
+      isPriestAndPriestess: false,
+      isHeightOfDevelopment: false,
+      isSeasonsOfProgress: false,
       shuffleHistory: [
         {
           cycle: 0,
@@ -80,14 +91,50 @@ export class AppContainer extends React.Component {
     });
   };
 
-  setIsXitle = isXitle => {
+  setIsXitle = (isXitle) => {
     this.setState({
       isXitle,
     });
   };
 
-  onChangeXitle = e => {
+  onChangeXitle = (e) => {
     this.setIsXitle(
+      e.target.type === "checkbox" ? e.target.checked : e.target.value
+    );
+  };
+
+  setIsPriestAndPriestess = (isPriestAndPriestess) => {
+    this.setState({
+      isPriestAndPriestess,
+    });
+  };
+
+  onChangeIsPriestAndPriestess = (e) => {
+    this.setIsPriestAndPriestess(
+      e.target.type === "checkbox" ? e.target.checked : e.target.value
+    );
+  };
+
+  setIsSeasonsOfProgress = (isSeasonsOfProgress) => {
+    this.setState({
+      isSeasonsOfProgress,
+    });
+  };
+
+  onChangeIsSeasonsOfProgress = (e) => {
+    this.setIsSeasonsOfProgress(
+      e.target.type === "checkbox" ? e.target.checked : e.target.value
+    );
+  };
+
+  setIsHeightOfDevelopment = (isHeightOfDevelopment) => {
+    this.setState({
+      isHeightOfDevelopment,
+    });
+  };
+
+  onChangeIsHeightOfDevelopment = (e) => {
+    this.setIsHeightOfDevelopment(
       e.target.type === "checkbox" ? e.target.checked : e.target.value
     );
   };
@@ -111,24 +158,6 @@ export class AppContainer extends React.Component {
     });
   };
 
-  setHadesActive = () => {
-    this.setState({
-      hadesActive: true,
-    });
-  };
-
-  resetHades = () => {
-    this.setState({
-      hadesTotal: 0,
-    });
-  };
-
-  setHades = (total) => {
-    this.setState({
-      hadesTotal: total,
-    });
-  };
-
   start = () => {
     this.setState({
       screenMode: 2,
@@ -140,28 +169,39 @@ export class AppContainer extends React.Component {
 
   back = () => {
     this.setState({
-      screenMode: 1,
+      screenMode: this.state.lastScreen,
     });
   };
 
-  options = () => {
+  options = (lastScreen) => {
     this.setState({
+      lastScreen,
       screenMode: 4,
     });
   };
 
   renderApp = () => {
-    if (this.state.screenMode === 1) {
+    if (this.state.screenMode === StartScreen) {
       return (
         <ul css={start}>
           <div css={mainImg} />
           <li onClick={this.start}>Start</li>
-          <li onClick={this.options}>Options</li>
+          <li onClick={() => this.options(StartScreen)}>Options</li>
         </ul>
       );
-    } else if (this.state.screenMode === 2) {
-      return <Setup isXitle={this.state.isXitle} />;
-    } else if (this.state.screenMode === 3) {
+    } else if (this.state.screenMode === SetupScreen) {
+      return (
+        <div>
+          <img
+            css={optionsButton}
+            onClick={() => this.options(SetupScreen)}
+            src="/settings.png"
+            alt="settings"
+          />
+          <Setup isXitle={this.state.isXitle} isPriestAndPriestess={this.state.isPriestAndPriestess} />
+        </div>
+      );
+    } else if (this.state.screenMode === AppScreen) {
       return (
         <TileList
           ordering={this.state.ordering}
@@ -183,20 +223,19 @@ export class AppContainer extends React.Component {
           dice2={this.state.dice2}
         />
       );
-    } else if (this.state.screenMode === 4) {
+    } else if (this.state.screenMode === OptionsScreen) {
       return (
-        <div css={options}>
-          <div css={activeText} onClick={this.back}>
-            back
-          </div>
-          <div className={"checkbox-container"}>
-            <Checkbox
-              label="Shadow of Xitle"
-              checked={this.state.isXitle}
-              onChange={this.onChangeXitle}
-            />
-          </div>
-        </div>
+        <Options
+          isXitle={this.state.isXitle}
+          onChangeXitle={this.onChangeXitle}
+          isPriestAndPriestess={this.state.isPriestAndPriestess}
+          onChangeIsPriestAndPriestess={this.onChangeIsPriestAndPriestess}
+          isSeasonsOfProgress={this.state.isSeasonsOfProgress}
+          onChangeIsSeasonsOfProgress={this.onChangeIsSeasonsOfProgress}
+          isHeightOfDevelopment={this.state.isHeightOfDevelopment}
+          onChangeIsHeightOfDevelopment={this.onChangeIsHeightOfDevelopment}
+          back={this.back}
+        />
       );
     }
   };
