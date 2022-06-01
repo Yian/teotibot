@@ -63,6 +63,12 @@ export class AppContainer extends React.Component {
       img.src = `${process.env.PUBLIC_URL}/StartTiles/base/${tile.name}.jpg`;
     });
 
+    const img1 = new Image();
+    img1.src = `${process.env.PUBLIC_URL}/late-preclassic.jpg`;
+
+    const img2 = new Image();
+    img2.src = `${process.env.PUBLIC_URL}/xitle.jpg`;
+
     const img = new Image();
     img.src = `${process.env.PUBLIC_URL}/blank.png`;
   }
@@ -176,10 +182,15 @@ export class AppContainer extends React.Component {
   options = (lastScreen) => {
     this.setState({
       lastScreen,
-      screenMode: 4,
+      screenMode: OptionsScreen,
     });
   };
 
+  app = () => {
+    this.setState({
+      screenMode: AppScreen
+    })
+  }
   renderApp = () => {
     if (this.state.screenMode === StartScreen) {
       return (
@@ -193,11 +204,12 @@ export class AppContainer extends React.Component {
       return (
         <div>
           <img
-            css={optionsButton}
+            css={{}}
             onClick={() => this.options(SetupScreen)}
             src="/settings.png"
             alt="settings"
           />
+          <span onClick={() => this.app()}>Continue</span>
           <Setup isXitle={this.state.isXitle} isPriestAndPriestess={this.state.isPriestAndPriestess} />
         </div>
       );

@@ -48,7 +48,6 @@ const tilesApi = (order, tiles, width) => (index) => {
         shadow: 1,
         immediate: false,
         src: imageUrl,
-        width: width,
         config: { velocity: 0, friction: 75 }
       };
 

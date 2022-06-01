@@ -55,7 +55,7 @@ export const options = css`
   align-items: center;
   justify-content: center;
   height: 100%;
-  font-size: 5rem;
+  font-size: 1rem;
 
   .checkbox-container {
     display: flex;
@@ -81,10 +81,10 @@ export const options = css`
   }
 
   @media only screen and (max-width: 1024px) {
-    font-size: 5rem;
+    font-size: 2rem;
   }
 
   @media only screen and (max-width: 450px) {
-    font-size: 2.5rem;
+    font-size: 1rem;
   }
 `;

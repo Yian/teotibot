@@ -23,7 +23,7 @@ export const tileList = css`
     cursor: pointer;
 
     @media only screen and (max-width: 500px) {
-     // width: 200px;
+      // width: 200px;
     }
   }
 `;
@@ -56,6 +56,18 @@ export const topContainer = css`
   align-items: center;
   margin-bottom: 10px;
   z-index: 999;
+`;
+
+export const latePreclassic = css`
+  img {
+    width: 300px;
+  }
+`;
+
+export const shadowOfXitle = css`
+  img {
+    width: 300px;
+  }
 `;
 
 export const activeText = css`

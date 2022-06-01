@@ -4,7 +4,7 @@ import { jsx } from "@emotion/react";
 import useMedia from "../UseMedia";
 import useMeasure from "react-use-measure";
 import { useTransition, a } from "@react-spring/web";
-import { tileContainer, templeTile, priestPriestessTile } from "../Setup/Setup.css";
+import { tileContainer, priestPriestessTile } from "../Setup/Setup.css";
 import { shuffle } from "lodash";
 import { basePriestPriestessTiles, baseTeotiPriestPriestessTiles } from "../Constants";
 
