@@ -64,7 +64,7 @@ export const PriestPriestessTiles = (props) => {
         <a.img
           css={priestPriestessTile}
           style={style}
-          src={`${process.env.PUBLIC_URL}/PriestPriestessTiles/base/${item.name}.jpg`}
+          src={`${process.env.PUBLIC_URL}/priest_priestess_tiles/base/${item.name}.jpg`}
         />
       ))}
     </div>

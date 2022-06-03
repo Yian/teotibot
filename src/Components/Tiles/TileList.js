@@ -64,8 +64,8 @@ export const TileList = (props) => {
   const [tileSizeCalculated, setTileSizeCalculated] = useState(false);
   const [tilesDisabled, setTilesDisabled] = useState(false);
   const [showForm, setShowForm] = useState(false);
+  const [selectedTileIndex, setSelectedTileIndex] = useState(0);
 
-  console.log(measureAPI);
   const [tileSprings, setTiles] = useSprings(
     tiles.length,
     tilesApi(ordering, tiles, measureAPI.width)
@@ -81,6 +81,7 @@ export const TileList = (props) => {
   };
 
   const orderTiles = (tileIndex) => {
+    console.log(directionOrdering);
     var topDirectionTile = directionTiles[directionOrdering[0]];
     var bottomDirectionTile = directionTiles[directionOrdering[1]];
 
@@ -182,6 +183,8 @@ export const TileList = (props) => {
       setTilesDisabled(false);
     }, 1000);
 
+    console.log(ordering.indexOf(tileIndex));
+
     if (ordering.indexOf(tileIndex) >= 6) return; //clicked extra tile
 
     let newOrder;
@@ -233,7 +236,7 @@ export const TileList = (props) => {
           directionTile.flipped = false;
         }
       }
-    });
+    }, []);
 
     setDirectionTiles(directionTileApi(newDirectionOrder, directionTiles));
 
@@ -265,28 +268,26 @@ export const TileList = (props) => {
     if (element) {
       tileWidth = element.getBoundingClientRect().width;
 
-      //console.log(tileHeight);
-      //console.log(element.getBoundingClientRect());
-
       if (!tileSizeCalculated) {
         setTileSizeCalculated(true);
       }
     }
   };
 
-  const showSteps = (i) => {
+  const showSteps = (i, name) => {
+    setSelectedTileIndex(i);
     setShowForm(true);
   }
 
   const onCloseClick = (i) => {
     setShowForm(false);
-    shuffleTiles(i);
+    shuffleTiles(selectedTileIndex);
   }
 
   return (
     <div css={tileListContainer}>
       <div css={mainImg} onClick={onCloseClick} />
-      <div>{showForm && <QuestionForm onCloseClick={onCloseClick}/>}</div>
+      <div>{showForm && <QuestionForm onCloseClick={onCloseClick} tileName={tiles[selectedTileIndex]}/>}</div>
       <div ref={ref} css={tileList} style={{ height: tiles.length }}>
         {tileSprings.map(
           (

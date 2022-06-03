@@ -7,9 +7,8 @@ import {
   appContainer,
   mainImg,
   start,
-  optionsButton,
 } from "./AppContainer.css";
-import shuffle from "lodash";
+import {shuffle} from "lodash";
 import {
   baseBotTiles,
   directionTiles,
@@ -79,6 +78,18 @@ export class AppContainer extends React.Component {
     });
   };
 
+  setOrdering = (newOrder) => {
+    this.setState({
+      ordering: newOrder,
+    });
+  };
+
+  setDirectionOrdering = (newOrder) => {
+    this.setState({
+      directionOrdering: newOrder,
+    });
+  };
+  
   setPlayerCount = (playerCount) => {
     var lastPlayerIndex = playerCount - 1;
     var tilesToUse = baseBotTiles;

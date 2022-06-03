@@ -64,7 +64,7 @@ export const TechTiles = (props) => {
         <a.img
           css={techTile}
           style={style}
-          src={`${process.env.PUBLIC_URL}/TechTiles/${item.src}/${item.name}.jpg`}
+          src={`${process.env.PUBLIC_URL}/tech_tiles/${item.src}/${item.name}.jpg`}
           data-tip={item.tooltip}
         />
       ))}

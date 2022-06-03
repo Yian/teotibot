@@ -6,6 +6,7 @@
   "dependencies": {
     "@babel/helper-builder-react-jsx": "^7.16.7",
     "@emotion/react": "^11.9.0",
+    "html-react-parser": "^1.4.14",
     "lodash": "^4.17.21",
     "lodash-es": "4.17.11",
     "range": "^0.0.3",
