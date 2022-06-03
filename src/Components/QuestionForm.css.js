@@ -1,4 +1,5 @@
 import { css } from "@emotion/react";
+import { mediaQueries } from "./variables";
 
 export const questionModal = css`
   position: fixed; /* Stay in place */
@@ -22,7 +23,7 @@ export const questionModalContent = css`
   margin: 15% auto; /* 15% from the top and centered */
   padding: 20px;
   border: 1px solid #888;
-  width: 50%; /* Could be more or less, depending on screen size */
+  width: 60%; /* Could be more or less, depending on screen size */
   min-height: 550px;
   font-size: 1.75rem;
   color: chocolate;
@@ -31,9 +32,19 @@ export const questionModalContent = css`
   background-size: auto 100%;
   background-position: center;
 
-  @media only screen and (max-width: 500px) {
-    width: 100%;
+  @media ${mediaQueries.isMaxXs} {
+    width: 90%;
+    font-size: 2rem;
   }
+
+  @media ${mediaQueries.isSm} {
+    width: 90%;
+  }
+
+  @media ${mediaQueries.isLg} {
+    width: 60%;
+  }
+
 
   img {
     height: 1.75rem;
@@ -51,8 +62,13 @@ export const buttons = css`
   display: flex;
   flex-direction: row;
   justify-content: space-evenly;
+  margin: 20px 0;
 
   div {
     cursor: pointer;
   }
+`;
+
+export const questionForm = css`
+  margin: 50px 0;
 `;

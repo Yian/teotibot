@@ -274,7 +274,7 @@ export const TileList = (props) => {
     }
   };
 
-  const showSteps = (i, name) => {
+  const showSteps = (i) => {
     setSelectedTileIndex(i);
     setShowForm(true);
   }
@@ -287,7 +287,7 @@ export const TileList = (props) => {
   return (
     <div css={tileListContainer}>
       <div css={mainImg} onClick={onCloseClick} />
-      <div>{showForm && <QuestionForm onCloseClick={onCloseClick} tileName={tiles[selectedTileIndex]}/>}</div>
+      <div>{showForm && <QuestionForm onCloseClick={onCloseClick} tileName={tiles[selectedTileIndex].name}/>}</div>
       <div ref={ref} css={tileList} style={{ height: tiles.length }}>
         {tileSprings.map(
           (

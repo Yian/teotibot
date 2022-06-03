@@ -8,115 +8,58 @@ import {
   questionModal,
   modalClose,
   questionModalContent,
+  questionForm
 } from "./QuestionForm.css";
-
-export class QuestionForm extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      answers: {},
-    };
-
-    this.onExitForm = this.onExitForm.bind(this);
-    this.onRestartQuestions = this.onRestartQuestions.bind(this);
-  }
-
-  onRestartQuestions() {
-    this.setState({
-      answers: {},
-    });
-  }
-
-  onExitForm() {
-    this.props.onCloseClick();
-  }
-
-  render() {
-    var answers = this.state.answers;
-    
-    const questions = worshipQuestions.filter((q) => {
-      if (!q.condition) {
-        // no condition set; always visible
-        return true;
-      }
-      return q.condition({ answers });
-    });
-
-    return (
-      <div css={questionModal}>
-        <div css={questionModalContent}>
-          <div css={modalClose} onClick={this.onExitForm}>
-            close
-          </div>
-          {questions.map((question) => (
-            <div>
-              <Question
-                isEnd={question.isEnd}
-                onExitForm={this.onExitForm}
-                onRestartQuestions={this.onRestartQuestions}
-                onSelect={(answer) => {
-                  const answers = {
-                    ...this.state.answers,
-                    [question.questionId]: answer,
-                  };
-                  this.setState({ answers });
-                }}
-              >
-                {parse(question.question)}
-              </Question>
-            </div>
-          ))}
-        </div>
-      </div>
-    );
-  }
-}
-
-function Question(props) {
-  return (
-    <div>
-      {props.children}
-      {!props.isEnd ? (
-        <div css={buttons}>
-          <div
-            onClick={() => {
-              props.onSelect("yes");
-            }}
-          >
-            yes
-          </div>
-          <div
-            onClick={() => {
-              props.onSelect("no");
-            }}
-          >
-            no
-          </div>
-        </div>
-      ) : (
-        <CloseForm
-          onExitForm={props.onExitForm}
-          onRestartQuestions={props.onRestartQuestions}
-        />
-      )}
-    </div>
-  );
-}
-
-function CloseForm(props) {
-  return (
-    <div>
-      <div css={buttons}>
-        <div onClick={props.onExitForm}>continue</div>
-        <div onClick={props.onRestartQuestions}>restart</div>
-      </div>
-    </div>
-  );
-}
 
 const powerup = `<div>Teotibot gains
 5 cocoa <img src="/resources/5cocoa.png"/>, powers up <img src="/resources/powerup.png"/> its lowest powered worker <img src="/dice/d3.png"/>, and
 then advances it.</div>`;
+
+const alchemyQuestions = [
+  {
+    question: `<div>Does Teotibot have 2 or more gold <img src="/resources/gold.png"/> and at least one worker on the Decorations Action Board? <img src="/actions/no7.png"/></div>`,
+    questionId: 1,
+    condition: ({ answers }) => isEmpty(answers),
+  },
+  {
+    question: `<div> Teotibot spends 2 gold <img src="/resources/gold.png"/> and places the topmost Decoration 
+    tile onto an available Decorations space on the Pyramid grid on the Main Board (clockwise from the top). 
+    Then Teotibot: <ul>
+    <li>Scores 5 Victory Points.</li><li>Advances on the Pyramid track. <img src="/resources/pyramid.png"/></li>
+    <li>Advances on any temple by one. <img src="/resources/tw.png"/></li>
+    </ul></div>
+    <div>
+    Power up <img src="/resources/powerup.png"/> Teotibots worker <img src="/dice/d3.png"/> on the Decorations
+    Action Board <img src="/actions/no7.png"/> (this might trigger an Ascension, which is resolved
+    normally). Then advance the powered-up worker (or the new worker, if the
+    old one triggered Ascension)
+  </div>`,
+    questionId: 2,
+    condition: ({ answers }) => answers[1] === "yes",
+    isEnd: true,
+  },
+  {
+    question: `<div>Does Teotibot have at least one worker on the Gold Deposits (4) Action Board? <img src="/actions/no7.png"/></div>`,
+    questionId: 3,
+    condition: ({ answers }) => answers[1] === "no" && answers[3] === undefined,
+  },
+  {
+    question: `<div>Teotibot gains 2 gold <img src="/resources/gold.png"/>
+    </div>Power up Teotibots worker <img src="/resources/powerup.png"/>on the Decorations
+    Action Board (this might trigger an Ascension, which is resolved
+    normally). Then advance the powered-up worker (or the new worker, if the
+    old one triggered Ascension)`,
+    questionId: 4,
+    condition: ({ answers }) => answers[3] === "yes",
+    isEnd: true,
+  },
+  {
+    question: powerup,
+    questionId: 5,
+    condition: ({ answers }) => answers[3] === "no",
+    isEnd: true,
+  },
+];
 
 const decorationQuestions = [
   {
@@ -308,6 +251,151 @@ immediately draw a replacement for it.
     isEnd: true,
   },
 ];
+
+const TilesToQuestions = {
+  alchemy: alchemyQuestions,
+  construction: constructionQuestions,
+  decorations: decorationQuestions,
+  mask_collection: maskQuestions,
+  mastery: [],
+  nobles: noblesQuestions,
+  worship: worshipQuestions,
+};
+export class QuestionForm extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      answers: {},
+      questions: TilesToQuestions[props.tileName],
+      fromMastery: false,
+    };
+
+    this.onExitForm = this.onExitForm.bind(this);
+    this.onRestartQuestions = this.onRestartQuestions.bind(this);
+    this.onClickMasteryOption = this.onClickMasteryOption.bind(this);
+  }
+
+  onRestartQuestions() {
+    if (this.state.fromMastery) {
+      this.setState({
+        fromMastery: false,
+        questions: TilesToQuestions["mastery"],
+        answers: {},
+      });
+    } else {
+      this.setState({
+        answers: {},
+      });
+    }
+  }
+
+  onClickMasteryOption() {
+    this.setState({
+      questions: TilesToQuestions["decorations"],
+      fromMastery: true,
+    });
+  }
+
+  onExitForm() {
+    this.props.onCloseClick();
+  }
+
+  render() {
+    var answers = this.state.answers;
+    var questions = this.state.questions;
+
+    const qs = questions.filter((q) => {
+      if (!q.condition) {
+        // no condition set; always visible
+        return true;
+      }
+      return q.condition({ answers });
+    });
+
+    return (
+      <div css={questionModal}>
+        <div css={questionModalContent}>
+          <div css={modalClose} onClick={this.onExitForm}>
+            close
+          </div>
+          {qs.map((question) => (
+            <Question
+              isEnd={question.isEnd}
+              onExitForm={this.onExitForm}
+              onRestartQuestions={this.onRestartQuestions}
+              onSelect={(answer) => {
+                const answers = {
+                  ...this.state.answers,
+                  [question.questionId]: answer,
+                };
+                this.setState({ answers });
+              }}
+            >
+              {parse(question.question)}
+            </Question>
+          ))}
+          {this.props.tileName === "mastery" && !this.state.fromMastery && (
+            <div>
+              <div>Find the bots highest powered unlocked die.</div>
+              <div>Perform that Action Boards action if possible:</div>
+              <ul>
+                <li>Forest (2):</li>
+                <li>Stone Quarry (3):</li>
+                <li>Gold Deposits (4):</li>
+                <li onClick={this.onClickMasteryOption}>Alchemy (5):</li>
+                <li onClick={this.onClickMasteryOption}>Nobles (6):</li>
+                <li onClick={this.onClickMasteryOption}>Decorations (7):</li>
+                <li onClick={this.onClickMasteryOption}>Construction (8):</li>
+              </ul>
+            </div>
+          )}
+        </div>
+      </div>
+    );
+  }
+}
+
+function Question(props) {
+  return (
+    <div css={questionForm}>
+      {props.children}
+      {!props.isEnd ? (
+        <div css={buttons}>
+          <div
+            onClick={() => {
+              props.onSelect("yes");
+            }}
+          >
+            yes
+          </div>
+          <div
+            onClick={() => {
+              props.onSelect("no");
+            }}
+          >
+            no
+          </div>
+        </div>
+      ) : (
+        <CloseForm
+          onExitForm={props.onExitForm}
+          onRestartQuestions={props.onRestartQuestions}
+        />
+      )}
+    </div>
+  );
+}
+
+function CloseForm(props) {
+  return (
+    <div>
+      <div css={buttons}>
+        <div onClick={props.onExitForm}>continue</div>
+        <div onClick={props.onRestartQuestions}>restart</div>
+      </div>
+    </div>
+  );
+}
 
 /*
 CONSTRUCTION:
