@@ -79,7 +79,7 @@ export const baseBotTiles = [
   { name: "worship" },
 ];
 
-export const directionTiles = [{ name: "left" }, { name: "right" }];
+export const baseDirectionTiles = [{ name: "left" }, { name: "right" }];
 
 // Starting Tiles
 export const baseStartTiles = [

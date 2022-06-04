@@ -32,10 +32,6 @@ export class AppContainer extends React.Component {
       playerCount: 5,
       cycleCount: 0,
       lastPlayerIndex: 4,
-      tiles: baseBotTiles,
-      directionTiles,
-      ordering: shuffle(initialOrdering),
-      directionOrdering: shuffle(initialDirectionOrdering),
       isXitle: false,
       isPriestAndPriestess: false,
       isHeightOfDevelopment: false,
@@ -163,18 +159,6 @@ export class AppContainer extends React.Component {
     });
   };
 
-  setOrdering = (newOrder) => {
-    this.setState({
-      ordering: newOrder,
-    });
-  };
-
-  setDirectionOrdering = (newOrder) => {
-    this.setState({
-      directionOrdering: newOrder,
-    });
-  };
-
   start = () => {
     this.setState({
       screenMode: 2,
@@ -227,18 +211,12 @@ export class AppContainer extends React.Component {
     } else if (this.state.screenMode === AppScreen) {
       return (
         <TileList
-          ordering={this.state.ordering}
-          directionOrdering={this.state.directionOrdering}
-          setOrdering={this.setOrdering}
-          setDirectionOrdering={this.setDirectionOrdering}
           addToHistory={this.addToShuffleHistory}
           incrementCycle={this.incrementCycleCount}
           back={this.back}
           isXitle={this.setState.isXitle}
           lastPlayerIndex={this.state.lastPlayerIndex}
           cycleCount={this.state.cycleCount}
-          tiles={this.state.tiles}
-          directionTiles={this.state.directionTiles}
           shuffleHistory={this.state.shuffleHistory}
           playerCount={this.state.playerCount}
           defaultFavorTiles={this.state.defaultFavorTiles}

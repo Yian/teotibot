@@ -1,4 +1,5 @@
 import { css } from "@emotion/react";
+import { mediaQueries } from "../variables";
 
 export const tileListContainer = css`
   display: flex;
@@ -21,10 +22,6 @@ export const tileList = css`
     width: 400px;
     max-width: 100%;
     cursor: pointer;
-
-    @media only screen and (max-width: 500px) {
-      // width: 200px;
-    }
   }
 `;
 
