@@ -42,7 +42,7 @@ export const TileList = (props) => {
   // Hook1: Tie media queries to the number of columns
   const columns = useMedia(
     ["(min-width: 1500px)", "(min-width: 1000px)", "(min-width: 600px)", "(max-width: 480px)"],
-    [6, 5, 4, 4],
+    [6, 5, 4, 3],
     4
   );
   // Hook2: Measure the width of the container element
@@ -55,8 +55,8 @@ export const TileList = (props) => {
     let tileItems = tiles?.map((child, i) => {
       const column = tileHeights.indexOf(Math.min(...tileHeights)); // Basic masonry-grid placing, puts tile into the smallest column using Math.min
       
-      const x = calculateXTile(ordering.indexOf(i), tileWidth);
-      const y = calculateYTile(ordering.indexOf(i), tileWidth);
+      const x = calculateXTile(ordering.indexOf(i), tileWidth, columns);
+      const y = calculateYTile(ordering.indexOf(i), tileWidth, columns);
       return {
         ...child,
         index: i,
@@ -82,8 +82,9 @@ export const TileList = (props) => {
     let directionTileHeights = new Array(columns).fill(0); // Each column gets a height starting with zero
     let directionTileItems = directionTiles?.map((child, i) => {
       const column = directionTileHeights.indexOf(Math.min(...directionTileHeights)); // Basic masonry-grid placing, puts tile into the smallest column using Math.min
-      const x = calculateXDirectionTile(i, tileWidth);
-      const y = calculateYDirectionTile(directionOrdering.indexOf(i), tileWidth);
+      const x = calculateXDirectionTile(directionOrdering.indexOf(i), tileWidth, columns);
+      const y = calculateYDirectionTile(directionOrdering.indexOf(i), tileWidth, columns);
+      console.log(x);
       const deg = child.nextWValue ?? 0;
       return {
         ...child,

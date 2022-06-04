@@ -94,7 +94,7 @@ export const orderTiles = (newOrder, tileIndex, topDirectionTile, bottomDirectio
   }
 };
 
-export const calculateYTile = (index, tileWidth) => {
+export const calculateYTile = (index, tileWidth, media) => {
   var result = 0;
 
   switch (index) {
@@ -102,10 +102,10 @@ export const calculateYTile = (index, tileWidth) => {
       result = 0;
       break;
     case 1:
-      result = tileWidth*0.5;
+      result = tileWidth/2;
       break;
     case 2:
-      result = tileWidth*0.5;
+      result = tileWidth/2;
       break;
     case 3:
       result = tileWidth;
@@ -117,32 +117,48 @@ export const calculateYTile = (index, tileWidth) => {
       result = tileWidth;
       break;
     default:
-      result = tileWidth;
+      result = media === 3 ? tileWidth*1.5 : tileWidth;
   }
   return result;
 };
 
-export const calculateXTile = (index, width) => {
+export const calculateXTile = (index, width, media) => {
   var result = 0;
-  var tile04 = -width*0.6;
+  var tile04 = media == 3 ? 0 : -width*0.6;
   switch (index) {
     case 0:
       result = tile04;
       break;
     case 1:
-      result = -width*1.05;
+      result = tile04 - width/2;
       break;
     case 2:
-      result = -width*0.15;
+      result = tile04 + width/2;
       break;
     case 3:
-      result = -width*1.5;
+      result = tile04 - width;
       break;
     case 4:
       result = tile04;
       break;
     case 5:
-      result = width*0.3;
+      result = tile04 + width;
+      break;
+    default:
+      result = media == 3 ? tile04 + width : tile04 + width*2;
+  }
+  return result;
+};
+
+export const calculateXDirectionTile = (index, width, media)=> {
+  var result = 0;
+  var tile04 = media == 3 ? 0 : -width*0.6;
+  switch (index) {
+    case 0:
+      result = media == 3 ? tile04 -width : width*1.5 ;
+      break;
+    case 1:
+      result = media == 3 ? tile04 : width*1.5 ;
       break;
     default:
       result = width*1.5;
@@ -150,32 +166,17 @@ export const calculateXTile = (index, width) => {
   return result;
 };
 
-export const calculateXDirectionTile = (index, width)=> {
+export const calculateYDirectionTile = (index, width, media)=> {
   var result = 0;
   switch (index) {
     case 0:
-      result = width*1.5;
+      result = media == 3 ? width*1.5 : 0;
       break;
     case 1:
-      result = width*1.5;
+      result = media == 3 ? width*1.5 : width/2;
       break;
     default:
-      result = width*1.5;
-  }
-  return result;
-};
-
-export const calculateYDirectionTile = (index, tileWidth)=> {
-  var result = 0;
-  switch (index) {
-    case 0:
-      result = 0;
-      break;
-    case 1:
-      result = tileWidth * 0.5;
-      break;
-    default:
-      result = tileWidth;
+      result = width;
   }
   return result;
 };
