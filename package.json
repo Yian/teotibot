@@ -12,7 +12,7 @@
     "range": "^0.0.3",
     "react": "^16.8.6",
     "react-color": "^2.17.3",
-    "react-dice": "^1.0.1",
+    "react-dice-roll": "^1.2.2",
     "react-dom": "^16.8.6",
     "react-scripts": "3.0.1",
     "react-spring": "^9.4.5",

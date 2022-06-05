@@ -25,24 +25,6 @@ export const tileList = css`
   }
 `;
 
-export const directionTileList = css`
-  display: flex;
-  justify-content: center;
-  position: relative;
-  height: 100vh;
-
-  > img {
-    position: absolute;
-    overflow: visible;
-    pointer-events: auto;
-    transform-origin: 50% 50% 0px;
-    line-height: 96px;
-    width: 400px;
-    max-width: 100%;
-    cursor: pointer;
-  }
-`;
-
 export const topContainer = css`
   display: flex;
   position: absolute;
@@ -66,6 +48,19 @@ export const shadowOfXitle = css`
     width: 300px;
   }
 `;
+
+export  const diceButton = css`
+  z-index: 99999;
+`;
+
+export  const diceContainer = css`
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  /* bring your own prefixes */
+  transform: translate(-50%, -50%);
+`;
+
 
 export const activeText = css`
   cursor: pointer;

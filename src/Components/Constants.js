@@ -35,6 +35,20 @@ export const tileToolTip = [
 export const initialDirectionOrdering = [0, 1];
 export const players = [3, 4, 5, 6];
 
+export const diceTilePositions = {
+  2: 3,
+  3: 3,
+  4: 1,
+  5: 1,
+  6: 0,
+  7: 0,
+  8: 0,
+  9: 2,
+  10: 2,
+  11: 5,
+  12: 5,
+}
+
 export const getRandom = (arr, n) => {
   var result = new Array(n),
     len = arr.length,

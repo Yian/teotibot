@@ -1,6 +1,10 @@
 export const right = "right";
 export const left = "left";
 
+export const generateRandomInteger = (min, max) => {
+  return Math.floor(Math.random() * (max - min + 1) + min);
+}
+
 export const swapArrayLocs = (arr, index1, index2) => {
   [arr[index1], arr[index2]] = [arr[index2], arr[index1]];
 };

@@ -5,56 +5,87 @@ import React, {
   useEffect,
   useState,
   useMemo,
+  useRef,
 } from "react";
 import { jsx } from "@emotion/react";
-import { useSprings, animated, to, useTransition } from "@react-spring/web";
+import { useSpring, animated, to, useTransition } from "@react-spring/web";
 import { mainImg } from "../AppContainer.css";
-
-import { tileListContainer, tileList, directionTileList } from "./TileList.css";
+import {
+  tileListContainer,
+  tileList,
+  diceButton,
+  diceContainer,
+} from "./TileList.css";
 import { QuestionForm } from "../QuestionForm";
 import {
   calculateXDirectionTile,
   calculateXTile,
   calculateYTile,
-  right,
-  left,
   orderTiles,
   swapArrayLocs,
   calculateYDirectionTile,
+  generateRandomInteger,
 } from "../Logic";
 import useMeasure from "react-use-measure";
 import useMedia from "../UseMedia";
 import { shuffle } from "lodash-es";
-import { baseBotTiles, baseDirectionTiles, initialDirectionOrdering, initialOrdering } from "../Constants";
+import {
+  baseBotTiles,
+  baseDirectionTiles,
+  diceTilePositions,
+  initialDirectionOrdering,
+  initialOrdering,
+} from "../Constants";
 import { cloneDeep } from "lodash-es";
+import Dice from "react-dice-roll";
 
 export const TileList = (props) => {
   const [tiles, setTiles] = useState(baseBotTiles);
   const [directionTiles, setDirectionTiles] = useState(baseDirectionTiles);
   const [ordering, setOrdering] = useState(shuffle(initialOrdering)); //inital ordering;
-  const [directionOrdering, setDirectionOrdering] = useState(shuffle(initialDirectionOrdering));
+  const [directionOrdering, setDirectionOrdering] = useState(
+    shuffle(initialDirectionOrdering)
+  );
   const [round, setRound] = useState(0);
   const [tileSizeCalculated, setTileSizeCalculated] = useState(false);
   const [tilesDisabled, setTilesDisabled] = useState(false);
   const [showForm, setShowForm] = useState(false);
   const [selectedTileIndex, setSelectedTileIndex] = useState(0);
+  const [showDice, setShowDice] = useState(false);
+  const [dice1Rolled, setDice1Rolled] = useState(0);
+  const [dice2Rolled, setDice2Rolled] = useState(0);
 
   // Hook1: Tie media queries to the number of columns
   const columns = useMedia(
-    ["(min-width: 1500px)", "(min-width: 1000px)", "(min-width: 600px)", "(max-width: 480px)"],
+    [
+      "(min-width: 1500px)",
+      "(min-width: 1000px)",
+      "(min-width: 600px)",
+      "(max-width: 480px)",
+    ],
     [6, 5, 4, 3],
     4
   );
   // Hook2: Measure the width of the container element
   const [ref, { width }] = useMeasure();
+  const refDice1 = useRef(null);
+  const refDice2 = useRef(null);
 
-  var tileWidth = width/columns;
+  const [state, toggle] = useState(true)
+
+  const { transform } = useSpring({
+    from: { x: 0 },
+    config: { mass: 5, tension: 500, friction: 50, duration: 1000 },
+    transform: `translateX(${state ? -1000 : 0}px)`,
+  })
+
+  var tileWidth = width / columns;
   // Hook5: Form a grid of stacked items using width & columns we got from hooks 1 & 2
   const [tileHeights, tileItems] = useMemo(() => {
     let tileHeights = new Array(columns).fill(0); // Each column gets a height starting with zero
     let tileItems = tiles?.map((child, i) => {
       const column = tileHeights.indexOf(Math.min(...tileHeights)); // Basic masonry-grid placing, puts tile into the smallest column using Math.min
-      
+
       const x = calculateXTile(ordering.indexOf(i), tileWidth, columns);
       const y = calculateYTile(ordering.indexOf(i), tileWidth, columns);
       return {
@@ -72,7 +103,7 @@ export const TileList = (props) => {
     key: (item) => item.index,
     from: ({ x, y, width }) => ({ x, y, width, opacity: 0 }),
     enter: ({ x, y, width }) => ({ x, y, width, opacity: 1 }),
-    update: ({ x, y, width }) => ({ x, y, width, }),
+    update: ({ x, y, width }) => ({ x, y, width }),
     leave: { height: 0, opacity: 0 },
     config: { mass: 5, tension: 500, friction: 50 },
     trail: 25,
@@ -81,9 +112,19 @@ export const TileList = (props) => {
   const [directionTileHeights, directionTileItems] = useMemo(() => {
     let directionTileHeights = new Array(columns).fill(0); // Each column gets a height starting with zero
     let directionTileItems = directionTiles?.map((child, i) => {
-      const column = directionTileHeights.indexOf(Math.min(...directionTileHeights)); // Basic masonry-grid placing, puts tile into the smallest column using Math.min
-      const x = calculateXDirectionTile(directionOrdering.indexOf(i), tileWidth, columns);
-      const y = calculateYDirectionTile(directionOrdering.indexOf(i), tileWidth, columns);
+      const column = directionTileHeights.indexOf(
+        Math.min(...directionTileHeights)
+      ); // Basic masonry-grid placing, puts tile into the smallest column using Math.min
+      const x = calculateXDirectionTile(
+        directionOrdering.indexOf(i),
+        tileWidth,
+        columns
+      );
+      const y = calculateYDirectionTile(
+        directionOrdering.indexOf(i),
+        tileWidth,
+        columns
+      );
       console.log(x);
       const deg = child.nextWValue ?? 0;
       return {
@@ -100,16 +141,17 @@ export const TileList = (props) => {
 
   const directionTileTransitions = useTransition(directionTileItems, {
     key: (item) => item.index,
-    from: ({ x, y, rotateY, width  }) => ({ x, y, width, rotateY, opacity: 0 }),
-    enter: ({ x, y, rotateY, width  }) => ({ x, y, width, rotateY, opacity: 1 }),
-    update: ({ x, y, rotateY, width  }) => ({ x, y, width, rotateY, }),
+    from: ({ x, y, rotateY, width }) => ({ x, y, width, rotateY, opacity: 0 }),
+    enter: ({ x, y, rotateY, width }) => ({ x, y, width, rotateY, opacity: 1 }),
+    update: ({ x, y, rotateY, width }) => ({ x, y, width, rotateY }),
     leave: { height: 0, opacity: 0 },
     config: { mass: 5, tension: 500, friction: 50 },
     trail: 25,
   });
 
   const shuffleTiles = (tileIndex) => {
-   props.incrementCycle();
+    if (ordering.indexOf(tileIndex) >= 6 || ordering.indexOf(tileIndex) === 4)
+      return; //clicked extra tiles
 
     if (tilesDisabled) return;
 
@@ -119,14 +161,17 @@ export const TileList = (props) => {
       setTilesDisabled(false);
     }, 1000);
 
-    if (ordering.indexOf(tileIndex) >= 6) return; //clicked extra tile
-
-    let newOrder = cloneDeep(ordering);;
+    let newOrder = cloneDeep(ordering);
     let newDirectionOrder = cloneDeep(directionOrdering);
     let newDirectionTiles = cloneDeep(directionTiles);
     let wasShuffled;
 
-    orderTiles(newOrder, newOrder.indexOf(tileIndex), newDirectionTiles[0], newDirectionTiles[1]);
+    orderTiles(
+      newOrder,
+      newOrder.indexOf(tileIndex),
+      newDirectionTiles[0],
+      newDirectionTiles[1]
+    );
 
     swapArrayLocs(newDirectionOrder, 0, 1);
 
@@ -183,7 +228,18 @@ export const TileList = (props) => {
     if (round === 0) {
       setDirectionTiles(shuffle(baseDirectionTiles));
     }
-  }, [ ]);
+  }, []);
+
+  useEffect(() => {
+    if (dice1Rolled > 0 && dice2Rolled > 0) {
+      let diceTotal = dice1Rolled + dice2Rolled;
+      var tilePosition = diceTilePositions[diceTotal];
+      showSteps(ordering[tilePosition]);
+      setDice1Rolled(0);
+      setDice2Rolled(0);
+      setShowDice(false);
+    }
+  }, [dice1Rolled, dice2Rolled]);
 
   const showSteps = (i) => {
     setSelectedTileIndex(i);
@@ -194,6 +250,22 @@ export const TileList = (props) => {
     setShowForm(false);
     shuffleTiles(selectedTileIndex);
   };
+
+  const handleClick = () => {
+    setShowDice(true);
+    toggle(!state);
+    refDice1.current.rollDice();
+    refDice2.current.rollDice();
+  };
+
+  const dFaces = [
+    `${process.env.PUBLIC_URL}/dice/d1.png`,
+    `${process.env.PUBLIC_URL}/dice/d2.png`,
+    `${process.env.PUBLIC_URL}/dice/d3.png`,
+    `${process.env.PUBLIC_URL}/dice/d4.png`,
+    `${process.env.PUBLIC_URL}/dice/d5.png`,
+    `${process.env.PUBLIC_URL}/dice/d6.png`,
+  ];
 
   return (
     <div css={tileListContainer}>
@@ -221,13 +293,40 @@ export const TileList = (props) => {
       </div>
       <div css={tileList} style={{ height: tiles.length }}>
         {directionTileTransitions((style, directionTile) => (
-            <animated.img
-              draggable="false"
-              key={directionTile.index}
-              src={`${process.env.PUBLIC_URL}/botTiles/${directionTile.name}.png`}
-              style={style}
-            />
-          ))}
+          <animated.img
+            draggable="false"
+            key={directionTile.index}
+            src={`${process.env.PUBLIC_URL}/botTiles/${directionTile.name}.png`}
+            style={style}
+          />
+        ))}
+      </div>
+      <div css={diceButton} onClick={handleClick}>
+        ROLL
+      </div>
+      <div css={diceContainer}>
+      <animated.div
+        style={{
+          transform,
+        }}>
+        <Dice
+          ref={refDice1}
+          faces={dFaces}
+          size={150}
+          rollingTime={generateRandomInteger(500, 1500)}
+          onRoll={(value) => setDice1Rolled(value)}
+          disabled
+        />
+        <Dice
+          ref={refDice2}
+          faces={dFaces}
+          size={150}
+          rollingTime={generateRandomInteger(500, 1500)}
+          onRoll={(value) => setDice2Rolled(value)}
+          disabled
+        />
+      </animated.div>
+      
       </div>
     </div>
   );

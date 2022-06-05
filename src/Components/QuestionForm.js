@@ -322,34 +322,11 @@ export class QuestionForm extends React.Component {
 
     return (
       <div css={questionModal}>
-        <ReactTooltip
-          id="workerAdvance"
-          multiline={true}
-          aria-haspopup="true"
-          effect="solid"
-          place="top"
-        >
-
-        </ReactTooltip>
-        <ReactTooltip
-          id="boardAdvance"
-          aria-haspopup="true"
-          effect="solid"
-          place="top"
-        >
-          <div>Advance Teotibot on its highest temple.</div>
-          <div>(ignoring temples on the topmost step)</div>
-          <div>When tied, choose the leftmost of the tied temples:</div>
-          <div>
-            <img src="/resources/tb.png" alt="blue" /> ->
-            <img src="/resources/tr.png" alt="red" /> ->
-            <img src="/resources/tg.png" alt="green" />
-          </div>
-        </ReactTooltip>
         <div css={questionModalContent}>
           <div css={modalClose} onClick={this.onExitForm}>
             close
           </div>
+          <h1>{this.props.tileName}</h1>
           {qs.map((question) => (
             <Question
               key={question.id}
@@ -389,12 +366,9 @@ export class QuestionForm extends React.Component {
 }
 
 const Question = (props) => {
-  useEffect(() => {
-    ReactTooltip.rebuild();
-  });
-
   return (
     <div css={questionForm}>
+
       {props.children}
       {!props.isEnd ? (
         <div css={buttons}>
