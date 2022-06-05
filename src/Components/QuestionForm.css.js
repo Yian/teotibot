@@ -11,6 +11,11 @@ export const questionModal = css`
   overflow: auto; /* Enable scroll if needed */
   background-color: rgb(0, 0, 0); /* Fallback color */
   background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
+
+  img {
+    height: 1.75rem;
+    vertical-align: middle;
+  }
 `;
 
 export const questionModalContent = css`
@@ -37,17 +42,31 @@ export const questionModalContent = css`
     font-size: 2rem;
   }
 
-  @media ${mediaQueries.isSm} {
+  @media ${mediaQueries.isMaxSm} {
     width: 90%;
   }
 
   @media ${mediaQueries.isLg} {
-    width: 60%;
+    width: 65%;
   }
-
 
   img {
     height: 1.75rem;
+    vertical-align: middle;
+  }
+
+  .bold {
+    color: #35a7c6;
+  }
+
+  .templeTip {
+    margin: 15px 0;
+    color: #35a7c6;
+    font-size: 1.5rem;
+  }
+
+  .priority {
+    margin: 10px 0;
   }
 `;
 
@@ -67,6 +86,14 @@ export const buttons = css`
   div {
     cursor: pointer;
   }
+
+  div:first-child {
+      color: #30c5bd;
+    }
+
+    div:nth-child(2) {
+      color: #d15959;
+    }
 `;
 
 export const questionForm = css`

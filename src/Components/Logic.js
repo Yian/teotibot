@@ -124,7 +124,7 @@ export const calculateYTile = (index, tileWidth, media) => {
 
 export const calculateXTile = (index, width, media) => {
   var result = 0;
-  var tile04 = media == 3 ? 0 : -width*0.6;
+  var tile04 = media === 3 ? 0 : -width*0.6;
   switch (index) {
     case 0:
       result = tile04;
@@ -145,20 +145,20 @@ export const calculateXTile = (index, width, media) => {
       result = tile04 + width;
       break;
     default:
-      result = media == 3 ? tile04 + width : tile04 + width*2;
+      result = media === 3 ? tile04 + width : tile04 + width*2;
   }
   return result;
 };
 
 export const calculateXDirectionTile = (index, width, media)=> {
   var result = 0;
-  var tile04 = media == 3 ? 0 : -width*0.6;
+  var tile04 = media === 3 ? 0 : -width*0.6;
   switch (index) {
     case 0:
-      result = media == 3 ? tile04 -width : width*1.5 ;
+      result = media === 3 ? tile04 -width : width*1.5 ;
       break;
     case 1:
-      result = media == 3 ? tile04 : width*1.5 ;
+      result = media === 3 ? tile04 : width*1.5 ;
       break;
     default:
       result = width*1.5;
@@ -170,10 +170,10 @@ export const calculateYDirectionTile = (index, width, media)=> {
   var result = 0;
   switch (index) {
     case 0:
-      result = media == 3 ? width*1.5 : 0;
+      result = media === 3 ? width*1.5 : 0;
       break;
     case 1:
-      result = media == 3 ? width*1.5 : width/2;
+      result = media === 3 ? width*1.5 : width/2;
       break;
     default:
       result = width;

@@ -64,7 +64,6 @@ export const TempleTiles = (props) => {
       css={tileContainer}
       style={{ height: Math.max(...heights) }}
     >
-      <ReactTooltip />
       {transitions((style, item) => (
         <a.img
           css={templeTile}

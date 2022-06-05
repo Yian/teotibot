@@ -15,6 +15,7 @@ import {
 import { find, remove, union, cloneDeep, shuffle } from "lodash";
 import { StartingResources } from "./StartingResources";
 import { PriestPriestessTiles } from "./PriestPriestessTiles";
+import ReactTooltip from "react-tooltip";
 
 export const Setup = (props) => {
   const [selectedStartTiles, setSelectedStartTiles] = useState([]);
@@ -236,21 +237,24 @@ export const Setup = (props) => {
 
   return (
     <div css={setupContainer}>
+            
       {showTechs && (
         <div>
+          <ReactTooltip multiline={true} />
           <h4>Upgrade tiles</h4>
           <TechTiles isXitle={props.isXitle} />
         </div>
       )}
       {showTemples && (
         <div>
+          <ReactTooltip multiline={true} />
           <h4>Temple tiles</h4>
           <TempleTiles isXitle={props.isXitle} />
         </div>
       )}
       {showStartTiles && (
         <div>
-          {" "}
+          <ReactTooltip multiline={true} />
           <h4>Select 2 Start Tiles:</h4>
           <StartTiles
             isXitle={props.isXitle}

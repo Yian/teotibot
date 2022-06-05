@@ -202,7 +202,7 @@ export const TileList = (props) => {
         {showForm && (
           <QuestionForm
             onCloseClick={onCloseClick}
-            tileName={"alchemy"}
+            tileName={tiles[selectedTileIndex].name}
           />
         )}
       </div>
@@ -214,7 +214,7 @@ export const TileList = (props) => {
             onClick={() => {
               showSteps(tile.index);
             }}
-            src={`${process.env.PUBLIC_URL}/BotTiles/${tile.name}.png`}
+            src={`${process.env.PUBLIC_URL}/botTiles/${tile.name}.png`}
             style={style}
           />
         ))}
@@ -224,7 +224,7 @@ export const TileList = (props) => {
             <animated.img
               draggable="false"
               key={directionTile.index}
-              src={`${process.env.PUBLIC_URL}/BotTiles/${directionTile.name}.png`}
+              src={`${process.env.PUBLIC_URL}/botTiles/${directionTile.name}.png`}
               style={style}
             />
           ))}

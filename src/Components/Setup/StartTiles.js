@@ -6,22 +6,24 @@ import useMeasure from "react-use-measure";
 import { useSpring, useTransition, a } from "@react-spring/web";
 import { startTileContainer, startTile } from "./Setup.css";
 import ReactTooltip from "react-tooltip";
-import {shuffle, find} from "lodash";
+import { shuffle, find } from "lodash";
 import { baseStartTiles, xitleStartTiles } from "../Constants";
 
 export const StartTiles = (props) => {
   const tileHeight = 400;
   // Hook1: Tie media queries to the number of columns
   const columns = useMedia(
-    ["(min-width: 1500px)", "(min-width: 1000px)", "(min-width: 600px)"],
-    [8, 8, 8],
+    ["(min-width: 1500px)", "(min-width: 1000px)", "(min-width: 600px)", "(max-width: 480px)"],
+    [8, 8, 8, 4],
     8
   );
   // Hook2: Measure the width of the container element
   const [ref, { width }] = useMeasure();
 
-  const startTiles  = props.isXitle ? [...baseStartTiles, ...xitleStartTiles] : baseStartTiles;
-  
+  const startTiles = props.isXitle
+    ? [...baseStartTiles, ...xitleStartTiles]
+    : baseStartTiles;
+
   // Hook3: Hold items
   const [items, set] = useState(startTiles);
 
@@ -94,8 +96,11 @@ export const StartTiles = (props) => {
   };
 
   return (
-    <div ref={ref} css={startTileContainer} style={{ height: Math.max(...heights) }}>
-      <ReactTooltip />
+    <div
+      ref={ref}
+      css={startTileContainer}
+      style={{ height: Math.max(...heights) }}
+    >
       {transitions((style, item) => (
         <a.div css={startTile} style={style}>
           <a.img
@@ -104,9 +109,7 @@ export const StartTiles = (props) => {
             onClick={() => {
               onClick(item);
             }}
-            src={
-              `${process.env.PUBLIC_URL}/start_tiles/${item.src}/${item.name}.jpg`
-            }
+            src={`${process.env.PUBLIC_URL}/start_tiles/${item.src}/${item.name}.jpg`}
             data-tip={item.tooltip}
           />
         </a.div>

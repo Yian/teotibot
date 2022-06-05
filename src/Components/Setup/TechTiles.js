@@ -59,7 +59,6 @@ export const TechTiles = (props) => {
 
   return (
     <div ref={ref} css={tileContainer} style={{ height: Math.max(...heights) }}>
-      <ReactTooltip />
       {transitions((style, item) => (
         <a.img
           css={techTile}
