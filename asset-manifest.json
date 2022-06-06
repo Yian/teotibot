@@ -1,0 +1,16 @@
+{
+  "files": {
+    "main.css": "/teobot/static/css/main.fcbce413.chunk.css",
+    "main.js": "/teobot/static/js/main.ac0b172e.chunk.js",
+    "main.js.map": "/teobot/static/js/main.ac0b172e.chunk.js.map",
+    "runtime~main.js": "/teobot/static/js/runtime~main.c15e777b.js",
+    "runtime~main.js.map": "/teobot/static/js/runtime~main.c15e777b.js.map",
+    "static/js/2.078f7c0b.chunk.js": "/teobot/static/js/2.078f7c0b.chunk.js",
+    "static/js/2.078f7c0b.chunk.js.map": "/teobot/static/js/2.078f7c0b.chunk.js.map",
+    "index.html": "/teobot/index.html",
+    "precache-manifest.11e6c06c464359a72b85b71039e07372.js": "/teobot/precache-manifest.11e6c06c464359a72b85b71039e07372.js",
+    "service-worker.js": "/teobot/service-worker.js",
+    "static/css/main.fcbce413.chunk.css.map": "/teobot/static/css/main.fcbce413.chunk.css.map",
+    "static/media/App.css": "/teobot/static/media/Mayan.234229e0.ttf"
+  }
+}
