@@ -37,10 +37,20 @@ export const topContainer = css`
   z-index: 999;
 `;
 
+export const latePreclassicContainer = css`
+  display: flex;
+  flex-direction: row;
+`;
+
 export const latePreclassic = css`
   img {
     width: 300px;
   }
+`;
+
+export const latePreclassicOptions = css`
+  display: flex;
+  flex-direction: column;
 `;
 
 export const shadowOfXitle = css`

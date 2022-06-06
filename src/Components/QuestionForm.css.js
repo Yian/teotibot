@@ -20,7 +20,7 @@ export const questionModal = css`
 
 export const questionModalContent = css`
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   position: relative;

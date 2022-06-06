@@ -84,16 +84,16 @@ export const diceFaces = [
 ];
 
 export const baseBotTiles = [
-  { name: "alchemy" },
-  { name: "construction" },
-  { name: "decorations" },
-  { name: "mask_collection" },
-  { name: "mastery" },
-  { name: "nobles" },
-  { name: "worship" },
+  { name: "Alchemy", src: "alchemy" },
+  { name: "Construction", src: "construction" },
+  { name: "Decorations", src: "decorations" },
+  { name: "Mask Collection", src: "mask_collection" },
+  { name: "Mastery", src: "mastery" },
+  { name: "Nobles", src: "nobles" },
+  { name: "Worship", src: "worship" },
 ];
 
-export const baseDirectionTiles = [{ name: "left" }, { name: "right" }];
+export const baseDirectionTiles = [{ name: "left", src: "left" }, { name: "right", src: "right" }];
 
 // Starting Tiles
 export const baseStartTiles = [

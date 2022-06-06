@@ -274,7 +274,7 @@ export class QuestionForm extends React.Component {
     super(props);
     this.state = {
       answers: {},
-      questions: TilesToQuestions[props.tileName],
+      questions: TilesToQuestions[props.tileSrc],
       fromMastery: false,
     };
 
@@ -287,7 +287,7 @@ export class QuestionForm extends React.Component {
     if (this.state.fromMastery) {
       this.setState({
         fromMastery: false,
-        questions: TilesToQuestions["mastery"],
+        questions: TilesToQuestions["Mastery"],
         answers: {},
       });
     } else {
@@ -299,7 +299,7 @@ export class QuestionForm extends React.Component {
 
   onClickMasteryOption() {
     this.setState({
-      questions: TilesToQuestions["decorations"],
+      questions: TilesToQuestions["Decorations"],
       fromMastery: true,
     });
   }
@@ -344,7 +344,7 @@ export class QuestionForm extends React.Component {
               {parse(question.question)}
             </Question>
           ))}
-          {this.props.tileName === "mastery" && !this.state.fromMastery && (
+          {this.props.tileName === "Mastery" && !this.state.fromMastery && (
             <div>
               <div>Find the bots highest powered unlocked die.</div>
               <div>Perform that Action Boards action if possible:</div>

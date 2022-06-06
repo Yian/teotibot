@@ -71,12 +71,10 @@ export const TileList = (props) => {
   const refDice1 = useRef(null);
   const refDice2 = useRef(null);
 
-  const [state, toggle] = useState(true)
-
   const { transform } = useSpring({
     from: { x: 0 },
-    config: { mass: 5, tension: 500, friction: 50, duration: 1000 },
-    transform: `translateX(${state ? -1000 : 0}px)`,
+    config: { mass: 5, tension: 500, friction: 50, duration: 500 },
+    transform: `translateX(${showDice ? 0 : -2000}px)`,
   })
 
   var tileWidth = width / columns;
@@ -85,7 +83,6 @@ export const TileList = (props) => {
     let tileHeights = new Array(columns).fill(0); // Each column gets a height starting with zero
     let tileItems = tiles?.map((child, i) => {
       const column = tileHeights.indexOf(Math.min(...tileHeights)); // Basic masonry-grid placing, puts tile into the smallest column using Math.min
-
       const x = calculateXTile(ordering.indexOf(i), tileWidth, columns);
       const y = calculateYTile(ordering.indexOf(i), tileWidth, columns);
       return {
@@ -105,7 +102,7 @@ export const TileList = (props) => {
     enter: ({ x, y, width }) => ({ x, y, width, opacity: 1 }),
     update: ({ x, y, width }) => ({ x, y, width }),
     leave: { height: 0, opacity: 0 },
-    config: { mass: 5, tension: 500, friction: 50 },
+    config: { duration: 500, mass: 5, tension: 500, friction: 50 },
     trail: 25,
   });
 
@@ -125,7 +122,6 @@ export const TileList = (props) => {
         tileWidth,
         columns
       );
-      console.log(x);
       const deg = child.nextWValue ?? 0;
       return {
         ...child,
@@ -145,7 +141,7 @@ export const TileList = (props) => {
     enter: ({ x, y, rotateY, width }) => ({ x, y, width, rotateY, opacity: 1 }),
     update: ({ x, y, rotateY, width }) => ({ x, y, width, rotateY }),
     leave: { height: 0, opacity: 0 },
-    config: { mass: 5, tension: 500, friction: 50 },
+    config: { duration: 500, mass: 5, tension: 500, friction: 50 },
     trail: 25,
   });
 
@@ -234,29 +230,61 @@ export const TileList = (props) => {
     if (dice1Rolled > 0 && dice2Rolled > 0) {
       let diceTotal = dice1Rolled + dice2Rolled;
       var tilePosition = diceTilePositions[diceTotal];
-      showSteps(ordering[tilePosition]);
+      toggle(true);
       setDice1Rolled(0);
       setDice2Rolled(0);
-      setShowDice(false);
+      showSteps(ordering[tilePosition]);
+      setTimeout(() => {
+        setShowDice(false);
+      }, 500);
     }
-  }, [dice1Rolled, dice2Rolled]);
+  }, [dice1Rolled, dice2Rolled, ordering]);
+
+  const [state, toggle] = useState(false);
+
+  const { x, api } = useSpring({
+    from: { x: 0 },
+    x: state ? 1 : 0,
+    config: { duration: 1000 },
+    loop: true,
+  });
 
   const showSteps = (i) => {
     setSelectedTileIndex(i);
-    setShowForm(true);
+    setTimeout(() => {
+      setShowForm(true);
+      toggle(false);
+    }, 700);
   };
 
   const onCloseClick = (i) => {
     setShowForm(false);
+    setTileSizeCalculated()
     shuffleTiles(selectedTileIndex);
+    setShowDice(false);
   };
 
   const handleClick = () => {
     setShowDice(true);
-    toggle(!state);
     refDice1.current.rollDice();
     refDice2.current.rollDice();
   };
+
+
+
+  const getStyle = useCallback(
+    (item) => {
+        var test = {
+          scale: x.to({
+            range: [0, 0.25, 0.35, 0.45, 0.55, 0.65, 0.75, 1],
+            output: [1, 0.97, 0.9, 1.1, 0.9, 1.1, 1.03, 1],
+          }),
+        };
+  
+        return item.index === selectedTileIndex ? test : {};
+    },
+    [x, selectedTileIndex]
+  );
 
   const dFaces = [
     `${process.env.PUBLIC_URL}/dice/d1.png`,
@@ -275,6 +303,7 @@ export const TileList = (props) => {
           <QuestionForm
             onCloseClick={onCloseClick}
             tileName={tiles[selectedTileIndex].name}
+            tileSrc={tiles[selectedTileIndex].src}
           />
         )}
       </div>
@@ -286,8 +315,8 @@ export const TileList = (props) => {
             onClick={() => {
               showSteps(tile.index);
             }}
-            src={`${process.env.PUBLIC_URL}/botTiles/${tile.name}.png`}
-            style={style}
+            src={`${process.env.PUBLIC_URL}/botTiles/${tile.src}.png`}
+            style={{...style, ...getStyle(tile)}}
           />
         ))}
       </div>
@@ -296,7 +325,7 @@ export const TileList = (props) => {
           <animated.img
             draggable="false"
             key={directionTile.index}
-            src={`${process.env.PUBLIC_URL}/botTiles/${directionTile.name}.png`}
+            src={`${process.env.PUBLIC_URL}/botTiles/${directionTile.src}.png`}
             style={style}
           />
         ))}

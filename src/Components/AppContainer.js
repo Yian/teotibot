@@ -11,9 +11,7 @@ import {
 import {shuffle} from "lodash";
 import {
   baseBotTiles,
-  directionTiles,
   initialOrdering,
-  initialDirectionOrdering,
   baseStartTiles,
   StartScreen,
   SetupScreen,
@@ -50,7 +48,7 @@ export class AppContainer extends React.Component {
     //Preloading images
     baseBotTiles.forEach((tile) => {
       const img = new Image();
-      img.src = `${process.env.PUBLIC_URL}/${tile.name}.png`;
+      img.src = `${process.env.PUBLIC_URL}/${tile.src}.png`;
     });
 
     baseStartTiles.forEach((tile) => {
@@ -59,10 +57,13 @@ export class AppContainer extends React.Component {
     });
 
     const img1 = new Image();
-    img1.src = `${process.env.PUBLIC_URL}/late-preclassic.jpg`;
+    img1.src = `${process.env.PUBLIC_URL}/test.jpg`;
 
     const img2 = new Image();
-    img2.src = `${process.env.PUBLIC_URL}/xitle.jpg`;
+    img2.src = `${process.env.PUBLIC_URL}/late-preclassic.jpg`;
+
+    const img3 = new Image();
+    img3.src = `${process.env.PUBLIC_URL}/xitle.jpg`;
 
     const img = new Image();
     img.src = `${process.env.PUBLIC_URL}/blank.png`;
