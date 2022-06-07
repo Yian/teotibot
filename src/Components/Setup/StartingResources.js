@@ -27,7 +27,7 @@ export const StartingResources = (props) => {
 
   useEffect(() => {
     setStartingResources(props.startingResources);
-  }, [props.startingResources]);
+  }, []);
 
   const [heights, resources] = useMemo(() => {
     let heights = new Array(columns).fill(0); // Each column gets a height starting with zero
