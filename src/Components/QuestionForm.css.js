@@ -33,7 +33,7 @@ export const questionModalContent = css`
   font-size: 1.75rem;
   color: chocolate;
   border-radius: 12px;
-  background-image: url("/backgrounds/forms.jpg");
+  background-image: url("./backgrounds/forms.jpg");
   background-size: auto 100%;
   background-position: center;
 

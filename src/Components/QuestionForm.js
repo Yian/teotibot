@@ -10,41 +10,66 @@ import {
   questionModalContent,
   questionForm,
 } from "./QuestionForm.css";
-import ReactTooltip from "react-tooltip";
 
-const advancement = `<ul><li><img src="/dice/d1.png"/><img src="/dice/d2.png"/><img src="/dice/d3.png"/> clockwise to the next Action Board.</li><li><img src="/dice/d4.png"/><img src="/dice/d5.png"/> clockwise to the second Action Board.</li></ul>`;
+const getImage = (imagePath) => {
+  return `<img src=".${imagePath}" alt={}/>`;
+};
+
+const getActionImage = (imageName) => {
+  return `<img src="./actions/${imageName}.png" alt=${imageName}}/>`;
+}
+
+const getDiceImage = (imageName) => {
+  return `<img src="./dice/${imageName}.png" alt=${imageName}}/>`;
+}
+
+const getResourceImage = (imageName) => {
+  return `<img src="./resources/${imageName}.png" alt=${imageName}}/>`;
+};
+
+const advancement = `<ul><li>${getImage("/dice/d1.png")}${getImage(
+  "/dice/d2.png"
+)}${getImage(
+  "/dice/d3.png"
+)} clockwise to the next Action Board.</li><li>${getImage(
+  "/dice/d4.png"
+)}${getImage("/dice/d5.png")} clockwise to the second Action Board.</li></ul>`;
 
 const powerup = `<div>Teotibot gains
-5 cocoa <img src="/resources/5cocoa.png"/>, powers up <img src="/resources/powerup.png"/> its lowest powered worker, and
+5 cocoa ${getResourceImage("5cocoa")}, powers up ${getResourceImage(
+  "powerup"
+)} its lowest powered worker, and
 then advances it:</div>${advancement}`;
 
 const templeTip = `<div class="templeTip"><div>*Advance Teotibot on its highest temple ignoring topmost.</div>
 <div class="priority">
   Temple priority: <br/>
-  <img src="/resources/tb.png" alt="blue" /> ->
-  <img src="/resources/tr.png" alt="red" /> ->
-  <img src="/resources/tg.png" alt="green" />
+  ${getResourceImage("tb")} ->
+  ${getResourceImage("tr")} ->
+  ${getResourceImage("tg")}
 </div>
 <div class="priority">
   Resource priority:<br/>
-  Least -> <img src="/resources/gold.png" alt="gold" /> -> <img src="/resources/stone.png" alt="stone" /> -> <img src="/resources/wood.png" alt="wood" />
+  Least -> ${getResourceImage("gold")} -> ${getResourceImage(
+  "stone"
+)} -> ${getResourceImage("wood")}
 </div></div>`;
 
 const alchemyQuestions = [
   {
-    question: `<div>Does Teotibot have 1 or more gold <img src="/resources/gold.png"/> and at least one worker on the Alchemy <img src="/actions/no5.png"/> Action Board?</div>`,
+    question: `<div>Does Teotibot have 1 or more gold ${getResourceImage("gold")} and at least one worker on the Alchemy ${getActionImage("no5")} Action Board?</div>`,
     questionId: 1,
     condition: ({ answers }) => isEmpty(answers),
   },
   {
-    question: `<div> Teotibot spends 1 gold <img src="/resources/gold.png"/> and then gains
-    the Technology <img src="/resources/tech.png"/> of the lowest number that does not have any markers (yours or Teotibot's). 
+    question: `<div> Teotibot spends 1 gold ${getResourceImage("gold")} and then gains
+    the Technology ${getResourceImage("tech")} of the lowest number that does not have any markers (yours or Teotibot's). 
     <ul>
     <li>If all remaining tiles have your marker on, then the bot
     gains the lowest numbered Technology which it does not
     yet have, while you score the 3 Victory Points as normal.</li></ul>
-    Either way, advance on the temple <img src="/resources/tw.png"/> matching the gained
-    Technology <img src="/resources/tech.png"/> and power up <img src="/resources/powerup.png"/> a worker on this Action Board
+    Either way, advance on the temple ${getResourceImage("tw")} matching the gained
+    Technology ${getResourceImage("tech")} and power up ${getResourceImage("powerup")} a worker on this Action Board
     (resolve any Ascensions normally). Then the bot advances the powered-up worker
     (or the new worker, if the old one triggered Ascension).
     ${advancement}
@@ -56,7 +81,7 @@ const alchemyQuestions = [
     isEnd: true,
   },
   {
-    question: `Power up <img src="/resources/powerup.png"/> <img src="/resources/powerup.png"/> its lowest unlocked worker
+    question: `Power up ${getResourceImage("powerup")} ${getResourceImage("powerup")} its lowest unlocked worker
     by two, without carrying out any actions or advancing any
     workers.`,
     questionId: 3,
@@ -67,20 +92,20 @@ const alchemyQuestions = [
 
 const decorationQuestions = [
   {
-    question: `<div>Does Teotibot have 2 or more gold <img src="/resources/gold.png"/> and at least one worker on the Decorations <img src="/actions/no7.png"/> Action Board?</div>`,
+    question: `<div>Does Teotibot have 2 or more gold ${getResourceImage("gold")} and at least one worker on the Decorations ${getActionImage("no7")} Action Board?</div>`,
     questionId: 1,
     condition: ({ answers }) => isEmpty(answers),
   },
   {
-    question: `<div> Teotibot spends 2 gold <img src="/resources/gold.png"/> and places the topmost Decoration 
+    question: `<div> Teotibot spends 2 gold ${getResourceImage("gold")} and places the topmost Decoration 
     tile onto an available Decorations space on the Pyramid grid on the Main Board (clockwise from the top). 
     Then Teotibot: <ul>
-    <li>Scores 5 Victory Points.</li><li>Advances on the Pyramid track. <img src="/resources/pyramid.png"/></li>
-    <li><span class="bold" data-tip data-for='templeAdvance'>Advances*</span> on any temple by one. <img src="/resources/tw.png"/></li>
+    <li>Scores 5 Victory Points.</li><li>Advances on the Pyramid track. ${getResourceImage("pyramid")}</li>
+    <li><span class="bold" data-tip data-for='templeAdvance'>Advances*</span> on any temple by one. ${getResourceImage("tw")}</li>
     </ul></div>
     <div>
-    Power up <img src="/resources/powerup.png"/> Teotibots worker <img src="/dice/d3.png"/> on the Decorations
-    Action Board <img src="/actions/no7.png"/> (resolve any Ascensions normally). Then advance the powered-up worker (or the new worker, if the
+    Power up ${getResourceImage("powerup")} Teotibots worker ${getDiceImage("d3")} on the Decorations
+    Action Board ${getActionImage("no7")} (resolve any Ascensions normally). Then advance the powered-up worker (or the new worker, if the
     old one triggered Ascension)
     ${advancement}
     ${templeTip}
@@ -95,8 +120,8 @@ const decorationQuestions = [
     condition: ({ answers }) => answers[1] === "no" && answers[3] === undefined,
   },
   {
-    question: `<div>Teotibot gains 2 gold <img src="/resources/gold.png"/>
-    </div>Power up Teotibots worker <img src="/resources/powerup.png"/>on the Gold Deposits <img src="/actions/no4.png"/> 
+    question: `<div>Teotibot gains 2 gold ${getResourceImage("gold")}
+    </div>Power up Teotibots worker ${getResourceImage("powerup")} on the Gold Deposits ${getActionImage("no4")}
     Action Board (resolve any Ascensions normally). Then advance the powered-up worker (or the new worker, if the
     old one triggered Ascension)`,
     questionId: 4,
@@ -113,22 +138,22 @@ const decorationQuestions = [
 
 const constructionQuestions = [
   {
-    question: `<div>Does Teotibot have 2 or more stone <img src="/resources/stone.png"/> and at least one worker on the Construction <img src="/actions/no8.png"/> Action Board?</div>`,
+    question: `<div>Does Teotibot have 2 or more stone ${getResourceImage("stone")} and at least one worker on the Construction ${getActionImage("no8")} Action Board?</div>`,
     questionId: 1,
     condition: ({ answers }) => isEmpty(answers),
   },
   {
-    question: `<div>Teotibot spends 2 stone <img src="/resources/stone.png"/> and places the leftmost pyramid <img src="/resources/pyramid.png"/>
+    question: `<div>Teotibot spends 2 stone ${getResourceImage("stone")} and places the leftmost pyramid <img src="/resources/pyramid.png"/>
     tile (rotated randomly) onto the top left,
     lowest level space available on the Pyramid grid of the Main
     Board. 
     Then Teotibot: <ul>
-    <li>Scores Victory Points for the level.</li><li>Advances on the Pyramid <img src="/resources/pyramid.png"/> track.</li>
-    <li><span class="bold">Advances*</span> on any temple by one. <img src="/resources/tw.png"/></li><li>Scores an additional 2 Victory Points (Note: This represents average points the
+    <li>Scores Victory Points for the level.</li><li>Advances on the Pyramid ${getResourceImage("pyramid")} track.</li>
+    <li><span class="bold">Advances*</span> on any temple by one. ${getResourceImage("tw")}</li><li>Scores an additional 2 Victory Points (Note: This represents average points the
     bot would score by matching icons.)</li>
     </ul></div>
     <div>
-    Power up <img src="/resources/powerup.png"/> Teotibots worker <img src="/dice/d3.png"/> on the Construction <img src="/actions/no7.png"/>
+    Power up ${getResourceImage("powerup")} Teotibots worker ${getDiceImage("d3")} on the Construction ${getActionImage("no7")}
     Action Board (resolve any Ascensions normally). Then advance the powered-up worker (or the new worker, if the
     old one triggered Ascension)
     ${advancement}
@@ -139,14 +164,14 @@ const constructionQuestions = [
     isEnd: true,
   },
   {
-    question: `<div>Does Teotibot have at least one worker on the Stone Quarry <img src="/actions/no3.png"/> Action Board?</div>`,
+    question: `<div>Does Teotibot have at least one worker on the Stone Quarry ${getActionImage("no3")} Action Board?</div>`,
     questionId: 3,
     condition: ({ answers }) => answers[1] === "no" && answers[3] === undefined,
   },
   {
-    question: `<div>Teotibot gains 2 stone <img src="/resources/stone.png"/>
+    question: `<div>Teotibot gains 2 stone ${getResourceImage("stone")}
 
-    </div>Power up Teotibots worker <img src="/resources/powerup.png"/> on the Stone Quarry <img src="/actions/no3.png"/>
+    </div>Power up Teotibots worker ${getResourceImage("powerup")} on the Stone Quarry ${getActionImage("no3")}
     Action Board (this might trigger an Ascension, which is resolved
     normally). Then advance the powered-up worker (or the new worker, if the
     old one triggered Ascension)
@@ -166,12 +191,12 @@ const constructionQuestions = [
 
 const noblesQuestions = [
   {
-    question: `<div>Does Teotibot have 2 or more wood <img src="/resources/wood.png"/> and at least one worker on the Nobles Action Board? <img src="/actions/no6.png"/></div>`,
+    question: `<div>Does Teotibot have 2 or more wood ${getResourceImage("wood")} and at least one worker on the Nobles Action Board? ${getActionImage("no6")}</div>`,
     questionId: 1,
     condition: ({ answers }) => isEmpty(answers),
   },
   {
-    question: `<div>Teotibot spends 2 wood <img src="/resources/wood.png"/> and builds a Building.
+    question: `<div>Teotibot spends 2 wood ${getResourceImage("wood")} and builds a Building.
     <ul>
     <li>Before the first Eclipse, place it in the first (top) row.</li>
     <li>After the first Eclipse (but before the second), place it in the
@@ -180,12 +205,12 @@ const noblesQuestions = [
     <li>If a row is full, place it into a space with the lowest printed
     Victory Point value of all three rows.</li>
     <li>Score the Victory Points shown on the space just covered,
-    and advance the bot on the Avenue of the Dead <img src="/resources/powerup.png"/> (the same
+    and advance the bot on the Avenue of the Dead ${getResourceImage("powerup")} (the same
     way an actual player would advance).</li>
     </ul></div>
     <div>
-    Power up <img src="/resources/powerup.png"/> Teotibots worker <img src="/dice/d3.png"/> on the Nobles
-    Action Board <img src="/actions/no6.png"/> (this might trigger an Ascension, which is resolved
+    Power up ${getResourceImage("powerup")} Teotibots worker ${getDiceImage("d3")} on the Nobles
+    Action Board ${getActionImage("no6")} (this might trigger an Ascension, which is resolved
     normally). Then advance the powered-up worker (or the new worker, if the
     old one triggered Ascension)
   </div>`,
@@ -194,13 +219,13 @@ const noblesQuestions = [
     isEnd: true,
   },
   {
-    question: `<div>Does Teotibot have at least one worker on the Forest Action Board? <img src="/actions/no2.png"/></div>`,
+    question: `<div>Does Teotibot have at least one worker on the Forest Action Board? ${getActionImage("no2")}</div>`,
     questionId: 3,
     condition: ({ answers }) => answers[1] === "no" && answers[3] === undefined,
   },
   {
     question: `<div>Teotibot gains 2 wood <img src="/resources/wood.png"/>
-    </div>Power up Teotibots worker <img src="/resources/powerup.png"/> on the Forest <img src="/actions/no2.png"/>
+    </div>Power up Teotibots worker <img src="/resources/powerup.png"/> on the Forest ${getActionImage("no2")}
     Action Board (this might trigger an Ascension, which is resolved
     normally). Then advance the powered-up worker (or the new worker, if the
     old one triggered Ascension)`,
@@ -220,13 +245,13 @@ const worshipQuestions = [
   {
     question: `<div>Advance Teotibots worker on a Worship space to the next
     clockwise Worship space on a temple sidebar (remember:
-    Teotibot always ignores the Palace Action Board <img src="/actions/no7.png"/>).
+    Teotibot always ignores the Palace Action Board ${getActionImage("no7")}).
     <ul>
     <li>If there is one of your workers on that space, the Teotibot unlocks that worker.</li>
     <li>The bot advances on the matching temple by 2 spaces,
     gaining rewards for both (and gaining printed bonuses
     instead of Discovery tiles as mentioned before).</li>
-    <li>If the activated space is on the Decorations <img src="/actions/no7.png"/> Action
+    <li>If the activated space is on the Decorations ${getActionImage("no7")} Action
     Board, the bot advances on any temple by 3 instead.</li>
     </ul></div>
     <div>
@@ -242,13 +267,13 @@ const maskQuestions = [
   {
     question: `<div>Advance Teotibots worker on a Worship space to the next
     clockwise Worship space on a temple sidebar (remember:
-    Teotibot always ignores the Palace Action Board <img src="/actions/no7.png"/>).
+    Teotibot always ignores the Palace Action Board ${getActionImage("no7")}).
     <ul>
     <li>If there is one of your workers on that space, the Teotibot unlocks that worker.</li>
     <li>The bot advances on the matching temple by 2 spaces,
     gaining rewards for both (and gaining printed bonuses
     instead of Discovery tiles as mentioned before).</li>
-    <li>If the activated space is on the Decorations <img src="/actions/no7.png"/> Action
+    <li>If the activated space is on the Decorations ${getActionImage("no7")} Action
     Board, the bot advances on any temple by 3 instead.</li>
     </ul></div>
     <div>
@@ -368,7 +393,6 @@ export class QuestionForm extends React.Component {
 const Question = (props) => {
   return (
     <div css={questionForm}>
-
       {props.children}
       {!props.isEnd ? (
         <div css={buttons}>

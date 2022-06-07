@@ -240,7 +240,7 @@ export const Setup = (props) => {
             
       {showTechs && (
         <div>
-          <ReactTooltip multiline={true} />
+          <ReactTooltip multiline={true} clickable={false} />
           <h4>Upgrade tiles</h4>
           <TechTiles isXitle={props.isXitle} />
         </div>
