@@ -75,8 +75,11 @@ export const options = css`
     input[type="checkbox"] {
       width: 45px;
       height: 45px;
-      margin-left: 5%;
       cursor: pointer;
+    }
+
+    span {
+      font-size: 2rem;
     }
   }
 

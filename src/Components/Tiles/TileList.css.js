@@ -37,40 +37,40 @@ export const topContainer = css`
   z-index: 999;
 `;
 
-export const latePreclassicContainer = css`
+export const expansionContainer = css`
   display: flex;
   flex-direction: row;
+  margin: 50px 0;
 `;
 
-export const latePreclassic = css`
+export const expansion = css`
+  display: flex;
+  justify-content: center;
+  flex: 50%;
   img {
-    width: 300px;
+    width: 100%;
+    max-width: 300px;
   }
 `;
 
-export const latePreclassicOptions = css`
+export const expansionOptions = css`
   display: flex;
   flex-direction: column;
+  justify-content: space-evenly;
+  flex: 100%;
 `;
 
-export const shadowOfXitle = css`
-  img {
-    width: 300px;
-  }
+export const diceButton = css`
+  z-index: 999;
 `;
 
-export  const diceButton = css`
-  z-index: 99999;
-`;
-
-export  const diceContainer = css`
+export const diceContainer = css`
   position: fixed;
   top: 50%;
   left: 50%;
   /* bring your own prefixes */
   transform: translate(-50%, -50%);
 `;
-
 
 export const activeText = css`
   cursor: pointer;

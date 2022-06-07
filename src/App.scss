@@ -141,23 +141,3 @@ body::-webkit-scrollbar {
 .player-text {
   margin-right: 10px;
 }
-
-.dice-container {
-  display: flex;
-}
-
-.dice-face {
-  background: black;
-  padding: 5px;
-  width: 30px;
-  height: 30px;
-  margin: 10px;
-  line-height: 1.5rem;
-  color: gold;
-  font-weight: bold;
-  font-size: 1.5rem;
-  text-align: center;
-  border-radius: 10%;
-  box-shadow: inset 0 5px grey, inset 0 -5px grey, inset 5px 0 grey,
-    inset -5px 0 grey;
-}

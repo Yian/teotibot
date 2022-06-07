@@ -57,16 +57,13 @@ export class AppContainer extends React.Component {
     });
 
     const img1 = new Image();
-    img1.src = `${process.env.PUBLIC_URL}/forms.jpg`;
+    img1.src = `${process.env.PUBLIC_URL}/backgrounds/forms.jpg`;
 
     const img2 = new Image();
-    img2.src = `${process.env.PUBLIC_URL}/late-preclassic.jpg`;
+    img2.src = `${process.env.PUBLIC_URL}/backgrounds/late-preclassic.jpg`;
 
     const img3 = new Image();
-    img3.src = `${process.env.PUBLIC_URL}/xitle.jpg`;
-
-    const img = new Image();
-    img.src = `${process.env.PUBLIC_URL}/blank.png`;
+    img3.src = `${process.env.PUBLIC_URL}/backgrounds/xitle.jpg`;
 
     diceFaces.forEach((dface) => {
       const img = new Image();

@@ -4,9 +4,9 @@ import { jsx } from "@emotion/react";
 import { options } from "./AppContainer.css";
 import {
   activeText,
-  latePreclassicContainer,
-  latePreclassic,
-  latePreclassicOptions,
+  expansionContainer,
+  expansion,
+  expansionOptions,
   shadowOfXitle,
 } from "./Tiles/TileList.css";
 import { Checkbox } from "./Checkbox";
@@ -17,22 +17,12 @@ export const Options = (props) => {
       <div css={activeText} onClick={props.back}>
         back
       </div>
-      <div>
-        <div className={"checkbox-container"}>
-          <Checkbox
-            label="App controlled dice"
-            checked={props.isAppControlledDice}
-            onChange={props.onChangeisAppControlledDice}
-          />
-        </div>
-      </div>
-      <div>
         <h2>Expansions</h2>
-        <div css={latePreclassicContainer}>
-          <div css={latePreclassic}>
-            <img src={`${process.env.PUBLIC_URL}/backgrounds/late-preclassic.jpg}`} alt="late-preclassic"/>
+        <div css={expansionContainer}>
+          <div css={expansion}>
+            <img src={`${process.env.PUBLIC_URL}/backgrounds/late-preclassic.jpg`} alt="late-preclassic" />
           </div>
-          <div css={latePreclassicOptions}>
+          <div css={expansionOptions}>
             <div className={"checkbox-container"}>
               <Checkbox
                 label="Priests and Priestesses"
@@ -56,11 +46,11 @@ export const Options = (props) => {
             </div>
           </div>
         </div>
-        <div css={latePreclassicContainer}>
-          <div css={shadowOfXitle}>
-          <img src={`${process.env.PUBLIC_URL}/backgrounds/xitle.jpg}`} alt="Shadow of Xitle"/>
+        <div css={expansionContainer}>
+          <div css={expansion}>
+          <img src={`${process.env.PUBLIC_URL}/backgrounds/xitle.jpg`} alt="Shadow of Xitle" />
           </div>
-          <div css={latePreclassicOptions}>
+          <div css={expansionOptions}>
             <div className={"checkbox-container"}>
               <Checkbox
                 label="Shadow of Xitle"
@@ -70,7 +60,20 @@ export const Options = (props) => {
             </div>
           </div>
         </div>
-      </div>
+        <div css={expansionContainer}>
+          <div css={expansion}>
+          <img src={`${process.env.PUBLIC_URL}/backgrounds/period.jpg`} alt="Expansion Period" />
+          </div>
+          <div css={expansionOptions}>
+            <div className={"checkbox-container"}>
+              <Checkbox
+                label="Expansion Period"
+                checked={props.isXitle}
+                onChange={props.onChangeXitle}
+              />
+            </div>
+          </div>
+        </div>
     </div>
   );
 };
