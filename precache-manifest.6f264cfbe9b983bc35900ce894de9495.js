@@ -1,6 +1,6 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "ce039a6c0f19391dc588a861aade7f98",
+    "revision": "19a3168455f81b26d077ad9dc3876dcb",
     "url": "/teotibot/index.html"
   },
   {
