@@ -184,7 +184,7 @@ export const Setup = (props) => {
       setTeotibotPlacements([]);
       setSelectedResources([]);
     }
-  }, [getResources, selectedStartTiles]);
+  }, [getResources]);
 
   useEffect(() => {
     const t = setInterval(() => {

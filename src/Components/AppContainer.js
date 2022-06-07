@@ -48,12 +48,12 @@ export class AppContainer extends React.Component {
     //Preloading images
     baseBotTiles.forEach((tile) => {
       const img = new Image();
-      img.src = `${process.env.PUBLIC_URL}/${tile.src}.png`;
+      img.src = `${process.env.PUBLIC_URL}/botTiles/${tile.src}.png`;
     });
 
     baseStartTiles.forEach((tile) => {
       const img = new Image();
-      img.src = `${process.env.PUBLIC_URL}/startTiles/base/${tile.name}.jpg`;
+      img.src = `${process.env.PUBLIC_URL}/start_tiles/base/${tile.name}.jpg`;
     });
 
     const img1 = new Image();
