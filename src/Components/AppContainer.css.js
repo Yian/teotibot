@@ -13,7 +13,7 @@ export const appContainer = css`
 export const mainImg = css`
     width: 100%;
     height: 100%;
-    background-image: url("/teotibot/background.jpg");
+    background-image: url("/backgrounds/main.jpg");
     position: absolute;
     background-size: contain;
     z-index: 0;

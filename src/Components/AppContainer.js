@@ -17,6 +17,7 @@ import {
   SetupScreen,
   AppScreen,
   OptionsScreen,
+  diceFaces,
 } from "./Constants";
 import { Options } from "./Options";
 
@@ -67,6 +68,11 @@ export class AppContainer extends React.Component {
 
     const img = new Image();
     img.src = `${process.env.PUBLIC_URL}/blank.png`;
+
+    diceFaces.forEach((dface) => {
+      const img = new Image();
+      img.src = `${process.env.PUBLIC_URL}/dice/${dface}.png`;
+    });
   }
 
   incrementCycleCount = () => {
@@ -202,7 +208,7 @@ export class AppContainer extends React.Component {
           <img
             css={{}}
             onClick={() => this.options(SetupScreen)}
-            src="/teotibot/settings.png"
+            src="/resources/settings.png"
             alt="Settings"
           />
           <span onClick={() => this.app()}>Continue</span>
