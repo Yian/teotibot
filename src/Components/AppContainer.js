@@ -208,7 +208,7 @@ export class AppContainer extends React.Component {
           <img
             css={{}}
             onClick={() => this.options(SetupScreen)}
-            src="/resources/settings.png"
+            src="../resources/settings.png"
             alt="Settings"
           />
           <span onClick={() => this.app()}>Continue</span>
