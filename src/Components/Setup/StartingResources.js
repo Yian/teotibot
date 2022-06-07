@@ -51,7 +51,6 @@ export const StartingResources = (props) => {
     from: ({ x }) => ({ x, y: -1000, opacity: 0 }),
     enter: ({ x, y }) => ({ x, y, opacity: 1 }),
     update: ({ x }) => ({ x }),
-    leave: { height: 0, opacity: 0, y: -1000 },
     config: { mass: 5, tension: 500, friction: 50 },
     trail: 100,
   });
