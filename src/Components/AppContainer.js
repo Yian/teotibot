@@ -53,7 +53,7 @@ export class AppContainer extends React.Component {
 
     baseStartTiles.forEach((tile) => {
       const img = new Image();
-      img.src = `${process.env.PUBLIC_URL}/StartTiles/base/${tile.name}.jpg`;
+      img.src = `${process.env.PUBLIC_URL}/startTiles/base/${tile.name}.jpg`;
     });
 
     const img1 = new Image();
