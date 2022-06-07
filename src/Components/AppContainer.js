@@ -8,7 +8,6 @@ import {
   mainImg,
   start,
 } from "./AppContainer.css";
-import {shuffle} from "lodash";
 import {
   baseBotTiles,
   initialOrdering,
@@ -58,7 +57,7 @@ export class AppContainer extends React.Component {
     });
 
     const img1 = new Image();
-    img1.src = `${process.env.PUBLIC_URL}/test.jpg`;
+    img1.src = `${process.env.PUBLIC_URL}/forms.jpg`;
 
     const img2 = new Image();
     img2.src = `${process.env.PUBLIC_URL}/late-preclassic.jpg`;

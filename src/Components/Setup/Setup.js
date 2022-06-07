@@ -237,7 +237,6 @@ export const Setup = (props) => {
 
   return (
     <div css={setupContainer}>
-            
       {showTechs && (
         <div>
           <ReactTooltip multiline={true} clickable={false} />

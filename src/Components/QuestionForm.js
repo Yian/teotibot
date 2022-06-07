@@ -115,7 +115,7 @@ const decorationQuestions = [
     isEnd: true,
   },
   {
-    question: `<div>Does Teotibot have at least one worker on the Gold Deposits (4) Action Board? <img src="/actions/no7.png"/></div>`,
+    question: `<div>Does Teotibot have at least one worker on the Gold Deposits (4) Action Board? ${getActionImage("no7")}</div>`,
     questionId: 3,
     condition: ({ answers }) => answers[1] === "no" && answers[3] === undefined,
   },
@@ -143,7 +143,7 @@ const constructionQuestions = [
     condition: ({ answers }) => isEmpty(answers),
   },
   {
-    question: `<div>Teotibot spends 2 stone ${getResourceImage("stone")} and places the leftmost pyramid <img src="/resources/pyramid.png"/>
+    question: `<div>Teotibot spends 2 stone ${getResourceImage("stone")} and places the leftmost pyramid ${getResourceImage("pyramidt")}
     tile (rotated randomly) onto the top left,
     lowest level space available on the Pyramid grid of the Main
     Board. 
@@ -224,8 +224,8 @@ const noblesQuestions = [
     condition: ({ answers }) => answers[1] === "no" && answers[3] === undefined,
   },
   {
-    question: `<div>Teotibot gains 2 wood <img src="/resources/wood.png"/>
-    </div>Power up Teotibots worker <img src="/resources/powerup.png"/> on the Forest ${getActionImage("no2")}
+    question: `<div>Teotibot gains 2 wood ${getResourceImage("wood")}
+    </div>Power up Teotibots worker ${getResourceImage("powerup")} on the Forest ${getActionImage("no2")}
     Action Board (this might trigger an Ascension, which is resolved
     normally). Then advance the powered-up worker (or the new worker, if the
     old one triggered Ascension)`,
