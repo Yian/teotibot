@@ -307,7 +307,7 @@ export const TileList = (props) => {
           />
         )}
       </div>
-      <div ref={ref} css={tileList} style={{ height: tiles.length }}>
+      <div ref={ref} css={tileList} style={{ height: 0 }}>
         {tileTransitions((style, tile) => (
           <animated.img
             draggable="false"
@@ -320,7 +320,7 @@ export const TileList = (props) => {
           />
         ))}
       </div>
-      <div css={tileList} style={{ height: tiles.length }}>
+      <div css={tileList} style={{ height: 0}}>
         {directionTileTransitions((style, directionTile) => (
           <animated.img
             draggable="false"

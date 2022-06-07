@@ -62,7 +62,7 @@ export const StartTiles = (props) => {
     enter: ({ x }) => ({ x, opacity: 1 }),
     update: ({ x }) => ({ x }),
     leave: { height: 0, opacity: 0 },
-    config: { mass: 5, tension: 500, friction: 50 },
+    config: { duration: 500, mass: 5, tension: 500, friction: 50 },
     trail: 25,
   });
 
@@ -99,7 +99,7 @@ export const StartTiles = (props) => {
     <div
       ref={ref}
       css={startTileContainer}
-      style={{ height: Math.max(...heights) }}
+      style={{ height: tileHeight }}
     >
       {transitions((style, item) => (
         <a.div css={startTile} style={style}>
