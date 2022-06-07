@@ -45,8 +45,7 @@ export const DicePlacement = (props) => {
     key: (item) => item.name,
     from: ({ x }) => ({ x: 0, opacity: 0 }),
     enter: ({ x }) => ({ x, opacity: 1 }),
-    update: ({ x, y }) => ({ x, y }),
-    leave: { x: 0, opacity: 0 },
+    update: ({ x }) => ({ x, opacity: 1  }),
     config: { mass: 5, tension: 500, friction: 50 },
     trail: 25,
   });
