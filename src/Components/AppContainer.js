@@ -202,8 +202,8 @@ export class AppContainer extends React.Component {
           <img
             css={{}}
             onClick={() => this.options(SetupScreen)}
-            src="/settings.png"
-            alt="settings"
+            src="/teotibot/settings.png"
+            alt="Settings"
           />
           <span onClick={() => this.app()}>Continue</span>
           <Setup isXitle={this.state.isXitle} isPriestAndPriestess={this.state.isPriestAndPriestess} />

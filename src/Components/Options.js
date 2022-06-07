@@ -30,7 +30,7 @@ export const Options = (props) => {
         <h2>Expansions</h2>
         <div css={latePreclassicContainer}>
           <div css={latePreclassic}>
-            <img src="/late-preclassic.jpg" alt="Late Preclassic"></img>
+            <img src="/teotibot/late-preclassic.jpg" alt="Late Preclassic"></img>
           </div>
           <div css={latePreclassicOptions}>
             <div className={"checkbox-container"}>
@@ -58,7 +58,7 @@ export const Options = (props) => {
         </div>
         <div css={latePreclassicContainer}>
           <div css={shadowOfXitle}>
-            <img src="/xitle.jpg" alt="Shadow of Xitle"></img>
+            <img src="/teotibot/xitle.jpg" alt="Shadow of Xitle"></img>
           </div>
           <div css={latePreclassicOptions}>
             <div className={"checkbox-container"}>
