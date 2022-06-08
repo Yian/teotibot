@@ -1,5 +1,5 @@
 /** @jsx jsx */
-import { useCallback, useEffect, useState } from "react";
+import { useRef, useCallback, useEffect, useState } from "react";
 import { jsx } from "@emotion/react";
 import { StartTiles } from "./StartTiles";
 import { TechTiles } from "./TechTiles";
@@ -18,6 +18,7 @@ import { PriestPriestessTiles } from "./PriestPriestessTiles";
 import ReactTooltip from "react-tooltip";
 
 export const Setup = (props) => {
+  const divRef = useRef(null);
   const [selectedStartTiles, setSelectedStartTiles] = useState([]);
   const [selectedResources, setSelectedResources] = useState([]);
   const [remainingStartTiles, setRemainingStartTiles] = useState([]);
@@ -142,7 +143,7 @@ export const Setup = (props) => {
     }
 
     if (!found) {
-      item.key = arr.length ;
+      item.key = arr.length;
       arr.push(item);
     }
 
@@ -180,6 +181,10 @@ export const Setup = (props) => {
       setShowNeutralPlayer2(true);
       setShowStartingResources(true);
       setShowPriestPriestessTiles(true);
+
+      setTimeout(() => {
+        divRef.current.scrollIntoView({ behavior: "smooth" });
+      }, 500);
     } else {
       setShowPlayerPlacements(false);
       setShowTeotibotDice(false);
@@ -213,7 +218,7 @@ export const Setup = (props) => {
       clearInterval(u);
       clearInterval(v);
     };
-  }, [calcDicePlacements,remainingStartTiles.length]);
+  }, [calcDicePlacements, remainingStartTiles.length]);
 
   const selectedTile = (startTile) => {
     if (startTile) {
@@ -269,12 +274,14 @@ export const Setup = (props) => {
           />
         </div>
       )}
-      {showStartingResources && (
-        <div>
-          <h4>Starting resources:</h4>
-          <StartingResources startingResources={selectedResources} />
-        </div>
-      )}
+      <div ref={divRef}>
+        {showStartingResources && (
+          <div>
+            <h4>Starting resources:</h4>
+            <StartingResources startingResources={selectedResources} />
+          </div>
+        )}
+      </div>
       {showPriestPriestessTiles && props.isPriestAndPriestess && (
         <div>
           <h4>Priest/Priestess tiles (choose 1)</h4>

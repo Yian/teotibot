@@ -1,5 +1,5 @@
 /** @jsx jsx */
-import { useState, useEffect, useMemo } from "react";
+import { useState, useRef, useEffect, useMemo } from "react";
 import { jsx } from "@emotion/react";
 import { useTransition, a } from "@react-spring/web";
 import { resourceContainer, startResource, resource } from "./Setup.css";
@@ -8,6 +8,7 @@ import useMedia from "../UseMedia";
 import { orderBy } from "lodash";
 
 export const StartingResources = (props) => {
+  
   const columns = useMedia(
     [
       "(min-width: 1500px)",
@@ -15,22 +16,17 @@ export const StartingResources = (props) => {
       "(min-width: 600px)",
       "(min-width: 480px)",
     ],
-    [20, 20, 20, 20],
+    [10, 10, 10, 10],
     10
   );
 
   const [ref, { width }] = useMeasure();
-  const [testWidth, setTest] = useState(0);
 
-  const [startingResources, setStartingResources] = useState(
-    props.startingResources
-  );
+  const [startingResources, setStartingResources] = useState();
 
   useEffect(() => {
-    if (!props.startingResources) {
-      setStartingResources(props.startingResources);
-    }
-  }, [props.startingResources]);
+    setStartingResources(props.startingResources);
+  }, [props.startingResources, ref]);
 
   const [heights, resources] = useMemo(() => {
     let resources = [];
@@ -61,7 +57,7 @@ export const StartingResources = (props) => {
     enter: ({ x, y }) => ({ x, y, opacity: 1 }),
     update: ({ x, y }) => ({ x, y }),
     leave: { height: 0, opacity: 0 },
-    config: { mass: 5, tension: 500, friction: 50 },
+    config: { delay: 500, mass: 5, tension: 500, friction: 50 },
     trail: 100,
   });
 

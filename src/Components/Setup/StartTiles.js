@@ -1,5 +1,5 @@
 /** @jsx jsx */
-import { useCallback, useState, useEffect, useMemo } from "react";
+import { useCallback, useRef, useState, useEffect, useMemo } from "react";
 import { jsx } from "@emotion/react";
 import useMedia from "../UseMedia";
 import useMeasure from "react-use-measure";
