@@ -43,12 +43,8 @@ export const startResource = css`
 `;
 
 export const techTile = css`
-  width: 150px;
+  width: 120px;
   position: absolute;
-
-  @media only screen and (max-width: 400px) {
-    width: 100px;
-  }
 `;
 
 export const templeTile = css`

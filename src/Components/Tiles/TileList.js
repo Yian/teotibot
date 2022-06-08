@@ -61,9 +61,9 @@ export const TileList = (props) => {
       "(min-width: 1500px)",
       "(min-width: 1000px)",
       "(min-width: 600px)",
-      "(max-width: 480px)",
+      "(min-width: 480px)",
     ],
-    [6, 5, 4, 3],
+    [4, 4, 4, 4],
     4
   );
   // Hook2: Measure the width of the container element

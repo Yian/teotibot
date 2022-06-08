@@ -10,7 +10,7 @@ import {shuffle} from "lodash";
 import { baseTempleTiles } from "../Constants";
 
 export const TempleTiles = (props) => {
-  const tileHeight = 300;
+  const tileHeight = 250;
   // Hook1: Tie media queries to the number of columns
   const columns = useMedia(
     ["(min-width: 1500px)", "(min-width: 1000px)", "(min-width: 600px)"],
@@ -56,6 +56,7 @@ export const TempleTiles = (props) => {
     leave: { height: 0, opacity: 0 },
     config: { mass: 5, tension: 500, friction: 50 },
     trail: 25,
+    onRest: props.onRest
   });
 
   return (

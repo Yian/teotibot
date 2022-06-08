@@ -11,7 +11,6 @@ export const tileList = css`
   display: flex;
   justify-content: center;
   position: relative;
-  height: 100vh;
 
   > img {
     position: absolute;

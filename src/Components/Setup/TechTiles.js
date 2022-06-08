@@ -54,6 +54,7 @@ export const TechTiles = (props) => {
     leave: { height: 0, opacity: 0 },
     config: { mass: 5, tension: 500, friction: 50 },
     trail: 25,
+    onRest: props.onRest
   });
 
   return (
