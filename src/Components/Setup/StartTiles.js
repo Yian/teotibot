@@ -10,7 +10,7 @@ import { shuffle, find } from "lodash";
 import { baseStartTiles, xitleStartTiles } from "../Constants";
 
 export const StartTiles = (props) => {
-  const tileHeight = 400;
+  const tileHeight = 250;
   // Hook1: Tie media queries to the number of columns
   const columns = useMedia(
     ["(min-width: 1500px)", "(min-width: 1000px)", "(min-width: 600px)", "(max-width: 480px)"],

@@ -42,10 +42,11 @@ export const DicePlacement = (props) => {
   }, [columns, items, width]);
 
   const transitions = useTransition(gridItems, {
-    key: (item) => item.name,
+    key: (item) => item.key,
     from: ({ x }) => ({ x: 0, opacity: 0 }),
     enter: ({ x }) => ({ x, opacity: 1 }),
     update: ({ x }) => ({ x, opacity: 1  }),
+    leave: { height: 0, opacity: 0 },
     config: { mass: 5, tension: 500, friction: 50 },
     trail: 25,
   });

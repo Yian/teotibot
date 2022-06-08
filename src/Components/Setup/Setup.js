@@ -65,18 +65,21 @@ export const Setup = (props) => {
 
     return [
       {
+        key: 0,
         diceFace: dice[0],
         number: [mergedActions[0]],
         actionName: getActionItem(mergedActions[0]).name,
         color: getActionItem(mergedActions[0]).color,
       },
       {
+        key: 1,
         diceFace: dice[1],
         number: [mergedActions[1]],
         actionName: getActionItem(mergedActions[1]).name,
         color: getActionItem(mergedActions[1]).color,
       },
       {
+        key: 2,
         diceFace: dice[2],
         number: [mergedActions[2]],
         actionName: getActionItem(mergedActions[2]).name,
@@ -94,18 +97,21 @@ export const Setup = (props) => {
 
     return [
       {
+        key: 0,
         diceFace: diceFaces[0],
         number: [actions[0]],
         actionName: getActionItem(1).name,
         color: getActionItem(1).color,
       },
       {
+        key: 1,
         diceFace: diceFaces[0],
         number: [actions[1]],
         actionName: getActionItem(2).name,
         color: getActionItem(2).color,
       },
       {
+        key: 2,
         diceFace: diceFaces[0],
         number: [actions[2]],
         actionName: getActionItem(3).name,
@@ -136,6 +142,7 @@ export const Setup = (props) => {
     }
 
     if (!found) {
+      item.key = arr.length ;
       arr.push(item);
     }
 
@@ -147,6 +154,7 @@ export const Setup = (props) => {
 
     selectedStartTiles.forEach((selectedStartTile) => {
       let arr = cloneDeep(selectedStartTile.resources);
+
       arr.forEach((resource) => {
         addResourceQuantities(result, resource);
       });
@@ -205,7 +213,7 @@ export const Setup = (props) => {
       clearInterval(u);
       clearInterval(v);
     };
-  }, [calcDicePlacements, remainingStartTiles]);
+  }, [calcDicePlacements,remainingStartTiles.length]);
 
   const selectedTile = (startTile) => {
     if (startTile) {
