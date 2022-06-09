@@ -3,7 +3,7 @@ import { mediaQueries } from "./variables";
 
 export const questionModal = css`
   position: fixed; /* Stay in place */
-  z-index: 1; /* Sit on top */
+  z-index: 4; /* Sit on top */
   left: 0;
   top: 0;
   width: 100%; /* Full width */
@@ -36,6 +36,11 @@ export const questionModalContent = css`
   background-image: url("./backgrounds/forms.jpg");
   background-size: auto 100%;
   background-position: center;
+  z-index: 4;
+
+  @media only screen and (orientation: landscape) {
+    margin: 5% auto;
+  }
 
   @media ${mediaQueries.isMaxXs} {
     width: 90%;
@@ -88,12 +93,12 @@ export const buttons = css`
   }
 
   div:first-child {
-      color: #30c5bd;
-    }
+    color: #30c5bd;
+  }
 
-    div:nth-child(2) {
-      color: #d15959;
-    }
+  div:nth-child(2) {
+    color: #d15959;
+  }
 `;
 
 export const questionForm = css`

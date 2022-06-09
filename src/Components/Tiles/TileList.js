@@ -61,9 +61,9 @@ export const TileList = (props) => {
       "(min-width: 1500px)",
       "(min-width: 1000px)",
       "(min-width: 600px)",
-      "(min-width: 480px)",
+      "(max-width: 480px)",
     ],
-    [4, 4, 4, 4],
+    [4, 4, 4, 3],
     4
   );
   // Hook2: Measure the width of the container element
@@ -75,7 +75,7 @@ export const TileList = (props) => {
     from: { x: 0 },
     config: { mass: 5, tension: 500, friction: 50, duration: 500 },
     transform: `translateX(${showDice ? 0 : -2000}px)`,
-  })
+  });
 
   var tileWidth = width / columns;
   // Hook5: Form a grid of stacked items using width & columns we got from hooks 1 & 2
@@ -259,7 +259,7 @@ export const TileList = (props) => {
 
   const onCloseClick = (i) => {
     setShowForm(false);
-    setTileSizeCalculated()
+    setTileSizeCalculated();
     shuffleTiles(selectedTileIndex);
     setShowDice(false);
   };
@@ -270,18 +270,16 @@ export const TileList = (props) => {
     refDice2.current.rollDice();
   };
 
-
-
   const getStyle = useCallback(
     (item) => {
-        var test = {
-          scale: x.to({
-            range: [0, 0.25, 0.35, 0.45, 0.55, 0.65, 0.75, 1],
-            output: [1, 0.97, 0.9, 1.1, 0.9, 1.1, 1.03, 1],
-          }),
-        };
-  
-        return item.index === selectedTileIndex ? test : {};
+      var test = {
+        scale: x.to({
+          range: [0, 0.25, 0.35, 0.45, 0.55, 0.65, 0.75, 1],
+          output: [1, 0.97, 0.9, 1.1, 0.9, 1.1, 1.03, 1],
+        }),
+      };
+
+      return item.index === selectedTileIndex ? test : {};
     },
     [x, selectedTileIndex]
   );
@@ -316,11 +314,11 @@ export const TileList = (props) => {
               showSteps(tile.index);
             }}
             src={`${process.env.PUBLIC_URL}/botTiles/${tile.src}.png`}
-            style={{...style, ...getStyle(tile)}}
+            style={{ ...style, ...getStyle(tile) }}
           />
         ))}
       </div>
-      <div css={tileList} style={{ height: 0}}>
+      <div css={tileList} style={{ height: 0 }}>
         {directionTileTransitions((style, directionTile) => (
           <animated.img
             draggable="false"
@@ -333,29 +331,29 @@ export const TileList = (props) => {
       <div css={diceButton} onClick={handleClick}>
         ROLL
       </div>
-      <div css={diceContainer}>
-      <animated.div
-        style={{
-          transform,
-        }}>
-        <Dice
-          ref={refDice1}
-          faces={dFaces}
-          size={150}
-          rollingTime={generateRandomInteger(500, 1500)}
-          onRoll={(value) => setDice1Rolled(value)}
-          disabled
-        />
-        <Dice
-          ref={refDice2}
-          faces={dFaces}
-          size={150}
-          rollingTime={generateRandomInteger(500, 1500)}
-          onRoll={(value) => setDice2Rolled(value)}
-          disabled
-        />
-      </animated.div>
-      
+      <div css={diceContainer} style={{zIndex: showDice ? 5 : 1}}>
+        <animated.div
+          style={{
+            transform,
+          }}
+        >
+          <Dice
+            ref={refDice1}
+            faces={dFaces}
+            size={100}
+            rollingTime={generateRandomInteger(500, 1500)}
+            onRoll={(value) => setDice1Rolled(value)}
+            disabled
+          />
+          <Dice
+            ref={refDice2}
+            faces={dFaces}
+            size={100}
+            rollingTime={generateRandomInteger(500, 1500)}
+            onRoll={(value) => setDice2Rolled(value)}
+            disabled
+          />
+        </animated.div>
       </div>
     </div>
   );

@@ -13,7 +13,8 @@ export const tileList = css`
   position: relative;
 
   > img {
-    position: absolute;
+    position: fixed;
+    top: 35%;
     overflow: visible;
     pointer-events: auto;
     transform-origin: 50% 50% 0px;
@@ -21,6 +22,11 @@ export const tileList = css`
     width: 400px;
     max-width: 100%;
     cursor: pointer;
+    z-index: 2;
+
+    @media only screen and (orientation: landscape) {
+      top: 10%;
+    }
   }
 `;
 

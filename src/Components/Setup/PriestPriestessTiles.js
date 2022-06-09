@@ -30,7 +30,7 @@ export const PriestPriestessTiles = (props) => {
         items.pop();
         set(shuffle);
       }
-    }, 200);
+    }, 50);
     return () => clearInterval(t);
   }, [items, props.numberToPick]);
 
@@ -55,7 +55,7 @@ export const PriestPriestessTiles = (props) => {
     enter: ({ x, y, width  }) => ({ x, y, width, opacity: 1 }),
     update: ({ x, y, width  }) => ({ x, y, width }),
     leave: { height: 0, opacity: 0 },
-    config: { duration: 1000, mass: 5, tension: 500, friction: 50 },
+    config: { duration: 500, mass: 5, tension: 500, friction: 50 },
     trail: 25,
     onRest: props.onRest
   });

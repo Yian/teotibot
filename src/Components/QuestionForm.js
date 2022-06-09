@@ -67,7 +67,7 @@ const alchemyQuestions = [
     <ul>
     <li>If all remaining tiles have your marker on, then the bot
     gains the lowest numbered Technology which it does not
-    yet have, while you score the 3 Victory Points as normal.</li></ul>
+    yet have, while you score the 3 Victory Points ${getResourceImage("vp")} as normal.</li></ul>
     Either way, advance on the temple ${getResourceImage("tw")} matching the gained
     Technology ${getResourceImage("tech")} and power up ${getResourceImage("powerup")} a worker on this Action Board
     (resolve any Ascensions normally). Then the bot advances the powered-up worker
@@ -100,7 +100,7 @@ const decorationQuestions = [
     question: `<div> Teotibot spends 2 gold ${getResourceImage("gold")} and places the topmost Decoration 
     tile onto an available Decorations space on the Pyramid grid on the Main Board (clockwise from the top). 
     Then Teotibot: <ul>
-    <li>Scores 5 Victory Points.</li><li>Advances on the Pyramid track. ${getResourceImage("pyramid")}</li>
+    <li>Scores 5 Victory Points ${getResourceImage("vp")}.</li><li>Advances on the Pyramid track. ${getResourceImage("pyramid")}</li>
     <li><span class="bold" data-tip data-for='templeAdvance'>Advances*</span> on any temple by one. ${getResourceImage("tw")}</li>
     </ul></div>
     <div>
@@ -148,8 +148,8 @@ const constructionQuestions = [
     lowest level space available on the Pyramid grid of the Main
     Board. 
     Then Teotibot: <ul>
-    <li>Scores Victory Points for the level.</li><li>Advances on the Pyramid ${getResourceImage("pyramid")} track.</li>
-    <li><span class="bold">Advances*</span> on any temple by one. ${getResourceImage("tw")}</li><li>Scores an additional 2 Victory Points (Note: This represents average points the
+    <li>Scores Victory Points ${getResourceImage("vp")} for the level.</li><li>Advances on the Pyramid ${getResourceImage("pyramid")} track.</li>
+    <li><span class="bold">Advances*</span> on any temple by one. ${getResourceImage("tw")}</li><li>Scores an additional 2 Victory Points ${getResourceImage("vp")} (Note: This represents average points the
     bot would score by matching icons.)</li>
     </ul></div>
     <div>
@@ -204,7 +204,7 @@ const noblesQuestions = [
     <li>After the second Eclipse, place it in the third (bottom) row.</li>
     <li>If a row is full, place it into a space with the lowest printed
     Victory Point value of all three rows.</li>
-    <li>Score the Victory Points shown on the space just covered,
+    <li>Score the Victory Points ${getResourceImage("vp")} shown on the space just covered,
     and advance the bot on the Avenue of the Dead ${getResourceImage("powerup")} (the same
     way an actual player would advance).</li>
     </ul></div>
