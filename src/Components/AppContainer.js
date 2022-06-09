@@ -20,6 +20,7 @@ import {
   diceFaces,
 } from "./Constants";
 import { Options } from "./Options";
+import { btnSettings, setupContainer } from "./Setup/Setup.css";
 
 export class AppContainer extends React.Component {
   constructor(props) {
@@ -166,7 +167,7 @@ export class AppContainer extends React.Component {
     });
   };
 
-  app = () => {
+  startApp = () => {
     this.setState({
       screenMode: AppScreen
     })
@@ -184,13 +185,12 @@ export class AppContainer extends React.Component {
       return (
         <div>
           <img
-            css={{}}
+            css={btnSettings}
             onClick={() => this.options(SetupScreen)}
             src="./resources/settings.png"
             alt="Settings"
           />
-          <span onClick={() => this.app()}>Continue</span>
-          <Setup startTiles={this.state.startTiles} isXitle={this.state.isXitle} isPriestAndPriestess={this.state.isPriestAndPriestess} />
+          <Setup startApp={this.startApp} startTiles={this.state.startTiles} isXitle={this.state.isXitle} isPriestAndPriestess={this.state.isPriestAndPriestess} />
         </div>
       );
     } else if (this.state.screenMode === AppScreen) {
@@ -205,6 +205,7 @@ export class AppContainer extends React.Component {
           shuffleHistory={this.state.shuffleHistory}
           playerCount={this.state.playerCount}
           defaultFavorTiles={this.state.defaultFavorTiles}
+          options={this.options}
           dice1={this.state.dice1}
           dice2={this.state.dice2}
         />

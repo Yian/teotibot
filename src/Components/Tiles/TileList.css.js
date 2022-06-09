@@ -67,12 +67,21 @@ export const expansionOptions = css`
 
 export const nav = css`
   display: flex;
+  justify-content: space-evenly;
   width: 100%;
-  background: #35a7c6;
+  background: #000;
+  height: 50px;
 `;
 
 export const navButton = css`
+  display: flex;
+  align-items: center;
   z-index: 999;
+  cursor: pointer;
+
+  img {
+    height: 100%;
+  }
 `;
 
 export const diceContainer = css`

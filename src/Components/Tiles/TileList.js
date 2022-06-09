@@ -32,6 +32,7 @@ import useMeasure from "react-use-measure";
 import useMedia from "../UseMedia";
 import { shuffle } from "lodash-es";
 import {
+  AppScreen,
   baseBotTiles,
   baseDirectionTiles,
   diceTilePositions,
@@ -348,13 +349,22 @@ export const TileList = (props) => {
         ))}
       </div>
       <div css={nav}>
-        <span css={navButton} onClick={handleClick}>
-          ROLL
-        </span>
+        <div css={navButton} onClick={handleClick}>
+        <span>ROLL</span>
+          <img src={`${process.env.PUBLIC_URL}/dice/d3.png`} alt="d3"/>
+        </div>
         <span css={navButton} onClick={handleEclipse}>
+          <img src={`${process.env.PUBLIC_URL}/resources/eclipse.png`} alt="eclipse"/>
           Eclipse {eclipse}
         </span>
-        <span css={navButton}>Options</span>
+        <div css={navButton}>
+        <img
+            css={{}}
+            onClick={() => props.options(AppScreen)}
+            src="./resources/settings.png"
+            alt="Settings"
+          />
+        </div>
       </div>
       <div css={diceContainer} style={{ zIndex: showDice ? 5 : 1 }}>
         <animated.div

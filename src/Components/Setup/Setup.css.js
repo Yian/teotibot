@@ -3,7 +3,23 @@ import { css } from "@emotion/react";
 export const setupContainer = css`
   color: #eeeddb;
 `;
-export const startTileContainer = css``;
+
+export const btnSettings = css`
+  position: absolute;
+  top: 0;
+  right: 0;
+  cursor: pointer;
+`;
+
+
+export const btnContinue = css`
+  display: flex;
+  justify-content: center;
+  font-size: 2rem;
+  width: 100%;
+  margin: 50px 0;
+  cursor: pointer;
+`;
 
 export const tileContainer = css`
   display: flex;

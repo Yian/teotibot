@@ -4,19 +4,13 @@ import { jsx } from "@emotion/react";
 import { StartTiles } from "./StartTiles";
 import { TechTiles } from "./TechTiles";
 import { TempleTiles } from "./TempleTiles";
-import { setupContainer } from "./Setup.css";
+import { btnContinue, setupContainer } from "./Setup.css";
 import { DicePlacement } from "./DicePlacement";
-import {
-  actionNames,
-  baseStartTiles,
-  diceFaces,
-  xitleStartTiles,
-} from "../Constants";
-import { find, remove, union, cloneDeep, shuffle } from "lodash";
+import { find, remove, cloneDeep, shuffle } from "lodash";
 import { StartingResources } from "./StartingResources";
 import { PriestPriestessTiles } from "./PriestPriestessTiles";
 import ReactTooltip from "react-tooltip";
-import { getActionItem, getNeutralArray, getPlayerArray } from "../Logic";
+import { getNeutralArray, getPlayerArray } from "../Logic";
 
 export const Setup = (props) => {
   const startTileRef = useRef(null);
@@ -24,6 +18,8 @@ export const Setup = (props) => {
   const priestessRef = useRef(null);
   const teotibotPlacementRef = useRef(null);
   const playerPlacementRef = useRef(null);
+  const continueRef = useRef(null);
+  
   const [hasScrolled, setHasScrolled] = useState(false);
   const [selectedStartTiles, setSelectedStartTiles] = useState([]);
   const [selectedResources, setSelectedResources] = useState([]);
@@ -46,7 +42,8 @@ export const Setup = (props) => {
   const [showTeotibotDice, setShowTeotibotDice] = useState(false);
   const [showNeutralPlayer1, setShowNeutralPlayer1] = useState(false);
   const [showNeutralPlayer2, setShowNeutralPlayer2] = useState(false);
-
+  const [showContinue, setShowContinue] = useState(false);
+  
   const getNeutralPlacement = useCallback((shuffledTiles) => {
     return getNeutralArray(shuffledTiles);
   }, []);
@@ -188,8 +185,12 @@ export const Setup = (props) => {
       setShowNeutralPlayer1(true);
     }
     if (showNeutralPlayer1) {
-      scrollIntoView(teotibotPlacementRef, true)
+      scrollIntoView(teotibotPlacementRef)
       setShowNeutralPlayer2(true);
+    }
+    if (showNeutralPlayer2) {
+      scrollIntoView(continueRef, true)
+      setShowContinue(true);
     }
     if (showPlayerPlacements) {
       if (props.isPriestAndPriestess) {
@@ -307,9 +308,16 @@ export const Setup = (props) => {
       {showNeutralPlayer2 && (
         <div>
           <h4>Neutral player 2:</h4>
-          <DicePlacement dicePlacements={neutralPlacements2} />
+          <DicePlacement dicePlacements={neutralPlacements2} onRest={onRest}/>
         </div>
       )}
+      <div ref={continueRef}>
+      {showContinue && (
+        <div css={btnContinue} onClick={props.startApp}>
+          <span>Continue</span>
+        </div>
+      )}
+      </div>
     </div>
   );
 };

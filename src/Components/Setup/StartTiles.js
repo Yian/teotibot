@@ -97,7 +97,6 @@ export const StartTiles = (props) => {
   return (
     <div
       ref={ref}
-      css={startTileContainer}
       style={{ height: tileHeight }}
     >
       {transitions((style, item) => (
