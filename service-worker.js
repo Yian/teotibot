@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/teotibot/precache-manifest.e8de0b7c717c885c11da10fe0c4e7dee.js"
+  "/teotibot/precache-manifest.a4e7ab04a8851fef82bbeecb0f9dee1d.js"
 );
 
 self.addEventListener('message', (event) => {
