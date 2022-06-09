@@ -12,7 +12,7 @@ export const DicePlacement = (props) => {
   // Hook1: Tie media queries to the number of columns
   const columns = useMedia(
     ["(min-width: 1500px)", "(min-width: 1000px)", "(min-width: 600px)", "(max-width: 480px)"],
-    [6, 6, 6, 18],
+    [3, 3, 6, 18],
     6
   );
 

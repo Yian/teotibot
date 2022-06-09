@@ -20,7 +20,8 @@ export const questionModal = css`
 export const modalHeading = css`
   display: flex;
   flex-direction: row-reverse;
-  margin: 20px 0;
+  align-items: center;
+  margin: 50px 0 0 0;
   img {
     width: 200px;
   }
@@ -52,7 +53,7 @@ export const questionModalContent = css`
 
   @media ${mediaQueries.isMaxXs} {
     width: 90%;
-    font-size: 2rem;
+    font-size: 1rem;
   }
 
   @media ${mediaQueries.isSm} {
@@ -80,6 +81,10 @@ export const questionModalContent = css`
     margin: 15px 0;
     color: #35a7c6;
     font-size: 1.5rem;
+
+    @media ${mediaQueries.isMaxXs} {
+      font-size: 1rem;
+    }
   }
 
   .priority {
@@ -90,9 +95,15 @@ export const questionModalContent = css`
 export const questionModalPlacements = css`
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  align-self: flex-start;
+  width: 100%;
+
+  h3 {
+    margin: 0.5rem 0;
+  }
+
+  h4 {
+    margin: 1rem 0;
+  }
 `;
 
 export const modalClose = css`
@@ -102,11 +113,12 @@ export const modalClose = css`
   cursor: pointer;
 `;
 
-export const buttons = css`
+export const buttons = (margin) => css`
   display: flex;
   flex-direction: row;
   justify-content: space-evenly;
-  margin: 20px 0;
+  margin: ${margin ?? 0}px 0;
+  font-size: 1.75rem;
 
   div {
     cursor: pointer;
@@ -121,6 +133,6 @@ export const buttons = css`
   }
 `;
 
-export const questionForm = css`
-  margin: 50px 0;
+export const questionForm = (margin) => css`
+  margin: ${margin ?? 0}px 0;
 `;

@@ -678,6 +678,7 @@ const alchemyQuestions = [
     )} Action Board?</div>`,
     questionId: 1,
     condition: ({ answers }) => isEmpty(answers),
+    margin: 50,
   },
   {
     question: `<div> Teotibot spends 1 gold ${getResourceImage(
@@ -707,6 +708,7 @@ const alchemyQuestions = [
     questionId: 2,
     condition: ({ answers }) => answers[1] === "yes",
     isEnd: true,
+    margin: 50,
   },
   {
     question: `Power up ${getResourceImage("powerup")} ${getResourceImage(
@@ -729,6 +731,7 @@ const decorationQuestions = [
     )} Action Board?</div>`,
     questionId: 1,
     condition: ({ answers }) => isEmpty(answers),
+    margin: 50,
   },
   {
     question: `<div> Teotibot spends 2 gold ${getResourceImage(
@@ -759,6 +762,7 @@ const decorationQuestions = [
     questionId: 2,
     condition: ({ answers }) => answers[1] === "yes",
     isEnd: true,
+    margin: 50,
   },
   {
     question: `<div>Does Teotibot have at least one worker on the Gold Deposits (4) Action Board? ${getActionImage(
@@ -777,6 +781,7 @@ const decorationQuestions = [
     questionId: 4,
     condition: ({ answers }) => answers[3] === "yes",
     isEnd: true,
+    margin: 50,
   },
   {
     question: powerupMsg,
@@ -795,6 +800,7 @@ const constructionQuestions = [
     )} Action Board?</div>`,
     questionId: 1,
     condition: ({ answers }) => isEmpty(answers),
+    margin: 50,
   },
   {
     question: `<div>Teotibot spends 2 stone ${getResourceImage(
@@ -828,6 +834,7 @@ const constructionQuestions = [
     questionId: 2,
     condition: ({ answers }) => answers[1] === "yes",
     isEnd: true,
+    margin: 50,
   },
   {
     question: `<div>Does Teotibot have at least one worker on the Stone Quarry ${getActionImage(
@@ -835,6 +842,7 @@ const constructionQuestions = [
     )} Action Board?</div>`,
     questionId: 3,
     condition: ({ answers }) => answers[1] === "no" && answers[3] === undefined,
+    margin: 50,
   },
   {
     question: `<div>Teotibot gains 2 stone ${getResourceImage("stone")}
@@ -868,6 +876,7 @@ const noblesQuestions = [
     )}</div>`,
     questionId: 1,
     condition: ({ answers }) => isEmpty(answers),
+    margin: 50,
   },
   {
     question: `<div>Teotibot spends 2 wood ${getResourceImage(
@@ -901,6 +910,7 @@ const noblesQuestions = [
     questionId: 2,
     condition: ({ answers }) => answers[1] === "yes",
     isEnd: true,
+    margin: 50,
   },
   {
     question: `<div>Does Teotibot have at least one worker on the Forest Action Board? ${getActionImage(
@@ -974,6 +984,7 @@ immediately draw a replacement for it.
   </div>`,
     questionId: 1,
     isEnd: true,
+    margin: 50,
   },
 ];
 

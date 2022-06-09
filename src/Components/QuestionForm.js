@@ -92,6 +92,7 @@ export class QuestionForm extends React.Component {
               key={question.questionId}
               isEnd={question.isEnd}
               noButtons={question.noButtons}
+              margin={question.margin}
               onExitForm={this.onExitForm}
               fromMastery={fromMastery}
               onRestartQuestions={this.onRestartQuestions}
@@ -108,13 +109,13 @@ export class QuestionForm extends React.Component {
           ))}
           {this.props.tileName === Eclipse && (
             <div css={questionModalPlacements}>
-              <h2>Neutral placements</h2>
-              <h3>Neutral player 1</h3>
+              <h3>Neutral placements</h3>
+              <h4>Neutral player 1</h4>
               <DicePlacement
                 dicePlacements={neutralPlacements1}
                 onRest={() => {}}
               />
-              <h3>Neutral player 2</h3>
+              <h4>Neutral player 2</h4>
               <DicePlacement
                 dicePlacements={neutralPlacements2}
                 onRest={() => {}}
@@ -153,10 +154,10 @@ export class QuestionForm extends React.Component {
 
 const Question = (props) => {
   return (
-    <div css={questionForm}>
+    <div css={questionForm(props.margin)}>
       {props.children}
       {!props.isEnd ? (
-        <div css={buttons}>
+        <div css={buttons(props.margin)}>
           <div
             onClick={() => {
               props.onSelect("yes");
@@ -172,8 +173,9 @@ const Question = (props) => {
             no
           </div>
         </div>
-      ) : !props.noButtons || !props.fromMastery ? (
+      ) : !props.noButtons ? (
         <CloseForm
+          margin={props.margin}
           isEnd={props.isEnd}
           onExitForm={props.onExitForm}
           fromMastery={props.fromMastery}
@@ -189,9 +191,9 @@ const Question = (props) => {
 function CloseForm(props) {
   return (
     <div>
-      <div css={buttons}>
+      <div css={buttons(props.margin)}>
         <div onClick={props.onExitForm}>continue</div>
-        {(!props.isEnd || props.fromMastery) && (
+        {(props.isEnd || props.fromMastery) && (
           <div onClick={props.onRestartQuestions}>restart</div>
         )}
       </div>
