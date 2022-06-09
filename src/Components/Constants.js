@@ -858,11 +858,13 @@ const constructionQuestions = [
     questionId: 4,
     condition: ({ answers }) => answers[3] === "yes",
     isEnd: true,
+    margin: 50,
   },
   {
     question: powerupMsg,
     questionId: 5,
     condition: ({ answers }) => answers[3] === "no",
+    margin: 50,
     isEnd: true,
   },
 ];
@@ -871,9 +873,8 @@ const noblesQuestions = [
   {
     question: `<div>Does Teotibot have 2 or more wood ${getResourceImage(
       "wood"
-    )} and at least one worker on the Nobles Action Board? ${getActionImage(
-      "no6"
-    )}</div>`,
+    )} and at least one worker on the Nobles ${getActionImage(
+      "no6")} Action Board?</div>`,
     questionId: 1,
     condition: ({ answers }) => isEmpty(answers),
     margin: 50,
@@ -930,12 +931,14 @@ const noblesQuestions = [
     questionId: 4,
     condition: ({ answers }) => answers[3] === "yes",
     isEnd: true,
+    margin: 50,
   },
   {
     question: powerupMsg,
     questionId: 5,
     condition: ({ answers }) => answers[3] === "no",
     isEnd: true,
+    margin: 50,
   },
 ];
 
@@ -960,6 +963,7 @@ immediately draw a replacement for it.
   </div>`,
     questionId: 1,
     isEnd: true,
+    margin: 50,
   },
 ];
 

@@ -16,7 +16,7 @@ export const StartingResources = (props) => {
       "(min-width: 600px)",
       "(min-width: 480px)",
     ],
-    [10, 10, 10, 10],
+    [10, 10, 7, 7],
     10
   );
 

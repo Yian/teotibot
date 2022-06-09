@@ -67,7 +67,7 @@ export const TileList = (props) => {
       "(min-width: 600px)",
       "(max-width: 480px)",
     ],
-    [4, 4, 3, 3],
+    [4, 4, 4, 3],
     4
   );
   // Hook2: Measure the width of the container element
@@ -81,7 +81,7 @@ export const TileList = (props) => {
     transform: `translateX(${showDice ? 0 : -2000}px)`,
   });
 
-  var tileWidth = width / columns;
+  var tileWidth = width / (columns);
   // Hook5: Form a grid of stacked items using width & columns we got from hooks 1 & 2
   const [tileHeights, tileItems] = useMemo(() => {
     let tileHeights = new Array(columns).fill(0); // Each column gets a height starting with zero
@@ -319,6 +319,7 @@ export const TileList = (props) => {
             tiles={props.startTiles}
             onCloseClick={onCloseClick}
             tileName={Eclipse}
+            eclipseStage={eclipse}
             tileSrc={"eclipse"}
           />
         )}

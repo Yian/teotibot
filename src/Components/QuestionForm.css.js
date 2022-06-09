@@ -11,12 +11,8 @@ export const questionModal = css`
   overflow: auto; /* Enable scroll if needed */
   background-color: rgb(0, 0, 0); /* Fallback color */
   background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
-
-  .icon {
-    height: 1.75rem;
-    vertical-align: middle;
-  }
 `;
+
 export const modalHeading = css`
   display: flex;
   flex-direction: row-reverse;
@@ -40,6 +36,7 @@ export const questionModalContent = css`
   width: 60%; /* Could be more or less, depending on screen size */
   min-height: 550px;
   font-size: 1.75rem;
+  line-height: 1.5rem;
   color: chocolate;
   border-radius: 12px;
   background-image: url("./backgrounds/forms.jpg");
@@ -47,13 +44,24 @@ export const questionModalContent = css`
   background-position: center;
   z-index: 4;
 
+  ul {
+    li {
+      margin: 1.5rem 0;
+    }
+  }
+
+  .icon {
+    height: 1.75rem;
+    vertical-align: middle;
+  }
+
   @media only screen and (orientation: landscape) {
     margin: 5% auto;
   }
 
   @media ${mediaQueries.isMaxXs} {
     width: 90%;
-    font-size: 1rem;
+    font-size: 1.1rem;
   }
 
   @media ${mediaQueries.isSm} {
@@ -96,6 +104,7 @@ export const questionModalPlacements = css`
   display: flex;
   flex-direction: column;
   width: 100%;
+  margin-bottom: 3rem;
 
   h3 {
     margin: 0.5rem 0;

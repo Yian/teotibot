@@ -11,7 +11,7 @@ import {
   questionModalPlacements,
   modalHeading,
 } from "./QuestionForm.css";
-import { baseStartTiles, Eclipse, TilesToQuestions } from "./Constants";
+import { Eclipse, TilesToQuestions } from "./Constants";
 import { DicePlacement } from "./Setup/DicePlacement";
 import { getNeutralArray } from "./Logic";
 
@@ -77,14 +77,14 @@ export class QuestionForm extends React.Component {
       <div css={questionModal}>
         <div css={questionModalContent}>
           <div css={modalClose} onClick={this.onExitForm}>
-            close
+            <img src={`${process.env.PUBLIC_URL}/resources/cancel.png`} alt="Cancel"/>
           </div>
           <div css={modalHeading}>
             <h3>{this.props.tileName}</h3>
-            <img
+            {this.props.tileName !== "Eclipse" && <img
               src={`${process.env.PUBLIC_URL}/botTiles/${this.props.tileSrc}.png`}
               alt={this.props.tileName}
-            />
+            />}
           </div>
 
           {qs.map((question) => (
