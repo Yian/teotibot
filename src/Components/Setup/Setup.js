@@ -20,8 +20,11 @@ import ReactTooltip from "react-tooltip";
 export const Setup = (props) => {
   const startTileRef = useRef(null);
   const resourceRef = useRef(null);
+  const priestessRef = useRef(null);
+  const teotibotPlacementRef = useRef(null);
   const playerPlacementRef = useRef(null);
 
+  const [hasScrolled, setHasScrolled] = useState(false);
   const [selectedStartTiles, setSelectedStartTiles] = useState([]);
   const [selectedResources, setSelectedResources] = useState([]);
   const [remainingStartTiles, setRemainingStartTiles] = useState([]);
@@ -36,8 +39,10 @@ export const Setup = (props) => {
   const [showStartTiles, setShowStartTiles] = useState(false);
   const [showPlayerPriestPriestessTiles, setShowPlayerPriestPriestessTiles] =
     useState(false);
-    const [showTeotibotPriestPriestessTiles, setShowTeotibotPriestPriestessTiles] =
-    useState(false);
+  const [
+    showTeotibotPriestPriestessTiles,
+    setShowTeotibotPriestPriestessTiles,
+  ] = useState(false);
   const [showTeotibotDice, setShowTeotibotDice] = useState(false);
   const [showNeutralPlayer1, setShowNeutralPlayer1] = useState(false);
   const [showNeutralPlayer2, setShowNeutralPlayer2] = useState(false);
@@ -189,6 +194,7 @@ export const Setup = (props) => {
       setShowStartingResources(false);
       setShowPlayerPriestPriestessTiles(false);
       setShowTeotibotPriestPriestessTiles(false);
+      setHasScrolled(false);
       setNeutralPlacements1([]);
       setNeutralPlacements2([]);
       setTeotibotPlacements([]);
@@ -200,7 +206,6 @@ export const Setup = (props) => {
     if (remainingStartTiles.length > 0) {
       calcDicePlacements();
     }
-
   }, [calcDicePlacements, remainingStartTiles.length]);
 
   useEffect(() => {
@@ -209,7 +214,7 @@ export const Setup = (props) => {
         startTileRef.current.scrollIntoView({ behavior: "smooth" });
       }, 500);
     }
-  },[showStartTiles])
+  }, [showStartTiles]);
 
   const selectedTile = (startTile) => {
     if (startTile) {
@@ -250,14 +255,16 @@ export const Setup = (props) => {
       if (props.isPriestAndPriestess) {
         setShowPlayerPriestPriestessTiles(true);
       } else {
-        resourceRef.current.scrollIntoView({ behavior: "smooth" });
+        scrollIntoView(resourceRef)
         setShowPlayerPlacements(true);
       }
     }
     if (showTeotibotDice) {
+      scrollIntoView(teotibotPlacementRef)
       setShowNeutralPlayer1(true);
     }
     if (showNeutralPlayer1) {
+      scrollIntoView(teotibotPlacementRef, true)
       setShowNeutralPlayer2(true);
     }
     if (showPlayerPlacements) {
@@ -265,21 +272,30 @@ export const Setup = (props) => {
         setShowTeotibotPriestPriestessTiles(true);
         return;
       } else {
-        playerPlacementRef.current.scrollIntoView({ behavior: "smooth" });
+        scrollIntoView(playerPlacementRef);
         setShowTeotibotDice(true);
       }
     }
-  }
+  };
 
   const onExpansionRest = () => {
     if (showPlayerPriestPriestessTiles) {
+      scrollIntoView(priestessRef);
       setShowPlayerPlacements(true);
     }
     if (showTeotibotPriestPriestessTiles) {
       setShowTeotibotDice(true);
     }
-  }
+  };
 
+  const scrollIntoView = (ref, finishScroll) => {
+    if (!hasScrolled) {
+      ref.current.scrollIntoView({ behavior: "smooth" });
+    }
+    if (finishScroll) {
+      setHasScrolled(true);
+    }
+  }
 
   return (
     <div css={setupContainer}>
@@ -298,51 +314,65 @@ export const Setup = (props) => {
         </div>
       )}
       <div ref={startTileRef}>
-      {showStartTiles && (
-        <div>
-          <ReactTooltip multiline={true} />
-          <h4>Select 2 Start Tiles:</h4>
-          <StartTiles
-            isXitle={props.isXitle}
-            selectedStartTiles={selectedTile}
-          />
-        </div>
-      )}
+        {showStartTiles && (
+          <div>
+            <ReactTooltip multiline={true} />
+            <h4>Select 2 Start Tiles:</h4>
+            <StartTiles
+              isXitle={props.isXitle}
+              selectedStartTiles={selectedTile}
+            />
+          </div>
+        )}
       </div>
       <div ref={resourceRef}>
         {showStartingResources && (
           <div>
             <h4>Starting resources:</h4>
-            <StartingResources startingResources={selectedResources} onRest={onRest} />
+            <StartingResources
+              startingResources={selectedResources}
+              onRest={onRest}
+            />
           </div>
         )}
       </div>
-      {showPlayerPriestPriestessTiles && (
-        <div>
-          <h4>Priest/Priestess tiles</h4>
-          <PriestPriestessTiles numberToPick={2} onRest={onExpansionRest}/>
-        </div>
-      )}
+      <div ref={priestessRef}>
+        {showPlayerPriestPriestessTiles && (
+          <div>
+            <h4>Priest/Priestess tiles</h4>
+            <PriestPriestessTiles numberToPick={2} onRest={onExpansionRest} />
+          </div>
+        )}
+      </div>
       <div ref={playerPlacementRef}>
-      {showPlayerPlacements && (
-        <div>
-          <span>Player placements:</span>
-          <DicePlacement dicePlacements={playerPlacements} onRest={onRest} />
-        </div>
-      )}
+        {showPlayerPlacements && (
+          <div>
+            <h4>Player placements:</h4>
+            <DicePlacement dicePlacements={playerPlacements} onRest={onRest} />
+          </div>
+        )}
       </div>
       {showTeotibotPriestPriestessTiles && (
         <div>
           <h4>Teotibot Priest/Priestess tile:</h4>
-          <PriestPriestessTiles numberToPick={1} isTeotibot={true} onRest={onExpansionRest}/>
+          <PriestPriestessTiles
+            numberToPick={1}
+            isTeotibot={true}
+            onRest={onExpansionRest}
+          />
         </div>
       )}
-      {showTeotibotDice && (
-        <div>
-          <h4>Teotibot placement</h4>
-          <DicePlacement dicePlacements={teotibotPlacements} onRest={onRest} />
-        </div>
-      )}
+      <div ref={teotibotPlacementRef}>
+        {showTeotibotDice && (
+          <div>
+            <h4>Teotibot placement</h4>
+            <DicePlacement
+              dicePlacements={teotibotPlacements}
+              onRest={onRest}
+            />
+          </div>
+        )}
+      </div>
       {showNeutralPlayer1 && (
         <div>
           <h4>Neutral player 1</h4>
