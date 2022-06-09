@@ -10,12 +10,13 @@ import {
   actionNames,
   baseStartTiles,
   diceFaces,
-  getRandom,
+  xitleStartTiles,
 } from "../Constants";
 import { find, remove, union, cloneDeep, shuffle } from "lodash";
 import { StartingResources } from "./StartingResources";
 import { PriestPriestessTiles } from "./PriestPriestessTiles";
 import ReactTooltip from "react-tooltip";
+import { getActionItem, getNeutralArray, getPlayerArray } from "../Logic";
 
 export const Setup = (props) => {
   const startTileRef = useRef(null);
@@ -23,7 +24,6 @@ export const Setup = (props) => {
   const priestessRef = useRef(null);
   const teotibotPlacementRef = useRef(null);
   const playerPlacementRef = useRef(null);
-
   const [hasScrolled, setHasScrolled] = useState(false);
   const [selectedStartTiles, setSelectedStartTiles] = useState([]);
   const [selectedResources, setSelectedResources] = useState([]);
@@ -47,88 +47,12 @@ export const Setup = (props) => {
   const [showNeutralPlayer1, setShowNeutralPlayer1] = useState(false);
   const [showNeutralPlayer2, setShowNeutralPlayer2] = useState(false);
 
-  const noNeutralDice = 3;
-
-  function getRandomArrayIndex(arr) {
-    return Math.floor(Math.random() * (arr.length - 1)) + 1;
-  }
-
-  function getActionItem(item) {
-    return find(actionNames, ["value", item]);
-  }
-
   const getNeutralPlacement = useCallback((shuffledTiles) => {
-    //Draw 2 random start tiles
-    let index = getRandomArrayIndex(shuffledTiles);
-    let numbers1 = shuffledTiles[index].numbers;
-
-    shuffledTiles.splice(index, 1);
-
-    index = getRandomArrayIndex(shuffledTiles);
-    let numbers2 = shuffledTiles[index].numbers;
-
-    shuffledTiles.splice(index, 1);
-
-    let mergedActions = union(numbers1, numbers2);
-
-    //Get the 3 dice values
-    let dice = getRandom(diceFaces, noNeutralDice);
-
-    return [
-      {
-        key: 0,
-        diceFace: dice[0],
-        number: [mergedActions[0]],
-        actionName: getActionItem(mergedActions[0]).name,
-        color: getActionItem(mergedActions[0]).color,
-      },
-      {
-        key: 1,
-        diceFace: dice[1],
-        number: [mergedActions[1]],
-        actionName: getActionItem(mergedActions[1]).name,
-        color: getActionItem(mergedActions[1]).color,
-      },
-      {
-        key: 2,
-        diceFace: dice[2],
-        number: [mergedActions[2]],
-        actionName: getActionItem(mergedActions[2]).name,
-        color: getActionItem(mergedActions[2]).color,
-      },
-    ];
+    return getNeutralArray(shuffledTiles);
   }, []);
 
   const getPlayerPlacements = useCallback((selectedStartTiles) => {
-    let actions = [];
-
-    selectedStartTiles.forEach((selectedStartTile) => {
-      actions = union([...actions, ...selectedStartTile.numbers]);
-    });
-
-    return [
-      {
-        key: 0,
-        diceFace: diceFaces[0],
-        number: [actions[0]],
-        actionName: getActionItem(1).name,
-        color: getActionItem(1).color,
-      },
-      {
-        key: 1,
-        diceFace: diceFaces[0],
-        number: [actions[1]],
-        actionName: getActionItem(2).name,
-        color: getActionItem(2).color,
-      },
-      {
-        key: 2,
-        diceFace: diceFaces[0],
-        number: [actions[2]],
-        actionName: getActionItem(3).name,
-        color: getActionItem(3).color,
-      },
-    ];
+    return getPlayerArray(selectedStartTiles)
   }, []);
 
   const calcDicePlacements = useCallback(() => {
@@ -177,7 +101,7 @@ export const Setup = (props) => {
   useEffect(() => {
     if (selectedStartTiles.length >= 2) {
       setRemainingStartTiles(
-        baseStartTiles.filter((el) => {
+        props.startTiles.filter((el) => {
           return (
             el.name !== selectedStartTiles[0].name &&
             el.name !== selectedStartTiles[1].name
@@ -319,6 +243,7 @@ export const Setup = (props) => {
             <ReactTooltip multiline={true} />
             <h4>Select 2 Start Tiles:</h4>
             <StartTiles
+              startTiles={props.startTiles}
               isXitle={props.isXitle}
               selectedStartTiles={selectedTile}
             />
@@ -339,7 +264,7 @@ export const Setup = (props) => {
       <div ref={priestessRef}>
         {showPlayerPriestPriestessTiles && (
           <div>
-            <h4>Priest/Priestess tiles</h4>
+            <h4>Priest/Priestess tiles:</h4>
             <PriestPriestessTiles numberToPick={2} onRest={onExpansionRest} />
           </div>
         )}
@@ -365,7 +290,7 @@ export const Setup = (props) => {
       <div ref={teotibotPlacementRef}>
         {showTeotibotDice && (
           <div>
-            <h4>Teotibot placement</h4>
+            <h4>Teotibot placement:</h4>
             <DicePlacement
               dicePlacements={teotibotPlacements}
               onRest={onRest}
@@ -375,13 +300,13 @@ export const Setup = (props) => {
       </div>
       {showNeutralPlayer1 && (
         <div>
-          <h4>Neutral player 1</h4>
+          <h4>Neutral player 1:</h4>
           <DicePlacement dicePlacements={neutralPlacements1} onRest={onRest} />
         </div>
       )}
       {showNeutralPlayer2 && (
         <div>
-          <h4>Neutral player 2</h4>
+          <h4>Neutral player 2:</h4>
           <DicePlacement dicePlacements={neutralPlacements2} />
         </div>
       )}

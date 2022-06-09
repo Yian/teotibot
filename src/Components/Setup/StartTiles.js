@@ -20,15 +20,14 @@ export const StartTiles = (props) => {
   // Hook2: Measure the width of the container element
   const [ref, { width }] = useMeasure();
 
-  const startTiles = props.isXitle
-    ? [...baseStartTiles, ...xitleStartTiles]
-    : baseStartTiles;
-
   // Hook3: Hold items
-  const [items, set] = useState(startTiles);
+  const [items, set] = useState([]);
 
   // Hook4: shuffle data every 2 seconds
   useEffect(() => {
+    if (items.length <= 0) {
+      set(props.startTiles)
+    }
     const t = setInterval(() => {
       if (items.length >= 5) {
         items.pop();

@@ -12,7 +12,7 @@ export const questionModal = css`
   background-color: rgb(0, 0, 0); /* Fallback color */
   background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
 
-  img {
+  .icon {
     height: 1.75rem;
     vertical-align: middle;
   }
@@ -55,7 +55,7 @@ export const questionModalContent = css`
     width: 65%;
   }
 
-  img {
+  .icon {
     height: 1.75rem;
     vertical-align: middle;
   }

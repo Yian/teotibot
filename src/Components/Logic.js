@@ -1,3 +1,6 @@
+import { find, remove, union, cloneDeep, shuffle } from "lodash";
+import { actionNames, diceFaces, noNeutralDice } from "./Constants";
+
 export const right = "right";
 export const left = "left";
 
@@ -184,3 +187,99 @@ export const calculateYDirectionTile = (index, width, media)=> {
   }
   return result;
 };
+
+export const getRandom = (arr, n) => {
+  var result = new Array(n),
+    len = arr.length,
+    taken = new Array(len);
+  if (n > len)
+    throw new RangeError("getRandom: more elements taken than available");
+  while (n--) {
+    var x = Math.floor(Math.random() * len);
+    result[n] = arr[x in taken ? taken[x] : x];
+    taken[x] = --len in taken ? taken[len] : len;
+  }
+  return result;
+};
+
+function getRandomArrayIndex(arr) {
+  return Math.floor(Math.random() * (arr.length - 1)) + 1;
+}
+
+
+export function getActionItem(item) {
+  return find(actionNames, ["value", item]);
+}
+
+export function getNeutralArray(shuffledTiles) {
+  let index = getRandomArrayIndex(shuffledTiles);
+  let numbers1 = shuffledTiles[index].numbers;
+
+  shuffledTiles.splice(index, 1);
+
+  index = getRandomArrayIndex(shuffledTiles);
+  let numbers2 = shuffledTiles[index].numbers;
+
+  shuffledTiles.splice(index, 1);
+
+  let mergedActions = union(numbers1, numbers2);
+
+  //Get the 3 dice values
+  let dice = getRandom(diceFaces, noNeutralDice);
+
+  return [
+    {
+      key: 0,
+      diceFace: dice[0],
+      number: [mergedActions[0]],
+      actionName: getActionItem(mergedActions[0]).name,
+      color: getActionItem(mergedActions[0]).color,
+    },
+    {
+      key: 1,
+      diceFace: dice[1],
+      number: [mergedActions[1]],
+      actionName: getActionItem(mergedActions[1]).name,
+      color: getActionItem(mergedActions[1]).color,
+    },
+    {
+      key: 2,
+      diceFace: dice[2],
+      number: [mergedActions[2]],
+      actionName: getActionItem(mergedActions[2]).name,
+      color: getActionItem(mergedActions[2]).color,
+    },
+  ];
+}
+
+export function getPlayerArray(selectedStartTiles) {
+  let actions = [];
+
+    selectedStartTiles.forEach((selectedStartTile) => {
+      actions = union([...actions, ...selectedStartTile.numbers]);
+    });
+
+    return [
+      {
+        key: 0,
+        diceFace: diceFaces[0],
+        number: [actions[0]],
+        actionName: getActionItem(1).name,
+        color: getActionItem(1).color,
+      },
+      {
+        key: 1,
+        diceFace: diceFaces[0],
+        number: [actions[1]],
+        actionName: getActionItem(2).name,
+        color: getActionItem(2).color,
+      },
+      {
+        key: 2,
+        diceFace: diceFaces[0],
+        number: [actions[2]],
+        actionName: getActionItem(3).name,
+        color: getActionItem(3).color,
+      },
+    ];
+}

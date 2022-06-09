@@ -10,8 +10,9 @@ import {
 } from "./AppContainer.css";
 import {
   baseBotTiles,
-  initialOrdering,
   baseStartTiles,
+  xitleStartTiles,
+  initialOrdering,
   StartScreen,
   SetupScreen,
   AppScreen,
@@ -27,13 +28,11 @@ export class AppContainer extends React.Component {
       screenMode: StartScreen,
       lastScreen: StartScreen,
       isOptions: false,
-      playerCount: 5,
-      cycleCount: 0,
-      lastPlayerIndex: 4,
       isXitle: false,
       isPriestAndPriestess: false,
       isHeightOfDevelopment: false,
       isSeasonsOfProgress: false,
+      startTiles: baseStartTiles,
       shuffleHistory: [
         {
           cycle: 0,
@@ -88,28 +87,11 @@ export class AppContainer extends React.Component {
       directionOrdering: newOrder,
     });
   };
-  
-  setPlayerCount = (playerCount) => {
-    var lastPlayerIndex = playerCount - 1;
-    var tilesToUse = baseBotTiles;
-
-    this.setState({
-      playerCount,
-      lastPlayerIndex,
-      tiles: [],
-    });
-
-    //hack to get highlighting working
-    setTimeout(() => {
-      this.setState({
-        tiles: tilesToUse,
-      });
-    });
-  };
 
   setIsXitle = (isXitle) => {
     this.setState({
       isXitle,
+      startTiles: [...baseStartTiles, ...xitleStartTiles]
     });
   };
 
@@ -208,7 +190,7 @@ export class AppContainer extends React.Component {
             alt="Settings"
           />
           <span onClick={() => this.app()}>Continue</span>
-          <Setup isXitle={this.state.isXitle} isPriestAndPriestess={this.state.isPriestAndPriestess} />
+          <Setup startTiles={this.state.startTiles} isXitle={this.state.isXitle} isPriestAndPriestess={this.state.isPriestAndPriestess} />
         </div>
       );
     } else if (this.state.screenMode === AppScreen) {
@@ -219,7 +201,7 @@ export class AppContainer extends React.Component {
           back={this.back}
           isXitle={this.setState.isXitle}
           lastPlayerIndex={this.state.lastPlayerIndex}
-          cycleCount={this.state.cycleCount}
+          startTiles={this.state.startTiles}
           shuffleHistory={this.state.shuffleHistory}
           playerCount={this.state.playerCount}
           defaultFavorTiles={this.state.defaultFavorTiles}

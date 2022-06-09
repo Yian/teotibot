@@ -15,6 +15,8 @@ import {
   tileList,
   diceButton,
   diceContainer,
+  nav,
+  navButton,
 } from "./TileList.css";
 import { QuestionForm } from "../QuestionForm";
 import {
@@ -33,6 +35,7 @@ import {
   baseBotTiles,
   baseDirectionTiles,
   diceTilePositions,
+  Eclipse,
   initialDirectionOrdering,
   initialOrdering,
 } from "../Constants";
@@ -46,10 +49,11 @@ export const TileList = (props) => {
   const [directionOrdering, setDirectionOrdering] = useState(
     shuffle(initialDirectionOrdering)
   );
-  const [round, setRound] = useState(0);
+  const [eclipse, setEclipse] = useState(0);
   const [tileSizeCalculated, setTileSizeCalculated] = useState(false);
   const [tilesDisabled, setTilesDisabled] = useState(false);
   const [showForm, setShowForm] = useState(false);
+  const [showEclipseForm, setShowEclipseForm] = useState(false);
   const [selectedTileIndex, setSelectedTileIndex] = useState(0);
   const [showDice, setShowDice] = useState(false);
   const [dice1Rolled, setDice1Rolled] = useState(0);
@@ -63,7 +67,7 @@ export const TileList = (props) => {
       "(min-width: 600px)",
       "(max-width: 480px)",
     ],
-    [4, 4, 4, 3],
+    [4, 4, 3, 3],
     4
   );
   // Hook2: Measure the width of the container element
@@ -221,9 +225,7 @@ export const TileList = (props) => {
   });
 
   useEffect(() => {
-    if (round === 0) {
-      setDirectionTiles(shuffle(baseDirectionTiles));
-    }
+    setDirectionTiles(shuffle(baseDirectionTiles));
   }, []);
 
   useEffect(() => {
@@ -259,6 +261,7 @@ export const TileList = (props) => {
 
   const onCloseClick = (i) => {
     setShowForm(false);
+    setShowEclipseForm(false);
     setTileSizeCalculated();
     shuffleTiles(selectedTileIndex);
     setShowDice(false);
@@ -268,6 +271,13 @@ export const TileList = (props) => {
     setShowDice(true);
     refDice1.current.rollDice();
     refDice2.current.rollDice();
+  };
+
+  const handleEclipse = () => {
+    if (eclipse < 3) {
+      setEclipse(eclipse + 1);
+      setShowEclipseForm(true);
+    }
   };
 
   const getStyle = useCallback(
@@ -304,6 +314,14 @@ export const TileList = (props) => {
             tileSrc={tiles[selectedTileIndex].src}
           />
         )}
+        {showEclipseForm && (
+          <QuestionForm
+            tiles={props.startTiles}
+            onCloseClick={onCloseClick}
+            tileName={Eclipse}
+            tileSrc={"eclipse"}
+          />
+        )}
       </div>
       <div ref={ref} css={tileList} style={{ height: 0 }}>
         {tileTransitions((style, tile) => (
@@ -328,12 +346,19 @@ export const TileList = (props) => {
           />
         ))}
       </div>
-      <div css={diceButton} onClick={handleClick}>
-        ROLL
+      <div css={nav}>
+        <span css={navButton} onClick={handleClick}>
+          ROLL
+        </span>
+        <span css={navButton} onClick={handleEclipse}>
+          Eclipse {eclipse}
+        </span>
+        <span css={navButton}>Options</span>
       </div>
-      <div css={diceContainer} style={{zIndex: showDice ? 5 : 1}}>
+      <div css={diceContainer} style={{ zIndex: showDice ? 5 : 1 }}>
         <animated.div
           style={{
+            display: "flex",
             transform,
           }}
         >

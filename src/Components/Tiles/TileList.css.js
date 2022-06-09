@@ -65,11 +65,18 @@ export const expansionOptions = css`
   flex: 100%;
 `;
 
-export const diceButton = css`
+export const nav = css`
+  display: flex;
+  width: 100%;
+  background: #35a7c6;
+`;
+
+export const navButton = css`
   z-index: 999;
 `;
 
 export const diceContainer = css`
+  display: flex;
   position: fixed;
   top: 50%;
   left: 50%;
