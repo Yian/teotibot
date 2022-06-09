@@ -259,7 +259,7 @@ export const TileList = (props) => {
     }, 700);
   };
 
-  const onCloseClick = (i) => {
+  const onCloseClick = () => {
     setShowForm(false);
     setShowEclipseForm(false);
     setTileSizeCalculated();
@@ -305,7 +305,7 @@ export const TileList = (props) => {
 
   return (
     <div css={tileListContainer}>
-      <div css={mainImg} onClick={onCloseClick} />
+      <div css={mainImg} />
       <div>
         {showForm && (
           <QuestionForm

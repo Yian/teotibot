@@ -17,6 +17,14 @@ export const questionModal = css`
     vertical-align: middle;
   }
 `;
+export const modalHeading = css`
+  display: flex;
+  flex-direction: row-reverse;
+  margin: 20px 0;
+  img {
+    width: 200px;
+  }
+`;
 
 export const questionModalContent = css`
   display: flex;
@@ -47,6 +55,10 @@ export const questionModalContent = css`
     font-size: 2rem;
   }
 
+  @media ${mediaQueries.isSm} {
+    width: 85%;
+  }
+
   @media ${mediaQueries.isMaxSm} {
     width: 90%;
   }
@@ -73,6 +85,14 @@ export const questionModalContent = css`
   .priority {
     margin: 10px 0;
   }
+`;
+
+export const questionModalPlacements = css`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  align-self: flex-start;
 `;
 
 export const modalClose = css`

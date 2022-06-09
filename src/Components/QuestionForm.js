@@ -8,6 +8,8 @@ import {
   modalClose,
   questionModalContent,
   questionForm,
+  questionModalPlacements,
+  modalHeading,
 } from "./QuestionForm.css";
 import { baseStartTiles, Eclipse, TilesToQuestions } from "./Constants";
 import { DicePlacement } from "./Setup/DicePlacement";
@@ -20,32 +22,15 @@ export class QuestionForm extends React.Component {
       answers: {},
       questions: TilesToQuestions[props.tileSrc],
       fromMastery: false,
-      neutralPlacements1: props.tileName === Eclipse ? getNeutralArray(props.tiles) : [],
-      neutralPlacements2: props.tileName === Eclipse ? getNeutralArray(props.tiles) : [],
+      neutralPlacements1:
+        props.tileName === Eclipse ? getNeutralArray(props.tiles) : [],
+      neutralPlacements2:
+        props.tileName === Eclipse ? getNeutralArray(props.tiles) : [],
     };
 
     this.onExitForm = this.onExitForm.bind(this);
     this.onRestartQuestions = this.onRestartQuestions.bind(this);
     this.onClickMasteryOption = this.onClickMasteryOption.bind(this);
-  }
-
-  componentDidUpdate(prevProps, prevState, snapshot) {
-    console.log(prevProps);
-    console.log(prevState);
-    console.log(snapshot);
-  }
-
-  componentDidMount() {
-    console.log("mount");
-  }
-
-  componentWillUnmount() {
-    console.log("unmount");
-  }
-
-  static getDerivedStateFromProps(props, state) {
-    console.log(props);
-    console.log(state);
   }
 
   onRestartQuestions() {
@@ -62,9 +47,9 @@ export class QuestionForm extends React.Component {
     }
   }
 
-  onClickMasteryOption() {
+  onClickMasteryOption(name) {
     this.setState({
-      questions: TilesToQuestions["decorations"],
+      questions: TilesToQuestions[name],
       fromMastery: true,
     });
   }
@@ -78,6 +63,7 @@ export class QuestionForm extends React.Component {
     var questions = this.state.questions;
     var neutralPlacements1 = this.state.neutralPlacements1;
     var neutralPlacements2 = this.state.neutralPlacements2;
+    var fromMastery = this.state.fromMastery;
 
     const qs = questions.filter((q) => {
       if (!q.condition) {
@@ -93,13 +79,21 @@ export class QuestionForm extends React.Component {
           <div css={modalClose} onClick={this.onExitForm}>
             close
           </div>
-          <h1>{this.props.tileName}</h1>
+          <div css={modalHeading}>
+            <h3>{this.props.tileName}</h3>
+            <img
+              src={`${process.env.PUBLIC_URL}/botTiles/${this.props.tileSrc}.png`}
+              alt={this.props.tileName}
+            />
+          </div>
+
           {qs.map((question) => (
             <Question
               key={question.questionId}
               isEnd={question.isEnd}
               noButtons={question.noButtons}
               onExitForm={this.onExitForm}
+              fromMastery={fromMastery}
               onRestartQuestions={this.onRestartQuestions}
               onSelect={(answer) => {
                 const answers = {
@@ -112,21 +106,23 @@ export class QuestionForm extends React.Component {
               {parse(question.question)}
             </Question>
           ))}
-          {this.props.tileName === Eclipse && <div>
-            <h2>Neutral placements</h2>
-            <h3>Neutral player 1</h3>
-            <DicePlacement
-              dicePlacements={neutralPlacements1}
-              onRest={() => {}}
-            />
-            <h3>Neutral player 2</h3>
-            <DicePlacement
-              dicePlacements={neutralPlacements2}
-              onRest={() => {}}
-            />
-          </div>}
+          {this.props.tileName === Eclipse && (
+            <div css={questionModalPlacements}>
+              <h2>Neutral placements</h2>
+              <h3>Neutral player 1</h3>
+              <DicePlacement
+                dicePlacements={neutralPlacements1}
+                onRest={() => {}}
+              />
+              <h3>Neutral player 2</h3>
+              <DicePlacement
+                dicePlacements={neutralPlacements2}
+                onRest={() => {}}
+              />
+            </div>
+          )}
 
-          {this.props.tileName === "mastery" && !this.state.fromMastery && (
+          {this.props.tileName === "Mastery" && !this.state.fromMastery && (
             <div>
               <div>Find the bots highest powered unlocked die.</div>
               <div>Perform that Action Boards action if possible:</div>
@@ -134,10 +130,18 @@ export class QuestionForm extends React.Component {
                 <li>Forest (2):</li>
                 <li>Stone Quarry (3):</li>
                 <li>Gold Deposits (4):</li>
-                <li onClick={this.onClickMasteryOption}>Alchemy (5):</li>
-                <li onClick={this.onClickMasteryOption}>Nobles (6):</li>
-                <li onClick={this.onClickMasteryOption}>Decorations (7):</li>
-                <li onClick={this.onClickMasteryOption}>Construction (8):</li>
+                <li onClick={() => this.onClickMasteryOption("alchemy")}>
+                  Alchemy (5):
+                </li>
+                <li onClick={() => this.onClickMasteryOption("nobles")}>
+                  Nobles (6):
+                </li>
+                <li onClick={() => this.onClickMasteryOption("decorations")}>
+                  Decorations (7):
+                </li>
+                <li onClick={() => this.onClickMasteryOption("construction")}>
+                  Construction (8):
+                </li>
               </ul>
             </div>
           )}
@@ -168,12 +172,15 @@ const Question = (props) => {
             no
           </div>
         </div>
-      ) : (!props.noButtons ?? 
+      ) : !props.noButtons || !props.fromMastery ? (
         <CloseForm
           isEnd={props.isEnd}
           onExitForm={props.onExitForm}
+          fromMastery={props.fromMastery}
           onRestartQuestions={props.onRestartQuestions}
         />
+      ) : (
+        <div></div>
       )}
     </div>
   );
@@ -184,7 +191,9 @@ function CloseForm(props) {
     <div>
       <div css={buttons}>
         <div onClick={props.onExitForm}>continue</div>
-        {!props.isEnd && <div onClick={props.onRestartQuestions}>restart</div>}
+        {(!props.isEnd || props.fromMastery) && (
+          <div onClick={props.onRestartQuestions}>restart</div>
+        )}
       </div>
     </div>
   );

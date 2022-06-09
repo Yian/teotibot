@@ -66,7 +66,7 @@ export const actionText = css`
 `;
 
 export const diceFace = css`
-  width: 58px;
+  width: 50px;
 `;
 
 export const neutralContainer = css`
