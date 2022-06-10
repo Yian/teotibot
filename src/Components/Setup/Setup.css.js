@@ -4,13 +4,16 @@ export const setupContainer = css`
   color: #eeeddb;
 `;
 
+export const setup = css`
+
+`;
+
 export const btnSettings = css`
   position: absolute;
   top: 0;
   right: 0;
   cursor: pointer;
 `;
-
 
 export const btnContinue = css`
   display: flex;

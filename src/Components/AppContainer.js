@@ -11,9 +11,10 @@ import {
 import {
   baseBotTiles,
   baseStartTiles,
-  baseTechTiles,
-  baseTempleTiles,
   xitleStartTiles,
+  baseTechTiles,
+  xitleTechTiles,
+  baseTempleTiles,
   initialOrdering,
   StartScreen,
   SetupScreen,
@@ -22,7 +23,7 @@ import {
   diceFaces,
 } from "./Constants";
 import { Options } from "./Options";
-import { btnSettings, setupContainer } from "./Setup/Setup.css";
+import { btnSettings, setup } from "./Setup/Setup.css";
 
 export class AppContainer extends React.Component {
   constructor(props) {
@@ -53,14 +54,14 @@ export class AppContainer extends React.Component {
         img.src = `${process.env.PUBLIC_URL}/tech_tiles/${tile.src}.png`;
     });
     
+    xitleTechTiles.forEach((tile) => {
+      const img = new Image();
+      img.src = `${process.env.PUBLIC_URL}/tech_tiles/${tile.src}.png`;
+  });
+
     baseTempleTiles.forEach((tile) => {
         const img = new Image();
         img.src = `${process.env.PUBLIC_URL}/temple_tiles/${tile.src}.png`;
-    });
-
-    baseBotTiles.forEach((tile) => {
-      const img = new Image();
-      img.src = `${process.env.PUBLIC_URL}/bot_tiles/${tile.src}.png`;
     });
 
     baseStartTiles.forEach((tile) => {
@@ -68,14 +69,24 @@ export class AppContainer extends React.Component {
       img.src = `${process.env.PUBLIC_URL}/start_tiles/base/${tile.name}.jpg`;
     });
 
-    const img1 = new Image();
-    img1.src = `${process.env.PUBLIC_URL}/backgrounds/forms.jpg`;
+    xitleStartTiles.forEach((tile) => {
+      const img = new Image();
+      img.src = `${process.env.PUBLIC_URL}/start_tiles/base/${tile.name}.jpg`;
+    });
 
-    const img2 = new Image();
-    img2.src = `${process.env.PUBLIC_URL}/backgrounds/late-preclassic.jpg`;
+    const imgForms = new Image();
+    imgForms.src = `${process.env.PUBLIC_URL}/backgrounds/forms.jpg`;
 
-    const img3 = new Image();
-    img3.src = `${process.env.PUBLIC_URL}/backgrounds/xitle.jpg`;
+    const imgExp1= new Image();
+    imgExp1.src = `${process.env.PUBLIC_URL}/backgrounds/xitle.jpg`;
+
+    const imgExp2 = new Image();
+    imgExp2.src = `${process.env.PUBLIC_URL}/backgrounds/late-preclassic.jpg`;
+
+    baseBotTiles.forEach((tile) => {
+      const img = new Image();
+      img.src = `${process.env.PUBLIC_URL}/bot_tiles/${tile.src}.png`;
+    });
 
     diceFaces.forEach((dface) => {
       const img = new Image();
@@ -195,7 +206,7 @@ export class AppContainer extends React.Component {
       );
     } else if (this.state.screenMode === SetupScreen) {
       return (
-        <div>
+        <div css={setup}>
           <img
             css={btnSettings}
             onClick={() => this.options(SetupScreen)}

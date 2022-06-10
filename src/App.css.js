@@ -1,5 +1,9 @@
 import { css } from '@emotion/react'
 
+export const app = css`
+
+`;
+
 export const appHeader = css`
   //min-height: 100vh;
   display: flex;

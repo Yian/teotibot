@@ -17,7 +17,7 @@ export const StartingResources = (props) => {
       "(min-width: 480px)",
     ],
     [10, 10, 7, 7],
-    10
+    7
   );
 
   const [ref, { width }] = useMeasure();

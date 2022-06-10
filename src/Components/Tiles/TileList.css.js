@@ -68,8 +68,9 @@ export const expansionOptions = css`
 export const nav = css`
   display: flex;
   justify-content: space-evenly;
+  position: fixed;
   width: 100%;
-  background: #000;
+  background: #ffffff42;
   height: 50px;
 `;
 
