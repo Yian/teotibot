@@ -11,6 +11,8 @@ import {
 import {
   baseBotTiles,
   baseStartTiles,
+  baseTechTiles,
+  baseTempleTiles,
   xitleStartTiles,
   initialOrdering,
   StartScreen,
@@ -46,9 +48,19 @@ export class AppContainer extends React.Component {
 
   componentDidMount() {
     //Preloading images
+    baseTechTiles.forEach((tile) => {
+        const img = new Image();
+        img.src = `${process.env.PUBLIC_URL}/tech_tiles/${tile.src}.png`;
+    });
+    
+    baseTempleTiles.forEach((tile) => {
+        const img = new Image();
+        img.src = `${process.env.PUBLIC_URL}/temple_tiles/${tile.src}.png`;
+    });
+
     baseBotTiles.forEach((tile) => {
       const img = new Image();
-      img.src = `${process.env.PUBLIC_URL}/botTiles/${tile.src}.png`;
+      img.src = `${process.env.PUBLIC_URL}/bot_tiles/${tile.src}.png`;
     });
 
     baseStartTiles.forEach((tile) => {

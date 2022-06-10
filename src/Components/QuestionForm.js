@@ -82,7 +82,7 @@ export class QuestionForm extends React.Component {
           <div css={modalHeading}>
             <h3>{this.props.tileName}</h3>
             {this.props.tileName !== "Eclipse" && <img
-              src={`${process.env.PUBLIC_URL}/botTiles/${this.props.tileSrc}.png`}
+              src={`${process.env.PUBLIC_URL}/bot_tiles/${this.props.tileSrc}.png`}
               alt={this.props.tileName}
             />}
           </div>

@@ -333,7 +333,7 @@ export const TileList = (props) => {
             onClick={() => {
               showSteps(tile.index);
             }}
-            src={`${process.env.PUBLIC_URL}/botTiles/${tile.src}.png`}
+            src={`${process.env.PUBLIC_URL}/bot_tiles/${tile.src}.png`}
             style={{ ...style, ...getStyle(tile) }}
           />
         ))}
@@ -343,7 +343,7 @@ export const TileList = (props) => {
           <animated.img
             draggable="false"
             key={directionTile.index}
-            src={`${process.env.PUBLIC_URL}/botTiles/${directionTile.src}.png`}
+            src={`${process.env.PUBLIC_URL}/bot_tiles/${directionTile.src}.png`}
             style={style}
           />
         ))}
