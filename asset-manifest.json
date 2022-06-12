@@ -1,16 +1,16 @@
 {
   "files": {
-    "main.css": "/teotibot/static/css/main.305ca7d6.chunk.css",
-    "main.js": "/teotibot/static/js/main.82490e45.chunk.js",
-    "main.js.map": "/teotibot/static/js/main.82490e45.chunk.js.map",
+    "main.css": "/teotibot/static/css/main.76f38998.chunk.css",
+    "main.js": "/teotibot/static/js/main.2fb5953b.chunk.js",
+    "main.js.map": "/teotibot/static/js/main.2fb5953b.chunk.js.map",
     "runtime~main.js": "/teotibot/static/js/runtime~main.97619256.js",
     "runtime~main.js.map": "/teotibot/static/js/runtime~main.97619256.js.map",
-    "static/js/2.354e64ef.chunk.js": "/teotibot/static/js/2.354e64ef.chunk.js",
-    "static/js/2.354e64ef.chunk.js.map": "/teotibot/static/js/2.354e64ef.chunk.js.map",
+    "static/js/2.0cbc4564.chunk.js": "/teotibot/static/js/2.0cbc4564.chunk.js",
+    "static/js/2.0cbc4564.chunk.js.map": "/teotibot/static/js/2.0cbc4564.chunk.js.map",
     "index.html": "/teotibot/index.html",
-    "precache-manifest.80702fa76601412b263d6aef273e4efe.js": "/teotibot/precache-manifest.80702fa76601412b263d6aef273e4efe.js",
+    "precache-manifest.00fc0f67d3e5be00813361c96da5ea6c.js": "/teotibot/precache-manifest.00fc0f67d3e5be00813361c96da5ea6c.js",
     "service-worker.js": "/teotibot/service-worker.js",
-    "static/css/main.305ca7d6.chunk.css.map": "/teotibot/static/css/main.305ca7d6.chunk.css.map",
+    "static/css/main.76f38998.chunk.css.map": "/teotibot/static/css/main.76f38998.chunk.css.map",
     "static/media/App.css": "/teotibot/static/media/Mayan.234229e0.ttf"
   }
 }
