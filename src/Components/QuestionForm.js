@@ -10,8 +10,10 @@ import {
   questionForm,
   questionModalPlacements,
   modalHeading,
+  strikeOut,
+  masteryForm,
 } from "./QuestionForm.css";
-import { Eclipse, TilesToQuestions } from "./Constants";
+import { powerupMsg, Eclipse, masteryQuestions, TilesToQuestions } from "./Constants";
 import { DicePlacement } from "./Setup/DicePlacement";
 import { getNeutralArray } from "./Logic";
 
@@ -20,6 +22,7 @@ export class QuestionForm extends React.Component {
     super(props);
     this.state = {
       answers: {},
+      masteryAnswers: [],
       questions: TilesToQuestions[props.tileSrc],
       fromMastery: false,
       neutralPlacements1:
@@ -33,11 +36,13 @@ export class QuestionForm extends React.Component {
     this.onClickMasteryOption = this.onClickMasteryOption.bind(this);
   }
 
-  onRestartQuestions() {
+  onRestartQuestions(i) {
     if (this.state.fromMastery) {
+      const masteryAnswers = [...this.state.masteryAnswers, i];
       this.setState({
         fromMastery: false,
         questions: TilesToQuestions["mastery"],
+        masteryAnswers,
         answers: {},
       });
     } else {
@@ -64,32 +69,40 @@ export class QuestionForm extends React.Component {
     var neutralPlacements1 = this.state.neutralPlacements1;
     var neutralPlacements2 = this.state.neutralPlacements2;
     var fromMastery = this.state.fromMastery;
+    var eclipseStage = this.props.eclipseStage;
 
     const qs = questions.filter((q) => {
       if (!q.condition) {
         // no condition set; always visible
         return true;
       }
-      return q.condition({ answers });
+      return q.condition({ answers, eclipseStage });
     });
 
     return (
       <div css={questionModal}>
         <div css={questionModalContent}>
           <div css={modalClose} onClick={this.onExitForm}>
-            <img src={`${process.env.PUBLIC_URL}/resources/cancel.png`} alt="Cancel"/>
+            <img
+              src={`${process.env.PUBLIC_URL}/resources/cancel.png`}
+              alt="Cancel"
+            />
           </div>
           <div css={modalHeading}>
             <h3>{this.props.tileName}</h3>
-            {this.props.tileName !== "Eclipse" && <img
-              src={`${process.env.PUBLIC_URL}/bot_tiles/${this.props.tileSrc}.png`}
-              alt={this.props.tileName}
-            />}
+            {this.props.tileName !== Eclipse && (
+              <img
+                src={`${process.env.PUBLIC_URL}/bot_tiles/${this.props.tileSrc}.png`}
+                alt={this.props.tileName}
+              />
+            )}
           </div>
 
           {qs.map((question) => (
             <Question
               key={question.questionId}
+              masteryQuestionId={question.masteryQuestionId}
+              questionId={question.questionId}
               isEnd={question.isEnd}
               noButtons={question.noButtons}
               margin={question.margin}
@@ -124,26 +137,27 @@ export class QuestionForm extends React.Component {
           )}
 
           {this.props.tileName === "Mastery" && !this.state.fromMastery && (
-            <div>
+            <div css={masteryForm}>
               <div>Find the bots highest powered unlocked die.</div>
               <div>Perform that Action Boards action if possible:</div>
               <ul>
-                <li>Forest (2):</li>
-                <li>Stone Quarry (3):</li>
-                <li>Gold Deposits (4):</li>
-                <li onClick={() => this.onClickMasteryOption("alchemy")}>
-                  Alchemy (5):
-                </li>
-                <li onClick={() => this.onClickMasteryOption("nobles")}>
-                  Nobles (6):
-                </li>
-                <li onClick={() => this.onClickMasteryOption("decorations")}>
-                  Decorations (7):
-                </li>
-                <li onClick={() => this.onClickMasteryOption("construction")}>
-                  Construction (8):
-                </li>
+                {masteryQuestions.map((question) => (
+                  <li
+                    css={
+                      this.state.masteryAnswers.indexOf(question.id) >= 0
+                        ? strikeOut
+                        : {}
+                    }
+                    key={question.id}
+                    onClick={() => this.onClickMasteryOption(question.action)}
+                  >
+                    {parse(question.name)}
+                  </li>
+                ))}
               </ul>
+              {this.state.masteryAnswers.length >= 7 && (
+                parse(powerupMsg)
+              )}
             </div>
           )}
         </div>
@@ -166,9 +180,15 @@ const Question = (props) => {
             yes
           </div>
           <div
-            onClick={() => {
-              props.onSelect("no");
-            }}
+            onClick={
+              !props.fromMastery
+                ? () => {
+                    props.onSelect("no");
+                  }
+                : () => {
+                    props.onRestartQuestions(props.masteryQuestionId);
+                  }
+            }
           >
             no
           </div>
@@ -179,6 +199,7 @@ const Question = (props) => {
           isEnd={props.isEnd}
           onExitForm={props.onExitForm}
           fromMastery={props.fromMastery}
+          questionId={props.questionId}
           onRestartQuestions={props.onRestartQuestions}
         />
       ) : (
@@ -193,7 +214,7 @@ function CloseForm(props) {
     <div>
       <div css={buttons(props.margin)}>
         <div onClick={props.onExitForm}>continue</div>
-        {(props.isEnd || props.fromMastery) && (
+        {(props.questionId !== 1 && (props.isEnd || props.fromMastery)) && (
           <div onClick={props.onRestartQuestions}>restart</div>
         )}
       </div>

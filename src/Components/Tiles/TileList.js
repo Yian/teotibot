@@ -312,6 +312,7 @@ export const TileList = (props) => {
           <QuestionForm
             onCloseClick={onCloseClick}
             tileName={tiles[selectedTileIndex].name}
+            eclipseStage={eclipse}
             tileSrc={tiles[selectedTileIndex].src}
           />
         )}

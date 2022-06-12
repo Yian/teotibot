@@ -23,6 +23,10 @@ export const modalHeading = css`
   }
 `;
 
+export const masteryForm = css`
+  cursor: pointer;
+`;
+
 export const questionModalContent = css`
   display: flex;
   flex-direction: column;
@@ -36,7 +40,6 @@ export const questionModalContent = css`
   width: 60%; /* Could be more or less, depending on screen size */
   min-height: 550px;
   font-size: 1.75rem;
-  line-height: 1.5rem;
   color: chocolate;
   border-radius: 12px;
   background-image: url("./backgrounds/forms.jpg");
@@ -62,6 +65,7 @@ export const questionModalContent = css`
   @media ${mediaQueries.isMaxXs} {
     width: 90%;
     font-size: 1.1rem;
+    line-height: 1.5rem;
   }
 
   @media ${mediaQueries.isSm} {
@@ -115,6 +119,9 @@ export const questionModalPlacements = css`
   }
 `;
 
+export const strikeOut = css`
+  text-decoration: line-through;
+`;
 export const modalClose = css`
   position: absolute;
   top: 0;
