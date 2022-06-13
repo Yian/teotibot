@@ -140,11 +140,11 @@ export const buttons = (margin) => css`
     cursor: pointer;
   }
 
-  div:first-child {
+  div:first-of-type {
     color: #30c5bd;
   }
 
-  div:nth-child(2) {
+  div:nth-of-type(2) {
     color: #d15959;
   }
 `;

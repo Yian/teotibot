@@ -1,12 +1,11 @@
 import { css } from "@emotion/react";
+import { mediaQueries } from "../variables";
 
 export const setupContainer = css`
   color: #eeeddb;
 `;
 
-export const setup = css`
-
-`;
+export const setup = css``;
 
 export const btnSettings = css`
   position: absolute;
@@ -97,4 +96,37 @@ export const diceContainer = css`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+`;
+
+export const optionsTeotibotStartingResources = css`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+
+  img {
+    width: 4rem;
+    margin: 0 5px;
+  }
+
+  span {
+    display: flex;
+    font-size: 4rem;
+    margin: 0 5px;
+    cursor: pointer;
+  }
+
+  @media ${mediaQueries.isMaxSm} {
+    flex-direction: column;
+  }
+`;
+
+export const teotibotResourceContainer = css`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 20px;
+
+  @media ${mediaQueries.isMaxSm} {
+    margin-bottom: 20px;
+  }
 `;

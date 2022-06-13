@@ -43,6 +43,7 @@ export const StartingResources = (props) => {
       const y = (heights[column] += 150 / 2) - 150 / 2; // y = it's just the height of the current column
       return {
         ...child,
+        index: i,
         y,
         x,
       };
@@ -52,7 +53,7 @@ export const StartingResources = (props) => {
   }, [columns, startingResources, width]);
 
   const resourceTransitions = useTransition(resources, {
-    key: (item) => item.key,
+    key: (item) => item.index,
     from: ({ x, y }) => ({ x, y:-1000, opacity: 0 }),
     enter: ({ x, y }) => ({ x, y, opacity: 1 }),
     update: ({ x, y }) => ({ x, y }),
@@ -72,7 +73,6 @@ export const StartingResources = (props) => {
         return (
           <a.div
             css={resource}
-            key={item.name}
             style={style}
             className="box"
           >

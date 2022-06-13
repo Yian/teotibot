@@ -59,6 +59,7 @@ export const TileList = (props) => {
   const [showDice, setShowDice] = useState(false);
   const [dice1Rolled, setDice1Rolled] = useState(0);
   const [dice2Rolled, setDice2Rolled] = useState(0);
+  const [endOfGame, setEndOfGame] = useState(false);
 
   // Hook1: Tie media queries to the number of columns
   const columns = useMedia(
@@ -187,12 +188,6 @@ export const TileList = (props) => {
       }
     });
 
-    props.addToHistory({
-      cycle: props.cycleCount,
-      order: newOrder,
-      wasShuffled: wasShuffled,
-    });
-
     setOrdering(newOrder);
     setDirectionOrdering(newDirectionOrder);
 
@@ -275,9 +270,11 @@ export const TileList = (props) => {
   };
 
   const handleEclipse = () => {
-    if (eclipse < 3) {
+    if (eclipse <= 3) {
       setEclipse(eclipse + 1);
       setShowEclipseForm(true);
+    } else {
+      setEndOfGame();
     }
   };
 
@@ -323,6 +320,8 @@ export const TileList = (props) => {
             tileName={Eclipse}
             eclipseStage={eclipse}
             tileSrc={"eclipse"}
+            endOfGame={endOfGame}
+            isHeightOfDevelopment={props.isHeightOfDevelopment}
           />
         )}
       </div>
@@ -356,7 +355,7 @@ export const TileList = (props) => {
         </div>
         <span css={navButton} onClick={handleEclipse}>
           <img src={`${process.env.PUBLIC_URL}/resources/eclipse.png`} alt="eclipse"/>
-          Eclipse {eclipse}
+          {eclipse <= 2 ? `Eclipse ${eclipse}` : "End game"}
         </span>
         <div css={navButton}>
         <img

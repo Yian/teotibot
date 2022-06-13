@@ -3,11 +3,7 @@ import React from "react";
 import { jsx } from "@emotion/react";
 import { TileList } from "./Tiles/TileList";
 import { Setup } from "./Setup/Setup";
-import {
-  appContainer,
-  mainImg,
-  start,
-} from "./AppContainer.css";
+import { appContainer, mainImg, start } from "./AppContainer.css";
 import {
   baseBotTiles,
   baseStartTiles,
@@ -37,6 +33,16 @@ export class AppContainer extends React.Component {
       isHeightOfDevelopment: false,
       isSeasonsOfProgress: false,
       startTiles: baseStartTiles,
+      teotibotStartingGold: 2,
+      teotibotStartingWood: 2,
+      teotibotStartingStone: 2,
+      teotibotVPFor10Cocoa: 3,
+      teotibotStepsPerWorship: 2,
+      teotibotVPForTempleTiles: 15,
+      teotibotVPForTechTiles: 2,
+      teotibotWorkerPowerForAction4: 2,
+      teotibotWorkerPowerForAction6: 2,
+      teotibotWorkerPowerForAction8: 2,
       shuffleHistory: [
         {
           cycle: 0,
@@ -50,18 +56,18 @@ export class AppContainer extends React.Component {
   componentDidMount() {
     //Preloading images
     baseTechTiles.forEach((tile) => {
-        const img = new Image();
-        img.src = `${process.env.PUBLIC_URL}/tech_tiles/${tile.src}.png`;
+      const img = new Image();
+      img.src = `${process.env.PUBLIC_URL}/tech_tiles/${tile.src}.png`;
     });
-    
+
     xitleTechTiles.forEach((tile) => {
       const img = new Image();
       img.src = `${process.env.PUBLIC_URL}/tech_tiles/${tile.src}.png`;
-  });
+    });
 
     baseTempleTiles.forEach((tile) => {
-        const img = new Image();
-        img.src = `${process.env.PUBLIC_URL}/temple_tiles/${tile.src}.png`;
+      const img = new Image();
+      img.src = `${process.env.PUBLIC_URL}/temple_tiles/${tile.src}.png`;
     });
 
     baseStartTiles.forEach((tile) => {
@@ -77,7 +83,7 @@ export class AppContainer extends React.Component {
     const imgForms = new Image();
     imgForms.src = `${process.env.PUBLIC_URL}/backgrounds/forms.jpg`;
 
-    const imgExp1= new Image();
+    const imgExp1 = new Image();
     imgExp1.src = `${process.env.PUBLIC_URL}/backgrounds/xitle.jpg`;
 
     const imgExp2 = new Image();
@@ -94,12 +100,7 @@ export class AppContainer extends React.Component {
     });
   }
 
-  incrementCycleCount = () => {
-    this.setState({
-      cycleCount: this.state.cycleCount + 1,
-    });
-  };
-
+  //Tiles
   setOrdering = (newOrder) => {
     this.setState({
       ordering: newOrder,
@@ -112,10 +113,11 @@ export class AppContainer extends React.Component {
     });
   };
 
+  //Expansions
   setIsXitle = (isXitle) => {
     this.setState({
       isXitle,
-      startTiles: [...baseStartTiles, ...xitleStartTiles]
+      startTiles: [...baseStartTiles, ...xitleStartTiles],
     });
   };
 
@@ -161,11 +163,159 @@ export class AppContainer extends React.Component {
     );
   };
 
-  addToShuffleHistory = (newValue) => {
-    var newHistory = [...this.state.shuffleHistory, newValue];
-    this.setState({
-      shuffleHistory: newHistory,
-    });
+  //Options
+
+  //Teotibot starting resources
+  onIncreaseTeotibotStartingGold = (e) => {
+    if (this.state.teotibotStartingGold < 3) {
+      this.setState({
+        teotibotStartingGold: this.state.teotibotStartingGold + 1,
+      });
+    }
+  };
+  onDecreaseTeotibotStartingGold = (e) => {
+    if (this.state.teotibotStartingGold > 1) {
+      this.setState({
+        teotibotStartingGold: this.state.teotibotStartingGold - 1,
+      });
+    }
+  };
+  onIncreaseTeotibotStartingWood = (e) => {
+    if (this.state.teotibotStartingWood < 3) {
+      this.setState({
+        teotibotStartingWood: this.state.teotibotStartingWood + 1,
+      });
+    }
+  };
+  onDecreaseTeotibotStartingWood = (e) => {
+    if (this.state.teotibotStartingWood > 1) {
+      this.setState({
+        teotibotStartingWood: this.state.teotibotStartingWood - 1,
+      });
+    }
+  };
+  onIncreaseTeotibotStartingStone = (e) => {
+    if (this.state.teotibotStartingStone < 3) {
+      this.setState({
+        teotibotStartingStone: this.state.teotibotStartingStone + 1,
+      });
+    }
+  };
+  onDecreaseTeotibotStartingStone = (e) => {
+    if (this.state.teotibotStartingStone > 1) {
+      this.setState({
+        teotibotStartingStone: this.state.teotibotStartingStone - 1,
+      });
+    }
+  };
+
+  onIncreaseTeotibotVPfor10Cocoa = (e) => {
+    if (this.state.teotibotVPFor10Cocoa < 5) {
+      this.setState({
+        teotibotVPFor10Cocoa: this.state.teotibotVPFor10Cocoa + 1,
+      });
+    }
+  };
+  onDecreaseTeotibotVPfor10Cocoa = (e) => {
+    if (this.state.teotibotVPFor10Cocoa > 2) {
+      this.setState({
+        teotibotVPFor10Cocoa: this.state.teotibotVPFor10Cocoa - 1,
+      });
+    }
+  };
+
+  onIncreaseTeotibotStepsPerWorship = (e) => {
+    if (this.state.teotibotStepsPerWorship < 3) {
+      this.setState({
+        teotibotStepsPerWorship: this.state.teotibotStepsPerWorship + 1,
+      });
+    }
+  };
+  onDecreaseTeotibotStepsPerWorship = (e) => {
+    if (this.state.teotibotStepsPerWorship > 1) {
+      this.setState({
+        teotibotStepsPerWorship: this.state.teotibotStepsPerWorship - 1,
+      });
+    }
+  };
+
+  onIncreaseTeotibotVPForTempleTiles = (e) => {
+    if (this.state.teotibotVPForTempleTiles < 25) {
+      this.setState({
+        teotibotVPForTempleTiles: this.state.teotibotVPForTempleTiles + 5,
+      });
+    }
+  };
+  onDecreaseTeotibotVPForTempleTiles = (e) => {
+    if (this.state.teotibotVPForTempleTiles > 5) {
+      this.setState({
+        teotibotVPForTempleTiles: this.state.teotibotVPForTempleTiles - 5,
+      });
+    }
+  };
+
+  onIncreaseTeotibotVPForTechTiles = (e) => {
+    if (this.state.teotibotVPForTechTiles < 4) {
+      this.setState({
+        teotibotVPForTechTiles: this.state.teotibotVPForTechTiles + 1,
+      });
+    }
+  };
+  onDecreaseTeotibotVPForTechTiles = (e) => {
+    if (this.state.teotibotVPForTechTiles > 0) {
+      this.setState({
+        teotibotVPForTechTiles: this.state.teotibotVPForTechTiles - 1,
+      });
+    }
+  };
+
+  onIncreaseTeotibotWorkerPowerForAction4 = (e) => {
+    if (this.state.teotibotWorkerPowerForAction4 < 4) {
+      this.setState({
+        teotibotWorkerPowerForAction4:
+          this.state.teotibotWorkerPowerForAction4 + 1,
+      });
+    }
+  };
+  onDecreaseTeotibotWorkerPowerForAction4 = (e) => {
+    if (this.state.teotibotWorkerPowerForAction4 > 1) {
+      this.setState({
+        teotibotWorkerPowerForAction4:
+          this.state.teotibotWorkerPowerForAction4 - 1,
+      });
+    }
+  };
+  onIncreaseTeotibotWorkerPowerForAction6 = (e) => {
+    if (this.state.teotibotWorkerPowerForAction6 < 4) {
+      this.setState({
+        teotibotWorkerPowerForAction6:
+          this.state.teotibotWorkerPowerForAction6 + 1,
+      });
+    }
+  };
+  onDecreaseTeotibotWorkerPowerForAction6 = (e) => {
+    if (this.state.teotibotWorkerPowerForAction6 > 1) {
+      this.setState({
+        teotibotWorkerPowerForAction6:
+          this.state.teotibotWorkerPowerForAction6 - 1,
+      });
+    }
+  };
+  onIncreaseTeotibotWorkerPowerForAction8 = (e) => {
+    if (this.state.teotibotWorkerPowerForAction8 < 4) {
+      this.setState({
+        teotibotWorkerPowerForAction8:
+          this.state.teotibotWorkerPowerForAction8 + 1,
+      });
+    }
+  };
+  onDecreaseTeotibotWorkerPowerForAction8 = (e) => {
+    if (this.state.teotibotWorkerPowerForAction8 > 1) {
+      this.setState({
+        teotibotWorkerPowerForAction8:
+          this.state.teotibotWorkerPowerForAction8 - 1,
+      });
+    }
   };
 
   start = () => {
@@ -173,7 +323,6 @@ export class AppContainer extends React.Component {
       screenMode: 2,
       hadesTotal: 0,
       hadesActive: false,
-      cycleCount: 0,
     });
   };
 
@@ -192,9 +341,9 @@ export class AppContainer extends React.Component {
 
   startApp = () => {
     this.setState({
-      screenMode: AppScreen
-    })
-  }
+      screenMode: AppScreen,
+    });
+  };
   renderApp = () => {
     if (this.state.screenMode === StartScreen) {
       return (
@@ -213,16 +362,26 @@ export class AppContainer extends React.Component {
             src="./resources/settings.png"
             alt="Settings"
           />
-          <Setup startApp={this.startApp} startTiles={this.state.startTiles} isXitle={this.state.isXitle} isPriestAndPriestess={this.state.isPriestAndPriestess} />
+          <Setup
+            startApp={this.startApp}
+            startTiles={this.state.startTiles}
+            isXitle={this.state.isXitle}
+            isPriestAndPriestess={this.state.isPriestAndPriestess}
+            teotibotWorkerPowerForAction4={this.state.teotibotWorkerPowerForAction4}
+            teotibotWorkerPowerForAction6={this.state.teotibotWorkerPowerForAction6}
+            teotibotWorkerPowerForAction8={this.state.teotibotWorkerPowerForAction8}
+            teotibotStartingGold={this.state.teotibotStartingGold}
+            teotibotStartingWood={this.state.teotibotStartingWood}
+            teotibotStartingStone={this.state.teotibotStartingStone}
+          />
         </div>
       );
     } else if (this.state.screenMode === AppScreen) {
       return (
         <TileList
-          addToHistory={this.addToShuffleHistory}
-          incrementCycle={this.incrementCycleCount}
           back={this.back}
-          isXitle={this.setState.isXitle}
+          isXitle={this.state.isXitle}
+          isHeightOfDevelopment={this.state.isHeightOfDevelopment}
           lastPlayerIndex={this.state.lastPlayerIndex}
           startTiles={this.state.startTiles}
           shuffleHistory={this.state.shuffleHistory}
@@ -244,6 +403,66 @@ export class AppContainer extends React.Component {
           onChangeIsSeasonsOfProgress={this.onChangeIsSeasonsOfProgress}
           isHeightOfDevelopment={this.state.isHeightOfDevelopment}
           onChangeIsHeightOfDevelopment={this.onChangeIsHeightOfDevelopment}
+          teotibotStartingGold={this.state.teotibotStartingGold}
+          onIncreaseTeotibotStartingGold={this.onIncreaseTeotibotStartingGold}
+          onDecreaseTeotibotStartingGold={this.onDecreaseTeotibotStartingGold}
+          teotibotStartingWood={this.state.teotibotStartingWood}
+          onIncreaseTeotibotStartingWood={this.onIncreaseTeotibotStartingWood}
+          onDecreaseTeotibotStartingWood={this.onDecreaseTeotibotStartingWood}
+          teotibotStartingStone={this.state.teotibotStartingStone}
+          onIncreaseTeotibotStartingStone={this.onIncreaseTeotibotStartingStone}
+          onDecreaseTeotibotStartingStone={this.onDecreaseTeotibotStartingStone}
+          teotibotVPFor10Cocoa={this.state.teotibotVPFor10Cocoa}
+          onIncreaseTeotibotVPfor10Cocoa={this.onIncreaseTeotibotVPfor10Cocoa}
+          onDecreaseTeotibotVPfor10Cocoa={this.onDecreaseTeotibotVPfor10Cocoa}
+          teotibotStepsPerWorship={this.state.teotibotStepsPerWorship}
+          onIncreaseTeotibotStepsPerWorship={
+            this.onIncreaseTeotibotStepsPerWorship
+          }
+          onDecreaseTeotibotStepsPerWorship={
+            this.onDecreaseTeotibotStepsPerWorship
+          }
+          teotibotVPForTempleTiles={this.state.teotibotVPForTempleTiles}
+          onIncreaseTeotibotVPForTempleTiles={
+            this.onIncreaseTeotibotVPForTempleTiles
+          }
+          onDecreaseTeotibotVPForTempleTiles={
+            this.onDecreaseTeotibotVPForTempleTiles
+          }
+          teotibotVPForTechTiles={this.state.teotibotVPForTechTiles}
+          onIncreaseTeotibotVPForTechTiles={
+            this.onIncreaseTeotibotVPForTechTiles
+          }
+          onDecreaseTeotibotVPForTechTiles={
+            this.onDecreaseTeotibotVPForTechTiles
+          }
+          teotibotWorkerPowerForAction4={
+            this.state.teotibotWorkerPowerForAction4
+          }
+          onIncreaseTeotibotWorkerPowerForAction4={
+            this.onIncreaseTeotibotWorkerPowerForAction4
+          }
+          onDecreaseTeotibotWorkerPowerForAction4={
+            this.onDecreaseTeotibotWorkerPowerForAction4
+          }
+          teotibotWorkerPowerForAction6={
+            this.state.teotibotWorkerPowerForAction6
+          }
+          onIncreaseTeotibotWorkerPowerForAction6={
+            this.onIncreaseTeotibotWorkerPowerForAction6
+          }
+          onDecreaseTeotibotWorkerPowerForAction6={
+            this.onDecreaseTeotibotWorkerPowerForAction6
+          }
+          teotibotWorkerPowerForAction8={
+            this.state.teotibotWorkerPowerForAction8
+          }
+          onIncreaseTeotibotWorkerPowerForAction8={
+            this.onIncreaseTeotibotWorkerPowerForAction8
+          }
+          onDecreaseTeotibotWorkerPowerForAction8={
+            this.onDecreaseTeotibotWorkerPowerForAction8
+          }
           back={this.back}
         />
       );

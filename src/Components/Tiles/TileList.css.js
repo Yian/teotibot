@@ -42,29 +42,6 @@ export const topContainer = css`
   z-index: 999;
 `;
 
-export const expansionContainer = css`
-  display: flex;
-  flex-direction: row;
-  margin: 50px 0;
-`;
-
-export const expansion = css`
-  display: flex;
-  justify-content: center;
-  flex: 50%;
-  img {
-    width: 100%;
-    max-width: 300px;
-  }
-`;
-
-export const expansionOptions = css`
-  display: flex;
-  flex-direction: column;
-  justify-content: space-evenly;
-  flex: 100%;
-`;
-
 export const nav = css`
   display: flex;
   justify-content: space-evenly;

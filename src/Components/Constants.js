@@ -89,6 +89,13 @@ export const baseDirectionTiles = [
   { name: "right", src: "right" },
 ];
 
+export const initialTeotibotStartingResources = (startingGold, startingWood, startingStone) => {
+  return [
+  { quantity: startingGold, type: gold },
+  { quantity: startingStone, type: stone },
+  { quantity: startingWood, type: wood },
+]};
+
 // Starting Tiles
 export const baseStartTiles = [
   {
@@ -1068,10 +1075,57 @@ const eclipseQuestions = [
     <li>Reset the Pyramid track for all players, by moving all player markers to their starting position.</li>
     <li>Each player organizes their masks into one or more sets, where each set is comprised of different masks. Then each set scores points, depending on the number of masks in that set:
     Each set of 1/2/3/4/5/6/7 masks score 1/3/6/10/15/21/28 Victory Points.</li>
-    <li>Each player must now pay a salary of 1 cocoa per worker, and an additional cocoa for each worker with a power of 4 or 5. For each cocoa a player is unwilling or unable to pay, that player loses 3 Victory Points. If at any time this reduces a player’s Victory Point total to 0, that player loses no more Victory Points.</li>
+    <li>Each player (not Teotibot) must now pay a salary of 1 cocoa per worker, and an additional cocoa for each worker with a power of 4 or 5. For each cocoa a player is unwilling or unable to pay, that player loses 3 Victory Points. If at any time this reduces a player’s Victory Point total to 0, that player loses no more Victory Points.</li>
     </ul>   
   </div>`,
     questionId: 1,
+    condition: ({ eclipseStage }) => eclipseStage === 1,
+    isEnd: true,
+    noButtons: true,
+  },
+  {
+    question: `<div>
+    <ul>
+    <li>Score lowest visible number on the Buildings row for each step progressed on the Avenue of the Dead ${getResourceImage(
+      "avenue"
+    )}.</li>
+    <li>The player (or players) furthest ahead on the Pyramid track scores 4 Victory Points ${getResourceImage(
+      "vp"
+    )}.</li>
+    <li>Each player scores 3 points for each step they have moved up on the Pyramid track. ${getResourceImage(
+      "pyramid"
+    )}.</li>
+    <li>Reset the Pyramid track for all players, by moving all player markers to their starting position.</li>
+    <li>Each player organizes their masks into one or more sets, where each set is comprised of different masks. Then each set scores points, depending on the number of masks in that set:
+    Each set of 1/2/3/4/5/6/7 masks score 1/3/6/10/15/21/28 Victory Points.</li>
+    <li>Each player (not Teotibot) must now pay a salary of 1 cocoa per worker, and an additional cocoa for each worker with a power of 4 or 5. For each cocoa a player is unwilling or unable to pay, that player loses 3 Victory Points. If at any time this reduces a player’s Victory Point total to 0, that player loses no more Victory Points.</li>
+    </ul>   
+  </div>`,
+    questionId: 1,
+    condition: ({ eclipseStage }) => eclipseStage === 2,
+    isEnd: true,
+    noButtons: true,
+  },
+  {
+    question: `<div>
+    <ul>
+    <li>Score lowest visible number on the Buildings row for each step progressed on the Avenue of the Dead ${getResourceImage(
+      "avenue"
+    )}.</li>
+    <li>The player (or players) furthest ahead on the Pyramid track scores 4 Victory Points ${getResourceImage(
+      "vp"
+    )}.</li>
+    <li>Each player scores 2 points for each step they have moved up on the Pyramid track. ${getResourceImage(
+      "pyramid"
+    )}.</li>
+    <li>Reset the Pyramid track for all players, by moving all player markers to their starting position.</li>
+    <li>Each player organizes their masks into one or more sets, where each set is comprised of different masks. Then each set scores points, depending on the number of masks in that set:
+    Each set of 1/2/3/4/5/6/7 masks score 1/3/6/10/15/21/28 Victory Points.</li>
+    <li>Each player (not Teotibot) must now pay a salary of 1 cocoa per worker, and an additional cocoa for each worker with a power of 4 or 5. For each cocoa a player is unwilling or unable to pay, that player loses 3 Victory Points. If at any time this reduces a player’s Victory Point total to 0, that player loses no more Victory Points.</li>
+    </ul>   
+  </div>`,
+    questionId: 1,
+    condition: ({ eclipseStage }) => eclipseStage === 3,
     isEnd: true,
     noButtons: true,
   },
