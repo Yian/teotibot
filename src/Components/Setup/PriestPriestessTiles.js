@@ -43,7 +43,7 @@ export const PriestPriestessTiles = (props) => {
       const column = heights.indexOf(Math.min(...heights)); // Basic masonry-grid placing, puts tile into the smallest column using Math.min
       const x = (width / columns) * column; // x = container width / number of columns * column index,
       const y = (heights[column] += tileHeight / 2) - tileHeight / 2; // y = it's just the height of the current column
-      return { ...child, x, width: width/2.1, y };
+      return { ...child, x, width: width/3, y };
     });
     return [heights, gridItems];
   }, [columns, items, width, tileHeight]);

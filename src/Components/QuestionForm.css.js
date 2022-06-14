@@ -85,6 +85,11 @@ export const questionModalContent = css`
     vertical-align: middle;
   }
 
+  .icon-dev {
+    height: 3rem;
+    vertical-align: middle;
+  }
+
   .bold {
     color: #35a7c6;
   }

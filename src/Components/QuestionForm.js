@@ -23,12 +23,12 @@ export class QuestionForm extends React.Component {
     this.state = {
       answers: {},
       masteryAnswers: [],
-      questions: TilesToQuestions[props.tileSrc],
+      questions: TilesToQuestions(props.tileSrc, props.teotibotStepsPerWorship, props.eclipseStage, props.isHeightOfDevelopment),
       fromMastery: false,
       neutralPlacements1:
-        props.tileName === Eclipse ? getNeutralArray(props.tiles) : [],
+        (props.tileName === Eclipse && props.eclipseStage <=2) ? getNeutralArray(props.tiles) : [],
       neutralPlacements2:
-        props.tileName === Eclipse ? getNeutralArray(props.tiles) : [],
+        (props.tileName === Eclipse && props.eclipseStage <=2) ? getNeutralArray(props.tiles) : [],
     };
 
     this.onExitForm = this.onExitForm.bind(this);
@@ -69,14 +69,13 @@ export class QuestionForm extends React.Component {
     var neutralPlacements1 = this.state.neutralPlacements1;
     var neutralPlacements2 = this.state.neutralPlacements2;
     var fromMastery = this.state.fromMastery;
-    var eclipseStage = this.props.eclipseStage;
 
     const qs = questions.filter((q) => {
       if (!q.condition) {
         // no condition set; always visible
         return true;
       }
-      return q.condition({ answers, eclipseStage });
+      return q.condition({ answers });
     });
 
     return (
@@ -120,18 +119,16 @@ export class QuestionForm extends React.Component {
               {parse(question.question)}
             </Question>
           ))}
-          {this.props.tileName === Eclipse && (
+          {(this.props.tileName === Eclipse && this.props.eclipseStage <= 2) && (
             <div css={questionModalPlacements}>
               <h3>Neutral placements</h3>
               <h4>Neutral player 1</h4>
               <DicePlacement
                 dicePlacements={neutralPlacements1}
-                onRest={() => {}}
               />
               <h4>Neutral player 2</h4>
               <DicePlacement
                 dicePlacements={neutralPlacements2}
-                onRest={() => {}}
               />
             </div>
           )}

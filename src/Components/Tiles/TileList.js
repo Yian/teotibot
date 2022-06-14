@@ -270,7 +270,7 @@ export const TileList = (props) => {
   };
 
   const handleEclipse = () => {
-    if (eclipse <= 3) {
+    if (eclipse <= 2) {
       setEclipse(eclipse + 1);
       setShowEclipseForm(true);
     } else {
@@ -311,6 +311,7 @@ export const TileList = (props) => {
             tileName={tiles[selectedTileIndex].name}
             eclipseStage={eclipse}
             tileSrc={tiles[selectedTileIndex].src}
+            teotibotStepsPerWorship={props.teotibotStepsPerWorship}
           />
         )}
         {showEclipseForm && (

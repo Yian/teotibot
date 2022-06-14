@@ -366,6 +366,7 @@ export class AppContainer extends React.Component {
             startApp={this.startApp}
             startTiles={this.state.startTiles}
             isXitle={this.state.isXitle}
+            isHeightOfDevelopment={this.state.isHeightOfDevelopment}
             isPriestAndPriestess={this.state.isPriestAndPriestess}
             teotibotWorkerPowerForAction4={this.state.teotibotWorkerPowerForAction4}
             teotibotWorkerPowerForAction6={this.state.teotibotWorkerPowerForAction6}
@@ -390,6 +391,7 @@ export class AppContainer extends React.Component {
           options={this.options}
           dice1={this.state.dice1}
           dice2={this.state.dice2}
+          teotibotStepsPerWorship={this.state.teotibotStepsPerWorship}
         />
       );
     } else if (this.state.screenMode === OptionsScreen) {

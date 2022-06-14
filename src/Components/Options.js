@@ -42,6 +42,7 @@ export const Options = (props) => {
               checked={props.isHeightOfDevelopment}
               onChange={props.onChangeIsHeightOfDevelopment}
             />
+            <img src={`${process.env.PUBLIC_URL}/resources/to.png`} />
           </div>
           <div className={"checkbox-container"}>
             <Checkbox
