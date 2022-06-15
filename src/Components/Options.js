@@ -78,11 +78,11 @@ export const Options = (props) => {
           />
         </div>
         <div css={expansionOptions}>
-          <div className={"checkbox-container"}>
+        <div className={"checkbox-container"}>
             <Checkbox
-              label="Expansion Period"
-              checked={props.isXitle}
-              onChange={props.onChangeXitle}
+              label="Alternative Teotibot Movement"
+              checked={props.isAlternateTeotibotMovement}
+              onChange={props.onChangeAlternateTeotibotMovement}
             />
           </div>
         </div>

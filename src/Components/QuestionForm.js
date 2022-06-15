@@ -23,14 +23,15 @@ export class QuestionForm extends React.Component {
     this.state = {
       answers: {},
       masteryAnswers: [],
-      questions: TilesToQuestions(props.tileSrc, props.teotibotStepsPerWorship, props.eclipseStage, props.isHeightOfDevelopment),
+      questions: TilesToQuestions(props.tileSrc, props.teotibotStepsPerWorship, props.eclipseStage, props.isHeightOfDevelopment, props.isAlternateTeotibotMovement, props.topDirectionTile),
       fromMastery: false,
       neutralPlacements1:
-        (props.tileName === Eclipse && props.eclipseStage <=2) ? getNeutralArray(props.tiles) : [],
+        (props.tileName === Eclipse && props.eclipseStage <= 2) ? getNeutralArray(props.tiles) : [],
       neutralPlacements2:
-        (props.tileName === Eclipse && props.eclipseStage <=2) ? getNeutralArray(props.tiles) : [],
+        (props.tileName === Eclipse && props.eclipseStage <= 2) ? getNeutralArray(props.tiles) : [],
     };
 
+    //console.log("I received " + JSON.stringify(props.topDirectionTile))
     this.onExitForm = this.onExitForm.bind(this);
     this.onRestartQuestions = this.onRestartQuestions.bind(this);
     this.onClickMasteryOption = this.onClickMasteryOption.bind(this);
@@ -41,7 +42,7 @@ export class QuestionForm extends React.Component {
       const masteryAnswers = [...this.state.masteryAnswers, i];
       this.setState({
         fromMastery: false,
-        questions: TilesToQuestions["mastery"],
+        questions: TilesToQuestions("mastery"),
         masteryAnswers,
         answers: {},
       });
@@ -54,7 +55,7 @@ export class QuestionForm extends React.Component {
 
   onClickMasteryOption(name) {
     this.setState({
-      questions: TilesToQuestions[name],
+      questions: TilesToQuestions(name),
       fromMastery: true,
     });
   }
@@ -103,6 +104,7 @@ export class QuestionForm extends React.Component {
               masteryQuestionId={question.masteryQuestionId}
               questionId={question.questionId}
               isEnd={question.isEnd}
+              endsOnYes={question.endsOnYes}
               noButtons={question.noButtons}
               margin={question.margin}
               onExitForm={this.onExitForm}
@@ -153,7 +155,7 @@ export class QuestionForm extends React.Component {
                 ))}
               </ul>
               {this.state.masteryAnswers.length >= 7 && (
-                parse(powerupMsg)
+                parse(powerupMsg(this.props.isAlternateTeotibotMovement, this.props.topDirectionTile))
               )}
             </div>
           )}
@@ -170,9 +172,9 @@ const Question = (props) => {
       {!props.isEnd ? (
         <div css={buttons(props.margin)}>
           <div
-            onClick={() => {
+            onClick={!props.endsOnYes ? () => {
               props.onSelect("yes");
-            }}
+            } : () => props.onExitForm()}
           >
             yes
           </div>

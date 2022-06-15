@@ -6,28 +6,33 @@ export const left = "left";
 
 export const generateRandomInteger = (min, max) => {
   return Math.floor(Math.random() * (max - min + 1) + min);
-}
+};
 
 export const swapArrayLocs = (arr, index1, index2) => {
   [arr[index1], arr[index2]] = [arr[index2], arr[index1]];
 };
 
-export const orderTiles = (newOrder, tileIndex, topDirectionTile, bottomDirectionTile) => {
+export const orderTiles = (
+  newOrder,
+  tileIndex,
+  topDirectionTile,
+  bottomDirectionTile
+) => {
   const topTileRight =
-    (topDirectionTile.name === right && !topDirectionTile.flipped) ||
-    (topDirectionTile.name === left && topDirectionTile.flipped);
+    (topDirectionTile.type === right && !topDirectionTile.flipped) ||
+    (topDirectionTile.type === left && topDirectionTile.flipped);
 
   const topTileLeft =
-    (topDirectionTile.name === left && !topDirectionTile.flipped) ||
-    (topDirectionTile.name === right && topDirectionTile.flipped);
+    (topDirectionTile.type === left && !topDirectionTile.flipped) ||
+    (topDirectionTile.type === right && topDirectionTile.flipped);
 
   const bottomTileLeft =
-    (bottomDirectionTile.name === left && !bottomDirectionTile.flipped) ||
-    (bottomDirectionTile.name === right && bottomDirectionTile.flipped);
+    (bottomDirectionTile.type === left && !bottomDirectionTile.flipped) ||
+    (bottomDirectionTile.type === right && bottomDirectionTile.flipped);
 
   const bottomTileRight =
-    (bottomDirectionTile.name === right && !bottomDirectionTile.flipped) ||
-    (bottomDirectionTile.name === left && bottomDirectionTile.flipped);
+    (bottomDirectionTile.type === right && !bottomDirectionTile.flipped) ||
+    (bottomDirectionTile.type === left && bottomDirectionTile.flipped);
 
   if (tileIndex === 0) {
     swapArrayLocs(newOrder, tileIndex, 6);
@@ -101,18 +106,26 @@ export const orderTiles = (newOrder, tileIndex, topDirectionTile, bottomDirectio
   }
 };
 
-export const calculateYTile = (index, tileWidth, media) => {
+export const calculateYTile = (index, tileWidth, media, altmovement) => {
   var result = 0;
+
+  const getExtraTileYLoc = () => {
+    if (!altmovement) {
+      return tileWidth * 1.5;
+    } else {
+      result = media === 3 ? tileWidth * 1.5 : tileWidth;
+    }
+  }
 
   switch (index) {
     case 0:
       result = 0;
       break;
     case 1:
-      result = tileWidth/2;
+      result = tileWidth / 2;
       break;
     case 2:
-      result = tileWidth/2;
+      result = tileWidth / 2;
       break;
     case 3:
       result = tileWidth;
@@ -124,23 +137,32 @@ export const calculateYTile = (index, tileWidth, media) => {
       result = tileWidth;
       break;
     default:
-      result = media === 3 ? tileWidth*1.5 : tileWidth;
+      result = getExtraTileYLoc(altmovement)
   }
   return result;
 };
 
-export const calculateXTile = (index, width, media) => {
+export const calculateXTile = (index, width, media, altmovement) => {
   var result = 0;
-  var tile04 = media === 3 ? 0 : -width*0.6;
+  var tile04 = media === 3 ? 0 : -width * 0.6;
+
+  const getExtraTileXLoc = () => {
+    if (!altmovement) {
+      return tile04;
+    } else {
+      return media === 3 ? tile04 + width : tile04 + width * 2
+    }
+  }
+
   switch (index) {
     case 0:
       result = tile04;
       break;
     case 1:
-      result = tile04 - width/2;
+      result = tile04 - width / 2;
       break;
     case 2:
-      result = tile04 + width/2;
+      result = tile04 + width / 2;
       break;
     case 3:
       result = tile04 - width;
@@ -152,35 +174,78 @@ export const calculateXTile = (index, width, media) => {
       result = tile04 + width;
       break;
     default:
-      result = media === 3 ? tile04 + width : tile04 + width*2;
+      result = getExtraTileXLoc(altmovement);
   }
   return result;
 };
 
-export const calculateXDirectionTile = (index, width, media)=> {
+// export const calculateXDirectionTile = (index, width, media)=> {
+//   var result = 0;
+//   var tile04 = media === 3 ? 0 : -width*0.6;
+//   switch (index) {
+//     case 0:
+//       result = media === 3 ? tile04 -width : width*1.5 ;
+//       break;
+//     case 1:
+//       result = media === 3 ? tile04 : width*1.5 ;
+//       break;
+//     default:
+//       result = width*1.5;
+//   }
+//   return result;
+// };
+
+// export const calculateYDirectionTile = (index, width, media)=> {
+//   var result = 0;
+//   switch (index) {
+//     case 0:
+//       result = media === 3 ? width*1.5 : 0;
+//       break;
+//     case 1:
+//       result = media === 3 ? width*1.5 : width/2;
+//       break;
+//     default:
+//       result = width;
+//   }
+//   return result;
+// };
+
+export const calculateXDirectionTile = (index, width, media) => {
   var result = 0;
-  var tile04 = media === 3 ? 0 : -width*0.6;
+  var tile04 = media === 3 ? 0 : -width * 0.6;
   switch (index) {
     case 0:
-      result = media === 3 ? tile04 -width : width*1.5 ;
+      result = media === 3 ? tile04 - width : width * 1.5;
       break;
     case 1:
-      result = media === 3 ? tile04 : width*1.5 ;
+      result = media === 3 ? tile04 : width * 1.5;
+      break;
+    case 2:
+      result = media === 3 ? tile04 - width : width * 1.5;
+      break;
+    case 3:
+      result = media === 3 ? tile04 : width * 1.5;
       break;
     default:
-      result = width*1.5;
+      result = width * 1.5;
   }
   return result;
 };
 
-export const calculateYDirectionTile = (index, width, media)=> {
+export const calculateYDirectionTile = (index, width, media) => {
   var result = 0;
   switch (index) {
     case 0:
-      result = media === 3 ? width*1.5 : 0;
+      result = media === 3 ? width * 1.5 : 0;
       break;
     case 1:
-      result = media === 3 ? width*1.5 : width/2;
+      result = media === 3 ? width * 1.5 : width/2;
+      break;
+    case 2:
+      result = media === 3 ? width * 1.5 : width;
+      break;
+    case 3:
+      result = media === 3 ? width * 1.5 : width*1.5;
       break;
     default:
       result = width;
@@ -214,7 +279,11 @@ export function getDiceFace(item) {
   return find(diceFaces, ["value", item]);
 }
 
-export function getTeotibotArray(teotibotWorkerPowerForAction4, teotibotWorkerPowerForAction6, teotibotWorkerPowerForAction8) {
+export function getTeotibotArray(
+  teotibotWorkerPowerForAction4,
+  teotibotWorkerPowerForAction6,
+  teotibotWorkerPowerForAction8
+) {
   return [
     {
       key: 0,
@@ -273,7 +342,7 @@ export function getNeutralArray(shuffledTiles) {
     },
     {
       key: 1,
-      diceFace:diceFaces[0],
+      diceFace: diceFaces[0],
       number: [mergedActions[1]],
       actionName: getActionItem(mergedActions[1]).name,
       color: getActionItem(mergedActions[1]).color,
@@ -291,31 +360,31 @@ export function getNeutralArray(shuffledTiles) {
 export function getPlayerArray(selectedStartTiles) {
   let actions = [];
 
-    selectedStartTiles.forEach((selectedStartTile) => {
-      actions = union([...actions, ...selectedStartTile.numbers]);
-    });
+  selectedStartTiles.forEach((selectedStartTile) => {
+    actions = union([...actions, ...selectedStartTile.numbers]);
+  });
 
-    return [
-      {
-        key: 0,
-        diceFace: diceFaces[0],
-        number: [actions[0]],
-        actionName: getActionItem(1).name,
-        color: getActionItem(1).color,
-      },
-      {
-        key: 1,
-        diceFace: diceFaces[0],
-        number: [actions[1]],
-        actionName: getActionItem(2).name,
-        color: getActionItem(2).color,
-      },
-      {
-        key: 2,
-        diceFace: diceFaces[0],
-        number: [actions[2]],
-        actionName: getActionItem(3).name,
-        color: getActionItem(3).color,
-      },
-    ];
+  return [
+    {
+      key: 0,
+      diceFace: diceFaces[0],
+      number: [actions[0]],
+      actionName: getActionItem(1).name,
+      color: getActionItem(1).color,
+    },
+    {
+      key: 1,
+      diceFace: diceFaces[0],
+      number: [actions[1]],
+      actionName: getActionItem(2).name,
+      color: getActionItem(2).color,
+    },
+    {
+      key: 2,
+      diceFace: diceFaces[0],
+      number: [actions[2]],
+      actionName: getActionItem(3).name,
+      color: getActionItem(3).color,
+    },
+  ];
 }

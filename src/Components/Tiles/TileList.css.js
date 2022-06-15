@@ -30,6 +30,66 @@ export const tileList = css`
   }
 `;
 
+export const directionTileImage = css`
+    position: fixed;
+    display: block;
+    top: 35%;
+    overflow: visible;
+    transform-origin: 50% 50% 0px;
+    line-height: 96px;
+    width: 400px;
+    height: 100%;
+    max-width: 100%;
+    cursor: pointer;
+    z-index: 2;
+
+    @media only screen and (orientation: landscape) {
+      top: 10%;
+    }
+
+   background-size: contain;
+   background-repeat: no-repeat;
+`;
+
+export const directionTileLeft = css`
+  background-image: url("./bot_tiles/left.png");
+`;
+export const directionTileRight = css`
+  background-image: url("./bot_tiles/right.png");
+`;
+
+export const directionTileLeft2Step = css`
+  background-image: url("./bot_tiles/leftstep2.png");
+`;
+
+export const directionTileLeft2StepFlipped = css`
+  background-image: url("./bot_tiles/leftstep2flipped.png");
+`;
+
+export const directionTileLeft3Step = css`
+  background-image: url("./bot_tiles/leftstep3.png");
+`;
+
+export const directionTileLeft3StepFlipped = css`
+  background-image: url("./bot_tiles/leftstep3flipped.png");
+`;
+
+export const directionTileRight2Step = css`
+  background-image: url("./bot_tiles/rightstep2.png");
+`;
+
+export const directionTileRight2StepFlipped = css`
+  background-image: url("./bot_tiles/rightstep2flipped.png");
+`;
+
+export const directionTileRight3Step = css`
+  background-image: url("./bot_tiles/rightstep3.png");
+`;
+
+export const directionTileRight3StepFlipped = css`
+  background-image: url("./bot_tiles/rightstep3flipped.png");
+`;
+
 export const topContainer = css`
   display: flex;
   position: absolute;

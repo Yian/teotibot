@@ -25,7 +25,7 @@ export class AppContainer extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      screenMode: StartScreen,
+      screenMode: AppScreen,
       lastScreen: StartScreen,
       isOptions: false,
       isXitle: false,
@@ -33,6 +33,7 @@ export class AppContainer extends React.Component {
       isHeightOfDevelopment: false,
       isSeasonsOfProgress: false,
       startTiles: baseStartTiles,
+      isAlternateTeotibotMovement: true,
       teotibotStartingGold: 2,
       teotibotStartingWood: 2,
       teotibotStartingStone: 2,
@@ -43,13 +44,6 @@ export class AppContainer extends React.Component {
       teotibotWorkerPowerForAction4: 2,
       teotibotWorkerPowerForAction6: 2,
       teotibotWorkerPowerForAction8: 2,
-      shuffleHistory: [
-        {
-          cycle: 0,
-          order: initialOrdering,
-          wasShuffled: true,
-        },
-      ],
     };
   }
 
@@ -125,6 +119,12 @@ export class AppContainer extends React.Component {
     this.setIsXitle(
       e.target.type === "checkbox" ? e.target.checked : e.target.value
     );
+  };
+
+  onChangeAlternateTeotibotMovement = (e) => {
+    this.setState({
+      isAlternateTeotibotMovement: !this.state.isAlternateTeotibotMovement,
+    });
   };
 
   setIsPriestAndPriestess = (isPriestAndPriestess) => {
@@ -368,9 +368,16 @@ export class AppContainer extends React.Component {
             isXitle={this.state.isXitle}
             isHeightOfDevelopment={this.state.isHeightOfDevelopment}
             isPriestAndPriestess={this.state.isPriestAndPriestess}
-            teotibotWorkerPowerForAction4={this.state.teotibotWorkerPowerForAction4}
-            teotibotWorkerPowerForAction6={this.state.teotibotWorkerPowerForAction6}
-            teotibotWorkerPowerForAction8={this.state.teotibotWorkerPowerForAction8}
+            isAlternateTeotibotMovement={this.state.isAlternateTeotibotMovement}
+            teotibotWorkerPowerForAction4={
+              this.state.teotibotWorkerPowerForAction4
+            }
+            teotibotWorkerPowerForAction6={
+              this.state.teotibotWorkerPowerForAction6
+            }
+            teotibotWorkerPowerForAction8={
+              this.state.teotibotWorkerPowerForAction8
+            }
             teotibotStartingGold={this.state.teotibotStartingGold}
             teotibotStartingWood={this.state.teotibotStartingWood}
             teotibotStartingStone={this.state.teotibotStartingStone}
@@ -383,6 +390,7 @@ export class AppContainer extends React.Component {
           back={this.back}
           isXitle={this.state.isXitle}
           isHeightOfDevelopment={this.state.isHeightOfDevelopment}
+          isAlternateTeotibotMovement={this.state.isAlternateTeotibotMovement}
           lastPlayerIndex={this.state.lastPlayerIndex}
           startTiles={this.state.startTiles}
           shuffleHistory={this.state.shuffleHistory}
@@ -404,6 +412,8 @@ export class AppContainer extends React.Component {
           isSeasonsOfProgress={this.state.isSeasonsOfProgress}
           onChangeIsSeasonsOfProgress={this.onChangeIsSeasonsOfProgress}
           isHeightOfDevelopment={this.state.isHeightOfDevelopment}
+          isAlternateTeotibotMovement={this.state.isAlternateTeotibotMovement}
+          onChangeAlternateTeotibotMovement={this.onChangeAlternateTeotibotMovement}
           onChangeIsHeightOfDevelopment={this.onChangeIsHeightOfDevelopment}
           teotibotStartingGold={this.state.teotibotStartingGold}
           onIncreaseTeotibotStartingGold={this.onIncreaseTeotibotStartingGold}

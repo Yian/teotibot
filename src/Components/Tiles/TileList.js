@@ -13,10 +13,10 @@ import { mainImg } from "../AppContainer.css";
 import {
   tileListContainer,
   tileList,
-  diceButton,
   diceContainer,
   nav,
   navButton,
+  directionTileImage,
 } from "./TileList.css";
 import { QuestionForm } from "../QuestionForm";
 import {
@@ -27,6 +27,8 @@ import {
   swapArrayLocs,
   calculateYDirectionTile,
   generateRandomInteger,
+  left,
+  getRandom,
 } from "../Logic";
 import useMeasure from "react-use-measure";
 import useMedia from "../UseMedia";
@@ -35,23 +37,26 @@ import {
   AppScreen,
   baseBotTiles,
   baseDirectionTiles,
+  alternativeDirectionTiles,
   diceTilePositions,
   Eclipse,
   initialDirectionOrdering,
+  initialAlternativeDirectionOrdering,
   initialOrdering,
+  alternativeDirectionTilesStep2,
+  alternativeDirectionTilesStep3,
 } from "../Constants";
 import { cloneDeep } from "lodash-es";
 import Dice from "react-dice-roll";
 
 export const TileList = (props) => {
   const [tiles, setTiles] = useState(baseBotTiles);
-  const [directionTiles, setDirectionTiles] = useState(baseDirectionTiles);
+  const [directionTiles, setDirectionTiles] = useState([]);
   const [ordering, setOrdering] = useState(shuffle(initialOrdering)); //inital ordering;
   const [directionOrdering, setDirectionOrdering] = useState(
-    shuffle(initialDirectionOrdering)
+    shuffle(initialAlternativeDirectionOrdering)
   );
   const [eclipse, setEclipse] = useState(0);
-  const [tileSizeCalculated, setTileSizeCalculated] = useState(false);
   const [tilesDisabled, setTilesDisabled] = useState(false);
   const [showForm, setShowForm] = useState(false);
   const [showEclipseForm, setShowEclipseForm] = useState(false);
@@ -69,9 +74,18 @@ export const TileList = (props) => {
       "(min-width: 600px)",
       "(max-width: 480px)",
     ],
-    [4, 4, 4, 3],
+    [4, 4, 4, 3, 2],
     4
   );
+
+  const checkOrientation = useMedia(
+    [
+      "(orientation: landscape)",
+    ],
+    [true],
+    false
+  );
+
   // Hook2: Measure the width of the container element
   const [ref, { width }] = useMeasure();
   const refDice1 = useRef(null);
@@ -84,6 +98,10 @@ export const TileList = (props) => {
   });
 
   var tileWidth = width / (columns);
+  if (checkOrientation) {
+    tileWidth = width/(columns/0.8);
+  }
+
   // Hook5: Form a grid of stacked items using width & columns we got from hooks 1 & 2
   const [tileHeights, tileItems] = useMemo(() => {
     let tileHeights = new Array(columns).fill(0); // Each column gets a height starting with zero
@@ -128,7 +146,15 @@ export const TileList = (props) => {
         tileWidth,
         columns
       );
-      const deg = child.nextWValue ?? 0;
+
+      let deg = child.nextWValue ?? 0;
+
+      if (child.nextWValue === 0 && child.stepTile) {
+        child.css = child.initialCss;
+      } else if(child.nextWValue === 180 && child.stepTile) {
+        child.css = child.flippedCss
+      }
+
       return {
         ...child,
         index: i,
@@ -166,22 +192,39 @@ export const TileList = (props) => {
     let newOrder = cloneDeep(ordering);
     let newDirectionOrder = cloneDeep(directionOrdering);
     let newDirectionTiles = cloneDeep(directionTiles);
-    let wasShuffled;
 
     orderTiles(
       newOrder,
       newOrder.indexOf(tileIndex),
-      newDirectionTiles[0],
-      newDirectionTiles[1]
+      newDirectionTiles[newDirectionOrder[0]],
+      newDirectionTiles[newDirectionOrder[1]]
     );
 
+    //Just 2 tiles
+    //swapArrayLocs(newDirectionOrder, 0, 1);
+
+    //4 Direction tiles
+    swapArrayLocs(newDirectionOrder, 0, 3);
+    swapArrayLocs(newDirectionOrder, 0, 2);
     swapArrayLocs(newDirectionOrder, 0, 1);
+
+    //Just 2 tiles  (decomission)
+    // newDirectionTiles.forEach((directionTile, index) => {
+    //   if (newDirectionOrder.indexOf(index) === 0) {
+    //     //to move to top
+    //     directionTile.top = true;
+    //   } else {
+    //     //top to bottom, and flip
+    //     directionTile.top = false;
+    //     directionTile.toFlip = true;
+    //   }
+    // });
 
     newDirectionTiles.forEach((directionTile, index) => {
       if (newDirectionOrder.indexOf(index) === 0) {
         //to move to top
         directionTile.top = true;
-      } else {
+      } else if (newDirectionOrder.indexOf(index) === (newDirectionOrder.length -1)) {
         //top to bottom, and flip
         directionTile.top = false;
         directionTile.toFlip = true;
@@ -221,7 +264,8 @@ export const TileList = (props) => {
   });
 
   useEffect(() => {
-    setDirectionTiles(shuffle(baseDirectionTiles));
+    const directionTilesList = [...baseDirectionTiles, ...getRandom(alternativeDirectionTilesStep2, 1),...getRandom(alternativeDirectionTilesStep3, 1)]
+    setDirectionTiles(shuffle(directionTilesList));
   }, []);
 
   useEffect(() => {
@@ -258,7 +302,6 @@ export const TileList = (props) => {
   const onCloseClick = () => {
     setShowForm(false);
     setShowEclipseForm(false);
-    setTileSizeCalculated();
     shuffleTiles(selectedTileIndex);
     setShowDice(false);
   };
@@ -312,6 +355,8 @@ export const TileList = (props) => {
             eclipseStage={eclipse}
             tileSrc={tiles[selectedTileIndex].src}
             teotibotStepsPerWorship={props.teotibotStepsPerWorship}
+            isAlternateTeotibotMovement={props.isAlternateTeotibotMovement}
+            topDirectionTile={directionTiles[directionOrdering.indexOf(0)]}
           />
         )}
         {showEclipseForm && (
@@ -341,10 +386,10 @@ export const TileList = (props) => {
       </div>
       <div css={tileList} style={{ height: 0 }}>
         {directionTileTransitions((style, directionTile) => (
-          <animated.img
+          <animated.div
             draggable="false"
             key={directionTile.index}
-            src={`${process.env.PUBLIC_URL}/bot_tiles/${directionTile.src}.png`}
+            css={[directionTileImage, directionTile.css]}
             style={style}
           />
         ))}

@@ -94,6 +94,10 @@ export const questionModalContent = css`
     color: #35a7c6;
   }
 
+  .margin {
+    margin: 1rem 0;
+  }
+
   .templeTip {
     margin: 15px 0;
     color: #35a7c6;
