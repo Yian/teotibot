@@ -25,7 +25,11 @@ export const tileList = css`
     z-index: 2;
 
     @media only screen and (orientation: landscape) {
-      top: 10%;
+      top: 20%;
+    }
+
+    @media only screen and (min-height: 24rem) {
+      top: 12%;
     }
   }
 `;
@@ -44,9 +48,12 @@ export const directionTileImage = css`
     z-index: 2;
 
     @media only screen and (orientation: landscape) {
-      top: 10%;
+      top: 20%;
     }
 
+    @media only screen and (min-height: 24rem) {
+      top: 12%;
+    }
    background-size: contain;
    background-repeat: no-repeat;
 `;

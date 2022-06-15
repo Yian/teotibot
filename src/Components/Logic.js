@@ -109,11 +109,11 @@ export const orderTiles = (
 export const calculateYTile = (index, tileWidth, media, altmovement) => {
   var result = 0;
 
-  const getExtraTileYLoc = () => {
-    if (!altmovement) {
+  const getExtraTileYLoc = (altmovement) => {
+    if (altmovement) {
       return tileWidth * 1.5;
     } else {
-      result = media === 3 ? tileWidth * 1.5 : tileWidth;
+      return media === 3 ? tileWidth * 1.5 : tileWidth;
     }
   }
 
@@ -146,11 +146,11 @@ export const calculateXTile = (index, width, media, altmovement) => {
   var result = 0;
   var tile04 = media === 3 ? 0 : -width * 0.6;
 
-  const getExtraTileXLoc = () => {
-    if (!altmovement) {
-      return tile04;
+  const getExtraTileXLoc = (altmovement) => {
+    if (altmovement) {
+      return tile04 + width;
     } else {
-      return media === 3 ? tile04 + width : tile04 + width * 2
+      return media === 3 ? tile04 + width : width * 1.5
     }
   }
 
@@ -179,37 +179,6 @@ export const calculateXTile = (index, width, media, altmovement) => {
   return result;
 };
 
-// export const calculateXDirectionTile = (index, width, media)=> {
-//   var result = 0;
-//   var tile04 = media === 3 ? 0 : -width*0.6;
-//   switch (index) {
-//     case 0:
-//       result = media === 3 ? tile04 -width : width*1.5 ;
-//       break;
-//     case 1:
-//       result = media === 3 ? tile04 : width*1.5 ;
-//       break;
-//     default:
-//       result = width*1.5;
-//   }
-//   return result;
-// };
-
-// export const calculateYDirectionTile = (index, width, media)=> {
-//   var result = 0;
-//   switch (index) {
-//     case 0:
-//       result = media === 3 ? width*1.5 : 0;
-//       break;
-//     case 1:
-//       result = media === 3 ? width*1.5 : width/2;
-//       break;
-//     default:
-//       result = width;
-//   }
-//   return result;
-// };
-
 export const calculateXDirectionTile = (index, width, media) => {
   var result = 0;
   var tile04 = media === 3 ? 0 : -width * 0.6;
@@ -221,10 +190,10 @@ export const calculateXDirectionTile = (index, width, media) => {
       result = media === 3 ? tile04 : width * 1.5;
       break;
     case 2:
-      result = media === 3 ? tile04 - width : width * 1.5;
+      result = media === 3 ? tile04 : width * 1.5;
       break;
     case 3:
-      result = media === 3 ? tile04 : width * 1.5;
+      result = media === 3 ? tile04 - width  : width * 1.5;
       break;
     default:
       result = width * 1.5;
@@ -242,10 +211,10 @@ export const calculateYDirectionTile = (index, width, media) => {
       result = media === 3 ? width * 1.5 : width/2;
       break;
     case 2:
-      result = media === 3 ? width * 1.5 : width;
+      result = media === 3 ? width * 2 : width;
       break;
     case 3:
-      result = media === 3 ? width * 1.5 : width*1.5;
+      result = media === 3 ? width * 2 : width*1.5;
       break;
     default:
       result = width;

@@ -27,7 +27,6 @@ import {
   swapArrayLocs,
   calculateYDirectionTile,
   generateRandomInteger,
-  left,
   getRandom,
 } from "../Logic";
 import useMeasure from "react-use-measure";
@@ -37,7 +36,6 @@ import {
   AppScreen,
   baseBotTiles,
   baseDirectionTiles,
-  alternativeDirectionTiles,
   diceTilePositions,
   Eclipse,
   initialDirectionOrdering,
@@ -53,9 +51,7 @@ export const TileList = (props) => {
   const [tiles, setTiles] = useState(baseBotTiles);
   const [directionTiles, setDirectionTiles] = useState([]);
   const [ordering, setOrdering] = useState(shuffle(initialOrdering)); //inital ordering;
-  const [directionOrdering, setDirectionOrdering] = useState(
-    shuffle(initialAlternativeDirectionOrdering)
-  );
+  const [directionOrdering, setDirectionOrdering] = useState([]);
   const [eclipse, setEclipse] = useState(0);
   const [tilesDisabled, setTilesDisabled] = useState(false);
   const [showForm, setShowForm] = useState(false);
@@ -74,14 +70,12 @@ export const TileList = (props) => {
       "(min-width: 600px)",
       "(max-width: 480px)",
     ],
-    [4, 4, 4, 3, 2],
+    [4, 4, 4, 3],
     4
   );
 
   const checkOrientation = useMedia(
-    [
-      "(orientation: landscape)",
-    ],
+    ["(orientation: landscape)"],
     [true],
     false
   );
@@ -97,9 +91,10 @@ export const TileList = (props) => {
     transform: `translateX(${showDice ? 0 : -2000}px)`,
   });
 
-  var tileWidth = width / (columns);
+  var tileWidth = width / columns;
+
   if (checkOrientation) {
-    tileWidth = width/(columns/0.8);
+    tileWidth = width / (columns / 0.80);
   }
 
   // Hook5: Form a grid of stacked items using width & columns we got from hooks 1 & 2
@@ -107,8 +102,18 @@ export const TileList = (props) => {
     let tileHeights = new Array(columns).fill(0); // Each column gets a height starting with zero
     let tileItems = tiles?.map((child, i) => {
       const column = tileHeights.indexOf(Math.min(...tileHeights)); // Basic masonry-grid placing, puts tile into the smallest column using Math.min
-      const x = calculateXTile(ordering.indexOf(i), tileWidth, columns);
-      const y = calculateYTile(ordering.indexOf(i), tileWidth, columns);
+      const x = calculateXTile(
+        ordering.indexOf(i),
+        tileWidth,
+        columns,
+        props.isAlternateTeotibotMovement
+      );
+      const y = calculateYTile(
+        ordering.indexOf(i),
+        tileWidth,
+        columns,
+        props.isAlternateTeotibotMovement
+      );
       return {
         ...child,
         index: i,
@@ -118,7 +123,7 @@ export const TileList = (props) => {
       };
     });
     return [tileHeights, tileItems];
-  }, [ordering, columns, tiles, tileWidth]);
+  }, [ordering, columns, tiles, tileWidth, props.isAlternateTeotibotMovement]);
 
   const tileTransitions = useTransition(tileItems, {
     key: (item) => item.index,
@@ -139,20 +144,20 @@ export const TileList = (props) => {
       const x = calculateXDirectionTile(
         directionOrdering.indexOf(i),
         tileWidth,
-        columns
+        columns,
       );
       const y = calculateYDirectionTile(
         directionOrdering.indexOf(i),
         tileWidth,
-        columns
+        columns,
       );
 
       let deg = child.nextWValue ?? 0;
 
       if (child.nextWValue === 0 && child.stepTile) {
         child.css = child.initialCss;
-      } else if(child.nextWValue === 180 && child.stepTile) {
-        child.css = child.flippedCss
+      } else if (child.nextWValue === 180 && child.stepTile) {
+        child.css = child.flippedCss;
       }
 
       return {
@@ -165,7 +170,12 @@ export const TileList = (props) => {
       };
     });
     return [directionTileHeights, directionTileItems];
-  }, [directionOrdering, columns, directionTiles, tileWidth]);
+  }, [
+    directionOrdering,
+    columns,
+    directionTiles,
+    tileWidth,
+  ]);
 
   const directionTileTransitions = useTransition(directionTileItems, {
     key: (item) => item.index,
@@ -200,31 +210,24 @@ export const TileList = (props) => {
       newDirectionTiles[newDirectionOrder[1]]
     );
 
-    //Just 2 tiles
-    //swapArrayLocs(newDirectionOrder, 0, 1);
-
-    //4 Direction tiles
-    swapArrayLocs(newDirectionOrder, 0, 3);
-    swapArrayLocs(newDirectionOrder, 0, 2);
-    swapArrayLocs(newDirectionOrder, 0, 1);
-
-    //Just 2 tiles  (decomission)
-    // newDirectionTiles.forEach((directionTile, index) => {
-    //   if (newDirectionOrder.indexOf(index) === 0) {
-    //     //to move to top
-    //     directionTile.top = true;
-    //   } else {
-    //     //top to bottom, and flip
-    //     directionTile.top = false;
-    //     directionTile.toFlip = true;
-    //   }
-    // });
+    if (props.isAlternateTeotibotMovement) {
+      //4 Direction tiles
+      swapArrayLocs(newDirectionOrder, 0, 3);
+      swapArrayLocs(newDirectionOrder, 0, 2);
+      swapArrayLocs(newDirectionOrder, 0, 1);
+    } else {
+      //Just 2 tiles
+      swapArrayLocs(newDirectionOrder, 0, 1);
+    }
 
     newDirectionTiles.forEach((directionTile, index) => {
       if (newDirectionOrder.indexOf(index) === 0) {
         //to move to top
         directionTile.top = true;
-      } else if (newDirectionOrder.indexOf(index) === (newDirectionOrder.length -1)) {
+      } else if (
+        newDirectionOrder.indexOf(index) ===
+        newDirectionOrder.length - 1
+      ) {
         //top to bottom, and flip
         directionTile.top = false;
         directionTile.toFlip = true;
@@ -264,9 +267,20 @@ export const TileList = (props) => {
   });
 
   useEffect(() => {
-    const directionTilesList = [...baseDirectionTiles, ...getRandom(alternativeDirectionTilesStep2, 1),...getRandom(alternativeDirectionTilesStep3, 1)]
+    const directionTilesList = props.isAlternateTeotibotMovement
+      ? [
+          ...baseDirectionTiles,
+          ...getRandom(alternativeDirectionTilesStep2, 1),
+          ...getRandom(alternativeDirectionTilesStep3, 1),
+        ]
+      : baseDirectionTiles;
     setDirectionTiles(shuffle(directionTilesList));
-  }, []);
+
+    const directionOrdering = props.isAlternateTeotibotMovement
+      ? initialAlternativeDirectionOrdering
+      : initialDirectionOrdering;
+    setDirectionOrdering(shuffle(directionOrdering));
+  }, [props.isAlternateTeotibotMovement]);
 
   useEffect(() => {
     if (dice1Rolled > 0 && dice2Rolled > 0) {
@@ -396,15 +410,18 @@ export const TileList = (props) => {
       </div>
       <div css={nav}>
         <div css={navButton} onClick={handleClick}>
-        <span>ROLL</span>
-          <img src={`${process.env.PUBLIC_URL}/dice/d3.png`} alt="d3"/>
+          <span>ROLL</span>
+          <img src={`${process.env.PUBLIC_URL}/dice/d3.png`} alt="d3" />
         </div>
         <span css={navButton} onClick={handleEclipse}>
-          <img src={`${process.env.PUBLIC_URL}/resources/eclipse.png`} alt="eclipse"/>
+          <img
+            src={`${process.env.PUBLIC_URL}/resources/eclipse.png`}
+            alt="eclipse"
+          />
           {eclipse <= 2 ? `Eclipse ${eclipse}` : "End game"}
         </span>
         <div css={navButton}>
-        <img
+          <img
             css={{}}
             onClick={() => props.options(AppScreen)}
             src="./resources/settings.png"

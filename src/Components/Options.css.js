@@ -16,7 +16,7 @@ export const options = css`
 
   .checkbox-container {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
 
     .checkbox-item {
       display: flex;
@@ -54,6 +54,10 @@ export const expansionOptions = css`
   flex-direction: column;
   justify-content: space-evenly;
   flex: 100%;
+
+  img {
+    width: 4rem;
+  }
 `;
 
 export const expansionContainer = css`

@@ -42,7 +42,6 @@ export const Options = (props) => {
               checked={props.isHeightOfDevelopment}
               onChange={props.onChangeIsHeightOfDevelopment}
             />
-            <img src={`${process.env.PUBLIC_URL}/resources/to.png`} />
           </div>
           <div className={"checkbox-container"}>
             <Checkbox
@@ -95,7 +94,7 @@ export const Options = (props) => {
             <span onClick={props.onIncreaseTeotibotWorkerPowerForAction4}>
               +
             </span>
-            <img src="./actions/no4.png" alt="Gold" />
+            <img class="action" src="./actions/no4.png" alt="Gold" />
             <img src={`./dice/d${props.teotibotWorkerPowerForAction4}.png`} />
             <span onClick={props.onDecreaseTeotibotWorkerPowerForAction4}>
               -
@@ -105,7 +104,7 @@ export const Options = (props) => {
             <span onClick={props.onIncreaseTeotibotWorkerPowerForAction6}>
               +
             </span>
-            <img src="./actions/no6.png" alt="Gold" />
+            <img class="action" src="./actions/no6.png" alt="Gold" />
             <img src={`./dice/d${props.teotibotWorkerPowerForAction6}.png`} />
             <span onClick={props.onDecreaseTeotibotWorkerPowerForAction6}>
               -
@@ -115,7 +114,7 @@ export const Options = (props) => {
             <span onClick={props.onIncreaseTeotibotWorkerPowerForAction8}>
               +
             </span>
-            <img src="./actions/no8.png" alt="Gold" />
+            <img class="action" src="./actions/no8.png" alt="Gold" />
             <img src={`./dice/d${props.teotibotWorkerPowerForAction8}.png`} />
             <span onClick={props.onDecreaseTeotibotWorkerPowerForAction8}>
               -

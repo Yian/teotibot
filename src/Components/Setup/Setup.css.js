@@ -103,6 +103,10 @@ export const optionsTeotibotStartingResources = css`
   flex-direction: row;
   justify-content: space-between;
 
+  .action {
+    width: 2.5rem;
+  }
+
   img {
     width: 4rem;
     margin: 0 5px;
