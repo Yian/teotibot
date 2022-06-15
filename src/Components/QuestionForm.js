@@ -13,7 +13,12 @@ import {
   strikeOut,
   masteryForm,
 } from "./QuestionForm.css";
-import { powerupMsg, Eclipse, masteryQuestions, TilesToQuestions } from "./Constants";
+import {
+  powerupMsg,
+  Eclipse,
+  masteryQuestions,
+  TilesToQuestions,
+} from "./Constants";
 import { DicePlacement } from "./Setup/DicePlacement";
 import { getNeutralArray } from "./Logic";
 
@@ -23,15 +28,25 @@ export class QuestionForm extends React.Component {
     this.state = {
       answers: {},
       masteryAnswers: [],
-      questions: TilesToQuestions(props.tileSrc, props.teotibotStepsPerWorship, props.eclipseStage, props.isHeightOfDevelopment, props.isAlternateTeotibotMovement, props.topDirectionTile),
+      questions: TilesToQuestions(
+        props.tileSrc,
+        props.teotibotStepsPerWorship,
+        props.eclipseStage,
+        props.isHeightOfDevelopment,
+        props.isAlternateTeotibotMovement,
+        props.topDirectionTile
+      ),
       fromMastery: false,
       neutralPlacements1:
-        (props.tileName === Eclipse && props.eclipseStage <= 2) ? getNeutralArray(props.tiles) : [],
+        props.tileName === Eclipse && props.eclipseStage <= 2
+          ? getNeutralArray(props.tiles)
+          : [],
       neutralPlacements2:
-        (props.tileName === Eclipse && props.eclipseStage <= 2) ? getNeutralArray(props.tiles) : [],
+        props.tileName === Eclipse && props.eclipseStage <= 2
+          ? getNeutralArray(props.tiles)
+          : [],
     };
-
-    //console.log("I received " + JSON.stringify(props.topDirectionTile))
+    console.log("I received " + JSON.stringify(props.topDirectionTile))
     this.onExitForm = this.onExitForm.bind(this);
     this.onRestartQuestions = this.onRestartQuestions.bind(this);
     this.onClickMasteryOption = this.onClickMasteryOption.bind(this);
@@ -60,8 +75,8 @@ export class QuestionForm extends React.Component {
     });
   }
 
-  onExitForm() {
-    this.props.onCloseClick();
+  onExitForm(shouldShuffle) {
+    this.props.onCloseClick(shouldShuffle);
   }
 
   render() {
@@ -82,7 +97,7 @@ export class QuestionForm extends React.Component {
     return (
       <div css={questionModal}>
         <div css={questionModalContent}>
-          <div css={modalClose} onClick={this.onExitForm}>
+          <div css={modalClose} onClick={() => this.onExitForm(false)}>
             <img
               src={`${process.env.PUBLIC_URL}/resources/cancel.png`}
               alt="Cancel"
@@ -121,17 +136,16 @@ export class QuestionForm extends React.Component {
               {parse(question.question)}
             </Question>
           ))}
-          {(this.props.tileName === Eclipse && this.props.eclipseStage <= 2) && (
+          {this.props.tileName === Eclipse && this.props.eclipseStage <= 2 && (
             <div css={questionModalPlacements}>
               <h3>Neutral placements</h3>
               <h4>Neutral player 1</h4>
-              <DicePlacement
-                dicePlacements={neutralPlacements1}
-              />
+              <DicePlacement dicePlacements={neutralPlacements1} />
               <h4>Neutral player 2</h4>
-              <DicePlacement
-                dicePlacements={neutralPlacements2}
-              />
+              <DicePlacement dicePlacements={neutralPlacements2} />
+              <div css={buttons}>
+                <div onClick={this.onExitForm}>continue</div>
+              </div>
             </div>
           )}
 
@@ -154,9 +168,13 @@ export class QuestionForm extends React.Component {
                   </li>
                 ))}
               </ul>
-              {this.state.masteryAnswers.length >= 7 && (
-                parse(powerupMsg(this.props.isAlternateTeotibotMovement, this.props.topDirectionTile))
-              )}
+              {this.state.masteryAnswers.length >= 7 &&
+                parse(
+                  powerupMsg(
+                    this.props.isAlternateTeotibotMovement,
+                    this.props.topDirectionTile
+                  )
+                )}
             </div>
           )}
         </div>
@@ -172,9 +190,13 @@ const Question = (props) => {
       {!props.isEnd ? (
         <div css={buttons(props.margin)}>
           <div
-            onClick={!props.endsOnYes ? () => {
-              props.onSelect("yes");
-            } : () => props.onExitForm()}
+            onClick={
+              !props.endsOnYes
+                ? () => {
+                    props.onSelect("yes");
+                  }
+                : () => props.onExitForm(true)
+            }
           >
             yes
           </div>
@@ -212,8 +234,8 @@ function CloseForm(props) {
   return (
     <div>
       <div css={buttons(props.margin)}>
-        <div onClick={props.onExitForm}>continue</div>
-        {(props.questionId !== 1 && (props.isEnd || props.fromMastery)) && (
+        <div onClick={() => props.onExitForm(true)}>continue</div>
+        {props.questionId !== 1 && (props.isEnd || props.fromMastery) && (
           <div onClick={props.onRestartQuestions}>restart</div>
         )}
       </div>

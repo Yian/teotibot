@@ -286,7 +286,6 @@ export const TileList = (props) => {
     if (dice1Rolled > 0 && dice2Rolled > 0) {
       let diceTotal = dice1Rolled + dice2Rolled;
       var tilePosition = diceTilePositions[diceTotal];
-      toggle(true);
       setDice1Rolled(0);
       setDice2Rolled(0);
       showSteps(ordering[tilePosition]);
@@ -307,16 +306,19 @@ export const TileList = (props) => {
 
   const showSteps = (i) => {
     setSelectedTileIndex(i);
+    toggle(true);
     setTimeout(() => {
       setShowForm(true);
       toggle(false);
     }, 700);
   };
 
-  const onCloseClick = () => {
+  const onCloseClick = (shouldShuffle) => {
     setShowForm(false);
     setShowEclipseForm(false);
-    shuffleTiles(selectedTileIndex);
+    if (shouldShuffle) {
+      shuffleTiles(selectedTileIndex);
+    }
     setShowDice(false);
   };
 
@@ -364,19 +366,19 @@ export const TileList = (props) => {
       <div>
         {showForm && (
           <QuestionForm
-            onCloseClick={onCloseClick}
+            onCloseClick={(shouldShuffle) => onCloseClick(shouldShuffle)}
             tileName={tiles[selectedTileIndex].name}
             eclipseStage={eclipse}
             tileSrc={tiles[selectedTileIndex].src}
             teotibotStepsPerWorship={props.teotibotStepsPerWorship}
             isAlternateTeotibotMovement={props.isAlternateTeotibotMovement}
-            topDirectionTile={directionTiles[directionOrdering.indexOf(0)]}
+            topDirectionTile={directionTiles[directionOrdering[0]]}
           />
         )}
         {showEclipseForm && (
           <QuestionForm
             tiles={props.startTiles}
-            onCloseClick={onCloseClick}
+            onCloseClick={(shouldShuffle) => onCloseClick(shouldShuffle)}
             tileName={Eclipse}
             eclipseStage={eclipse}
             tileSrc={"eclipse"}

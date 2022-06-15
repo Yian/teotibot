@@ -1201,7 +1201,7 @@ const eclipseQuestions = (eclipseStage, isHeightOfDevelopment) => {
     return "";
   };
 
-  const endGame = () => {};
+  const endGame = () => {return ""};
 
   return [
     {
