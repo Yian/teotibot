@@ -139,6 +139,7 @@ export const diceContainer = css`
 `;
 
 export const activeText = css`
+  display: flex;
   cursor: pointer;
   color: gold;
   font-size: 3rem;

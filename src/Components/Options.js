@@ -10,6 +10,7 @@ import {
 import { activeText } from "./Tiles/TileList.css";
 import { Checkbox } from "./Checkbox";
 import {
+  optionsContainer,
   optionsTeotibotStartingResources,
   teotibotResourceContainer,
 } from "./Setup/Setup.css";
@@ -18,7 +19,10 @@ export const Options = (props) => {
   return (
     <div css={options}>
       <div css={activeText} onClick={props.back}>
-        back
+      <img
+            src={`${process.env.PUBLIC_URL}/resources/back.png`}
+            alt="Back"
+          />
       </div>
       <h2>Expansions</h2>
       <div css={expansionContainer}>
@@ -86,7 +90,7 @@ export const Options = (props) => {
           </div>
         </div>
       </div>
-      <div>
+      <div css={optionsContainer}>
         <h2>Teotibot Difficulty</h2>
         <h3>Unlocked workers power</h3>
         <div css={optionsTeotibotStartingResources}>

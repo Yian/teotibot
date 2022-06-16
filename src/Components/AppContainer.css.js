@@ -12,7 +12,7 @@ export const appContainer = css`
 
 export const mainImg = css`
     width: 100%;
-    height: 100%;
+    height: 100vh;
     background-image: url("./backgrounds/main.jpg");
     position: absolute;
     background-size: contain;

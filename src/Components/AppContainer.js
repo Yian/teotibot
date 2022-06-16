@@ -33,7 +33,7 @@ export class AppContainer extends React.Component {
       isHeightOfDevelopment: false,
       isSeasonsOfProgress: false,
       startTiles: baseStartTiles,
-      isAlternateTeotibotMovement: true,
+      isAlternateTeotibotMovement: false,
       teotibotStartingGold: 2,
       teotibotStartingWood: 2,
       teotibotStartingStone: 2,
@@ -391,6 +391,7 @@ export class AppContainer extends React.Component {
           isXitle={this.state.isXitle}
           isHeightOfDevelopment={this.state.isHeightOfDevelopment}
           isAlternateTeotibotMovement={this.state.isAlternateTeotibotMovement}
+          teotibotVPFor10Cocoa={this.state.teotibotVPFor10Cocoa}
           lastPlayerIndex={this.state.lastPlayerIndex}
           startTiles={this.state.startTiles}
           shuffleHistory={this.state.shuffleHistory}

@@ -371,6 +371,7 @@ export const TileList = (props) => {
             eclipseStage={eclipse}
             tileSrc={tiles[selectedTileIndex].src}
             teotibotStepsPerWorship={props.teotibotStepsPerWorship}
+            teotibotVPFor10Cocoa={props.teotibotVPFor10Cocoa}
             isAlternateTeotibotMovement={props.isAlternateTeotibotMovement}
             topDirectionTile={directionTiles[directionOrdering[0]]}
           />

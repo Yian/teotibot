@@ -31,6 +31,7 @@ export class QuestionForm extends React.Component {
       questions: TilesToQuestions(
         props.tileSrc,
         props.teotibotStepsPerWorship,
+        props.teotibotVPFor10Cocoa,
         props.eclipseStage,
         props.isHeightOfDevelopment,
         props.isAlternateTeotibotMovement,
@@ -68,9 +69,15 @@ export class QuestionForm extends React.Component {
     }
   }
 
-  onClickMasteryOption(name) {
+  onClickMasteryOption(tileSrc, isAlternateTeotibotMovement, topDirectionTile) {
     this.setState({
-      questions: TilesToQuestions(name),
+      questions: TilesToQuestions(tileSrc,
+        null,
+        null,
+        null,
+        null,
+        isAlternateTeotibotMovement,
+        topDirectionTile),
       fromMastery: true,
     });
   }
@@ -136,6 +143,7 @@ export class QuestionForm extends React.Component {
               {parse(question.question)}
             </Question>
           ))}
+
           {this.props.tileName === Eclipse && this.props.eclipseStage <= 2 && (
             <div css={questionModalPlacements}>
               <h3>Neutral placements</h3>
@@ -162,7 +170,7 @@ export class QuestionForm extends React.Component {
                         : {}
                     }
                     key={question.id}
-                    onClick={() => this.onClickMasteryOption(question.action)}
+                    onClick={() => this.onClickMasteryOption(question.action, this.props.isAlternateTeotibotMovement, this.props.topDirectionTile)}
                   >
                     {parse(question.name)}
                   </li>

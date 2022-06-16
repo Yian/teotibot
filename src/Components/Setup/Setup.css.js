@@ -98,6 +98,12 @@ export const diceContainer = css`
   align-items: center;
 `;
 
+export const optionsContainer = css`
+display: flex;
+    flex-direction: column;
+    align-items: center;
+`;
+
 export const optionsTeotibotStartingResources = css`
   display: flex;
   flex-direction: row;

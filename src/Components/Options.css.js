@@ -63,7 +63,7 @@ export const expansionOptions = css`
 export const expansionContainer = css`
   display: flex;
   flex-direction: row;
-  margin: 50px 0;
+  margin: 1rem 1rem;
 `;
 
 export const expansion = css`
