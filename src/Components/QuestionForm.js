@@ -15,6 +15,7 @@ import {
 } from "./QuestionForm.css";
 import {
   powerupMsg,
+  getResourceImage,
   Eclipse,
   masteryQuestions,
   TilesToQuestions,
@@ -47,7 +48,7 @@ export class QuestionForm extends React.Component {
           ? getNeutralArray(props.tiles)
           : [],
     };
-    console.log("I received " + JSON.stringify(props.topDirectionTile))
+    console.log("I received " + JSON.stringify(props.topDirectionTile));
     this.onExitForm = this.onExitForm.bind(this);
     this.onRestartQuestions = this.onRestartQuestions.bind(this);
     this.onClickMasteryOption = this.onClickMasteryOption.bind(this);
@@ -71,13 +72,15 @@ export class QuestionForm extends React.Component {
 
   onClickMasteryOption(tileSrc, isAlternateTeotibotMovement, topDirectionTile) {
     this.setState({
-      questions: TilesToQuestions(tileSrc,
+      questions: TilesToQuestions(
+        tileSrc,
         null,
         null,
         null,
         null,
         isAlternateTeotibotMovement,
-        topDirectionTile),
+        topDirectionTile
+      ),
       fromMastery: true,
     });
   }
@@ -111,7 +114,7 @@ export class QuestionForm extends React.Component {
             />
           </div>
           <div css={modalHeading}>
-            <h3>{this.props.tileName}</h3>
+            <h2>{this.props.tileName}</h2>
             {this.props.tileName !== Eclipse && (
               <img
                 src={`${process.env.PUBLIC_URL}/bot_tiles/${this.props.tileSrc}.png`}
@@ -151,9 +154,34 @@ export class QuestionForm extends React.Component {
               <DicePlacement dicePlacements={neutralPlacements1} />
               <h4>Neutral player 2</h4>
               <DicePlacement dicePlacements={neutralPlacements2} />
-              <div css={buttons}>
-                <div onClick={this.onExitForm}>continue</div>
+            </div>
+          )}
+
+          {this.props.eclipseStage === 3 && (
+            <div>
+              <h3>End Game</h3>
+              <div>
+                Each player who has qualified for one or more Temple Bonus tiles
+                (by being on the penultimate or topmost step of a temple) scores
+                additional Victory Points based on any Bonus tiles they have
+                reached. Refer to the Appendix for an explanation of all Bonus
+                tiles.
               </div>
+              <h3>Teotibot scoring</h3>
+              <ul>
+                <li><span class="bold">1</span> Victory Point per leftover resource/cocoa.</li>
+                <li><span class="bold">{this.props.teotibotVPForTechTiles}</span> Victory Points for Technology {parse(getResourceImage("tech"))} it has a marker on.</li>
+                <li><span class="bold">{this.props.teotibotVPForTempleTiles}</span> Victory Points for each Temple Bonus tile {parse(getResourceImage("templebonus"))} it has reached (instead of scoring them normally).</li>
+              </ul>
+              <div css={buttons}>
+              <div onClick={this.onExitForm}>continue</div>
+            </div>
+            </div>
+          )}
+
+          {this.props.tileName === Eclipse && (
+            <div css={buttons}>
+              <div onClick={this.onExitForm}>continue</div>
             </div>
           )}
 
@@ -170,7 +198,13 @@ export class QuestionForm extends React.Component {
                         : {}
                     }
                     key={question.id}
-                    onClick={() => this.onClickMasteryOption(question.action, this.props.isAlternateTeotibotMovement, this.props.topDirectionTile)}
+                    onClick={() =>
+                      this.onClickMasteryOption(
+                        question.action,
+                        this.props.isAlternateTeotibotMovement,
+                        this.props.topDirectionTile
+                      )
+                    }
                   >
                     {parse(question.name)}
                   </li>
@@ -180,7 +214,8 @@ export class QuestionForm extends React.Component {
                 parse(
                   powerupMsg(
                     this.props.isAlternateTeotibotMovement,
-                    this.props.topDirectionTile
+                    this.props.topDirectionTile,
+                    this.props.teotibotVPFor10Cocoa
                   )
                 )}
             </div>

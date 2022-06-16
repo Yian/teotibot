@@ -60,7 +60,6 @@ export const TileList = (props) => {
   const [showDice, setShowDice] = useState(false);
   const [dice1Rolled, setDice1Rolled] = useState(0);
   const [dice2Rolled, setDice2Rolled] = useState(0);
-  const [endOfGame, setEndOfGame] = useState(false);
 
   // Hook1: Tie media queries to the number of columns
   const columns = useMedia(
@@ -332,8 +331,6 @@ export const TileList = (props) => {
     if (eclipse <= 2) {
       setEclipse(eclipse + 1);
       setShowEclipseForm(true);
-    } else {
-      setEndOfGame();
     }
   };
 
@@ -383,8 +380,9 @@ export const TileList = (props) => {
             tileName={Eclipse}
             eclipseStage={eclipse}
             tileSrc={"eclipse"}
-            endOfGame={endOfGame}
             isHeightOfDevelopment={props.isHeightOfDevelopment}
+            teotibotVPForTechTiles={props.teotibotVPForTechTiles}
+            teotibotVPForTempleTiles={props.teotibotVPForTempleTiles}
           />
         )}
       </div>

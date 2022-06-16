@@ -392,6 +392,8 @@ export class AppContainer extends React.Component {
           isHeightOfDevelopment={this.state.isHeightOfDevelopment}
           isAlternateTeotibotMovement={this.state.isAlternateTeotibotMovement}
           teotibotVPFor10Cocoa={this.state.teotibotVPFor10Cocoa}
+          teotibotVPForTechTiles={this.state.teotibotVPForTechTiles}
+          teotibotVPForTempleTiles={this.state.teotibotVPForTempleTiles}
           lastPlayerIndex={this.state.lastPlayerIndex}
           startTiles={this.state.startTiles}
           shuffleHistory={this.state.shuffleHistory}

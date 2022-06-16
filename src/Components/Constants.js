@@ -736,7 +736,7 @@ const getDiceImage = (imageName) => {
   return `<img class="icon" src="./dice/${imageName}.png" alt=${imageName}}/>`;
 };
 
-const getResourceImage = (imageName, className = "icon") => {
+export const getResourceImage = (imageName, className = "icon") => {
   return `<img class="${className}" src="./resources/${imageName}.png" alt=${imageName}}/>`;
 };
 
@@ -845,12 +845,13 @@ const alchemyQuestions = (isAlternateTeotibotMovement, topDirectionTile) => {
       question: `Power up ${getResourceImage("powerup")} ${getResourceImage(
         "powerup"
       )} its lowest unlocked worker
-    by two, without carrying out any actions or advancing any
+    by 2, without carrying out any actions or advancing any
     workers.`,
       questionId: 3,
       condition: ({ answers }) =>
         answers[1] === "no" && answers[3] === undefined,
       isEnd: true,
+      margin: 50,
     },
   ];
 };
@@ -922,7 +923,7 @@ const decorationQuestions = (isAlternateTeotibotMovement, topDirectionTile, teot
       margin: 50,
     },
     {
-      question: powerupMsg(isAlternateTeotibotMovement, topDirectionTile),
+      question: powerupMsg(isAlternateTeotibotMovement, topDirectionTile, teotibotVPFor10Cocoa),
       questionId: 5,
       condition: ({ answers }) => answers[3] === "no",
       isEnd: true,
@@ -932,7 +933,8 @@ const decorationQuestions = (isAlternateTeotibotMovement, topDirectionTile, teot
 
 const constructionQuestions = (
   isAlternateTeotibotMovement,
-  topDirectionTile
+  topDirectionTile,
+  teotibotVPFor10Cocoa
 ) => {
   return [
     {
@@ -1005,7 +1007,7 @@ const constructionQuestions = (
       margin: 50,
     },
     {
-      question: powerupMsg(isAlternateTeotibotMovement, topDirectionTile),
+      question: powerupMsg(isAlternateTeotibotMovement, topDirectionTile, teotibotVPFor10Cocoa),
       questionId: 5,
       condition: ({ answers }) => answers[3] === "no",
       margin: 50,
@@ -1067,7 +1069,7 @@ const noblesQuestions = (
     )} (this might trigger an Ascension, which is resolved
     normally). Then advance the powered-up worker (or the new worker, if the
     old one triggered Ascension)
-    ${advancement(isAlternateTeotibotMovement, topDirectionTile, teotibotVPFor10Cocoa)}
+    ${advancement(isAlternateTeotibotMovement, topDirectionTile)}
   </div>`,
       questionId: 2,
       condition: ({ answers }) => answers[1] === "yes",
@@ -1097,7 +1099,7 @@ const noblesQuestions = (
       margin: 50,
     },
     {
-      question: powerupMsg(isAlternateTeotibotMovement, topDirectionTile),
+      question: powerupMsg(isAlternateTeotibotMovement, topDirectionTile, teotibotVPFor10Cocoa),
       questionId: 5,
       condition: ({ answers }) => answers[3] === "no",
       isEnd: true,
@@ -1206,10 +1208,6 @@ const eclipseQuestions = (eclipseStage, isHeightOfDevelopment) => {
     return "";
   };
 
-  const endGame = () => {
-    return "";
-  };
-
   return [
     {
       question: `<div>
@@ -1221,7 +1219,7 @@ const eclipseQuestions = (eclipseStage, isHeightOfDevelopment) => {
     <li>The player (or players) furthest ahead on the Pyramid track scores <span class="bold">${getVpForEclipse(
       eclipseStage
     )}</span> Victory Points ${getResourceImage("vp")}.</li>
-    <li>Each player scores 4 points for each step they have moved up on the Pyramid track. ${getResourceImage(
+    <li>Each player scores <span class="bold">4</span> points for each step they have moved up on the Pyramid track. ${getResourceImage(
       "pyramid"
     )}.</li>
     <li>Reset the Pyramid track for all players, by moving all player markers to their starting position.</li>
@@ -1229,7 +1227,6 @@ const eclipseQuestions = (eclipseStage, isHeightOfDevelopment) => {
     Each set of 1/2/3/4/5/6/7 masks score 1/3/6/10/15/21/28 Victory Points.</li>
     <li>Each player (not Teotibot) must now pay a salary of 1 cocoa per worker, and an additional cocoa for each worker with a power of 4 or 5. For each cocoa a player is unwilling or unable to pay, that player loses 3 Victory Points. If at any time this reduces a player’s Victory Point total to 0, that player loses no more Victory Points.</li>
     </ul> 
-      ${endGame()}
   </div>`,
       questionId: 1,
       isEnd: true,
@@ -1297,7 +1294,6 @@ const masteryForestQuestions = (
       questionId: 2,
       condition: ({ answers }) => answers[1] === "yes",
       isEnd: true,
-      margin: 50,
     },
   ];
 };
@@ -1580,7 +1576,8 @@ export const TilesToQuestions = (
     case construction:
       result = constructionQuestions(
         isAlternateTeotibotMovement,
-        topDirectionTile
+        topDirectionTile,
+        teotibotVPFor10Cocoa
       );
       break;
     case decorations:
@@ -1642,7 +1639,8 @@ export const TilesToQuestions = (
       result = noblesQuestions(
         eclipseStage,
         isAlternateTeotibotMovement,
-        topDirectionTile
+        topDirectionTile,
+        teotibotVPFor10Cocoa
       );
       break;
     case worship:
