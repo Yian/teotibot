@@ -134,7 +134,7 @@ export const strikeOut = css`
 export const modalClose = css`
   position: absolute;
   top: 0;
-  right: 0;
+  left: 0;
   cursor: pointer;
 `;
 

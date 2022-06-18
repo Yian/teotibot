@@ -109,7 +109,7 @@ export class QuestionForm extends React.Component {
         <div css={questionModalContent}>
           <div css={modalClose} onClick={() => this.onExitForm(false)}>
             <img
-              src={`${process.env.PUBLIC_URL}/resources/cancel.png`}
+              src={`${process.env.PUBLIC_URL}/resources/back.png`}
               alt="Cancel"
             />
           </div>

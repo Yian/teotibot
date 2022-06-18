@@ -7,7 +7,6 @@ import { useSpring, useTransition, a } from "@react-spring/web";
 import { startTileContainer, startTile } from "./Setup.css";
 import ReactTooltip from "react-tooltip";
 import { shuffle, find } from "lodash";
-import { baseStartTiles, xitleStartTiles } from "../Constants";
 
 export const StartTiles = (props) => {
   const tileHeight = 250;

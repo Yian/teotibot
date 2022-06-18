@@ -34,7 +34,7 @@ export const PriestPriestessTiles = (props) => {
     return () => clearInterval(t);
   }, [items, props.numberToPick]);
 
-  let tileHeight = columns === 2 ? width/1.5 : 400;
+  let tileHeight = columns === 2 ? width/2 : width/1.5;
 
   // Hook5: Form a grid of stacked items using width & columns we got from hooks 1 & 2
   const [heights, gridItems] = useMemo(() => {

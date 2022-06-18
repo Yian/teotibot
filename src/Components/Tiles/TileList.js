@@ -36,6 +36,8 @@ import {
   AppScreen,
   baseBotTiles,
   baseDirectionTiles,
+  baseStartTiles,
+  xitleStartTiles,
   diceTilePositions,
   Eclipse,
   initialDirectionOrdering,
@@ -46,18 +48,40 @@ import {
 } from "../Constants";
 import { cloneDeep } from "lodash-es";
 import Dice from "react-dice-roll";
+import { reactLocalStorage } from "reactjs-localstorage";
 
 export const TileList = (props) => {
-  const [tiles, setTiles] = useState(baseBotTiles);
+
+  const getInitialDirectionTileOrder = useCallback(() => {
+    var currentDirectionTileOrdering = JSON.parse(reactLocalStorage.get('directionTileOrdering') ?? null);
+    var defaultDirectionTileOrdering = shuffle(props.isAlternateTeotibotMovement
+      ? initialAlternativeDirectionOrdering
+      : initialDirectionOrdering);
+ 
+      if ((currentDirectionTileOrdering && currentDirectionTileOrdering.length) !== defaultDirectionTileOrdering.length) {
+        //we've changed the setting
+        currentDirectionTileOrdering = defaultDirectionTileOrdering;
+      }
+
+    return currentDirectionTileOrdering ?? defaultDirectionTileOrdering
+  }, [props.isAlternateTeotibotMovement])
+  
+  const getInitialOrdering = useCallback(() => {
+    return JSON.parse(reactLocalStorage.get('tileOrdering') ?? null) ?? shuffle(initialOrdering)
+  }, []);
+
+  const [tiles,] = useState(baseBotTiles);
+  const [startTiles, setStartTiles] = useState([]);
   const [directionTiles, setDirectionTiles] = useState([]);
-  const [ordering, setOrdering] = useState(shuffle(initialOrdering)); //inital ordering;
-  const [directionOrdering, setDirectionOrdering] = useState([]);
+  const [ordering, setOrdering] = useState(getInitialOrdering); //inital ordering;
+  const [directionOrdering, setDirectionOrdering] = useState(getInitialDirectionTileOrder);
   const [eclipse, setEclipse] = useState(0);
   const [tilesDisabled, setTilesDisabled] = useState(false);
   const [showForm, setShowForm] = useState(false);
   const [showEclipseForm, setShowEclipseForm] = useState(false);
   const [selectedTileIndex, setSelectedTileIndex] = useState(0);
   const [showDice, setShowDice] = useState(false);
+  const [enableRoll, setEnableRoll] = useState(true);
   const [dice1Rolled, setDice1Rolled] = useState(0);
   const [dice2Rolled, setDice2Rolled] = useState(0);
 
@@ -234,7 +258,9 @@ export const TileList = (props) => {
     });
 
     setOrdering(newOrder);
+    reactLocalStorage.set('tileOrdering', JSON.stringify(newOrder));
     setDirectionOrdering(newDirectionOrder);
+    reactLocalStorage.set('directionTileOrdering', JSON.stringify(newDirectionOrder));
 
     animateTiles(newDirectionTiles);
   };
@@ -266,6 +292,13 @@ export const TileList = (props) => {
   });
 
   useEffect(() => {
+    const tiles = props.isXitle
+      ? [...baseStartTiles, ...xitleStartTiles]
+      : baseStartTiles;
+    setStartTiles(tiles);
+  }, [props.isXitle]);
+
+  useEffect(() => {
     const directionTilesList = props.isAlternateTeotibotMovement
       ? [
           ...baseDirectionTiles,
@@ -273,13 +306,11 @@ export const TileList = (props) => {
           ...getRandom(alternativeDirectionTilesStep3, 1),
         ]
       : baseDirectionTiles;
-    setDirectionTiles(shuffle(directionTilesList));
+    setDirectionTiles(directionTilesList);
 
-    const directionOrdering = props.isAlternateTeotibotMovement
-      ? initialAlternativeDirectionOrdering
-      : initialDirectionOrdering;
-    setDirectionOrdering(shuffle(directionOrdering));
-  }, [props.isAlternateTeotibotMovement]);
+
+    setDirectionOrdering(getInitialDirectionTileOrder);
+  }, [props.isAlternateTeotibotMovement, getInitialDirectionTileOrder]);
 
   useEffect(() => {
     if (dice1Rolled > 0 && dice2Rolled > 0) {
@@ -322,9 +353,16 @@ export const TileList = (props) => {
   };
 
   const handleClick = () => {
-    setShowDice(true);
-    refDice1.current.rollDice();
-    refDice2.current.rollDice();
+    if (enableRoll) {
+      setShowDice(true);
+      refDice1.current.rollDice();
+      refDice2.current.rollDice();
+      setEnableRoll(false);
+
+      setTimeout(() => {
+        setEnableRoll(true);
+      }, 2000)
+    }
   };
 
   const handleEclipse = () => {
@@ -375,7 +413,7 @@ export const TileList = (props) => {
         )}
         {showEclipseForm && (
           <QuestionForm
-            tiles={props.startTiles}
+            tiles={startTiles}
             onCloseClick={(shouldShuffle) => onCloseClick(shouldShuffle)}
             tileName={Eclipse}
             eclipseStage={eclipse}
@@ -411,7 +449,6 @@ export const TileList = (props) => {
       </div>
       <div css={nav}>
         <div css={navButton} onClick={handleClick}>
-          <span>ROLL</span>
           <img src={`${process.env.PUBLIC_URL}/dice/d3.png`} alt="d3" />
         </div>
         <span css={navButton} onClick={handleEclipse}>

@@ -20,20 +20,20 @@ import {
 } from "./Constants";
 import { Options } from "./Options";
 import { btnSettings, setup } from "./Setup/Setup.css";
+import {reactLocalStorage} from 'reactjs-localstorage';
 
 export class AppContainer extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      screenMode: AppScreen,
+      screenMode: StartScreen,
       lastScreen: StartScreen,
-      isOptions: false,
-      isXitle: false,
-      isPriestAndPriestess: false,
-      isHeightOfDevelopment: false,
-      isSeasonsOfProgress: false,
-      startTiles: baseStartTiles,
-      isAlternateTeotibotMovement: false,
+      isXitle: JSON.parse(reactLocalStorage.get('isXitle') ?? false),
+      isPriestAndPriestess: JSON.parse(reactLocalStorage.get('isPriestAndPriestess') ?? false),
+      isHeightOfDevelopment: JSON.parse(reactLocalStorage.get('isHeightOfDevelopment') ?? false),
+      isSeasonsOfProgress: JSON.parse(reactLocalStorage.get('isSeasonsOfProgress') ?? false),
+      isAlternateTeotibotMovement: JSON.parse(reactLocalStorage.get('isAlternateTeotibotMovement') ?? false),
+      isSetupComplete: false,
       teotibotStartingGold: 2,
       teotibotStartingWood: 2,
       teotibotStartingStone: 2,
@@ -92,26 +92,20 @@ export class AppContainer extends React.Component {
       const img = new Image();
       img.src = `${process.env.PUBLIC_URL}/dice/${dface}.png`;
     });
+
+    if (JSON.parse(reactLocalStorage.get('isSetupComplete') ?? false)) {
+      this.setState({
+        screenMode: AppScreen
+      })
+    }
   }
-
-  //Tiles
-  setOrdering = (newOrder) => {
-    this.setState({
-      ordering: newOrder,
-    });
-  };
-
-  setDirectionOrdering = (newOrder) => {
-    this.setState({
-      directionOrdering: newOrder,
-    });
-  };
 
   //Expansions
   setIsXitle = (isXitle) => {
     this.setState({
       isXitle,
-      startTiles: [...baseStartTiles, ...xitleStartTiles],
+    }, () => {
+      reactLocalStorage.set('isXitle', isXitle);
     });
   };
 
@@ -121,15 +115,25 @@ export class AppContainer extends React.Component {
     );
   };
 
-  onChangeAlternateTeotibotMovement = (e) => {
+  setIsAlternateTeotibotMovement = (isAlternateTeotibotMovement) => {
     this.setState({
-      isAlternateTeotibotMovement: !this.state.isAlternateTeotibotMovement,
+      isAlternateTeotibotMovement
+    }, () => {
+      reactLocalStorage.set('isAlternateTeotibotMovement', isAlternateTeotibotMovement);
     });
+  };
+
+  onChangeAlternateTeotibotMovement = (e) => {
+    this.setIsAlternateTeotibotMovement(
+      e.target.type === "checkbox" ? e.target.checked : e.target.value
+    );
   };
 
   setIsPriestAndPriestess = (isPriestAndPriestess) => {
     this.setState({
       isPriestAndPriestess,
+    }, () => {
+      reactLocalStorage.set('isPriestAndPriestess', isPriestAndPriestess);
     });
   };
 
@@ -142,6 +146,8 @@ export class AppContainer extends React.Component {
   setIsSeasonsOfProgress = (isSeasonsOfProgress) => {
     this.setState({
       isSeasonsOfProgress,
+    }, () => {
+      reactLocalStorage.set('isSeasonsOfProgress', isSeasonsOfProgress);
     });
   };
 
@@ -154,6 +160,8 @@ export class AppContainer extends React.Component {
   setIsHeightOfDevelopment = (isHeightOfDevelopment) => {
     this.setState({
       isHeightOfDevelopment,
+    }, () => {
+      reactLocalStorage.set('isHeightOfDevelopment', isHeightOfDevelopment);
     });
   };
 
@@ -309,6 +317,7 @@ export class AppContainer extends React.Component {
       });
     }
   };
+
   onDecreaseTeotibotWorkerPowerForAction8 = (e) => {
     if (this.state.teotibotWorkerPowerForAction8 > 1) {
       this.setState({
@@ -320,7 +329,7 @@ export class AppContainer extends React.Component {
 
   start = () => {
     this.setState({
-      screenMode: 2,
+      screenMode: SetupScreen,
       hadesTotal: 0,
       hadesActive: false,
     });
@@ -342,8 +351,11 @@ export class AppContainer extends React.Component {
   startApp = () => {
     this.setState({
       screenMode: AppScreen,
+      isSetupComplete: true,
     });
+    reactLocalStorage.set("isSetupComplete", true);
   };
+
   renderApp = () => {
     if (this.state.screenMode === StartScreen) {
       return (
@@ -364,11 +376,11 @@ export class AppContainer extends React.Component {
           />
           <Setup
             startApp={this.startApp}
-            startTiles={this.state.startTiles}
             isXitle={this.state.isXitle}
             isHeightOfDevelopment={this.state.isHeightOfDevelopment}
             isPriestAndPriestess={this.state.isPriestAndPriestess}
             isAlternateTeotibotMovement={this.state.isAlternateTeotibotMovement}
+            isSetupComplete={this.state.isSetupComplete}
             teotibotWorkerPowerForAction4={
               this.state.teotibotWorkerPowerForAction4
             }
@@ -395,7 +407,6 @@ export class AppContainer extends React.Component {
           teotibotVPForTechTiles={this.state.teotibotVPForTechTiles}
           teotibotVPForTempleTiles={this.state.teotibotVPForTempleTiles}
           lastPlayerIndex={this.state.lastPlayerIndex}
-          startTiles={this.state.startTiles}
           shuffleHistory={this.state.shuffleHistory}
           playerCount={this.state.playerCount}
           defaultFavorTiles={this.state.defaultFavorTiles}

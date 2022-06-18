@@ -3,6 +3,19 @@ import { mediaQueries } from "../variables";
 
 export const setupContainer = css`
   color: #eeeddb;
+
+  h2 {
+    margin: 1.5rem 0;
+    color: chocolate;
+  }
+
+  h3 {
+    margin: 1.5rem 0;
+  }
+`;
+
+export const setupSection = css`
+  margin: 5rem 0;
 `;
 
 export const setup = css``;
@@ -12,6 +25,18 @@ export const btnSettings = css`
   top: 0;
   right: 0;
   cursor: pointer;
+`;
+
+export const orangeTemple = css`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 2rem 0;
+
+  img {
+    width: 50px;
+    vertical-align: middle;
+  }
 `;
 
 export const btnContinue = css`

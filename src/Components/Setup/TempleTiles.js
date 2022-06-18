@@ -14,7 +14,7 @@ export const TempleTiles = (props) => {
   // Hook1: Tie media queries to the number of columns
   const columns = useMedia(
     ["(min-width: 1500px)", "(min-width: 1000px)", "(min-width: 600px)"],
-    [5, 5, 5],
+    [4, 4, 4],
     3
   );
   // Hook2: Measure the width of the container element

@@ -4,14 +4,18 @@ import { jsx } from "@emotion/react";
 import { StartTiles } from "./StartTiles";
 import { TechTiles } from "./TechTiles";
 import { TempleTiles } from "./TempleTiles";
-import { btnContinue, setupContainer } from "./Setup.css";
+import { btnContinue, orangeTemple, setupContainer, setupSection } from "./Setup.css";
 import { DicePlacement } from "./DicePlacement";
 import { find, remove, cloneDeep, shuffle } from "lodash";
 import { StartingResources } from "./StartingResources";
 import { PriestPriestessTiles } from "./PriestPriestessTiles";
 import ReactTooltip from "react-tooltip";
 import { getNeutralArray, getPlayerArray, getTeotibotArray } from "../Logic";
-import { initialTeotibotStartingResources } from "../Constants";
+import {
+  baseStartTiles,
+  xitleStartTiles,
+  initialTeotibotStartingResources,
+} from "../Constants";
 
 export const Setup = (props) => {
   const startTileRef = useRef(null);
@@ -19,7 +23,7 @@ export const Setup = (props) => {
   const teotibotResourceRef = useRef(null);
   const neutralPlayerResourceRef = useRef(null);
   const continueRef = useRef(null);
-
+  const [startTiles, setStartTiles] = useState([]);
   const [hasScrolled, setHasScrolled] = useState(false);
   const [selectedStartTiles, setSelectedStartTiles] = useState([]);
   const [selectedResources, setSelectedResources] = useState([]);
@@ -112,9 +116,16 @@ export const Setup = (props) => {
   }, []);
 
   useEffect(() => {
+    const tiles = props.isXitle
+      ? [...baseStartTiles, ...xitleStartTiles]
+      : baseStartTiles;
+    setStartTiles(tiles);
+  }, [props.isXitle]);
+
+  useEffect(() => {
     if (selectedStartTiles.length >= 2) {
       setRemainingStartTiles(
-        props.startTiles.filter((el) => {
+        startTiles.filter((el) => {
           return (
             el.name !== selectedStartTiles[0].name &&
             el.name !== selectedStartTiles[1].name
@@ -217,6 +228,7 @@ export const Setup = (props) => {
     }
     if (showNeutralPlayer2) {
       setShowContinue(true);
+      scrollIntoView(continueRef, true);
     }
   };
 
@@ -234,14 +246,14 @@ export const Setup = (props) => {
       {showTechs && (
         <div>
           <ReactTooltip multiline={true} clickable={false} />
-          <h4>Upgrade Tiles</h4>
+          <h3>Upgrade Tiles</h3>
           <TechTiles isXitle={props.isXitle} onRest={onRest} />
         </div>
       )}
       {showTemples && (
         <div>
           <ReactTooltip multiline={true} />
-          <h4>Temple Tiles</h4>
+          <h3>Temple Tiles</h3>
           <TempleTiles isXitle={props.isXitle} onRest={onRest} />
         </div>
       )}
@@ -249,20 +261,20 @@ export const Setup = (props) => {
         {showStartTiles && (
           <div>
             <ReactTooltip multiline={true} />
-            <h4>Select 2 Start Tiles:</h4>
+            <h3>Select 2 Start Tiles:</h3>
             <StartTiles
-              startTiles={props.startTiles}
+              startTiles={startTiles}
               isXitle={props.isXitle}
               selectedStartTiles={selectedTile}
             />
           </div>
         )}
       </div>
-      <div ref={playerResourceRef}>
+      <div css={setupSection} ref={playerResourceRef}>
         <h2>Player setup</h2>
         {showPlayerStartingResources && (
           <div>
-            <h4>Player Starting Resources:</h4>
+            <h3>Player Starting Resources:</h3>
             <StartingResources
               startingResources={selectedResources}
               onRest={onRest}
@@ -270,23 +282,23 @@ export const Setup = (props) => {
           </div>
         )}
         {showPlayerPriestPriestessTiles && (
-          <div>
-            <h4>Priest/Priestess Tiles:</h4>
+          <div css={setupSection}>
+            <h3>Priest/Priestess Tiles:</h3>
             <PriestPriestessTiles numberToPick={2} />
           </div>
         )}
         {showPlayerPlacements && (
           <div>
-            <h4>Player Placements:</h4>
+            <h3>Player Placements:</h3>
             <DicePlacement dicePlacements={playerPlacements} onRest={onRest} />
           </div>
         )}
       </div>
-      <div ref={teotibotResourceRef}>
+      <div css={setupSection} ref={teotibotResourceRef}>
         <h2>Teotibot Setup</h2>
         {showTeotibotStartingResources && (
           <div>
-            <h4>Teotibot Starting Resources:</h4>
+            <h3>Teotibot Starting Resources:</h3>
             <StartingResources
               startingResources={teotibotStartingResources}
               onRest={onRest}
@@ -295,33 +307,34 @@ export const Setup = (props) => {
         )}
         {showTeotibotPriestPriestessTiles && (
           <div>
-            <h4>Teotibot Priest/Priestess Tile:</h4>
+            <h3>Teotibot Priest/Priestess Tile:</h3>
             <PriestPriestessTiles numberToPick={1} isTeotibot={true} />
           </div>
         )}
         {showTeotibotDice && (
           <div>
-            <h4>Teotibot Placement:</h4>
+            <h3>Teotibot Placement:</h3>
             <DicePlacement
               dicePlacements={teotibotPlacements}
               onRest={onRest}
             />
-                    {showIsHeightOfDevelopment && (
-          <div>
-            <span>
-              Place one of Teotibot's worshippers on the Temple
-              Bonus tile of the orange temple. <img src={`${process.env.PUBLIC_URL}/resources/to.png`} />
-            </span>
-          </div>
-        )}
+            {showIsHeightOfDevelopment && (
+              <div css={orangeTemple}>
+                <span>
+                  Place one of Teotibot's worshippers on the Temple Bonus tile
+                  of the orange temple.{" "}
+                  <img src={`${process.env.PUBLIC_URL}/resources/to.png`} />
+                </span>
+              </div>
+            )}
           </div>
         )}
       </div>
-      <div ref={neutralPlayerResourceRef}>
+      <div css={setupSection} ref={neutralPlayerResourceRef}>
         <h2>Neutral Player Setup</h2>
         {showNeutralPlayer1 && (
           <div>
-            <h4>Neutral player 1:</h4>
+            <h3>Neutral player 1:</h3>
             <DicePlacement
               dicePlacements={neutralPlacements1}
               onRest={onRest}
@@ -330,7 +343,7 @@ export const Setup = (props) => {
         )}
         {showNeutralPlayer2 && (
           <div>
-            <h4>Neutral player 2:</h4>
+            <h3>Neutral player 2:</h3>
             <DicePlacement
               dicePlacements={neutralPlacements2}
               onRest={onRest}
