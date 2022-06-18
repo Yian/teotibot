@@ -330,10 +330,16 @@ export class AppContainer extends React.Component {
   start = () => {
     this.setState({
       screenMode: SetupScreen,
-      hadesTotal: 0,
-      hadesActive: false,
     });
   };
+
+  newGame = () => {
+    this.setState({
+      screenMode: StartScreen,
+      isSetupComplete: false,
+    });
+    reactLocalStorage.clear();
+  }
 
   back = () => {
     this.setState({
@@ -345,6 +351,11 @@ export class AppContainer extends React.Component {
     this.setState({
       lastScreen,
       screenMode: OptionsScreen,
+      isXitle: false,
+      isPriestAndPriestess: false,
+      isHeightOfDevelopment: false,
+      isSeasonsOfProgress: false,
+      isAlternateTeotibotMovement: false,
     });
   };
 
@@ -489,6 +500,7 @@ export class AppContainer extends React.Component {
           onDecreaseTeotibotWorkerPowerForAction8={
             this.onDecreaseTeotibotWorkerPowerForAction8
           }
+          newGame={this.newGame}
           back={this.back}
         />
       );

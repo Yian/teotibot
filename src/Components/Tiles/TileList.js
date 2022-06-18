@@ -352,7 +352,7 @@ export const TileList = (props) => {
     setShowDice(false);
   };
 
-  const handleClick = () => {
+  const handleRollClick = () => {
     if (enableRoll) {
       setShowDice(true);
       refDice1.current.rollDice();
@@ -365,7 +365,7 @@ export const TileList = (props) => {
     }
   };
 
-  const handleEclipse = () => {
+  const handleEclipseClick = () => {
     if (eclipse <= 2) {
       setEclipse(eclipse + 1);
       setShowEclipseForm(true);
@@ -448,10 +448,10 @@ export const TileList = (props) => {
         ))}
       </div>
       <div css={nav}>
-        <div css={navButton} onClick={handleClick}>
+        <div css={navButton} onClick={handleRollClick}>
           <img src={`${process.env.PUBLIC_URL}/dice/d3.png`} alt="d3" />
         </div>
-        <span css={navButton} onClick={handleEclipse}>
+        <span css={navButton} onClick={handleEclipseClick}>
           <img
             src={`${process.env.PUBLIC_URL}/resources/eclipse.png`}
             alt="eclipse"

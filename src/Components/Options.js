@@ -13,6 +13,7 @@ import {
 } from "./Options.css.js";
 import { activeText } from "./Tiles/TileList.css";
 import { Checkbox } from "./Checkbox";
+import { btnContinue, btnNew } from "./Setup/Setup.css.js";
 
 export const Options = (props) => {
   return (
@@ -190,6 +191,11 @@ export const Options = (props) => {
               <img src="./resources/tech.png" alt="VP" />{" "}
               <span onClick={props.onDecreaseTeotibotVPForTechTiles}>-</span>
             </div>
+          </div>
+        </div>
+        <div css={optionsSection}>
+        <div css={btnNew} onClick={props.newGame}>
+            <span>New game</span>
           </div>
         </div>
       </div>

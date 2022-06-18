@@ -46,6 +46,28 @@ export const btnContinue = css`
   width: 100%;
   margin: 50px 0;
   cursor: pointer;
+
+  span {
+    border: 1px solid black;
+    padding: 10px;
+    background: #35a7c6;
+    border-radius: 5px;
+  }
+`;
+
+export const btnNew = css`
+  display: flex;
+  justify-content: center;
+  font-size: 2rem;
+  width: 100%;
+  cursor: pointer;
+
+  span {
+    border: 1px solid black;
+    padding: 10px;
+    background: #35a7c6;
+    border-radius: 5px;
+  }
 `;
 
 export const tileContainer = css`

@@ -440,6 +440,7 @@ export const xitleStartTiles = [
       { quantity: 2, type: stone },
     ],
     selected: false,
+    duplicateNumbers: true,
     src: xitle,
   },
   {
@@ -525,6 +526,7 @@ export const xitleStartTiles = [
       { quantity: 1, type: any },
     ],
     selected: false,
+    duplicateNumbers: true,
     src: xitle,
   },
   {

@@ -1,4 +1,4 @@
-import { find, remove, union, cloneDeep, shuffle } from "lodash";
+import { find, remove, union, cloneDeep, shuffle, sortBy } from "lodash";
 import { actionNames, diceFaces, noNeutralDice } from "./Constants";
 
 export const right = "right";
@@ -253,36 +253,36 @@ export function getTeotibotArray(
   teotibotWorkerPowerForAction6,
   teotibotWorkerPowerForAction8
 ) {
-  return [
+  return sortBy([
     {
       key: 0,
       diceFace: getDiceFace(teotibotWorkerPowerForAction4),
-      number: [4],
+      number: 4,
       actionName: getActionItem(4).name,
       color: getActionItem(4).color,
     },
     {
       key: 1,
       diceFace: getDiceFace(teotibotWorkerPowerForAction6),
-      number: [6],
+      number: 6,
       actionName: getActionItem(6).name,
       color: getActionItem(6).color,
     },
     {
       key: 2,
       diceFace: getDiceFace(teotibotWorkerPowerForAction8),
-      number: [8],
+      number: 8,
       actionName: getActionItem(8).name,
       color: getActionItem(8).color,
     },
     {
       key: 3,
       diceFace: diceFaces[0],
-      number: [7],
+      number: 7,
       actionName: getActionItem(7).name,
       color: getActionItem(7).color,
     },
-  ];
+  ], ['number']);
 }
 
 export function getNeutralArray(shuffledTiles) {
@@ -301,59 +301,53 @@ export function getNeutralArray(shuffledTiles) {
   //Get the 3 dice values
   //let dice = getRandom(diceFaces, noNeutralDice);
 
-  return [
+  return sortBy([
     {
       key: 0,
       diceFace: diceFaces[0],
-      number: [mergedActions[0]],
+      number: mergedActions[0],
       actionName: getActionItem(mergedActions[0]).name,
       color: getActionItem(mergedActions[0]).color,
     },
     {
       key: 1,
       diceFace: diceFaces[0],
-      number: [mergedActions[1]],
+      number: mergedActions[1],
       actionName: getActionItem(mergedActions[1]).name,
       color: getActionItem(mergedActions[1]).color,
     },
     {
       key: 2,
       diceFace: diceFaces[0],
-      number: [mergedActions[2]],
+      number: mergedActions[2],
       actionName: getActionItem(mergedActions[2]).name,
       color: getActionItem(mergedActions[2]).color,
     },
-  ];
+  ], ['number']);
 }
 
 export function getPlayerArray(selectedStartTiles) {
   let actions = [];
+  let playerPositions = [];
 
   selectedStartTiles.forEach((selectedStartTile) => {
-    actions = union([...actions, ...selectedStartTile.numbers]);
+      actions = union([...actions, ...selectedStartTile.numbers]);
   });
 
-  return [
-    {
-      key: 0,
+  var dupNumberTiles = find(selectedStartTiles, ["duplicateNumbers", true]);
+  if (dupNumberTiles) {
+   actions.push(dupNumberTiles.numbers[0])
+  }
+
+  sortBy(actions).forEach((item, i) => {
+    playerPositions.push({
+      key: i,
       diceFace: diceFaces[0],
-      number: [actions[0]],
-      actionName: getActionItem(1).name,
-      color: getActionItem(1).color,
-    },
-    {
-      key: 1,
-      diceFace: diceFaces[0],
-      number: [actions[1]],
-      actionName: getActionItem(2).name,
-      color: getActionItem(2).color,
-    },
-    {
-      key: 2,
-      diceFace: diceFaces[0],
-      number: [actions[2]],
-      actionName: getActionItem(3).name,
-      color: getActionItem(3).color,
-    },
-  ];
+      number: item,
+      actionName: getActionItem(item).name,
+      color: getActionItem(item).color,
+    },)
+  });
+
+  return playerPositions;
 }
