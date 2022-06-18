@@ -337,6 +337,11 @@ export class AppContainer extends React.Component {
     this.setState({
       screenMode: StartScreen,
       isSetupComplete: false,
+      isXitle: false,
+      isPriestAndPriestess: false,
+      isHeightOfDevelopment: false,
+      isSeasonsOfProgress: false,
+      isAlternateTeotibotMovement: false,
     });
     reactLocalStorage.clear();
   }
@@ -351,11 +356,6 @@ export class AppContainer extends React.Component {
     this.setState({
       lastScreen,
       screenMode: OptionsScreen,
-      isXitle: false,
-      isPriestAndPriestess: false,
-      isHeightOfDevelopment: false,
-      isSeasonsOfProgress: false,
-      isAlternateTeotibotMovement: false,
     });
   };
 
