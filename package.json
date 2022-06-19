@@ -19,7 +19,8 @@
     "react-tooltip": "^4.2.21",
     "react-use-gesture": "5.0.0",
     "react-use-measure": "^2.1.1",
-    "reactjs-localstorage": "^1.0.1"
+    "reactjs-localstorage": "^1.0.1",
+    "use-long-press": "^2.0.2"
   },
   "scripts": {
     "start": "react-scripts start",

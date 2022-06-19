@@ -91,7 +91,7 @@ export const questionModalContent = css`
   }
 
   .bold {
-    color: #35a7c6;
+    color: #30c5bd;
   }
 
   .margin {
@@ -156,6 +156,10 @@ export const buttons = (margin) => css`
   div:nth-of-type(2) {
     color: #d15959;
   }
+`;
+
+export const btnContinue = css`
+  margin-bottom: 100%;
 `;
 
 export const questionForm = (margin) => css`

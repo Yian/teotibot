@@ -12,6 +12,7 @@ import {
   modalHeading,
   strikeOut,
   masteryForm,
+  btnContinue,
 } from "./QuestionForm.css";
 import {
   powerupMsg,
@@ -111,7 +112,14 @@ export class QuestionForm extends React.Component {
     return (
       <div css={questionModal}>
         <div css={questionModalContent}>
-          <div css={modalClose} onClick={this.props.tileName === Eclipse ? () => this.onCancelEclipse() : () => this.onExitForm(false)}>
+          <div
+            css={modalClose}
+            onClick={
+              this.props.tileName === Eclipse
+                ? () => this.onCancelEclipse()
+                : () => this.onExitForm(false)
+            }
+          >
             <img
               src={`${process.env.PUBLIC_URL}/resources/back.png`}
               alt="Cancel"
@@ -173,19 +181,32 @@ export class QuestionForm extends React.Component {
               </div>
               <h3>Teotibot scoring</h3>
               <ul>
-                <li><span class="bold">1</span> Victory Point per leftover resource/cocoa.</li>
-                <li><span class="bold">{this.props.teotibotVPForTechTiles}</span> Victory Points for Technology {parse(getResourceImage("tech"))} it has a marker on.</li>
-                <li><span class="bold">{this.props.teotibotVPForTempleTiles}</span> Victory Points for each Temple Bonus tile {parse(getResourceImage("templebonus"))} it has reached (instead of scoring them normally).</li>
+                <li>
+                  <span class="bold">1</span> Victory Point per leftover
+                  resource/cocoa.
+                </li>
+                <li>
+                  <span class="bold">{this.props.teotibotVPForTechTiles}</span>{" "}
+                  Victory Points for Technology{" "}
+                  {parse(getResourceImage("tech"))} it has a marker on.
+                </li>
+                <li>
+                  <span class="bold">
+                    {this.props.teotibotVPForTempleTiles}
+                  </span>{" "}
+                  Victory Points for each Temple Bonus tile{" "}
+                  {parse(getResourceImage("templebonus"))} it has reached
+                  (instead of scoring them normally).
+                </li>
               </ul>
-              <div css={buttons}>
-              <div onClick={() => this.onExitForm(false)}>continue</div>
-            </div>
             </div>
           )}
 
           {this.props.tileName === Eclipse && (
             <div css={buttons}>
-              <div onClick={() => this.onExitForm(false)}>continue</div>
+              <div css={btnContinue} onClick={() => this.onExitForm(false)}>
+                continue
+              </div>
             </div>
           )}
 
@@ -214,17 +235,20 @@ export class QuestionForm extends React.Component {
                   </li>
                 ))}
               </ul>
-              {this.state.masteryAnswers.length >= 7 &&
-              <div>
-                parse(
-                  powerupMsg(
-                    this.props.isAlternateTeotibotMovement,
-                    this.props.topDirectionTile,
-                    this.props.teotibotVPFor10Cocoa
-                  )
-                )
-                <div onClick={() => this.onExitForm(true)}>continue</div>
-              </div>}
+              {this.state.masteryAnswers.length >= 7 && (
+                <div>
+                  {parse(
+                    powerupMsg(
+                      this.props.isAlternateTeotibotMovement,
+                      this.props.topDirectionTile,
+                      this.props.teotibotVPFor10Cocoa
+                    )
+                  )}
+                  <div css={buttons(50)}>
+                    <div onClick={() => this.onExitForm(true)}>continue</div>
+                  </div>
+                </div>
+              )}
             </div>
           )}
         </div>

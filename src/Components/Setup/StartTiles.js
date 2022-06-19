@@ -5,8 +5,8 @@ import useMedia from "../UseMedia";
 import useMeasure from "react-use-measure";
 import { useSpring, useTransition, a } from "@react-spring/web";
 import { startTileContainer, startTile } from "./Setup.css";
-import ReactTooltip from "react-tooltip";
 import { shuffle, find } from "lodash";
+import { useLongPress } from 'use-long-press';
 
 export const StartTiles = (props) => {
   const tileHeight = 250;
@@ -101,6 +101,11 @@ export const StartTiles = (props) => {
     props.selectedStartTiles(listItem);
   };
 
+  const bind = useLongPress(() => {
+    console.log('Long pressed!');
+  });
+
+
   return (
     <div
       ref={ref}
@@ -109,6 +114,7 @@ export const StartTiles = (props) => {
       {transitions((style, item) => (
         <a.div css={startTile} style={style}>
           <a.img
+          {...bind()}
             css={startTile}
             style={getStyle(item)}
             onClick={() => {

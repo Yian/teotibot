@@ -483,7 +483,7 @@ export const TileList = (props) => {
           <Dice
             ref={refDice1}
             faces={dFaces}
-            size={100}
+            size={150}
             rollingTime={generateRandomInteger(500, 1500)}
             onRoll={(value) => setDice1Rolled(value)}
             disabled
@@ -491,7 +491,7 @@ export const TileList = (props) => {
           <Dice
             ref={refDice2}
             faces={dFaces}
-            size={100}
+            size={150}
             rollingTime={generateRandomInteger(500, 1500)}
             onRoll={(value) => setDice2Rolled(value)}
             disabled

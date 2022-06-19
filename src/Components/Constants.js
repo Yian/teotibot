@@ -841,7 +841,7 @@ const templeTip = `<div class="templeTip"><div>*Advance Teotibot on its highest 
 const alchemyQuestions = (isAlternateTeotibotMovement, topDirectionTile) => {
   return [
     {
-      question: `<div>Does Teotibot have 1 or more gold ${getResourceImage(
+      question: `<div>Does Teotibot have <span class="bold">1</span> or more gold ${getResourceImage(
         "gold"
       )} and at least one worker on the Alchemy ${getActionImage(
         "no5"
@@ -898,7 +898,7 @@ const alchemyQuestions = (isAlternateTeotibotMovement, topDirectionTile) => {
 const decorationQuestions = (isAlternateTeotibotMovement, topDirectionTile, teotibotVPFor10Cocoa) => {
   return [
     {
-      question: `<div>Does Teotibot have 2 or more gold ${getResourceImage(
+      question: `<div>Does Teotibot have <span class="bold">2</span> or more gold ${getResourceImage(
         "gold"
       )} and at least one worker on the Decorations ${getActionImage(
         "no7"
@@ -977,7 +977,7 @@ const constructionQuestions = (
 ) => {
   return [
     {
-      question: `<div>Does Teotibot have 2 or more stone ${getResourceImage(
+      question: `<div>Does Teotibot have <span class="bold">2</span> or more stone ${getResourceImage(
         "stone"
       )} and at least one worker on the Construction ${getActionImage(
         "no8"
@@ -1074,7 +1074,7 @@ const noblesQuestions = (
   };
   return [
     {
-      question: `<div>Does Teotibot have 2 or more wood ${getResourceImage(
+      question: `<div>Does Teotibot have <span class="bold">2</span> or more wood ${getResourceImage(
         "wood"
       )} and at least one worker on the Nobles ${getActionImage(
         "no6"
@@ -1263,8 +1263,8 @@ const eclipseQuestions = (eclipseStage, isHeightOfDevelopment) => {
     )}.</li>
     <li>Reset the Pyramid track for all players, by moving all player markers to their starting position.</li>
     <li>Each player organizes their masks into one or more sets, where each set is comprised of different masks. Then each set scores points, depending on the number of masks in that set:
-    Each set of 1/2/3/4/5/6/7 masks score 1/3/6/10/15/21/28 Victory Points.</li>
-    <li>Each player (not Teotibot) must now pay a salary of 1 cocoa per worker, and an additional cocoa for each worker with a power of 4 or 5. For each cocoa a player is unwilling or unable to pay, that player loses 3 Victory Points. If at any time this reduces a player’s Victory Point total to 0, that player loses no more Victory Points.</li>
+    Each set of <span class="bold">1</span>/2/<span class="bold">3</span>/4/<span class="bold">5</span>/6/<span class="bold">7</span> masks score <span class="bold">1</span>/3/<span class="bold">6</span>/10/<span class="bold">15</span>/21/<span class="bold">28</span> Victory Points.</li>
+    <li>Each player (not Teotibot) must now pay a salary of <span class="bold">1</span> cocoa per worker, and an additional cocoa for each worker with a power of ${getDiceImage("d4")} or ${getDiceImage("d5")}. For each cocoa a player is unwilling or unable to pay, that player loses <span class="bold">3</span> Victory Points. If at any time this reduces a player's Victory Point total to <span class="bold">0</span>, that player loses no more Victory Points.</li>
     </ul> 
   </div>`,
       questionId: 1,
@@ -1447,7 +1447,7 @@ const masteryNoblesQuestions = (
 ) => {
   return [
     {
-      question: `<div>Does Teotibot have 2 or more wood ${getResourceImage(
+      question: `<div>Does Teotibot have <span class="bold">2</span> or more wood ${getResourceImage(
         "wood"
       )} and at least one worker on the Nobles ${getActionImage(
         "no6"
@@ -1500,7 +1500,7 @@ const masteryDecorationsQuestions = (
 ) => {
   return [
     {
-      question: `<div>Does Teotibot have 2 or more gold ${getResourceImage(
+      question: `<div>Does Teotibot have <span class="bold">2</span> or more gold ${getResourceImage(
         "gold"
       )} and at least one worker on the Decorations ${getActionImage(
         "no7"
@@ -1550,7 +1550,7 @@ const masteryConstructionQuestions = (
 ) => {
   return [
     {
-      question: `<div>Does Teotibot have 2 or more stone ${getResourceImage(
+      question: `<div>Does Teotibot have <span class="bold">2</span> or more stone ${getResourceImage(
         "stone"
       )} and at least one worker on the Construction ${getActionImage(
         "no8"
