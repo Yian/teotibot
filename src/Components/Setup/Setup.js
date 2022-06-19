@@ -282,7 +282,7 @@ export const Setup = (props) => {
           </div>
         )}
         {showPlayerPriestPriestessTiles && (
-          <div css={setupSection}>
+          <div>
             <h3>Priest/Priestess Tiles:</h3>
             <PriestPriestessTiles numberToPick={2} />
           </div>

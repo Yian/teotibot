@@ -17,7 +17,7 @@ export const StartingResources = (props) => {
       "(min-width: 480px)",
     ],
     [10, 10, 7, 7],
-    7
+    6
   );
 
   const [ref, { width }] = useMeasure();
@@ -77,7 +77,7 @@ export const StartingResources = (props) => {
             className="box"
           >
             <div css={startResource}>
-              <div>{item.quantity}</div>
+              <span>{item.quantity}</span>
               <a.img
                 src={`${process.env.PUBLIC_URL}/resources/${item.type}.png`}
               />

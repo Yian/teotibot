@@ -372,6 +372,11 @@ export const TileList = (props) => {
     }
   };
 
+  const onCancelEclipseClick = () => {
+    setEclipse(eclipse - 1);
+    setShowEclipseForm(false);
+  };
+  
   const getStyle = useCallback(
     (item) => {
       var test = {
@@ -415,6 +420,7 @@ export const TileList = (props) => {
           <QuestionForm
             tiles={startTiles}
             onCloseClick={(shouldShuffle) => onCloseClick(shouldShuffle)}
+            onCancelEclipseClick={(shouldShuffle) => onCancelEclipseClick(shouldShuffle)}
             tileName={Eclipse}
             eclipseStage={eclipse}
             tileSrc={"eclipse"}

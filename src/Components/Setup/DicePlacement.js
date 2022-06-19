@@ -12,8 +12,8 @@ export const DicePlacement = (props) => {
   // Hook1: Tie media queries to the number of columns
   const columns = useMedia(
     ["(min-width: 1500px)", "(min-width: 1000px)", "(min-width: 600px)", "(max-width: 480px)"],
-    [16, 16, 16, 16],
-    16
+    [4, 4, 4,2],
+    2
   );
 
   const [ref, { width }] = useMeasure();
@@ -25,7 +25,7 @@ export const DicePlacement = (props) => {
     set(props.dicePlacements);
   }, [props.dicePlacements]);
 
-  const [gridItems] = useMemo(() => {
+  const [heights, gridItems] = useMemo(() => {
     let heights = new Array(columns).fill(0); // Each column gets a height starting with zero
     let gridItems = items?.map((child, i) => {
       const column = heights.indexOf(Math.min(...heights)); // Basic masonry-grid placing, puts tile into the smallest column using Math.min
@@ -38,14 +38,14 @@ export const DicePlacement = (props) => {
         y,
       };
     });
-    return [gridItems];
+    return [heights, gridItems];
   }, [columns, items, width]);
 
   const transitions = useTransition(gridItems, {
     key: (item) => item.key,
-    from: ({ x }) => ({ x: 0, opacity: 0 }),
-    enter: ({ x }) => ({ x, opacity: 1 }),
-    update: ({ x }) => ({ x, opacity: 1  }),
+    from: ({ x, y }) => ({ x: 0, y, opacity: 0 }),
+    enter: ({ x, y }) => ({ x, y, opacity: 1 }),
+    update: ({ x, y }) => ({ x, y, opacity: 1  }),
     leave: { height: 0, opacity: 0 },
     config: { duration: 1000, mass: 5, tension: 500, friction: 50 },
     trail: 25,
@@ -56,7 +56,7 @@ export const DicePlacement = (props) => {
     <div
       ref={ref}
       css={neutralContainer}
-      style={{  }}
+      style={{ height: Math.max(...heights) }}
     >
       {transitions((style, item) => (
         <a.div css={diceContainer} key={item.name} style={style}>

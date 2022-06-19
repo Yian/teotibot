@@ -36,6 +36,14 @@ export const StartTiles = (props) => {
     return () => clearInterval(t);
   }, [items]);
 
+  useEffect(() => {
+    return () => {
+      props.startTiles.forEach((item) => {
+        item.selected = false;
+      });
+    };
+  }, []);
+
   // Hook5: Form a grid of stacked items using width & columns we got from hooks 1 & 2
   const [heights, gridItems] = useMemo(() => {
     let heights = new Array(columns).fill(0); // Each column gets a height starting with zero

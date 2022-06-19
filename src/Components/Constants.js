@@ -12,6 +12,43 @@ import {
   directionTileRight3StepFlipped,
 } from "./Tiles/TileList.css";
 
+export const resourcesToPreload = [
+  "avenue",
+  "any",
+  "wood",
+  "gold",
+  "stone",
+  "cocoa",
+  "tr",
+  "tb",
+  "tg",
+  "to",
+  "powerup",
+  "tech",
+  "discovery",
+  "worship",
+  "worker",
+  "ascension",
+  "pyramid",
+  "tw",
+  "base",
+  "xitle",
+  "alchemy",
+  "construction",
+  "decorations",
+  "mask_collection",
+  "mastery",
+  "masteryForest",
+  "masteryQuarry",
+  "masteryGold",
+  "masteryAlchemy",
+  "masteryNobles",
+  "masteryDecorations",
+  "masteryConstruction",
+  "nobles",
+  "eclipse",
+];
+
 const avenue = "avenue";
 const any = "any";
 const wood = "wood";
@@ -1278,9 +1315,9 @@ const masteryForestQuestions = (
 ) => {
   return [
     {
-      question: `<div>Does Teotibot have at least one worker on the Forest Action Board? ${getActionImage(
+      question: `<div>Does Teotibot have at least one worker on the Forest ${getActionImage(
         "no2"
-      )}</div>`,
+      )} Action Board? </div>`,
       questionId: 1,
       masteryQuestionId: 1,
       condition: ({ answers }) => isEmpty(answers),

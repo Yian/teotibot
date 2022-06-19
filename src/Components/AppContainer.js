@@ -17,6 +17,8 @@ import {
   AppScreen,
   OptionsScreen,
   diceFaces,
+  resourcesToPreload,
+  actionNames,
 } from "./Constants";
 import { Options } from "./Options";
 import { btnSettings, setup } from "./Setup/Setup.css";
@@ -83,6 +85,9 @@ export class AppContainer extends React.Component {
     const imgExp2 = new Image();
     imgExp2.src = `${process.env.PUBLIC_URL}/backgrounds/late-preclassic.jpg`;
 
+    const imgExp3 = new Image();
+    imgExp3.src = `${process.env.PUBLIC_URL}/backgrounds/period.jpg`;
+
     baseBotTiles.forEach((tile) => {
       const img = new Image();
       img.src = `${process.env.PUBLIC_URL}/bot_tiles/${tile.src}.png`;
@@ -91,6 +96,16 @@ export class AppContainer extends React.Component {
     diceFaces.forEach((dface) => {
       const img = new Image();
       img.src = `${process.env.PUBLIC_URL}/dice/${dface}.png`;
+    });
+
+    resourcesToPreload.forEach((resource) => {
+      const img = new Image();
+      img.src = `${process.env.PUBLIC_URL}/resources/${resource}.png`;
+    });
+
+    actionNames.forEach((action) => {
+      const img = new Image();
+      img.src = `${process.env.PUBLIC_URL}/actions/no${action.value}.png`;
     });
 
     if (JSON.parse(reactLocalStorage.get('isSetupComplete') ?? false)) {

@@ -44,13 +44,13 @@ export const Options = (props) => {
                 onChange={props.onChangeIsHeightOfDevelopment}
               />
             </div>
-            <div className={"checkbox-container"}>
+            {/* <div className={"checkbox-container"}>
               <Checkbox
                 label="Seasons of Progress"
                 checked={props.isSeasonsOfProgress}
                 onChange={props.onChangeIsSeasonsOfProgress}
               />
-            </div>
+            </div> */}
           </div>
         </div>
         <div css={expansionContainer}>

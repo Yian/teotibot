@@ -99,10 +99,15 @@ export const resource = css`
 
 export const startResource = css`
   display: flex;
-  height: 50px;
+  justify-content: center;
+  align-items: center;
   position: absolute;
 
-  @media only screen and (max-width: 400px) {
+  span {
+    font-size: 1.5rem;
+  }
+
+  img {
     height: 50px;
   }
 `;
@@ -118,7 +123,7 @@ export const templeTile = css`
 `;
 
 export const priestPriestessTile = css`
-  width: 580px;
+  max-width: 580px;
   position: absolute;
 `;
 
@@ -143,4 +148,6 @@ export const diceContainer = css`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+
+  position: absolute;
 `;

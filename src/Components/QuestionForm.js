@@ -48,8 +48,8 @@ export class QuestionForm extends React.Component {
           ? getNeutralArray(props.tiles)
           : [],
     };
-    console.log("I received " + JSON.stringify(props.topDirectionTile));
     this.onExitForm = this.onExitForm.bind(this);
+    this.onCancelEclipse = this.onCancelEclipse.bind(this);
     this.onRestartQuestions = this.onRestartQuestions.bind(this);
     this.onClickMasteryOption = this.onClickMasteryOption.bind(this);
   }
@@ -89,6 +89,10 @@ export class QuestionForm extends React.Component {
     this.props.onCloseClick(shouldShuffle);
   }
 
+  onCancelEclipse() {
+    this.props.onCancelEclipseClick();
+  }
+
   render() {
     var answers = this.state.answers;
     var questions = this.state.questions;
@@ -107,7 +111,7 @@ export class QuestionForm extends React.Component {
     return (
       <div css={questionModal}>
         <div css={questionModalContent}>
-          <div css={modalClose} onClick={() => this.onExitForm(false)}>
+          <div css={modalClose} onClick={this.props.tileName === Eclipse ? () => this.onCancelEclipse() : () => this.onExitForm(false)}>
             <img
               src={`${process.env.PUBLIC_URL}/resources/back.png`}
               alt="Cancel"
@@ -174,14 +178,14 @@ export class QuestionForm extends React.Component {
                 <li><span class="bold">{this.props.teotibotVPForTempleTiles}</span> Victory Points for each Temple Bonus tile {parse(getResourceImage("templebonus"))} it has reached (instead of scoring them normally).</li>
               </ul>
               <div css={buttons}>
-              <div onClick={this.onExitForm}>continue</div>
+              <div onClick={() => this.onExitForm(false)}>continue</div>
             </div>
             </div>
           )}
 
           {this.props.tileName === Eclipse && (
             <div css={buttons}>
-              <div onClick={this.onExitForm}>continue</div>
+              <div onClick={() => this.onExitForm(false)}>continue</div>
             </div>
           )}
 
@@ -211,13 +215,16 @@ export class QuestionForm extends React.Component {
                 ))}
               </ul>
               {this.state.masteryAnswers.length >= 7 &&
+              <div>
                 parse(
                   powerupMsg(
                     this.props.isAlternateTeotibotMovement,
                     this.props.topDirectionTile,
                     this.props.teotibotVPFor10Cocoa
                   )
-                )}
+                )
+                <div onClick={() => this.onExitForm(true)}>continue</div>
+              </div>}
             </div>
           )}
         </div>
