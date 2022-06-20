@@ -125,6 +125,10 @@ export const templeTile = css`
 export const priestPriestessTile = css`
   width: 100%;
   position: absolute;
+
+  @media ${mediaQueries.isMd} {
+    width: 48%
+  }
 `;
 
 export const action = css`

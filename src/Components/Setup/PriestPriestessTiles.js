@@ -11,8 +11,8 @@ import { basePriestPriestessTiles, baseTeotiPriestPriestessTiles } from "../Cons
 export const PriestPriestessTiles = (props) => {
   // Hook1: Tie media queries to the number of columns
   const columns = useMedia(
-    ["(min-width: 1500px)", "(min-width: 1000px)", "(min-width: 600px)", "(max-width: 489px)"],
-    [2, 2, 1, 1],
+    ["(min-width: 992px)", "(max-width: 991px)"],
+    [ 2, 1],
     1
   );
   // Hook2: Measure the width of the container element
@@ -34,7 +34,7 @@ export const PriestPriestessTiles = (props) => {
     return () => clearInterval(t);
   }, [items, props.numberToPick]);
 
-  let tileHeight = (width * 1.4661654135338345864661654135338);
+  let tileHeight = (width * 1.4661654135338345864661654135338)/columns;
 
   // Hook5: Form a grid of stacked items using width & columns we got from hooks 1 & 2
   const [heights, gridItems] = useMemo(() => {
