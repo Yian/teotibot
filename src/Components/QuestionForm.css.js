@@ -18,8 +18,30 @@ export const modalHeading = css`
   flex-direction: row-reverse;
   align-items: center;
   margin: 50px 0 0 0;
+
   img {
     width: 200px;
+  }
+`;
+
+export const modalHeadingEclipse = css`
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: center;
+  margin: 50px 0 0 0;
+
+  @media ${mediaQueries.isMaxXs} {
+    margin-top: 100px;
+  }
+
+  img {
+    width: 50px;
+  }
+`;
+
+export const endGame = css`
+  h3 {
+    margin: 20px 0;
   }
 `;
 
@@ -62,10 +84,10 @@ export const questionModalContent = css`
     margin: 5% auto;
   }
 
-  @media ${mediaQueries.isMaxXs} {
+  @media ${mediaQueries.isMaxLg} {
     width: 90%;
-    font-size: 1.1rem;
-    line-height: 1.5rem;
+    font-size: 1.2rem;
+    line-height: 1.6rem;
   }
 
   @media ${mediaQueries.isSm} {
@@ -131,6 +153,7 @@ export const questionModalPlacements = css`
 export const strikeOut = css`
   text-decoration: line-through;
 `;
+
 export const modalClose = css`
   position: absolute;
   top: 0;

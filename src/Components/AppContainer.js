@@ -35,7 +35,7 @@ export class AppContainer extends React.Component {
       isHeightOfDevelopment: JSON.parse(reactLocalStorage.get('isHeightOfDevelopment') ?? false),
       isSeasonsOfProgress: JSON.parse(reactLocalStorage.get('isSeasonsOfProgress') ?? false),
       isAlternateTeotibotMovement: JSON.parse(reactLocalStorage.get('isAlternateTeotibotMovement') ?? false),
-      isSetupComplete: false,
+      isSetupComplete: JSON.parse(reactLocalStorage.get('isSetupComplete') ?? true),
       teotibotStartingGold: 2,
       teotibotStartingWood: 2,
       teotibotStartingStone: 2,
@@ -450,6 +450,7 @@ export class AppContainer extends React.Component {
           isPriestAndPriestess={this.state.isPriestAndPriestess}
           onChangeIsPriestAndPriestess={this.onChangeIsPriestAndPriestess}
           isSeasonsOfProgress={this.state.isSeasonsOfProgress}
+          isSetupComplete={this.state.isSetupComplete}
           onChangeIsSeasonsOfProgress={this.onChangeIsSeasonsOfProgress}
           isHeightOfDevelopment={this.state.isHeightOfDevelopment}
           isAlternateTeotibotMovement={this.state.isAlternateTeotibotMovement}

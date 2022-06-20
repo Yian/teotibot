@@ -11,9 +11,9 @@ import { basePriestPriestessTiles, baseTeotiPriestPriestessTiles } from "../Cons
 export const PriestPriestessTiles = (props) => {
   // Hook1: Tie media queries to the number of columns
   const columns = useMedia(
-    ["(min-width: 1500px)", "(min-width: 1000px)", "(min-width: 600px)", "(min-width: 400px)"],
-    [2, 2, 2, 1],
-    2
+    ["(min-width: 1500px)", "(min-width: 1000px)", "(min-width: 600px)", "(max-width: 489px)"],
+    [2, 2, 1, 1],
+    1
   );
   // Hook2: Measure the width of the container element
   const [ref, { width }] = useMeasure();
@@ -34,7 +34,7 @@ export const PriestPriestessTiles = (props) => {
     return () => clearInterval(t);
   }, [items, props.numberToPick]);
 
-  let tileHeight = 650;
+  let tileHeight = (width * 1.4661654135338345864661654135338);
 
   // Hook5: Form a grid of stacked items using width & columns we got from hooks 1 & 2
   const [heights, gridItems] = useMemo(() => {
@@ -51,9 +51,9 @@ export const PriestPriestessTiles = (props) => {
   // Hook6: Turn the static grid values into animated transitions, any addition, removal or change will be animated
   const transitions = useTransition(gridItems, {
     key: (item) => item.name,
-    from: ({ x, y, width }) => ({ x, y, width, opacity: 0 }),
-    enter: ({ x, y, width  }) => ({ x, y, width, opacity: 1 }),
-    update: ({ x, y, width  }) => ({ x, y, width }),
+    from: ({ x, y, }) => ({ x, y, opacity: 0 }),
+    enter: ({ x, y,  }) => ({ x, y, opacity: 1 }),
+    update: ({ x, y,  }) => ({ x, y, }),
     leave: { height: 0, opacity: 0 },
     config: { duration: 500, mass: 5, tension: 500, friction: 50 },
     trail: 25,

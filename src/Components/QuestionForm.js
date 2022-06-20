@@ -13,6 +13,8 @@ import {
   strikeOut,
   masteryForm,
   btnContinue,
+  modalHeadingEclipse,
+  endGame,
 } from "./QuestionForm.css";
 import {
   powerupMsg,
@@ -125,15 +127,25 @@ export class QuestionForm extends React.Component {
               alt="Cancel"
             />
           </div>
-          <div css={modalHeading}>
-            <h2>{this.props.tileName}</h2>
-            {this.props.tileName !== Eclipse && (
+
+            {this.props.tileName !== Eclipse ? (
+                        <div css={modalHeading}>
+                        <h2>{this.props.tileName}</h2>
+                   
               <img
                 src={`${process.env.PUBLIC_URL}/bot_tiles/${this.props.tileSrc}.png`}
                 alt={this.props.tileName}
+              />   </div>
+            ) : (
+              <div css={modalHeadingEclipse}>
+            <h2>{this.props.tileName}</h2>
+              <img
+                src={`${process.env.PUBLIC_URL}/resources/${this.props.tileSrc}.png`}
+                alt={this.props.tileName}
               />
+              </div>
             )}
-          </div>
+
 
           {qs.map((question) => (
             <Question
@@ -170,7 +182,7 @@ export class QuestionForm extends React.Component {
           )}
 
           {this.props.eclipseStage === 3 && (
-            <div>
+            <div css={endGame}>
               <h3>End Game</h3>
               <div>
                 Each player who has qualified for one or more Temple Bonus tiles

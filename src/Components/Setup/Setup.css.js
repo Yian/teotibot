@@ -123,7 +123,7 @@ export const templeTile = css`
 `;
 
 export const priestPriestessTile = css`
-  max-width: 580px;
+  width: 100%;
   position: absolute;
 `;
 
