@@ -28,11 +28,7 @@ export const modalHeadingEclipse = css`
   display: flex;
   flex-direction: row-reverse;
   align-items: center;
-  margin: 50px 0 0 0;
-
-  @media ${mediaQueries.isMaxXs} {
-    margin-top: 100px;
-  }
+  margin: 100px 0 0 0;
 
   img {
     width: 50px;
