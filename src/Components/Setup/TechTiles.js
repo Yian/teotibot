@@ -5,13 +5,10 @@ import useMedia from "../UseMedia";
 import useMeasure from "react-use-measure";
 import { useTransition, a } from "@react-spring/web";
 import { tileContainer, techTile } from "./Setup.css";
-import {shuffle} from "lodash";
+import { shuffle } from "lodash";
 import { baseTechTiles, xitleTechTiles } from "../Constants";
-import useLongPress from "../Hooks/useLongPress";
-import 'react-tippy/dist/tippy.css';
-import {
-  Tooltip,
-} from 'react-tippy';
+import Tippy from "@tippyjs/react";
+import 'tippy.js/dist/tippy.css'; 
 
 export const TechTiles = (props) => {
   const tileHeight = 350;
@@ -24,7 +21,9 @@ export const TechTiles = (props) => {
   // Hook2: Measure the width of the container element
   const [ref, { width }] = useMeasure();
   // Hook3: Hold items
-  const templeTiles  = props.isXitle ? [...baseTechTiles, ...xitleTechTiles] : baseTechTiles;
+  const templeTiles = props.isXitle
+    ? [...baseTechTiles, ...xitleTechTiles]
+    : baseTechTiles;
   const [items, set] = useState(templeTiles);
 
   // Hook4: shuffle data every 2 seconds
@@ -53,50 +52,25 @@ export const TechTiles = (props) => {
   // Hook6: Turn the static grid values into animated transitions, any addition, removal or change will be animated
   const transitions = useTransition(gridItems, {
     key: (item) => item.name,
-    from: ({ x, y,}) => ({ x, y, opacity: 0 }),
-    enter: ({ x, y, }) => ({ x, y, opacity: 1 }),
-    update: ({ x, y, }) => ({ x, y, }),
+    from: ({ x, y }) => ({ x, y, opacity: 0 }),
+    enter: ({ x, y }) => ({ x, y, opacity: 1 }),
+    update: ({ x, y }) => ({ x, y }),
     leave: { height: 0, opacity: 0 },
     config: { mass: 5, tension: 500, friction: 50 },
     trail: 25,
-    onRest: props.onRest
+    onRest: props.onRest,
   });
-
-  const onLongPress = () => {
-    console.log("longpress is triggered");
-  };
-
-  const onClick = () => {
-    console.log("click is triggered");
-  };
-
-  const defaultOptions = {
-    shouldPreventDefault: true,
-    delay: 500,
-  };
-
-  const longPressEvent = useLongPress(onLongPress, onClick, defaultOptions);
 
   return (
     <div ref={ref} css={tileContainer} style={{ height: Math.max(...heights) }}>
       {transitions((style, item) => (
-        <Tooltip
-        html={(
-          <div>
-            <strong>
-            {item.tooltip}
-            </strong>
-          </div>
-        )}
-      >
-               <a.img
-          {...longPressEvent}
-          css={techTile}
-          style={style}
-          src={`${process.env.PUBLIC_URL}/tech_tiles/${item.src}/${item.name}.jpg`}
-          data-tip={item.tooltip}
-        />
-      </Tooltip>
+        <Tippy content={item.tooltip}>
+          <a.img
+            css={techTile}
+            style={style}
+            src={`${process.env.PUBLIC_URL}/tech_tiles/${item.src}/${item.name}.jpg`}
+          />
+        </Tippy>
       ))}
     </div>
   );

@@ -14,14 +14,12 @@ import { DicePlacement } from "./DicePlacement";
 import { find, remove, cloneDeep, shuffle } from "lodash";
 import { StartingResources } from "./StartingResources";
 import { PriestPriestessTiles } from "./PriestPriestessTiles";
-import ReactTooltip from "react-tooltip";
 import { getNeutralArray, getPlayerArray, getTeotibotArray } from "../Logic";
 import {
   baseStartTiles,
   xitleStartTiles,
   initialTeotibotStartingResources,
 } from "../Constants";
-import { useLongPress } from "use-long-press";
 
 export const Setup = (props) => {
   const startTileRef = useRef(null);
@@ -251,14 +249,12 @@ export const Setup = (props) => {
     <div css={setupContainer}>
       {showTechs && (
         <div>
-          <ReactTooltip multiline={true} />
           <h3>Upgrade Tiles</h3>
           <TechTiles isXitle={props.isXitle} onRest={onRest} />
         </div>
       )}
       {showTemples && (
         <div>
-          <ReactTooltip multiline={true} />
           <h3>Temple Tiles</h3>
           <TempleTiles isXitle={props.isXitle} onRest={onRest} />
         </div>
@@ -266,7 +262,6 @@ export const Setup = (props) => {
       <div ref={startTileRef}>
         {showStartTiles && (
           <div>
-            <ReactTooltip multiline={true} />
             <h3>Select 2 Start Tiles:</h3>
             <StartTiles
               startTiles={startTiles}

@@ -6,6 +6,7 @@
   "dependencies": {
     "@babel/helper-builder-react-jsx": "^7.16.7",
     "@emotion/react": "^11.9.0",
+    "@tippyjs/react": "^4.2.6",
     "html-react-parser": "^1.4.14",
     "lodash": "^4.17.21",
     "lodash-es": "4.17.11",
@@ -16,7 +17,6 @@
     "react-dom": "^16.8.6",
     "react-scripts": "3.0.1",
     "react-spring": "^9.4.5",
-    "react-tippy": "^1.4.0",
     "react-tooltip": "^4.2.21",
     "react-use-gesture": "5.0.0",
     "react-use-measure": "^2.1.1",
