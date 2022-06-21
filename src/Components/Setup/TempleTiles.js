@@ -5,9 +5,10 @@ import useMedia from "../UseMedia";
 import useMeasure from "react-use-measure";
 import { useTransition, a } from "@react-spring/web";
 import { tileContainer, templeTile } from "../Setup/Setup.css";
-import ReactTooltip from "react-tooltip";
-import {shuffle} from "lodash";
+import { shuffle } from "lodash";
 import { baseTempleTiles } from "../Constants";
+import Tippy from "@tippyjs/react";
+import "tippy.js/dist/tippy.css";
 
 export const TempleTiles = (props) => {
   const tileHeight = 250;
@@ -21,7 +22,7 @@ export const TempleTiles = (props) => {
   const [ref, { width }] = useMeasure();
 
   // Hook3: Hold items
-  const templeTiles  = baseTempleTiles;
+  const templeTiles = baseTempleTiles;
   const [items, set] = useState(templeTiles);
 
   // Hook4: shuffle data every 2 seconds
@@ -42,7 +43,7 @@ export const TempleTiles = (props) => {
       const column = heights.indexOf(Math.min(...heights)); // Basic masonry-grid placing, puts tile into the smallest column using Math.min
       const x = (width / columns) * column; // x = container width / number of columns * column index,
       const y = (heights[column] += tileHeight / 2) - tileHeight / 2; // y = it's just the height of the current column
-      return { ...child, x, y};
+      return { ...child, x, y };
     });
     return [heights, gridItems];
   }, [columns, items, width]);
@@ -56,24 +57,21 @@ export const TempleTiles = (props) => {
     leave: { height: 0, opacity: 0 },
     config: { mass: 5, tension: 500, friction: 50 },
     trail: 25,
-    onRest: props.onRest
+    onRest: props.onRest,
   });
 
   return (
-    <div
-      ref={ref}
-      css={tileContainer}
-      style={{ height: Math.max(...heights) }}
-    >
+    <div ref={ref} css={tileContainer} style={{ height: Math.max(...heights) }}>
       {transitions((style, item) => (
-        <a.img
-          css={templeTile}
-          style={style}
-          src={
-            `${process.env.PUBLIC_URL}/temple_tiles/base/${item.name}.jpg`
-          }
-          data-tip={item.tooltip}
-        />
+        <Tippy content={item.tooltip}>
+          <a.img
+            onContextMenu={(e) => e.preventDefault()}
+            css={templeTile}
+            style={style}
+            src={`${process.env.PUBLIC_URL}/temple_tiles/base/${item.name}.jpg`}
+            data-tip={item.tooltip}
+          />
+        </Tippy>
       ))}
     </div>
   );

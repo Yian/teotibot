@@ -8,7 +8,7 @@ import React, {
   useRef,
 } from "react";
 import { jsx } from "@emotion/react";
-import { useSpring, animated, to, useTransition } from "@react-spring/web";
+import { useSpring, animated, useTransition } from "@react-spring/web";
 import { mainImg } from "../AppContainer.css";
 import {
   tileListContainer,
@@ -51,30 +51,41 @@ import Dice from "react-dice-roll";
 import { reactLocalStorage } from "reactjs-localstorage";
 
 export const TileList = (props) => {
-
   const getInitialDirectionTileOrder = useCallback(() => {
-    var currentDirectionTileOrdering = JSON.parse(reactLocalStorage.get('directionTileOrdering') ?? null);
-    var defaultDirectionTileOrdering = shuffle(props.isAlternateTeotibotMovement
-      ? initialAlternativeDirectionOrdering
-      : initialDirectionOrdering);
- 
-      if ((currentDirectionTileOrdering && currentDirectionTileOrdering.length) !== defaultDirectionTileOrdering.length) {
-        //we've changed the setting
-        currentDirectionTileOrdering = defaultDirectionTileOrdering;
-      }
+    var currentDirectionTileOrdering = JSON.parse(
+      reactLocalStorage.get("directionTileOrdering") ?? null
+    );
+    var defaultDirectionTileOrdering = shuffle(
+      props.isAlternateTeotibotMovement
+        ? initialAlternativeDirectionOrdering
+        : initialDirectionOrdering
+    );
 
-    return currentDirectionTileOrdering ?? defaultDirectionTileOrdering
-  }, [props.isAlternateTeotibotMovement])
-  
+    if (
+      (currentDirectionTileOrdering && currentDirectionTileOrdering.length) !==
+      defaultDirectionTileOrdering.length
+    ) {
+      //we've changed the setting
+      currentDirectionTileOrdering = defaultDirectionTileOrdering;
+    }
+
+    return currentDirectionTileOrdering ?? defaultDirectionTileOrdering;
+  }, [props.isAlternateTeotibotMovement]);
+
   const getInitialOrdering = useCallback(() => {
-    return JSON.parse(reactLocalStorage.get('tileOrdering') ?? null) ?? shuffle(initialOrdering)
+    return (
+      JSON.parse(reactLocalStorage.get("tileOrdering") ?? null) ??
+      shuffle(initialOrdering)
+    );
   }, []);
 
-  const [tiles,] = useState(baseBotTiles);
+  const [tiles] = useState(baseBotTiles);
   const [startTiles, setStartTiles] = useState([]);
   const [directionTiles, setDirectionTiles] = useState([]);
   const [ordering, setOrdering] = useState(getInitialOrdering); //inital ordering;
-  const [directionOrdering, setDirectionOrdering] = useState(getInitialDirectionTileOrder);
+  const [directionOrdering, setDirectionOrdering] = useState(
+    getInitialDirectionTileOrder
+  );
   const [eclipse, setEclipse] = useState(0);
   const [tilesDisabled, setTilesDisabled] = useState(false);
   const [showForm, setShowForm] = useState(false);
@@ -117,7 +128,7 @@ export const TileList = (props) => {
   var tileWidth = width / columns;
 
   if (checkOrientation) {
-    tileWidth = width / (columns / 0.80);
+    tileWidth = width / (columns / 0.8);
   }
 
   // Hook5: Form a grid of stacked items using width & columns we got from hooks 1 & 2
@@ -167,12 +178,12 @@ export const TileList = (props) => {
       const x = calculateXDirectionTile(
         directionOrdering.indexOf(i),
         tileWidth,
-        columns,
+        columns
       );
       const y = calculateYDirectionTile(
         directionOrdering.indexOf(i),
         tileWidth,
-        columns,
+        columns
       );
 
       let deg = child.nextWValue ?? 0;
@@ -193,12 +204,7 @@ export const TileList = (props) => {
       };
     });
     return [directionTileHeights, directionTileItems];
-  }, [
-    directionOrdering,
-    columns,
-    directionTiles,
-    tileWidth,
-  ]);
+  }, [directionOrdering, columns, directionTiles, tileWidth]);
 
   const directionTileTransitions = useTransition(directionTileItems, {
     key: (item) => item.index,
@@ -258,9 +264,12 @@ export const TileList = (props) => {
     });
 
     setOrdering(newOrder);
-    reactLocalStorage.set('tileOrdering', JSON.stringify(newOrder));
+    reactLocalStorage.set("tileOrdering", JSON.stringify(newOrder));
     setDirectionOrdering(newDirectionOrder);
-    reactLocalStorage.set('directionTileOrdering', JSON.stringify(newDirectionOrder));
+    reactLocalStorage.set(
+      "directionTileOrdering",
+      JSON.stringify(newDirectionOrder)
+    );
 
     animateTiles(newDirectionTiles);
   };
@@ -307,7 +316,6 @@ export const TileList = (props) => {
         ]
       : baseDirectionTiles;
     setDirectionTiles(directionTilesList);
-
 
     setDirectionOrdering(getInitialDirectionTileOrder);
   }, [props.isAlternateTeotibotMovement, getInitialDirectionTileOrder]);
@@ -361,7 +369,7 @@ export const TileList = (props) => {
 
       setTimeout(() => {
         setEnableRoll(true);
-      }, 2000)
+      }, 2000);
     }
   };
 
@@ -376,7 +384,7 @@ export const TileList = (props) => {
     setEclipse(eclipse - 1);
     setShowEclipseForm(false);
   };
-  
+
   const getStyle = useCallback(
     (item) => {
       var test = {
@@ -420,7 +428,9 @@ export const TileList = (props) => {
           <QuestionForm
             tiles={startTiles}
             onCloseClick={(shouldShuffle) => onCloseClick(shouldShuffle)}
-            onCancelEclipseClick={(shouldShuffle) => onCancelEclipseClick(shouldShuffle)}
+            onCancelEclipseClick={(shouldShuffle) =>
+              onCancelEclipseClick(shouldShuffle)
+            }
             tileName={Eclipse}
             eclipseStage={eclipse}
             tileSrc={"eclipse"}
@@ -433,6 +443,7 @@ export const TileList = (props) => {
       <div ref={ref} css={tileList} style={{ height: 0 }}>
         {tileTransitions((style, tile) => (
           <animated.img
+            onContextMenu={(e) => e.preventDefault()}
             draggable="false"
             key={tile.key}
             onClick={() => {
@@ -446,6 +457,7 @@ export const TileList = (props) => {
       <div css={tileList} style={{ height: 0 }}>
         {directionTileTransitions((style, directionTile) => (
           <animated.div
+            onContextMenu={(e) => e.preventDefault()}
             draggable="false"
             key={directionTile.index}
             css={[directionTileImage, directionTile.css]}

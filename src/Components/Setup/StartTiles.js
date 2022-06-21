@@ -1,18 +1,25 @@
 /** @jsx jsx */
-import { useCallback, useRef, useState, useEffect, useMemo } from "react";
+import { useCallback, useState, useEffect, useMemo } from "react";
 import { jsx } from "@emotion/react";
 import useMedia from "../UseMedia";
 import useMeasure from "react-use-measure";
 import { useSpring, useTransition, a } from "@react-spring/web";
-import { startTileContainer, startTile } from "./Setup.css";
+import { startTile } from "./Setup.css";
 import { shuffle, find } from "lodash";
-import { useLongPress } from 'use-long-press';
+import { useLongPress } from "use-long-press";
+import Tippy from "@tippyjs/react";
+import "tippy.js/dist/tippy.css";
 
 export const StartTiles = (props) => {
   const tileHeight = 250;
   // Hook1: Tie media queries to the number of columns
   const columns = useMedia(
-    ["(min-width: 1500px)", "(min-width: 1000px)", "(min-width: 600px)", "(max-width: 480px)"],
+    [
+      "(min-width: 1500px)",
+      "(min-width: 1000px)",
+      "(min-width: 600px)",
+      "(max-width: 480px)",
+    ],
     [4, 4, 4, 4],
     4
   );
@@ -25,7 +32,7 @@ export const StartTiles = (props) => {
   // Hook4: shuffle data every 2 seconds
   useEffect(() => {
     if (items.length <= 0) {
-      set(props.startTiles)
+      set(props.startTiles);
     }
     const t = setInterval(() => {
       if (items.length >= 5) {
@@ -102,28 +109,27 @@ export const StartTiles = (props) => {
   };
 
   const bind = useLongPress(() => {
-    console.log('Long pressed!');
+    console.log("Long pressed!");
   });
 
-
   return (
-    <div
-      ref={ref}
-      style={{ height: tileHeight }}
-    >
+    <div ref={ref} style={{ height: tileHeight }}>
       {transitions((style, item) => (
-        <a.div css={startTile} style={style}>
-          <a.img
-          {...bind()}
-            css={startTile}
-            style={getStyle(item)}
-            onClick={() => {
-              onClick(item);
-            }}
-            src={`${process.env.PUBLIC_URL}/start_tiles/${item.src}/${item.name}.jpg`}
-            data-tip={item.tooltip}
-          />
-        </a.div>
+        <Tippy content={item.tooltip}>
+          <a.div css={startTile} style={style}>
+            <a.img
+              onContextMenu={(e) => e.preventDefault()}
+              {...bind()}
+              css={startTile}
+              style={getStyle(item)}
+              onClick={() => {
+                onClick(item);
+              }}
+              src={`${process.env.PUBLIC_URL}/start_tiles/${item.src}/${item.name}.jpg`}
+              data-tip={item.tooltip}
+            />
+          </a.div>
+        </Tippy>
       ))}
     </div>
   );

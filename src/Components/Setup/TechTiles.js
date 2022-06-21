@@ -8,7 +8,7 @@ import { tileContainer, techTile } from "./Setup.css";
 import { shuffle } from "lodash";
 import { baseTechTiles, xitleTechTiles } from "../Constants";
 import Tippy from "@tippyjs/react";
-import 'tippy.js/dist/tippy.css'; 
+import "tippy.js/dist/tippy.css";
 
 export const TechTiles = (props) => {
   const tileHeight = 350;
@@ -66,6 +66,7 @@ export const TechTiles = (props) => {
       {transitions((style, item) => (
         <Tippy content={item.tooltip}>
           <a.img
+            onContextMenu={(e) => e.preventDefault()}
             css={techTile}
             style={style}
             src={`${process.env.PUBLIC_URL}/tech_tiles/${item.src}/${item.name}.jpg`}
