@@ -4,7 +4,12 @@ import { jsx } from "@emotion/react";
 import { StartTiles } from "./StartTiles";
 import { TechTiles } from "./TechTiles";
 import { TempleTiles } from "./TempleTiles";
-import { btnContinue, orangeTemple, setupContainer, setupSection } from "./Setup.css";
+import {
+  btnContinue,
+  orangeTemple,
+  setupContainer,
+  setupSection,
+} from "./Setup.css";
 import { DicePlacement } from "./DicePlacement";
 import { find, remove, cloneDeep, shuffle } from "lodash";
 import { StartingResources } from "./StartingResources";
@@ -16,6 +21,7 @@ import {
   xitleStartTiles,
   initialTeotibotStartingResources,
 } from "../Constants";
+import { useLongPress } from "use-long-press";
 
 export const Setup = (props) => {
   const startTileRef = useRef(null);
