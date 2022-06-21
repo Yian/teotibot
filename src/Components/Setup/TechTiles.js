@@ -8,6 +8,11 @@ import { tileContainer, techTile } from "./Setup.css";
 import {shuffle} from "lodash";
 import { baseTechTiles, xitleTechTiles } from "../Constants";
 import useLongPress from "../Hooks/useLongPress";
+import 'react-tippy/dist/tippy.css';
+import {
+  Tooltip,
+} from 'react-tippy';
+
 export const TechTiles = (props) => {
   const tileHeight = 350;
   // Hook1: Tie media queries to the number of columns
@@ -75,13 +80,23 @@ export const TechTiles = (props) => {
   return (
     <div ref={ref} css={tileContainer} style={{ height: Math.max(...heights) }}>
       {transitions((style, item) => (
-        <a.img
+        <Tooltip
+        html={(
+          <div>
+            <strong>
+            {item.tooltip}
+            </strong>
+          </div>
+        )}
+      >
+               <a.img
           {...longPressEvent}
           css={techTile}
           style={style}
           src={`${process.env.PUBLIC_URL}/tech_tiles/${item.src}/${item.name}.jpg`}
           data-tip={item.tooltip}
         />
+      </Tooltip>
       ))}
     </div>
   );

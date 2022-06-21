@@ -63,7 +63,7 @@ export const Options = (props) => {
         <div css={expansionOptions}>
           <div className={"checkbox-container"}>
             <Checkbox
-              label="Shadow of Xitle"
+              label="Start & Tech Tiles"
               checked={props.isXitle}
               onChange={props.onChangeXitle}
             />
