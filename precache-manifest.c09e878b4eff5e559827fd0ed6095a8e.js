@@ -1,19 +1,19 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "1500173eee1ff27ed6b9448b5ef6be48",
+    "revision": "256ecfc12041d3260a1ce13acd61c19e",
     "url": "/teotibot/index.html"
   },
   {
-    "revision": "f4bb637016776957d1c3",
+    "revision": "0427bc75016a47264ef0",
     "url": "/teotibot/static/css/main.46b09b38.chunk.css"
   },
   {
-    "revision": "a9ff6a8188185365d3e1",
-    "url": "/teotibot/static/js/2.150be41f.chunk.js"
+    "revision": "692965127b0ae9ff478f",
+    "url": "/teotibot/static/js/2.27398e44.chunk.js"
   },
   {
-    "revision": "f4bb637016776957d1c3",
-    "url": "/teotibot/static/js/main.116c0583.chunk.js"
+    "revision": "0427bc75016a47264ef0",
+    "url": "/teotibot/static/js/main.0103621c.chunk.js"
   },
   {
     "revision": "5c70a438e702b569ea43",
