@@ -1,5 +1,5 @@
 /** @jsx jsx */
-import { useState, useRef, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { jsx } from "@emotion/react";
 import { useTransition, a } from "@react-spring/web";
 import { resourceContainer, startResource, resource } from "./Setup.css";

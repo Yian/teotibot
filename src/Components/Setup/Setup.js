@@ -146,6 +146,7 @@ export const Setup = (props) => {
       setShowPlayerStartingResources(false);
       setShowPlayerPriestPriestessTiles(false);
       setShowTeotibotPriestPriestessTiles(false);
+      setShowTeotibotStartingResources(false);
       setHasScrolled(false);
       setNeutralPlacements1([]);
       setNeutralPlacements2([]);
@@ -248,18 +249,18 @@ export const Setup = (props) => {
   return (
     <div css={setupContainer}>
       {showTechs && (
-        <div>
+        <div css={setupSection}>
           <h3>Upgrade Tiles</h3>
           <TechTiles isXitle={props.isXitle} onRest={onRest} />
         </div>
       )}
       {showTemples && (
-        <div>
+        <div css={setupSection}>
           <h3>Temple Tiles</h3>
           <TempleTiles isXitle={props.isXitle} onRest={onRest} />
         </div>
       )}
-      <div ref={startTileRef}>
+      <div css={setupSection} ref={startTileRef}>
         {showStartTiles && (
           <div>
             <h3>Select 2 Start Tiles:</h3>
@@ -274,7 +275,7 @@ export const Setup = (props) => {
       <div css={setupSection} ref={playerResourceRef}>
         <h2>Player setup</h2>
         {showPlayerStartingResources && (
-          <div>
+          <div css={setupSection}>
             <h3>Player Starting Resources:</h3>
             <StartingResources
               startingResources={selectedResources}
@@ -283,13 +284,13 @@ export const Setup = (props) => {
           </div>
         )}
         {showPlayerPriestPriestessTiles && (
-          <div>
+          <div css={setupSection}>
             <h3>Priest/Priestess Tiles:</h3>
             <PriestPriestessTiles numberToPick={2} />
           </div>
         )}
         {showPlayerPlacements && (
-          <div>
+          <div css={setupSection}>
             <h3>Player Placements:</h3>
             <DicePlacement dicePlacements={playerPlacements} onRest={onRest} />
           </div>

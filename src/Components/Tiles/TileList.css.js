@@ -1,5 +1,4 @@
 import { css } from "@emotion/react";
-import { mediaQueries } from "../variables";
 
 export const tileListContainer = css`
   display: flex;

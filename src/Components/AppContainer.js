@@ -11,7 +11,6 @@ import {
   baseTechTiles,
   xitleTechTiles,
   baseTempleTiles,
-  initialOrdering,
   StartScreen,
   SetupScreen,
   AppScreen,

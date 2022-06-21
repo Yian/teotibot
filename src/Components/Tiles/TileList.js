@@ -1,6 +1,5 @@
 /** @jsx jsx */
-import React, {
-  Component,
+import {
   useCallback,
   useEffect,
   useState,

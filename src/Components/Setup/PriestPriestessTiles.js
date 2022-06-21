@@ -11,7 +11,7 @@ import { basePriestPriestessTiles, baseTeotiPriestPriestessTiles } from "../Cons
 export const PriestPriestessTiles = (props) => {
   // Hook1: Tie media queries to the number of columns
   const columns = useMedia(
-    ["(min-width: 992px)", "(max-width: 991px)"],
+    ["(min-width: 768px)", "(max-width: 767px)"],
     [ 2, 1],
     1
   );

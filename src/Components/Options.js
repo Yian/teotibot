@@ -13,7 +13,7 @@ import {
 } from "./Options.css.js";
 import { activeText } from "./Tiles/TileList.css";
 import { Checkbox } from "./Checkbox";
-import { btnContinue, btnNew } from "./Setup/Setup.css.js";
+import { btnNew } from "./Setup/Setup.css.js";
 
 export const Options = (props) => {
   return (
@@ -97,7 +97,7 @@ export const Options = (props) => {
                 +
               </span>
               <img class="action" src="./actions/no4.png" alt="Gold" />
-              <img src={`./dice/d${props.teotibotWorkerPowerForAction4}.png`} />
+              <img src={`./dice/d${props.teotibotWorkerPowerForAction4}.png`} alt=""/>
               <span onClick={props.onDecreaseTeotibotWorkerPowerForAction4}>
                 -
               </span>
@@ -107,7 +107,7 @@ export const Options = (props) => {
                 +
               </span>
               <img class="action" src="./actions/no6.png" alt="Gold" />
-              <img src={`./dice/d${props.teotibotWorkerPowerForAction6}.png`} />
+              <img src={`./dice/d${props.teotibotWorkerPowerForAction6}.png`} alt=""/>
               <span onClick={props.onDecreaseTeotibotWorkerPowerForAction6}>
                 -
               </span>
@@ -117,7 +117,7 @@ export const Options = (props) => {
                 +
               </span>
               <img class="action" src="./actions/no8.png" alt="Gold" />
-              <img src={`./dice/d${props.teotibotWorkerPowerForAction8}.png`} />
+              <img src={`./dice/d${props.teotibotWorkerPowerForAction8}.png`} alt=""/>
               <span onClick={props.onDecreaseTeotibotWorkerPowerForAction8}>
                 -
               </span>

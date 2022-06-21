@@ -15,10 +15,10 @@ export const setupContainer = css`
 `;
 
 export const setupSection = css`
-  margin: 5rem 0;
+  margin: 5rem 0 5rem 0.5rem;
 
   @media ${mediaQueries.isMaxXs} {
-    margin: 2rem 0;
+    margin: 2rem 0 2rem 0.2rem;
   }
 `;
 
@@ -127,10 +127,10 @@ export const templeTile = css`
 `;
 
 export const priestPriestessTile = css`
-  width: 100%;
+  width: 95%;
   position: absolute;
 
-  @media ${mediaQueries.isMd} {
+  @media ${mediaQueries.isSm} {
     width: 48%;
   }
 `;
