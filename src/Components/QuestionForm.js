@@ -224,7 +224,7 @@ export class QuestionForm extends React.Component {
           {this.props.tileName === "Mastery" && !this.state.fromMastery && (
             <div css={masteryForm}>
               <div>Find the bots highest powered unlocked die.</div>
-              <div>Perform that Action Boards action if possible:</div>
+              <div>Select the Action Board below:</div>
               <ul>
                 {masteryQuestions.map((question) => (
                   <li
