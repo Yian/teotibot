@@ -279,10 +279,11 @@ export function getTeotibotArray(
       key: 3,
       diceFace: diceFaces[0],
       number: 7,
+      worship: true,
       actionName: getActionItem(7).name,
       color: getActionItem(7).color,
     },
-  ], ['number']);
+  ], ['key']);
 }
 
 export function getNeutralArray(shuffledTiles) {

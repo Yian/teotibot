@@ -8,7 +8,6 @@ import useMedia from "../UseMedia";
 import { orderBy } from "lodash";
 
 export const StartingResources = (props) => {
-  
   const columns = useMedia(
     [
       "(min-width: 1500px)",
@@ -16,8 +15,8 @@ export const StartingResources = (props) => {
       "(min-width: 600px)",
       "(min-width: 480px)",
     ],
-    [10, 10, 7, 7],
-    6
+    [10, 10, 6, 3],
+    3
   );
 
   const [ref, { width }] = useMeasure();

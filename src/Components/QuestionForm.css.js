@@ -121,7 +121,7 @@ export const questionModalContent = css`
     color: #35a7c6;
     font-size: 1.5rem;
 
-    @media ${mediaQueries.isMaxXs} {
+    @media ${mediaQueries.isMaxLg} {
       font-size: 1rem;
     }
   }

@@ -48,7 +48,7 @@ export const btnContinue = css`
   justify-content: center;
   font-size: 2rem;
   width: 100%;
-  margin: 25px 0;
+  margin: 0 0 25px 0;
   cursor: pointer;
 
   span {

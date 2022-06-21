@@ -82,7 +82,7 @@ export const Setup = (props) => {
   }, []);
 
   const calcDicePlacements = useCallback(() => {
-    let shuffledTiles = shuffle(remainingStartTiles);
+    let shuffledTiles = shuffle(cloneDeep(remainingStartTiles));
     setPlayerPlacements(getPlayerPlacements(selectedStartTiles));
     setTeotibotPlacements(getTeotibotPlacement(shuffledTiles));
     setNeutralPlacements1(getNeutralPlacement(shuffledTiles));

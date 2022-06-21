@@ -468,7 +468,7 @@ export const xitleStartTiles = [
   },
   {
     name: "XST2",
-    numbers: [6, 6], //Todo work this out
+    numbers: [6, 6],
     tooltip:
       "Advance on the orange temple (gaining its reward) and gain 3 cocoa and 2 stone. You may place two of your starting workers on the Nobles (6) Action Board. (If you are playing without the Height of Development module from Teotihuacan: Late Preclassic Period, advance on the red temple instead of the orange temple.)",
     resources: [

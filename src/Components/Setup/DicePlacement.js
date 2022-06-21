@@ -2,7 +2,13 @@
 import { useState, useEffect, useMemo } from "react";
 import { jsx } from "@emotion/react";
 import { useTransition, a } from "@react-spring/web";
-import { diceFace, neutralContainer, action, actionText, diceContainer } from "./Setup.css";
+import {
+  diceFace,
+  neutralContainer,
+  action,
+  actionText,
+  diceContainer,
+} from "./Setup.css";
 import useMeasure from "react-use-measure";
 import useMedia from "../UseMedia";
 
@@ -11,8 +17,13 @@ export const DicePlacement = (props) => {
 
   // Hook1: Tie media queries to the number of columns
   const columns = useMedia(
-    ["(min-width: 1500px)", "(min-width: 1000px)", "(min-width: 600px)", "(max-width: 480px)"],
-    [4, 4, 4,2],
+    [
+      "(min-width: 1500px)",
+      "(min-width: 1000px)",
+      "(min-width: 600px)",
+      "(max-width: 480px)",
+    ],
+    [4, 4, 4, 2],
     2
   );
 
@@ -45,11 +56,11 @@ export const DicePlacement = (props) => {
     key: (item) => item.key,
     from: ({ x, y }) => ({ x: 0, y, opacity: 0 }),
     enter: ({ x, y }) => ({ x, y, opacity: 1 }),
-    update: ({ x, y }) => ({ x, y, opacity: 1  }),
+    update: ({ x, y }) => ({ x, y, opacity: 1 }),
     leave: { height: 0, opacity: 0 },
     config: { duration: 1000, mass: 5, tension: 500, friction: 50 },
     trail: 25,
-    onRest: props.onRest
+    onRest: props.onRest,
   });
 
   return (
@@ -61,6 +72,12 @@ export const DicePlacement = (props) => {
       {transitions((style, item) => (
         <a.div css={diceContainer} key={item.name} style={style}>
           <div>
+            {item.worship && (
+              <a.img
+                css={diceFace}
+                src={`${process.env.PUBLIC_URL}/resources/worshipspace.png`}
+              />
+            )}
             <a.img
               css={diceFace}
               src={`${process.env.PUBLIC_URL}/dice/${item.diceFace.name}.png`}
@@ -69,8 +86,10 @@ export const DicePlacement = (props) => {
               css={action}
               src={`${process.env.PUBLIC_URL}/actions/no${item.number}.png`}
             />
-            </div>
-          <span style={{color: item.color}} css={actionText}>{item.actionName}</span>
+          </div>
+          <span style={{ color: item.color }} css={actionText}>
+            {item.actionName}
+          </span>
         </a.div>
       ))}
     </div>
