@@ -16,6 +16,10 @@ export const setupContainer = css`
 
 export const setupSection = css`
   margin: 5rem 0;
+
+  @media ${mediaQueries.isMaxXs} {
+    margin: 2rem 0;
+  }
 `;
 
 export const setup = css``;
@@ -44,7 +48,7 @@ export const btnContinue = css`
   justify-content: center;
   font-size: 2rem;
   width: 100%;
-  margin: 50px 0;
+  margin: 25px 0;
   cursor: pointer;
 
   span {
@@ -127,7 +131,7 @@ export const priestPriestessTile = css`
   position: absolute;
 
   @media ${mediaQueries.isMd} {
-    width: 48%
+    width: 48%;
   }
 `;
 

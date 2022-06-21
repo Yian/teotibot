@@ -227,7 +227,7 @@ export const Setup = (props) => {
       setShowNeutralPlayer1(true);
     }
     if (showNeutralPlayer1) {
-      scrollIntoView(neutralPlayerResourceRef, true);
+      scrollIntoView(neutralPlayerResourceRef);
       setShowNeutralPlayer2(true);
     }
     if (showNeutralPlayer2) {
