@@ -113,20 +113,20 @@ export const StartTiles = (props) => {
     <div ref={ref} style={{ height: tileHeight }}>
       <Tippy singleton={source} />
       {transitions((style, item) => (
-        <Tippy singleton={target} content={item.tooltip} touch="hold">
-          <a.div css={startTile} style={style}>
-            <a.img
-              onContextMenu={(e) => e.preventDefault()}
-              css={startTile}
-              style={getStyle(item)}
-              onClick={() => {
-                onClick(item);
-              }}
-              src={`${process.env.PUBLIC_URL}/start_tiles/${item.src}/${item.name}.jpg`}
-              data-tip={item.tooltip}
-            />
-          </a.div>
-        </Tippy>
+        <a.div css={startTile} style={style}>
+          <a.img
+            onContextMenu={(e) => e.preventDefault()}
+            style={getStyle(item)}
+            onClick={() => {
+              onClick(item);
+            }}
+            src={`${process.env.PUBLIC_URL}/start_tiles/${item.src}/${item.name}.jpg`}
+            data-tip={item.tooltip}
+          />
+          <Tippy singleton={target} content={item.tooltip}>
+            <span>?</span>
+          </Tippy>
+        </a.div>
       ))}
     </div>
   );

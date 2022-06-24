@@ -83,11 +83,28 @@ export const tileContainer = css`
 
 export const startTile = css`
   width: 100px;
+  height: 0;
   position: absolute;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
   cursor: pointer;
 
   @media only screen and (max-width: 400px) {
     width: 75px;
+  }
+
+  img {
+    width: 100%;
+  }
+
+  span {
+    display: block;
+    margin-top: 11px;
+    width: 50px;
+    text-align: center;
+    justify-content: center;
+    color: tan;
   }
 `;
 
