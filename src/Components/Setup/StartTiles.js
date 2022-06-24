@@ -7,11 +7,17 @@ import { useSpring, useTransition, a } from "@react-spring/web";
 import { startTile } from "./Setup.css";
 import { shuffle, find } from "lodash";
 import { useLongPress } from "use-long-press";
-import Tippy from "@tippyjs/react";
+import Tippy, { useSingleton } from "@tippyjs/react";
 import "tippy.js/dist/tippy.css";
 
 export const StartTiles = (props) => {
   const tileHeight = 250;
+
+  const [visible, setVisible] = useState(false);
+  const show = () => setVisible(true);
+  const hide = () => setVisible(false);
+  const [source, target] = useSingleton();
+
   // Hook1: Tie media queries to the number of columns
   const columns = useMedia(
     [
@@ -109,13 +115,14 @@ export const StartTiles = (props) => {
   };
 
   const bind = useLongPress(() => {
-    console.log("Long pressed!");
+    show();
   });
 
   return (
     <div ref={ref} style={{ height: tileHeight }}>
+      <Tippy singleton={source} />
       {transitions((style, item) => (
-        <Tippy content={item.tooltip}>
+        <Tippy singleton={target} content={item.tooltip}>
           <a.div css={startTile} style={style}>
             <a.img
               onContextMenu={(e) => e.preventDefault()}

@@ -7,11 +7,13 @@ import { useTransition, a } from "@react-spring/web";
 import { tileContainer, techTile } from "./Setup.css";
 import { shuffle } from "lodash";
 import { baseTechTiles, xitleTechTiles } from "../Constants";
-import Tippy from "@tippyjs/react";
+import Tippy, { useSingleton } from "@tippyjs/react";
 import "tippy.js/dist/tippy.css";
 
 export const TechTiles = (props) => {
   const tileHeight = 350;
+  const [source, target] = useSingleton();
+
   // Hook1: Tie media queries to the number of columns
   const columns = useMedia(
     ["(min-width: 1500px)", "(min-width: 1000px)", "(min-width: 600px)"],
@@ -63,8 +65,9 @@ export const TechTiles = (props) => {
 
   return (
     <div ref={ref} css={tileContainer} style={{ height: Math.max(...heights) }}>
+      <Tippy singleton={source} />
       {transitions((style, item) => (
-        <Tippy content={item.tooltip}>
+        <Tippy singleton={target} content={item.tooltip}>
           <a.img
             onContextMenu={(e) => e.preventDefault()}
             css={techTile}
