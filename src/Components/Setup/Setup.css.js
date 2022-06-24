@@ -106,6 +106,10 @@ export const startTile = css`
     justify-content: center;
     color: tan;
   }
+
+  .hide {
+      visibility: hidden;
+  }
 `;
 
 export const resourceContainer = css``;

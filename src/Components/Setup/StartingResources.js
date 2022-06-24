@@ -51,6 +51,12 @@ export const StartingResources = (props) => {
     return [heights, resources];
   }, [columns, startingResources, width]);
 
+  const onRest = () => {
+    setTimeout(() => {
+      props.onRest();
+    }, 1000);
+  }
+
   const resourceTransitions = useTransition(resources, {
     key: (item) => item.index,
     from: ({ x, y }) => ({ x, y:-1000, opacity: 0 }),
@@ -59,7 +65,7 @@ export const StartingResources = (props) => {
     leave: { height: 0, opacity: 0 },
     config: { duration: 1000, mass: 5, tension: 500, friction: 50 },
     trail: 100,
-    onRest: props.onRest
+    onRest,
   });
 
   return (

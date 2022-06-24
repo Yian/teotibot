@@ -106,7 +106,7 @@ export const Options = (props) => {
               <span onClick={props.onIncreaseTeotibotWorkerPowerForAction6}>
                 +
               </span>
-              <img class="action" src="./actions/no6.png" alt="Gold" />
+              <img className="action" src="./actions/no6.png" alt="Gold" />
               <img src={`./dice/d${props.teotibotWorkerPowerForAction6}.png`} alt=""/>
               <span onClick={props.onDecreaseTeotibotWorkerPowerForAction6}>
                 -
@@ -116,7 +116,7 @@ export const Options = (props) => {
               <span onClick={props.onIncreaseTeotibotWorkerPowerForAction8}>
                 +
               </span>
-              <img class="action" src="./actions/no8.png" alt="Gold" />
+              <img className="action" src="./actions/no8.png" alt="Gold" />
               <img src={`./dice/d${props.teotibotWorkerPowerForAction8}.png`} alt=""/>
               <span onClick={props.onDecreaseTeotibotWorkerPowerForAction8}>
                 -
@@ -153,7 +153,7 @@ export const Options = (props) => {
             <div css={teotibotResourceContainer}>
               <span onClick={props.onIncreaseTeotibotVPfor10Cocoa}>+</span>
               <span>{props.teotibotVPFor10Cocoa}</span>
-              <img class="vp" src="./resources/vp.png" alt="VP" />{" "}
+              <img className="vp" src="./resources/vp.png" alt="VP" />{" "}
               <img src="./resources/cocoa.png" alt="VP" />{" "}
               <span onClick={props.onDecreaseTeotibotVPfor10Cocoa}>-</span>
             </div>
@@ -187,7 +187,7 @@ export const Options = (props) => {
             <div css={teotibotResourceContainer}>
               <span onClick={props.onIncreaseTeotibotVPForTechTiles}>+</span>
               <span>{props.teotibotVPForTechTiles}</span>
-              <img class="vp" src="./resources/vp.png" alt="VP" />{" "}
+              <img className="vp" src="./resources/vp.png" alt="VP" />{" "}
               <img src="./resources/tech.png" alt="VP" />{" "}
               <span onClick={props.onDecreaseTeotibotVPForTechTiles}>-</span>
             </div>

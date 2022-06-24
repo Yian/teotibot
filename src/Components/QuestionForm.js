@@ -204,16 +204,16 @@ export class QuestionForm extends React.Component {
               <h3>Teotibot scoring</h3>
               <ul>
                 <li>
-                  <span class="bold">1</span> Victory Point per leftover
+                  <span className="bold">1</span> Victory Point per leftover
                   resource/cocoa.
                 </li>
                 <li>
-                  <span class="bold">{this.props.teotibotVPForTechTiles}</span>{" "}
+                  <span className="bold">{this.props.teotibotVPForTechTiles}</span>{" "}
                   Victory Points for Technology{" "}
                   {parse(getResourceImage("tech"))} it has a marker on.
                 </li>
                 <li>
-                  <span class="bold">
+                  <span className="bold">
                     {this.props.teotibotVPForTempleTiles}
                   </span>{" "}
                   Victory Points for each Temple Bonus tile{" "}

@@ -110,7 +110,7 @@ export const topContainer = css`
 
 export const nav = css`
   display: flex;
-  justify-content: space-evenly;
+  justify-content: space-around;
   position: fixed;
   width: 100%;
   background: #ffffff42;

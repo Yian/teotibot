@@ -391,14 +391,7 @@ export class AppContainer extends React.Component {
   newGame = () => {
     this.setState({
       screenMode: StartScreen,
-      isSetupComplete: false,
-      isXitle: false,
-      isPriestAndPriestess: false,
-      isHeightOfDevelopment: false,
-      isSeasonsOfProgress: false,
-      isAlternateTeotibotMovement: false,
     });
-    reactLocalStorage.clear();
   };
 
   back = () => {

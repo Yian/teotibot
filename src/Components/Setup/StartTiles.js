@@ -12,7 +12,8 @@ import "tippy.js/dist/tippy.css";
 export const StartTiles = (props) => {
   const tileHeight = 250;
   const [source, target] = useSingleton();
-
+  const [showToolTips, setShowToolTips] = useState(false);
+  
   // Hook1: Tie media queries to the number of columns
   const columns = useMedia(
     [
@@ -69,6 +70,10 @@ export const StartTiles = (props) => {
     return [heights, gridItems];
   }, [columns, items, width]);
 
+  const onRest = () => {
+    setShowToolTips(true);
+  }
+
   // Hook6: Turn the static grid values into animated transitions, any addition, removal or change will be animated
   const transitions = useTransition(gridItems, {
     key: (item) => item.name,
@@ -78,6 +83,7 @@ export const StartTiles = (props) => {
     leave: { height: 0, opacity: 0 },
     config: { duration: 500, mass: 5, tension: 500, friction: 50 },
     trail: 25,
+    onRest: onRest
   });
 
   const [state, toggle] = useState(true);
@@ -124,7 +130,7 @@ export const StartTiles = (props) => {
             data-tip={item.tooltip}
           />
           <Tippy singleton={target} content={item.tooltip}>
-            <span>?</span>
+            <span className={`${!showToolTips ? "hide" : ""}`}>?</span>
           </Tippy>
         </a.div>
       ))}
