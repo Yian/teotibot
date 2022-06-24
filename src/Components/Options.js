@@ -96,7 +96,7 @@ export const Options = (props) => {
               <span onClick={props.onIncreaseTeotibotWorkerPowerForAction4}>
                 +
               </span>
-              <img class="action" src="./actions/no4.png" alt="Gold" />
+              <img className="action" src="./actions/no4.png" alt="Gold" />
               <img src={`./dice/d${props.teotibotWorkerPowerForAction4}.png`} alt=""/>
               <span onClick={props.onDecreaseTeotibotWorkerPowerForAction4}>
                 -

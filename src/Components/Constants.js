@@ -12,41 +12,41 @@ import {
   directionTileRight3StepFlipped,
 } from "./Tiles/TileList.css";
 
+export const backgroundsToPreload = [
+  "forms",
+  "late-preclassic",
+  "main",
+  "period",
+  "xitle",
+];
+
 export const resourcesToPreload = [
-  "avenue",
+  "5cocoa",
   "any",
-  "wood",
-  "gold",
-  "stone",
+  "ascension",
+  "avenue",
+  "back",
+  "cancel",
   "cocoa",
+  "discovery",
+  "eclipse",
+  "gold",
+  "hod1",
+  "hod2",
+  "hod3",
+  "powerup",
+  "pyramidt",
+  "wood",
+  "stone",
   "tr",
   "tb",
   "tg",
   "to",
-  "powerup",
+  "tw",
   "tech",
-  "discovery",
   "worship",
   "worker",
   "ascension",
-  "pyramid",
-  "tw",
-  "base",
-  "xitle",
-  "alchemy",
-  "construction",
-  "decorations",
-  "mask_collection",
-  "mastery",
-  "masteryForest",
-  "masteryQuarry",
-  "masteryGold",
-  "masteryAlchemy",
-  "masteryNobles",
-  "masteryDecorations",
-  "masteryConstruction",
-  "nobles",
-  "eclipse",
 ];
 
 const avenue = "avenue";
@@ -714,7 +714,7 @@ export const baseTempleTiles = [
       "Score 5 Victory Points for each Technology tile with your marker.",
     src: base,
   },
-  { name: "BT3", tooltip: "Score 15 Victory Points." },
+  { name: "BT3", tooltip: "Score 15 Victory Points.", src: base },
   {
     name: "BT4",
     tooltip:
@@ -813,9 +813,15 @@ const altAdvancement = (topDirectionTile) => {
   } ${getResourceImageStep(topDirectionTile.actionBoard)} Action Board.</div>`;
 };
 
-export const powerupMsg = (isAlternateTeotibotMovement, topDirectionTile, teotibotVPFor10Cocoa) => {
+export const powerupMsg = (
+  isAlternateTeotibotMovement,
+  topDirectionTile,
+  teotibotVPFor10Cocoa
+) => {
   return `<div>Teotibot gains
-5 cocoa ${getResourceImage("5cocoa")} (exchange 10 cocoa for <span class="bold">${teotibotVPFor10Cocoa}</span> VP), powers up ${getResourceImage(
+5 cocoa ${getResourceImage(
+    "5cocoa"
+  )} (exchange 10 cocoa for <span class="bold">${teotibotVPFor10Cocoa}</span> VP), powers up ${getResourceImage(
     "powerup"
   )} its lowest powered worker, and
 then advances it:</div>${advancement(
@@ -895,7 +901,11 @@ const alchemyQuestions = (isAlternateTeotibotMovement, topDirectionTile) => {
   ];
 };
 
-const decorationQuestions = (isAlternateTeotibotMovement, topDirectionTile, teotibotVPFor10Cocoa) => {
+const decorationQuestions = (
+  isAlternateTeotibotMovement,
+  topDirectionTile,
+  teotibotVPFor10Cocoa
+) => {
   return [
     {
       question: `<div>Does Teotibot have <span class="bold">2</span> or more gold ${getResourceImage(
@@ -930,7 +940,11 @@ const decorationQuestions = (isAlternateTeotibotMovement, topDirectionTile, teot
       "no7"
     )} (resolve any Ascensions normally). Then advance the powered-up worker (or the new worker, if the
     old one triggered Ascension)
-    ${advancement(isAlternateTeotibotMovement, topDirectionTile, teotibotVPFor10Cocoa)}
+    ${advancement(
+      isAlternateTeotibotMovement,
+      topDirectionTile,
+      teotibotVPFor10Cocoa
+    )}
     ${templeTip}
   </div>`,
       questionId: 2,
@@ -955,14 +969,21 @@ const decorationQuestions = (isAlternateTeotibotMovement, topDirectionTile, teot
       "powerup"
     )} on the Gold Deposits ${getActionImage("no4")}
     Action Board (resolve any Ascensions normally). Then advance the powered-up worker (or the new worker, if the
-    old one triggered Ascension)</div>${advancement(isAlternateTeotibotMovement, topDirectionTile)}`,
+    old one triggered Ascension)</div>${advancement(
+      isAlternateTeotibotMovement,
+      topDirectionTile
+    )}`,
       questionId: 4,
       condition: ({ answers }) => answers[3] === "yes",
       isEnd: true,
       margin: 50,
     },
     {
-      question: powerupMsg(isAlternateTeotibotMovement, topDirectionTile, teotibotVPFor10Cocoa),
+      question: powerupMsg(
+        isAlternateTeotibotMovement,
+        topDirectionTile,
+        teotibotVPFor10Cocoa
+      ),
       questionId: 5,
       condition: ({ answers }) => answers[3] === "no",
       isEnd: true,
@@ -1030,7 +1051,9 @@ const constructionQuestions = (
       margin: 50,
     },
     {
-      question: `<div>Teotibot gains <span class="bold">2</span> stone ${getResourceImage("stone")}
+      question: `<div>Teotibot gains <span class="bold">2</span> stone ${getResourceImage(
+        "stone"
+      )}
 
     </div><div class="margin">Power up Teotibots worker ${getResourceImage(
       "powerup"
@@ -1046,7 +1069,11 @@ const constructionQuestions = (
       margin: 50,
     },
     {
-      question: powerupMsg(isAlternateTeotibotMovement, topDirectionTile, teotibotVPFor10Cocoa),
+      question: powerupMsg(
+        isAlternateTeotibotMovement,
+        topDirectionTile,
+        teotibotVPFor10Cocoa
+      ),
       questionId: 5,
       condition: ({ answers }) => answers[3] === "no",
       margin: 50,
@@ -1125,7 +1152,9 @@ const noblesQuestions = (
       margin: 50,
     },
     {
-      question: `<div>Teotibot gains <span class="bold">2</span> wood ${getResourceImage("wood")}
+      question: `<div>Teotibot gains <span class="bold">2</span> wood ${getResourceImage(
+        "wood"
+      )}
     </div>Power up Teotibots worker ${getResourceImage(
       "powerup"
     )} on the Forest ${getActionImage("no2")}
@@ -1138,7 +1167,11 @@ const noblesQuestions = (
       margin: 50,
     },
     {
-      question: powerupMsg(isAlternateTeotibotMovement, topDirectionTile, teotibotVPFor10Cocoa),
+      question: powerupMsg(
+        isAlternateTeotibotMovement,
+        topDirectionTile,
+        teotibotVPFor10Cocoa
+      ),
       questionId: 5,
       condition: ({ answers }) => answers[3] === "no",
       isEnd: true,
@@ -1176,7 +1209,11 @@ immediately draw a replacement for it.
   ];
 };
 
-const maskQuestions = (isAlternateTeotibotMovement, topDirectionTile, teotibotVPFor10Cocoa) => {
+const maskQuestions = (
+  isAlternateTeotibotMovement,
+  topDirectionTile,
+  teotibotVPFor10Cocoa
+) => {
   return [
     {
       question: `<div>If the bot does not yet have one of the masks available near
@@ -1203,7 +1240,11 @@ const maskQuestions = (isAlternateTeotibotMovement, topDirectionTile, teotibotVP
       margin: 50,
     },
     {
-      question: powerupMsg(isAlternateTeotibotMovement, topDirectionTile, teotibotVPFor10Cocoa),
+      question: powerupMsg(
+        isAlternateTeotibotMovement,
+        topDirectionTile,
+        teotibotVPFor10Cocoa
+      ),
       questionId: 5,
       condition: ({ answers }) => answers[1] === "no",
       isEnd: true,
@@ -1264,7 +1305,11 @@ const eclipseQuestions = (eclipseStage, isHeightOfDevelopment) => {
     <li>Reset the Pyramid track for all players, by moving all player markers to their starting position.</li>
     <li>Each player organizes their masks into one or more sets, where each set is comprised of different masks. Then each set scores points, depending on the number of masks in that set:
     Each set of <span class="bold">1</span>/2/<span class="bold">3</span>/4/<span class="bold">5</span>/6/<span class="bold">7</span> masks score <span class="bold">1</span>/3/<span class="bold">6</span>/10/<span class="bold">15</span>/21/<span class="bold">28</span> Victory Points.</li>
-    <li>Each player (not Teotibot) must now pay a salary of <span class="bold">1</span> cocoa per worker, and an additional cocoa for each worker with a power of ${getDiceImage("d4")} or ${getDiceImage("d5")}. For each cocoa a player is unwilling or unable to pay, that player loses <span class="bold">3</span> Victory Points. If at any time this reduces a player's Victory Point total to <span class="bold">0</span>, that player loses no more Victory Points.</li>
+    <li>Each player (not Teotibot) must now pay a salary of <span class="bold">1</span> cocoa per worker, and an additional cocoa for each worker with a power of ${getDiceImage(
+      "d4"
+    )} or ${getDiceImage(
+        "d5"
+      )}. For each cocoa a player is unwilling or unable to pay, that player loses <span class="bold">3</span> Victory Points. If at any time this reduces a player's Victory Point total to <span class="bold">0</span>, that player loses no more Victory Points.</li>
     </ul> 
   </div>`,
       questionId: 1,
@@ -1627,7 +1672,11 @@ export const TilesToQuestions = (
       );
       break;
     case mask_collection:
-      result = maskQuestions(isAlternateTeotibotMovement, topDirectionTile, teotibotVPFor10Cocoa);
+      result = maskQuestions(
+        isAlternateTeotibotMovement,
+        topDirectionTile,
+        teotibotVPFor10Cocoa
+      );
       break;
     case mastery:
       result = [];
@@ -1635,43 +1684,43 @@ export const TilesToQuestions = (
     case masteryForest:
       result = masteryForestQuestions(
         isAlternateTeotibotMovement,
-        topDirectionTile,
+        topDirectionTile
       );
       break;
     case masteryQuarry:
       result = masteryQuarryQuestions(
         isAlternateTeotibotMovement,
-        topDirectionTile,
+        topDirectionTile
       );
       break;
     case masteryGold:
       result = masteryGoldQuestions(
         isAlternateTeotibotMovement,
-        topDirectionTile,
+        topDirectionTile
       );
       break;
     case masteryAlchemy:
       result = masteryAlchemyQuestions(
         isAlternateTeotibotMovement,
-        topDirectionTile,
+        topDirectionTile
       );
       break;
     case masteryNobles:
       result = masteryNoblesQuestions(
         isAlternateTeotibotMovement,
-        topDirectionTile,
+        topDirectionTile
       );
       break;
     case masteryDecorations:
       result = masteryDecorationsQuestions(
         isAlternateTeotibotMovement,
-        topDirectionTile,
+        topDirectionTile
       );
       break;
     case masteryConstruction:
       result = masteryConstructionQuestions(
         isAlternateTeotibotMovement,
-        topDirectionTile,
+        topDirectionTile
       );
       break;
     case nobles:

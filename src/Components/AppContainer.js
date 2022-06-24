@@ -5,6 +5,7 @@ import { TileList } from "./Tiles/TileList";
 import { Setup } from "./Setup/Setup";
 import { appContainer, mainImg, start } from "./AppContainer.css";
 import {
+  backgroundsToPreload,
   baseBotTiles,
   baseStartTiles,
   xitleStartTiles,
@@ -21,7 +22,7 @@ import {
 } from "./Constants";
 import { Options } from "./Options";
 import { btnSettings, setup } from "./Setup/Setup.css";
-import {reactLocalStorage} from 'reactjs-localstorage';
+import { reactLocalStorage } from "reactjs-localstorage";
 
 export class AppContainer extends React.Component {
   constructor(props) {
@@ -29,12 +30,22 @@ export class AppContainer extends React.Component {
     this.state = {
       screenMode: StartScreen,
       lastScreen: StartScreen,
-      isXitle: JSON.parse(reactLocalStorage.get('isXitle') ?? false),
-      isPriestAndPriestess: JSON.parse(reactLocalStorage.get('isPriestAndPriestess') ?? false),
-      isHeightOfDevelopment: JSON.parse(reactLocalStorage.get('isHeightOfDevelopment') ?? false),
-      isSeasonsOfProgress: JSON.parse(reactLocalStorage.get('isSeasonsOfProgress') ?? false),
-      isAlternateTeotibotMovement: JSON.parse(reactLocalStorage.get('isAlternateTeotibotMovement') ?? false),
-      isSetupComplete: JSON.parse(reactLocalStorage.get('isSetupComplete') ?? true),
+      isXitle: JSON.parse(reactLocalStorage.get("isXitle") ?? false),
+      isPriestAndPriestess: JSON.parse(
+        reactLocalStorage.get("isPriestAndPriestess") ?? false
+      ),
+      isHeightOfDevelopment: JSON.parse(
+        reactLocalStorage.get("isHeightOfDevelopment") ?? false
+      ),
+      isSeasonsOfProgress: JSON.parse(
+        reactLocalStorage.get("isSeasonsOfProgress") ?? false
+      ),
+      isAlternateTeotibotMovement: JSON.parse(
+        reactLocalStorage.get("isAlternateTeotibotMovement") ?? false
+      ),
+      isSetupComplete: JSON.parse(
+        reactLocalStorage.get("isSetupComplete") ?? true
+      ),
       teotibotStartingGold: 2,
       teotibotStartingWood: 2,
       teotibotStartingStone: 2,
@@ -45,82 +56,96 @@ export class AppContainer extends React.Component {
       teotibotWorkerPowerForAction4: 2,
       teotibotWorkerPowerForAction6: 2,
       teotibotWorkerPowerForAction8: 2,
+      imagesLoaded: false,
     };
   }
 
   componentDidMount() {
-    //Preloading images
-    baseTechTiles.forEach((tile) => {
-      const img = new Image();
-      img.src = `${process.env.PUBLIC_URL}/tech_tiles/${tile.src}.png`;
+    var imageUrls = [];
+
+    [...baseTechTiles, ...xitleTechTiles].forEach((tile) => {
+      imageUrls.push(
+        `${process.env.PUBLIC_URL}/tech_tiles/${tile.src}/${tile.name}.jpg`
+      );
     });
 
-    xitleTechTiles.forEach((tile) => {
-      const img = new Image();
-      img.src = `${process.env.PUBLIC_URL}/tech_tiles/${tile.src}.png`;
+    [...baseStartTiles, ...xitleStartTiles].forEach((tile) => {
+      imageUrls.push(
+        `${process.env.PUBLIC_URL}/start_tiles/${tile.src}/${tile.name}.jpg`
+      );
     });
 
     baseTempleTiles.forEach((tile) => {
-      const img = new Image();
-      img.src = `${process.env.PUBLIC_URL}/temple_tiles/${tile.src}.png`;
-    });
-
-    baseStartTiles.forEach((tile) => {
-      const img = new Image();
-      img.src = `${process.env.PUBLIC_URL}/start_tiles/base/${tile.name}.jpg`;
-    });
-
-    xitleStartTiles.forEach((tile) => {
-      const img = new Image();
-      img.src = `${process.env.PUBLIC_URL}/start_tiles/base/${tile.name}.jpg`;
-    });
-
-    const imgForms = new Image();
-    imgForms.src = `${process.env.PUBLIC_URL}/backgrounds/forms.jpg`;
-
-    const imgExp1 = new Image();
-    imgExp1.src = `${process.env.PUBLIC_URL}/backgrounds/xitle.jpg`;
-
-    const imgExp2 = new Image();
-    imgExp2.src = `${process.env.PUBLIC_URL}/backgrounds/late-preclassic.jpg`;
-
-    const imgExp3 = new Image();
-    imgExp3.src = `${process.env.PUBLIC_URL}/backgrounds/period.jpg`;
-
-    baseBotTiles.forEach((tile) => {
-      const img = new Image();
-      img.src = `${process.env.PUBLIC_URL}/bot_tiles/${tile.src}.png`;
-    });
-
-    diceFaces.forEach((dface) => {
-      const img = new Image();
-      img.src = `${process.env.PUBLIC_URL}/dice/${dface}.png`;
-    });
-
-    resourcesToPreload.forEach((resource) => {
-      const img = new Image();
-      img.src = `${process.env.PUBLIC_URL}/resources/${resource}.png`;
+      imageUrls.push(
+        `${process.env.PUBLIC_URL}/temple_tiles/${tile.src}/${tile.name}.jpg`
+      );
     });
 
     actionNames.forEach((action) => {
-      const img = new Image();
-      img.src = `${process.env.PUBLIC_URL}/actions/no${action.value}.png`;
+      imageUrls.push(
+        `${process.env.PUBLIC_URL}/actions/no${action.value}.png`
+      );
     });
 
-    if (JSON.parse(reactLocalStorage.get('isSetupComplete') ?? false)) {
-      this.setState({
-        screenMode: AppScreen
+    diceFaces.forEach((action) => {
+      imageUrls.push(
+        `${process.env.PUBLIC_URL}/dice/d${action.value}.png`
+      );
+    });
+
+    resourcesToPreload.forEach((resourceName) => {
+      imageUrls.push(
+        `${process.env.PUBLIC_URL}/resources/${resourceName}.png`
+      );
+    });
+
+    baseBotTiles.forEach((tile) => {
+      imageUrls.push(
+        `${process.env.PUBLIC_URL}/bot_tiles/${tile.src}.png`
+      );
+    });
+
+    backgroundsToPreload.forEach((background) => {
+      imageUrls.push(
+        `${process.env.PUBLIC_URL}/backgrounds/${background}.jpg`
+      );
+    });
+
+    const loadImage = (image) => {
+      return new Promise((resolve, reject) => {
+        const loadImg = new Image();
+        loadImg.src = image;
+        // wait 2 seconds to simulate loading time
+        loadImg.onload = () => resolve(image);
+        loadImg.onerror = (err) => reject(image);
+      });
+    };
+
+    Promise.all(imageUrls.map((image) => loadImage(image)))
+      .then(() => {
+        this.setState({ imagesLoaded: true });
       })
+      .catch((err) => {
+        console.log("Failed to load images", err);
+      });
+
+    if (JSON.parse(reactLocalStorage.get("isSetupComplete") ?? false)) {
+      this.setState({
+        screenMode: AppScreen,
+      });
     }
   }
 
   //Expansions
   setIsXitle = (isXitle) => {
-    this.setState({
-      isXitle,
-    }, () => {
-      reactLocalStorage.set('isXitle', isXitle);
-    });
+    this.setState(
+      {
+        isXitle,
+      },
+      () => {
+        reactLocalStorage.set("isXitle", isXitle);
+      }
+    );
   };
 
   onChangeXitle = (e) => {
@@ -130,11 +155,17 @@ export class AppContainer extends React.Component {
   };
 
   setIsAlternateTeotibotMovement = (isAlternateTeotibotMovement) => {
-    this.setState({
-      isAlternateTeotibotMovement
-    }, () => {
-      reactLocalStorage.set('isAlternateTeotibotMovement', isAlternateTeotibotMovement);
-    });
+    this.setState(
+      {
+        isAlternateTeotibotMovement,
+      },
+      () => {
+        reactLocalStorage.set(
+          "isAlternateTeotibotMovement",
+          isAlternateTeotibotMovement
+        );
+      }
+    );
   };
 
   onChangeAlternateTeotibotMovement = (e) => {
@@ -144,11 +175,14 @@ export class AppContainer extends React.Component {
   };
 
   setIsPriestAndPriestess = (isPriestAndPriestess) => {
-    this.setState({
-      isPriestAndPriestess,
-    }, () => {
-      reactLocalStorage.set('isPriestAndPriestess', isPriestAndPriestess);
-    });
+    this.setState(
+      {
+        isPriestAndPriestess,
+      },
+      () => {
+        reactLocalStorage.set("isPriestAndPriestess", isPriestAndPriestess);
+      }
+    );
   };
 
   onChangeIsPriestAndPriestess = (e) => {
@@ -158,11 +192,14 @@ export class AppContainer extends React.Component {
   };
 
   setIsSeasonsOfProgress = (isSeasonsOfProgress) => {
-    this.setState({
-      isSeasonsOfProgress,
-    }, () => {
-      reactLocalStorage.set('isSeasonsOfProgress', isSeasonsOfProgress);
-    });
+    this.setState(
+      {
+        isSeasonsOfProgress,
+      },
+      () => {
+        reactLocalStorage.set("isSeasonsOfProgress", isSeasonsOfProgress);
+      }
+    );
   };
 
   onChangeIsSeasonsOfProgress = (e) => {
@@ -172,11 +209,14 @@ export class AppContainer extends React.Component {
   };
 
   setIsHeightOfDevelopment = (isHeightOfDevelopment) => {
-    this.setState({
-      isHeightOfDevelopment,
-    }, () => {
-      reactLocalStorage.set('isHeightOfDevelopment', isHeightOfDevelopment);
-    });
+    this.setState(
+      {
+        isHeightOfDevelopment,
+      },
+      () => {
+        reactLocalStorage.set("isHeightOfDevelopment", isHeightOfDevelopment);
+      }
+    );
   };
 
   onChangeIsHeightOfDevelopment = (e) => {
@@ -358,7 +398,7 @@ export class AppContainer extends React.Component {
       isAlternateTeotibotMovement: false,
     });
     reactLocalStorage.clear();
-  }
+  };
 
   back = () => {
     this.setState({
@@ -384,11 +424,19 @@ export class AppContainer extends React.Component {
   renderApp = () => {
     if (this.state.screenMode === StartScreen) {
       return (
-        <ul css={start}>
-          <div css={mainImg} />
-          <li onClick={this.start}>Start</li>
-          <li onClick={() => this.options(StartScreen)}>Options</li>
-        </ul>
+        <div>
+          {this.state.imagesLoaded ? (
+            <div>
+              <ul css={start}>
+                <div css={mainImg} />
+                <li onClick={this.start}>Start</li>
+                <li onClick={() => this.options(StartScreen)}>Options</li>
+              </ul>
+            </div>
+          ) : (
+            <div>Loading...</div>
+          )}
+        </div>
       );
     } else if (this.state.screenMode === SetupScreen) {
       return (
@@ -453,7 +501,9 @@ export class AppContainer extends React.Component {
           onChangeIsSeasonsOfProgress={this.onChangeIsSeasonsOfProgress}
           isHeightOfDevelopment={this.state.isHeightOfDevelopment}
           isAlternateTeotibotMovement={this.state.isAlternateTeotibotMovement}
-          onChangeAlternateTeotibotMovement={this.onChangeAlternateTeotibotMovement}
+          onChangeAlternateTeotibotMovement={
+            this.onChangeAlternateTeotibotMovement
+          }
           onChangeIsHeightOfDevelopment={this.onChangeIsHeightOfDevelopment}
           teotibotStartingGold={this.state.teotibotStartingGold}
           onIncreaseTeotibotStartingGold={this.onIncreaseTeotibotStartingGold}
