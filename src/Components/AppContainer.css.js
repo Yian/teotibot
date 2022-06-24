@@ -24,6 +24,16 @@ export const mainImg = css`
     background-attachment: fixed;
 `;
 
+export const loadingText = css`
+  display: flex;
+  position: fixed; /* or absolute */
+  top: 50%;
+  left: 50%;
+  font-size: 2rem;
+  /* bring your own prefixes */
+  transform: translate(-50%, -50%);
+`;
+
 export const start = css`
   display: flex;
   justify-content: center;

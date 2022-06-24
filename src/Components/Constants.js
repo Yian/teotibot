@@ -12,6 +12,87 @@ import {
   directionTileRight3StepFlipped,
 } from "./Tiles/TileList.css";
 
+export const num_trans = [
+  {
+    fig: 'L',
+    op: { range: [0.75, 1], output: [0, 1] },
+    trans: {
+      range: [0.75, 1],
+      output: [-40, 0],
+      extrapolate: "clamp",
+    },
+  },
+  {
+    fig: 'o',
+    op: {
+      range: [0.25, 0.5],
+      output: [0, 1],
+    },
+    trans: {
+      range: [0.25, 0.5],
+      output: [-40, 0],
+      extrapolate: "clamp",
+    },
+  },
+  {
+    fig: 'a',
+    op: {
+      range: [0, 0.25],
+      output: [0, 1],
+    },
+    trans: {
+      range: [0, 0.25],
+      output: [-40, 0],
+      extrapolate: "clamp",
+    },
+  },
+  {
+    fig: 'd',
+    op: {
+      range: [0.5, 0.75],
+      output: [0, 1],
+    },
+    trans: {
+      range: [0.5, 0.75],
+      output: [-40, 0],
+      extrapolate: "clamp",
+    },
+  },
+  {
+    fig: 'i',
+    op: { range: [0.75, 1], output: [0, 1] },
+    trans: {
+      range: [0.75, 1],
+      output: [-40, 0],
+      extrapolate: "clamp",
+    },
+  },
+  {
+    fig: 'n',
+    op: {
+      range: [0.25, 0.5],
+      output: [0, 1],
+    },
+    trans: {
+      range: [0.25, 0.5],
+      output: [-40, 0],
+      extrapolate: "clamp",
+    },
+  },
+  {
+    fig: 'g',
+    op: {
+      range: [0, 0.25],
+      output: [0, 1],
+    },
+    trans: {
+      range: [0, 0.25],
+      output: [-40, 0],
+      extrapolate: "clamp",
+    },
+  },
+];
+
 export const backgroundsToPreload = [
   "forms",
   "late-preclassic",

@@ -309,7 +309,6 @@ export function getNeutralArray(shuffledTiles) {
   shuffledTiles.splice(index, 1);
 
   let mergedActions = [...union(numbers1, numbers2), ...dupNumbers];
-  
   return sortBy([
     {
       key: 0,

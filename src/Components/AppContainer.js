@@ -23,6 +23,7 @@ import {
 import { Options } from "./Options";
 import { btnSettings, setup } from "./Setup/Setup.css";
 import { reactLocalStorage } from "reactjs-localstorage";
+import { Loading } from "./Loading";
 
 export class AppContainer extends React.Component {
   constructor(props) {
@@ -421,7 +422,8 @@ export class AppContainer extends React.Component {
     reactLocalStorage.set("isSetupComplete", true);
   };
 
-  renderApp = () => {
+  
+  renderApp = () => {   
     if (this.state.screenMode === StartScreen) {
       return (
         <div>
@@ -434,7 +436,7 @@ export class AppContainer extends React.Component {
               </ul>
             </div>
           ) : (
-            <div>Loading...</div>
+            <Loading/>
           )}
         </div>
       );
