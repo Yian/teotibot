@@ -71,7 +71,9 @@ export const StartTiles = (props) => {
   }, [columns, items, width]);
 
   const onRest = () => {
-    setShowToolTips(true);
+    setTimeout(() => {
+      setShowToolTips(true);
+    }, 500);
   }
 
   // Hook6: Turn the static grid values into animated transitions, any addition, removal or change will be animated
@@ -83,7 +85,7 @@ export const StartTiles = (props) => {
     leave: { height: 0, opacity: 0 },
     config: { duration: 500, mass: 5, tension: 500, friction: 50 },
     trail: 25,
-    onRest: onRest
+    onRest,
   });
 
   const [state, toggle] = useState(true);

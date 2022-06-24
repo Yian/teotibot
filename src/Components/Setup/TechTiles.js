@@ -51,6 +51,12 @@ export const TechTiles = (props) => {
     return [heights, gridItems];
   }, [columns, items, width]);
 
+  const onRest = () => {
+    setTimeout(() => {
+      props.onRest();
+    }, 500);
+  }
+
   // Hook6: Turn the static grid values into animated transitions, any addition, removal or change will be animated
   const transitions = useTransition(gridItems, {
     key: (item) => item.name,
@@ -60,7 +66,7 @@ export const TechTiles = (props) => {
     leave: { height: 0, opacity: 0 },
     config: { mass: 5, tension: 500, friction: 50 },
     trail: 25,
-    onRest: props.onRest,
+    onRest
   });
 
   return (
