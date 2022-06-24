@@ -289,19 +289,27 @@ export function getTeotibotArray(
 export function getNeutralArray(shuffledTiles) {
   let index = getRandomArrayIndex(shuffledTiles);
   let numbers1 = shuffledTiles[index].numbers;
+  let dupNumbers = [];
+
+  const shuffledTile = shuffledTiles[index];
+
+  if (shuffledTile.duplicateNumbers) {
+    dupNumbers.push(shuffledTiles[index].numbers[0])
+  }
 
   shuffledTiles.splice(index, 1);
 
   index = getRandomArrayIndex(shuffledTiles);
   let numbers2 = shuffledTiles[index].numbers;
 
+  if (shuffledTiles[index].duplicateNumbers) {
+    dupNumbers.push(shuffledTiles[index].numbers[0])
+  }
+
   shuffledTiles.splice(index, 1);
 
-  let mergedActions = union(numbers1, numbers2);
-
-  //Get the 3 dice values
-  //let dice = getRandom(diceFaces, noNeutralDice);
-
+  let mergedActions = [...union(numbers1, numbers2), ...dupNumbers];
+  
   return sortBy([
     {
       key: 0,

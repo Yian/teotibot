@@ -29,6 +29,8 @@ export const btnSettings = css`
   top: 0;
   right: 0;
   cursor: pointer;
+  width: 64px;
+  margin: 5px 5px 0 0;
 `;
 
 export const orangeTemple = css`

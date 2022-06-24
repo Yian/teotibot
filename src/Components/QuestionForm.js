@@ -25,6 +25,7 @@ import {
 } from "./Constants";
 import { DicePlacement } from "./Setup/DicePlacement";
 import { getNeutralArray } from "./Logic";
+import { cloneDeep } from "lodash";
 
 export class QuestionForm extends React.Component {
   constructor(props) {
@@ -42,19 +43,29 @@ export class QuestionForm extends React.Component {
         props.topDirectionTile
       ),
       fromMastery: false,
-      neutralPlacements1:
-        props.tileName === Eclipse && props.eclipseStage <= 2
-          ? getNeutralArray(props.tiles)
-          : [],
-      neutralPlacements2:
-        props.tileName === Eclipse && props.eclipseStage <= 2
-          ? getNeutralArray(props.tiles)
-          : [],
+      neutralPlacements1: [],
+      neutralPlacements2: [],
     };
+
     this.onExitForm = this.onExitForm.bind(this);
     this.onCancelEclipse = this.onCancelEclipse.bind(this);
     this.onRestartQuestions = this.onRestartQuestions.bind(this);
     this.onClickMasteryOption = this.onClickMasteryOption.bind(this);
+  }
+
+  componentDidMount() {
+    var tiles = cloneDeep(this.props.tiles);
+
+    this.setState({
+      neutralPlacements1:
+        this.props.tileName === Eclipse && this.props.eclipseStage <= 2
+          ? getNeutralArray(tiles)
+          : [],
+      neutralPlacements2:
+        this.props.tileName === Eclipse && this.props.eclipseStage <= 2
+          ? getNeutralArray(tiles)
+          : [],
+    });
   }
 
   onRestartQuestions(i) {
@@ -128,23 +139,23 @@ export class QuestionForm extends React.Component {
             />
           </div>
 
-            {this.props.tileName !== Eclipse ? (
-                        <div css={modalHeading}>
-                        <h2>{this.props.tileName}</h2>
+          {this.props.tileName !== Eclipse ? (
+            <div css={modalHeading}>
+              <h2>{this.props.tileName}</h2>
               <img
                 src={`${process.env.PUBLIC_URL}/bot_tiles/${this.props.tileSrc}.png`}
                 alt={this.props.tileName}
-              />   </div>
-            ) : (
-              <div css={modalHeadingEclipse}>
-            <h2>{this.props.tileName}</h2>
+              />{" "}
+            </div>
+          ) : (
+            <div css={modalHeadingEclipse}>
+              <h2>{this.props.tileName}</h2>
               <img
                 src={`${process.env.PUBLIC_URL}/resources/${this.props.tileSrc}.png`}
                 alt={this.props.tileName}
               />
-              </div>
-            )}
-
+            </div>
+          )}
 
           {qs.map((question) => (
             <Question

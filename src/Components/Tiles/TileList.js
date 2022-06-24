@@ -425,7 +425,7 @@ export const TileList = (props) => {
         )}
         {showEclipseForm && (
           <QuestionForm
-            tiles={startTiles}
+            tiles={cloneDeep(startTiles)}
             onCloseClick={(shouldShuffle) => onCloseClick(shouldShuffle)}
             onCancelEclipseClick={(shouldShuffle) =>
               onCancelEclipseClick(shouldShuffle)

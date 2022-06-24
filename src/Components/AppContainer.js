@@ -396,7 +396,7 @@ export class AppContainer extends React.Component {
           <img
             css={btnSettings}
             onClick={() => this.options(SetupScreen)}
-            src="./resources/settings.png"
+            src="./resources/settings-white.png"
             alt="Settings"
           />
           <Setup
