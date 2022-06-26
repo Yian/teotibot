@@ -44,6 +44,9 @@ export class AppContainer extends React.Component {
       isAlternateTeotibotMovement: JSON.parse(
         reactLocalStorage.get("isAlternateTeotibotMovement") ?? false
       ),
+      isObsidian: JSON.parse(
+        reactLocalStorage.get("isObsidian") ?? false
+      ),
       isSetupComplete: JSON.parse(
         reactLocalStorage.get("isSetupComplete") ?? true
       ),
@@ -57,6 +60,7 @@ export class AppContainer extends React.Component {
       teotibotWorkerPowerForAction4: 2,
       teotibotWorkerPowerForAction6: 2,
       teotibotWorkerPowerForAction8: 2,
+      teotibotResourcesToGain: 1,
       imagesLoaded: false,
     };
   }
@@ -226,6 +230,23 @@ export class AppContainer extends React.Component {
     );
   };
 
+  setIsObsidian = (isObsidian) => {
+    this.setState(
+      {
+        isObsidian,
+      },
+      () => {
+        reactLocalStorage.set("isObsidian", isObsidian);
+      }
+    );
+  };
+
+  onChangeIsObsidian = (e) => {
+    this.setIsObsidian(
+      e.target.type === "checkbox" ? e.target.checked : e.target.value
+    );
+  };
+
   //Options
 
   //Teotibot starting resources
@@ -382,6 +403,21 @@ export class AppContainer extends React.Component {
     }
   };
 
+  onIncreaseTeotibotResourcesToGain = (e) => {
+    if (this.state.teotibotResourcesToGain < 2) {
+      this.setState({
+        teotibotResourcesToGain: this.state.teotibotResourcesToGain + 1,
+      });
+    }
+  };
+  onDecreaseTeotibotResourcesToGain = (e) => {
+    if (this.state.teotibotResourcesToGain > 1) {
+      this.setState({
+        teotibotResourcesToGain: this.state.teotibotResourcesToGain - 1,
+      });
+    }
+  };
+
   start = () => {
     this.setState({
       screenMode: SetupScreen,
@@ -445,6 +481,7 @@ export class AppContainer extends React.Component {
           <Setup
             startApp={this.startApp}
             isXitle={this.state.isXitle}
+            isObsidian={this.state.isObsidian}
             isHeightOfDevelopment={this.state.isHeightOfDevelopment}
             isPriestAndPriestess={this.state.isPriestAndPriestess}
             isAlternateTeotibotMovement={this.state.isAlternateTeotibotMovement}
@@ -469,6 +506,7 @@ export class AppContainer extends React.Component {
         <TileList
           back={this.back}
           isXitle={this.state.isXitle}
+          isObsidian={this.state.isObsidian}
           isHeightOfDevelopment={this.state.isHeightOfDevelopment}
           isAlternateTeotibotMovement={this.state.isAlternateTeotibotMovement}
           teotibotVPFor10Cocoa={this.state.teotibotVPFor10Cocoa}
@@ -482,6 +520,7 @@ export class AppContainer extends React.Component {
           dice1={this.state.dice1}
           dice2={this.state.dice2}
           teotibotStepsPerWorship={this.state.teotibotStepsPerWorship}
+          teotibotResourcesToGain={this.state.teotibotResourcesToGain}
         />
       );
     } else if (this.state.screenMode === OptionsScreen) {
@@ -491,9 +530,11 @@ export class AppContainer extends React.Component {
           onChangeXitle={this.onChangeXitle}
           isPriestAndPriestess={this.state.isPriestAndPriestess}
           onChangeIsPriestAndPriestess={this.onChangeIsPriestAndPriestess}
+          isObsidian={this.state.isObsidian}
+          onChangeIsObsidian={this.onChangeIsObsidian}
           isSeasonsOfProgress={this.state.isSeasonsOfProgress}
-          isSetupComplete={this.state.isSetupComplete}
           onChangeIsSeasonsOfProgress={this.onChangeIsSeasonsOfProgress}
+          isSetupComplete={this.state.isSetupComplete}
           isHeightOfDevelopment={this.state.isHeightOfDevelopment}
           isAlternateTeotibotMovement={this.state.isAlternateTeotibotMovement}
           onChangeAlternateTeotibotMovement={
@@ -559,6 +600,13 @@ export class AppContainer extends React.Component {
           }
           onDecreaseTeotibotWorkerPowerForAction8={
             this.onDecreaseTeotibotWorkerPowerForAction8
+          }
+          teotibotResourcesToGain={this.state.teotibotResourcesToGain}
+          onIncreaseTeotibotResourcesToGain={
+            this.onIncreaseTeotibotResourcesToGain
+          }
+          onDecreaseTeotibotResourcesToGain={
+            this.onDecreaseTeotibotResourcesToGain
           }
           newGame={this.newGame}
           back={this.back}

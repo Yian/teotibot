@@ -35,12 +35,14 @@ export class QuestionForm extends React.Component {
       masteryAnswers: [],
       questions: TilesToQuestions(
         props.tileSrc,
+        props.isAlternateTeotibotMovement,
+        props.topDirectionTile,
+        props.isObsidian,
+        props.teotibotResourcesToGain,
         props.teotibotStepsPerWorship,
         props.teotibotVPFor10Cocoa,
         props.eclipseStage,
-        props.isHeightOfDevelopment,
-        props.isAlternateTeotibotMovement,
-        props.topDirectionTile
+        props.isHeightOfDevelopment
       ),
       fromMastery: false,
       neutralPlacements1: [],
@@ -70,7 +72,8 @@ export class QuestionForm extends React.Component {
 
   onRestartQuestions(i) {
     if (this.state.fromMastery) {
-      const masteryAnswers = [...this.state.masteryAnswers, i];
+      const masteryAnswers =
+        i > 0 ? [...this.state.masteryAnswers, i] : this.state.masteryAnswers;
       this.setState({
         fromMastery: false,
         questions: TilesToQuestions("mastery"),
@@ -84,16 +87,20 @@ export class QuestionForm extends React.Component {
     }
   }
 
-  onClickMasteryOption(tileSrc, isAlternateTeotibotMovement, topDirectionTile) {
+  onClickMasteryOption(
+    tileSrc,
+    isAlternateTeotibotMovement,
+    topDirectionTile,
+    isObsidian,
+    teotibotResourcesToGain
+  ) {
     this.setState({
       questions: TilesToQuestions(
         tileSrc,
-        null,
-        null,
-        null,
-        null,
         isAlternateTeotibotMovement,
-        topDirectionTile
+        topDirectionTile,
+        isObsidian,
+        teotibotResourcesToGain
       ),
       fromMastery: true,
     });
@@ -208,7 +215,9 @@ export class QuestionForm extends React.Component {
                   resource/cocoa.
                 </li>
                 <li>
-                  <span className="bold">{this.props.teotibotVPForTechTiles}</span>{" "}
+                  <span className="bold">
+                    {this.props.teotibotVPForTechTiles}
+                  </span>{" "}
                   Victory Points for Technology{" "}
                   {parse(getResourceImage("tech"))} it has a marker on.
                 </li>
@@ -249,7 +258,9 @@ export class QuestionForm extends React.Component {
                       this.onClickMasteryOption(
                         question.action,
                         this.props.isAlternateTeotibotMovement,
-                        this.props.topDirectionTile
+                        this.props.topDirectionTile,
+                        this.props.isObsidian,
+                        this.props.teotibotResourcesToGain
                       )
                     }
                   >

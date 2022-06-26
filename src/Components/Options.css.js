@@ -49,8 +49,8 @@ export const options = css`
       cursor: pointer;
 
       @media ${mediaQueries.isMaxXs} {
-        width: 35px;
-        height: 35px;
+        width: 30px;
+        height: 30px;
       }
     }
 

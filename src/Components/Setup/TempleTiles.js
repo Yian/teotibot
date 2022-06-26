@@ -24,11 +24,14 @@ export const TempleTiles = (props) => {
   const [ref, { width }] = useMeasure();
 
   // Hook3: Hold items
-  const templeTiles = baseTempleTiles;
-  const [items, set] = useState(templeTiles);
+  const [items, set] = useState([]);
 
   // Hook4: shuffle data every 2 seconds
   useEffect(() => {
+    if (items.length <= 0) {
+      set(props.templeTiles);
+    }
+
     const t = setInterval(() => {
       if (items.length >= 4) {
         items.pop();

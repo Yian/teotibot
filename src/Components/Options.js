@@ -78,9 +78,16 @@ export const Options = (props) => {
           />
         </div>
         <div css={expansionOptions}>
-          <div className={"checkbox-container"}>
+        <div className={"checkbox-container"}>
             <Checkbox
-              label="Alternative Teotibot Movement"
+              label="Obsidian"
+              checked={props.isObsidian}
+              onChange={props.onChangeIsObsidian}
+            />
+          </div>
+        <div className={"checkbox-container"}>
+            <Checkbox
+              label="Alt. Teotibot movement"
               checked={props.isAlternateTeotibotMovement}
               onChange={props.onChangeAlternateTeotibotMovement}
             />
@@ -190,6 +197,19 @@ export const Options = (props) => {
               <img className="vp" src="./resources/vp.png" alt="VP" />{" "}
               <img src="./resources/tech.png" alt="VP" />{" "}
               <span onClick={props.onDecreaseTeotibotVPForTechTiles}>-</span>
+            </div>
+          </div>
+        </div>
+        <div css={optionsSection}>
+          <h3>Gaining resources</h3>
+          <div css={optionsTeotibotStartingResources}>
+            <div css={teotibotResourceContainer}>
+              <span onClick={props.onIncreaseTeotibotResourcesToGain}>+</span>
+              <span>{props.teotibotResourcesToGain}</span>
+              <img src="./resources/any.png" alt="any" />
+              <span>1</span>
+              <img src="./resources/obsidian.png" alt="any" />
+              <span onClick={props.onDecreaseTeotibotResourcesToGain}>-</span>
             </div>
           </div>
         </div>

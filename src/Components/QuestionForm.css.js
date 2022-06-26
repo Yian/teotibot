@@ -112,6 +112,11 @@ export const questionModalContent = css`
     color: #30c5bd;
   }
 
+  .height {
+    display: block;
+    margin: 20px 0;
+  }
+  
   .margin {
     margin: 1rem 0;
   }

@@ -417,9 +417,11 @@ export const TileList = (props) => {
             tileName={tiles[selectedTileIndex].name}
             eclipseStage={eclipse}
             tileSrc={tiles[selectedTileIndex].src}
+            teotibotResourcesToGain={props.teotibotResourcesToGain}
             teotibotStepsPerWorship={props.teotibotStepsPerWorship}
             teotibotVPFor10Cocoa={props.teotibotVPFor10Cocoa}
             isAlternateTeotibotMovement={props.isAlternateTeotibotMovement}
+            isObsidian={props.isObsidian}
             topDirectionTile={directionTiles[directionOrdering[0]]}
           />
         )}

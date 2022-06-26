@@ -19,6 +19,14 @@ import {
   baseStartTiles,
   xitleStartTiles,
   initialTeotibotStartingResources,
+  periodStartTiles,
+  baseTechTiles,
+  xitleTechTiles,
+  periodTechTiles,
+  baseTempleTiles,
+  basePriestPriestessTiles,
+  baseTeotiPriestPriestessTiles,
+  obsidianPriestPriestessTiles,
 } from "../Constants";
 
 export const Setup = (props) => {
@@ -28,6 +36,10 @@ export const Setup = (props) => {
   const neutralPlayerResourceRef = useRef(null);
   const continueRef = useRef(null);
   const [startTiles, setStartTiles] = useState([]);
+  const [techTiles, setTechTiles] = useState([]);
+  const [templeTiles, setTempleTiles] = useState([]);
+  const [priestPriestessTiles, setPriestPriestessTiles] = useState([]);
+  const [teotibotPriestPriestessTiles, setTeotibotPriestPriestessTiles] = useState([]);
   const [hasScrolled, setHasScrolled] = useState(false);
   const [selectedStartTiles, setSelectedStartTiles] = useState([]);
   const [selectedResources, setSelectedResources] = useState([]);
@@ -120,11 +132,29 @@ export const Setup = (props) => {
   }, []);
 
   useEffect(() => {
-    const tiles = props.isXitle
-      ? [...baseStartTiles, ...xitleStartTiles]
-      : baseStartTiles;
-    setStartTiles(tiles);
-  }, [props.isXitle]);
+    let startTiles = baseStartTiles;
+    let techTiles = baseTechTiles;
+    let templeTiles = baseTempleTiles;
+    let priestPriestessTiles = basePriestPriestessTiles;
+    let teotibotPriestPriestessTiles = baseTeotiPriestPriestessTiles;
+
+    if (props.isXitle) {
+      startTiles = [...startTiles, ...xitleStartTiles]
+      techTiles = [...techTiles, ...xitleTechTiles];
+    }
+
+    if (props.isObsidian) {
+      startTiles = [...startTiles, ...periodStartTiles]
+      techTiles = [...techTiles, ...periodTechTiles];
+      priestPriestessTiles = [...priestPriestessTiles, ...obsidianPriestPriestessTiles]
+    }
+
+    setStartTiles(startTiles);
+    setTechTiles(techTiles);
+    setTempleTiles(templeTiles);
+    setPriestPriestessTiles(priestPriestessTiles)
+    setTeotibotPriestPriestessTiles(teotibotPriestPriestessTiles)
+  }, [props.isXitle, props.isObsidian]);
 
   useEffect(() => {
     if (selectedStartTiles.length >= 2) {
@@ -251,13 +281,13 @@ export const Setup = (props) => {
       {showTechs && (
         <div css={setupSection}>
           <h3>Upgrade Tiles</h3>
-          <TechTiles isXitle={props.isXitle} onRest={onRest} />
+          <TechTiles techTiles={techTiles} onRest={onRest} />
         </div>
       )}
       {showTemples && (
         <div css={setupSection}>
           <h3>Temple Tiles</h3>
-          <TempleTiles isXitle={props.isXitle} onRest={onRest} />
+          <TempleTiles templeTiles={templeTiles} onRest={onRest} />
         </div>
       )}
       <div css={setupSection} ref={startTileRef}>
@@ -266,7 +296,6 @@ export const Setup = (props) => {
             <h3>Select 2 Start Tiles:</h3>
             <StartTiles
               startTiles={startTiles}
-              isXitle={props.isXitle}
               selectedStartTiles={selectedTile}
             />
           </div>
@@ -286,7 +315,7 @@ export const Setup = (props) => {
         {showPlayerPriestPriestessTiles && (
           <div css={setupSection}>
             <h3>Priest/Priestess Tiles:</h3>
-            <PriestPriestessTiles numberToPick={2} />
+            <PriestPriestessTiles priestPriestessTiles={priestPriestessTiles} numberToPick={2} />
           </div>
         )}
         {showPlayerPlacements && (
@@ -310,7 +339,7 @@ export const Setup = (props) => {
         {showTeotibotPriestPriestessTiles && (
           <div>
             <h3>Teotibot Priest/Priestess Tile:</h3>
-            <PriestPriestessTiles numberToPick={1} isTeotibot={true} />
+            <PriestPriestessTiles priestPriestessTiles={teotibotPriestPriestessTiles} numberToPick={1}/>
           </div>
         )}
         {showTeotibotDice && (

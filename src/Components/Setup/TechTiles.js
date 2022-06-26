@@ -6,7 +6,6 @@ import useMeasure from "react-use-measure";
 import { useTransition, a } from "@react-spring/web";
 import { tileContainer, techTile } from "./Setup.css";
 import { shuffle } from "lodash";
-import { baseTechTiles, xitleTechTiles } from "../Constants";
 import Tippy, { useSingleton } from "@tippyjs/react";
 import "tippy.js/dist/tippy.css";
 
@@ -23,13 +22,15 @@ export const TechTiles = (props) => {
   // Hook2: Measure the width of the container element
   const [ref, { width }] = useMeasure();
   // Hook3: Hold items
-  const templeTiles = props.isXitle
-    ? [...baseTechTiles, ...xitleTechTiles]
-    : baseTechTiles;
-  const [items, set] = useState(templeTiles);
+  
+  const [items, set] = useState([]);
 
   // Hook4: shuffle data every 2 seconds
   useEffect(() => {
+    if (items.length <= 0) {
+      set(props.techTiles);
+    }
+
     const t = setInterval(() => {
       if (items.length >= 7) {
         items.pop();
@@ -55,7 +56,7 @@ export const TechTiles = (props) => {
     setTimeout(() => {
       props.onRest();
     }, 500);
-  }
+  };
 
   // Hook6: Turn the static grid values into animated transitions, any addition, removal or change will be animated
   const transitions = useTransition(gridItems, {
@@ -66,7 +67,7 @@ export const TechTiles = (props) => {
     leave: { height: 0, opacity: 0 },
     config: { mass: 5, tension: 500, friction: 50 },
     trail: 25,
-    onRest
+    onRest,
   });
 
   return (

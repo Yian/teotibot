@@ -14,7 +14,7 @@ import {
 
 export const num_trans = [
   {
-    fig: 'L',
+    fig: "L",
     op: { range: [0.75, 1], output: [0, 1] },
     trans: {
       range: [0.75, 1],
@@ -23,7 +23,7 @@ export const num_trans = [
     },
   },
   {
-    fig: 'o',
+    fig: "o",
     op: {
       range: [0.25, 0.5],
       output: [0, 1],
@@ -35,7 +35,7 @@ export const num_trans = [
     },
   },
   {
-    fig: 'a',
+    fig: "a",
     op: {
       range: [0, 0.25],
       output: [0, 1],
@@ -47,7 +47,7 @@ export const num_trans = [
     },
   },
   {
-    fig: 'd',
+    fig: "d",
     op: {
       range: [0.5, 0.75],
       output: [0, 1],
@@ -59,7 +59,7 @@ export const num_trans = [
     },
   },
   {
-    fig: 'i',
+    fig: "i",
     op: { range: [0.75, 1], output: [0, 1] },
     trans: {
       range: [0.75, 1],
@@ -68,7 +68,7 @@ export const num_trans = [
     },
   },
   {
-    fig: 'n',
+    fig: "n",
     op: {
       range: [0.25, 0.5],
       output: [0, 1],
@@ -80,7 +80,7 @@ export const num_trans = [
     },
   },
   {
-    fig: 'g',
+    fig: "g",
     op: {
       range: [0, 0.25],
       output: [0, 1],
@@ -110,6 +110,7 @@ export const resourcesToPreload = [
   "cancel",
   "cocoa",
   "discovery",
+  "mdiscovery",
   "eclipse",
   "gold",
   "hod1",
@@ -141,8 +142,10 @@ const templeBlue = "tb";
 const templeGreen = "tg";
 const templeOrange = "to";
 const powerup = "powerup";
+const obsidian = "obsidian";
 const tech = "tech";
 const discovery = "discovery";
+const majorDiscovery = "mdiscovery";
 const worship = "worship";
 const worker = "worker";
 const ascension = "ascension";
@@ -150,6 +153,7 @@ const pyramid = "pyramid";
 const templeWild = "tw";
 const base = "base";
 const xitle = "xitle";
+const period = "period";
 
 const alchemy = "alchemy";
 const construction = "construction";
@@ -661,6 +665,35 @@ export const xitleStartTiles = [
   },
 ];
 
+export const periodStartTiles = [
+  {
+    name: "PST1",
+    numbers: [5, 5],
+    tooltip:
+      "Gain an obsidian, increase the power of one of your starting workers, and you may claim a random Major Discovery tile (by paying its cost). You may look at the Major Discovery tile before deciding to pick this tile.",
+    resources: [
+      { quantity: 1, type: majorDiscovery },
+      { quantity: 1, type: powerup },
+      { quantity: 1, type: obsidian },
+    ],
+    selected: false,
+    duplicateNumbers: true,
+    src: period,
+  },
+  {
+    name: "PST2",
+    numbers: [1, 6],
+    tooltip: "Gain 3 obsidian and 4 cocoa.",
+    resources: [
+      { quantity: 3, type: obsidian },
+      { quantity: 4, type: cocoa },
+    ],
+    selected: false,
+    duplicateNumbers: true,
+    src: period,
+  },
+];
+
 // Tech tiles
 export const baseTechTiles = [
   {
@@ -782,6 +815,26 @@ export const xitleTechTiles = [
   },
 ];
 
+export const periodTechTiles = [
+  {
+    name: "PTT1",
+    tooltip: "When gaining “any resource” you may gain obsidian instead.",
+    src: period,
+  },
+  {
+    name: "PTT2",
+    tooltip:
+      "You may spend 1 obsidian in place of up to 3 cocoa. No change is given.",
+    src: period,
+  },
+  {
+    name: "PTT3",
+    tooltip:
+      "Whenever you perform the Collect Cocoa action or Worship at a Royal tile, gain 1 obsidian.",
+    src: period,
+  },
+];
+
 // Temple Tiles
 export const baseTempleTiles = [
   {
@@ -834,6 +887,8 @@ export const basePriestPriestessTiles = [
   { name: "pp9", src: base },
   { name: "pp10", src: base },
 ];
+
+export const obsidianPriestPriestessTiles = [{ name: "ppp1", src: obsidian }];
 
 export const baseTeotiPriestPriestessTiles = [
   { name: "ppt1", src: base },
@@ -902,7 +957,9 @@ export const powerupMsg = (
   return `<div>Teotibot gains
 5 cocoa ${getResourceImage(
     "5cocoa"
-  )} (exchange 10 cocoa for <span class="bold">${teotibotVPFor10Cocoa}</span> VP), powers up ${getResourceImage(
+  )} (exchange <span class="bold">10</span> cocoa for <span class="bold">${teotibotVPFor10Cocoa}</span> VP ${getResourceImage(
+    "VP"
+  )}), powers up ${getResourceImage(
     "powerup"
   )} its lowest powered worker, and
 then advances it:</div>${advancement(
@@ -925,43 +982,273 @@ const templeTip = `<div class="templeTip"><div>*Advance Teotibot on its highest 
 )} -> ${getResourceImage("wood")}
 </div></div>`;
 
-const alchemyQuestions = (isAlternateTeotibotMovement, topDirectionTile) => {
+const getResources = (type, isObsidian, teotibotResourcesToGain) => {
+  return !isObsidian
+    ? `<span class="bold">2</span> ${type} ${getResourceImage(type)}`
+    : `<span class="bold">${teotibotResourcesToGain}</span> ${type} ${getResourceImage(
+        type
+      )} and <span class="bold">1</span> obsidian ${getResourceImage(
+        "obsidian"
+      )}`;
+};
+
+const hasResources = (type, isObsidian, numResources) => {
+  return `<span class="bold">${numResources}</span> or more ${type} ${getResourceImage(
+    type
+  )} ${
+    isObsidian ? `(including obsidian ${getResourceImage("obsidian")})` : ""
+  }`;
+};
+
+const hasResourcesOnBoard = (
+  action,
+  type,
+  actionNo,
+  numResources,
+  isObsidian
+) => {
+  return `<div>Does Teotibot have ${hasResources(
+    type,
+    isObsidian,
+    numResources
+  )} and at least one worker on the ${action} ${getActionImage(
+    `no${actionNo}`
+  )} Action Board?</div>`;
+};
+
+const spendResources = (type, isObsidian, numResources) => {
+  return `<span class="bold">${numResources}</span> ${type} ${getResourceImage(
+    type
+  )} ${
+    isObsidian ? `(spending obsidian ${getResourceImage("obsidian")} last)` : ""
+  }`;
+};
+
+const getGoldDepositsReward = (
+  isAlternateTeotibotMovement,
+  topDirectionTile,
+  isObsidian,
+  teotibotResourcesToGain
+) => {
+  return `<div>Teotibot gains ${getResources(gold, isObsidian, teotibotResourcesToGain)}</div>
+  <div class="margin">Power up Teotibots worker ${getResourceImage(
+    "powerup"
+  )} on the Gold Deposits ${getActionImage("no4")}
+  Action Board (this might trigger an Ascension, which is resolved
+  normally). Then advance the powered-up worker (or the new worker, if the
+  old one triggered Ascension)
+  ${advancement(isAlternateTeotibotMovement, topDirectionTile)}
+  </div>`;
+};
+
+const getQuarryReward = (
+  isAlternateTeotibotMovement,
+  topDirectionTile,
+  isObsidian,
+  teotibotResourcesToGain
+) => {
+  return `<div>Teotibot gains ${getResources(stone, isObsidian, teotibotResourcesToGain)}</div>
+  <div class="margin">Power up Teotibots worker ${getResourceImage(
+    "powerup"
+  )} on the Stone Quarry ${getActionImage("no3")}
+  Action Board (this might trigger an Ascension, which is resolved
+  normally). Then advance the powered-up worker (or the new worker, if the
+  old one triggered Ascension)
+  ${advancement(isAlternateTeotibotMovement, topDirectionTile)}
+  </div>`;
+};
+
+const getForestReward = (
+  isAlternateTeotibotMovement,
+  topDirectionTile,
+  isObsidian,
+  teotibotResourcesToGain
+) => {
+  return `<div>Teotibot gains ${getResources(wood, isObsidian, teotibotResourcesToGain)}</div>
+  <div class="margin">Power up Teotibots worker ${getResourceImage(
+    "powerup"
+  )} on the Forest ${getActionImage("no2")}
+  Action Board (this might trigger an Ascension, which is resolved
+  normally). Then advance the powered-up worker (or the new worker, if the
+  old one triggered Ascension)
+  ${advancement(isAlternateTeotibotMovement, topDirectionTile)}
+  </div>`;
+};
+
+const getConstructionReward = (
+  isAlternateTeotibotMovement,
+  topDirectionTile,
+  numResources,
+  isObsidian
+) => {
+  return `<div>Teotibot spends ${spendResources(
+    stone,
+    isObsidian,
+    numResources
+  )} and places the leftmost pyramid ${getResourceImage("pyramidt")}
+tile (rotated randomly) onto the top left,
+lowest level space available on the Pyramid grid of the Main
+Board. 
+Then Teotibot: <ul>
+<li>Scores Victory Points ${getResourceImage(
+    "vp"
+  )} for the level.</li><li>Advances on the Pyramid ${getResourceImage(
+    "pyramid"
+  )} track.</li>
+<li><span class="bold">Advances*</span> on any temple by one. ${getResourceImage(
+    "tw"
+  )}</li><li>Scores an additional <span class="bold">2</span> Victory Points ${getResourceImage(
+    "vp"
+  )} (Note: This represents average points the
+bot would score by matching icons.)</li>
+</ul></div>
+<div>
+Power up ${getResourceImage("powerup")} Teotibots worker ${getDiceImage(
+    "d3"
+  )} on the Construction ${getActionImage("no8")}
+Action Board (resolve any Ascensions normally). Then advance the powered-up worker (or the new worker, if the
+old one triggered Ascension)
+${advancement(isAlternateTeotibotMovement, topDirectionTile)}
+${templeTip}
+</div>`;
+};
+
+const isOnActionBoard = (type, num) => {
+  return `<div>Does Teotibot have at least one worker on the ${type} ${getActionImage(
+    `no${num}`
+  )} Action Board? </div>`;
+};
+
+const getAlchemyReward = (
+  isAlternateTeotibotMovement,
+  topDirectionTile,
+  isObsidian
+) => {
+  return `<div> Teotibot spends ${spendResources(
+    gold,
+    isObsidian,
+    1
+  )} and then gains
+the Technology ${getResourceImage(
+    "tech"
+  )} of the lowest number that does not have any markers (yours or Teotibot's). 
+<ul>
+<li>If all remaining tiles have your marker on, then the bot
+gains the lowest numbered Technology which it does not
+yet have, while you score the <span class="bold">3</span> Victory Points ${getResourceImage(
+    "vp"
+  )} as normal.</li></ul>
+Either way, advance on the temple ${getResourceImage("tw")} matching the gained
+Technology ${getResourceImage("tech")} and power up ${getResourceImage(
+    "powerup"
+  )} a worker on this Action Board
+(resolve any Ascensions normally). Then the bot advances the powered-up worker
+(or the new worker, if the old one triggered Ascension).
+${advancement(isAlternateTeotibotMovement, topDirectionTile)}
+</div>
+<div>
+</div>`;
+};
+
+const getNoblesReward = (
+  isAlternateTeotibotMovement,
+  topDirectionTile,
+  eclipseStage,
+  isObsidian
+) => {
+  const getElipseBuilding = () => {
+    if (eclipseStage === 0) {
+      return `<li>Place it in the <span class="bold">first (top)</span> row.</li>`;
+    }
+    if (eclipseStage === 1) {
+      return `<li>Place it in the <span class="bold">second (center)</span> row.</li>`;
+    }
+    if (eclipseStage === 2) {
+      return `<li>Place it in the <span class="bold">third (bottom)</span> row.</li>`;
+    }
+  };
+
+  return `<div>Teotibot spends ${spendResources(
+    wood,
+    isObsidian,
+    2
+  )} and builds a Building.
+<ul>
+${getElipseBuilding(eclipseStage)}
+<li>If a row is full, place it into a space with the lowest printed
+Victory Point value of all three rows.</li>
+<li>Score the Victory Points ${getResourceImage(
+    "vp"
+  )} shown on the space just covered,
+and advance the bot on the Avenue of the Dead ${getResourceImage(
+    "powerup"
+  )} (the same
+way an actual player would advance).</li>
+</ul></div>
+<div>
+Power up ${getResourceImage("powerup")} Teotibots worker ${getDiceImage(
+    "d3"
+  )} on the Nobles
+Action Board ${getActionImage(
+    "no6"
+  )} (this might trigger an Ascension, which is resolved
+normally). Then advance the powered-up worker (or the new worker, if the
+old one triggered Ascension)
+${advancement(isAlternateTeotibotMovement, topDirectionTile)}
+</div>`;
+};
+
+const getDecorationsReward = (
+  isAlternateTeotibotMovement,
+  topDirectionTile,
+  isObsidian
+) => {
+  return `<div> Teotibot spends ${spendResources(
+    gold,
+    isObsidian,
+    2
+  )} and places the topmost Decoration 
+tile onto an available Decorations space on the Pyramid grid on the Main Board (clockwise from the top). 
+Then Teotibot: <ul>
+<li>Scores 5 Victory Points ${getResourceImage(
+    "vp"
+  )}.</li><li>Advances on the Pyramid track. ${getResourceImage("pyramid")}</li>
+<li><span class="bold" data-tip data-for='templeAdvance'>Advances*</span> on any temple by one. ${getResourceImage(
+    "tw"
+  )}</li>
+</ul></div>
+<div>
+Power up ${getResourceImage("powerup")} Teotibots worker ${getDiceImage(
+    "d3"
+  )} on the Decorations
+Action Board ${getActionImage(
+    "no7"
+  )} (resolve any Ascensions normally). Then advance the powered-up worker (or the new worker, if the
+old one triggered Ascension)
+${advancement(isAlternateTeotibotMovement, topDirectionTile)}
+${templeTip}
+</div>`;
+};
+
+// Questions
+const alchemyQuestions = (
+  isAlternateTeotibotMovement,
+  topDirectionTile,
+  isObsidian,
+) => {
   return [
     {
-      question: `<div>Does Teotibot have <span class="bold">1</span> or more gold ${getResourceImage(
-        "gold"
-      )} and at least one worker on the Alchemy ${getActionImage(
-        "no5"
-      )} Action Board?</div>`,
+      question: hasResourcesOnBoard("Alchemy", gold, 5, 1, isObsidian),
       questionId: 1,
       condition: ({ answers }) => isEmpty(answers),
       margin: 50,
     },
     {
-      question: `<div> Teotibot spends <span class="bold">1 gold</span> ${getResourceImage(
-        "gold"
-      )} and then gains
-    the Technology ${getResourceImage(
-      "tech"
-    )} of the lowest number that does not have any markers (yours or Teotibot's). 
-    <ul>
-    <li>If all remaining tiles have your marker on, then the bot
-    gains the lowest numbered Technology which it does not
-    yet have, while you score the <span class="bold">3</span> Victory Points ${getResourceImage(
-      "vp"
-    )} as normal.</li></ul>
-    Either way, advance on the temple ${getResourceImage(
-      "tw"
-    )} matching the gained
-    Technology ${getResourceImage("tech")} and power up ${getResourceImage(
-        "powerup"
-      )} a worker on this Action Board
-    (resolve any Ascensions normally). Then the bot advances the powered-up worker
-    (or the new worker, if the old one triggered Ascension).
-    ${advancement(isAlternateTeotibotMovement, topDirectionTile)}
-   </div>
-    <div>
-  </div>`,
+      question: getAlchemyReward(
+        isAlternateTeotibotMovement,
+        topDirectionTile,
+        isObsidian,
+      ),
       questionId: 2,
       condition: ({ answers }) => answers[1] === "yes",
       isEnd: true,
@@ -971,7 +1258,7 @@ const alchemyQuestions = (isAlternateTeotibotMovement, topDirectionTile) => {
       question: `Power up ${getResourceImage("powerup")} ${getResourceImage(
         "powerup"
       )} its lowest unlocked worker
-    by 2, without carrying out any actions or advancing any
+    by <span class="bold">2</span>, without carrying out any actions or advancing any
     workers.`,
       questionId: 3,
       condition: ({ answers }) =>
@@ -985,75 +1272,42 @@ const alchemyQuestions = (isAlternateTeotibotMovement, topDirectionTile) => {
 const decorationQuestions = (
   isAlternateTeotibotMovement,
   topDirectionTile,
-  teotibotVPFor10Cocoa
+  teotibotVPFor10Cocoa,
+  isObsidian,
+  teotibotResourcesToGain
 ) => {
   return [
     {
-      question: `<div>Does Teotibot have <span class="bold">2</span> or more gold ${getResourceImage(
-        "gold"
-      )} and at least one worker on the Decorations ${getActionImage(
-        "no7"
-      )} Action Board?</div>`,
+      question: hasResourcesOnBoard("Decorations", gold, 7, 2, isObsidian),
       questionId: 1,
       condition: ({ answers }) => isEmpty(answers),
       margin: 50,
     },
     {
-      question: `<div> Teotibot spends <span class="bold">2</span> gold ${getResourceImage(
-        "gold"
-      )} and places the topmost Decoration 
-    tile onto an available Decorations space on the Pyramid grid on the Main Board (clockwise from the top). 
-    Then Teotibot: <ul>
-    <li>Scores 5 Victory Points ${getResourceImage(
-      "vp"
-    )}.</li><li>Advances on the Pyramid track. ${getResourceImage(
-        "pyramid"
-      )}</li>
-    <li><span class="bold" data-tip data-for='templeAdvance'>Advances*</span> on any temple by 1. ${getResourceImage(
-      "tw"
-    )}</li>
-    </ul></div>
-    <div>
-    Power up ${getResourceImage("powerup")} Teotibots worker ${getDiceImage(
-        "d3"
-      )} on the Decorations
-    Action Board ${getActionImage(
-      "no7"
-    )} (resolve any Ascensions normally). Then advance the powered-up worker (or the new worker, if the
-    old one triggered Ascension)
-    ${advancement(
-      isAlternateTeotibotMovement,
-      topDirectionTile,
-      teotibotVPFor10Cocoa
-    )}
-    ${templeTip}
-  </div>`,
+      question: getDecorationsReward(
+        isAlternateTeotibotMovement,
+        topDirectionTile,
+        isObsidian
+      ),
       questionId: 2,
       condition: ({ answers }) => answers[1] === "yes",
       isEnd: true,
       margin: 50,
     },
     {
-      question: `<div>Does Teotibot have at least one worker on the Gold Deposits ${getActionImage(
-        "no4"
-      )} Action Board? </div>`,
+      question: isOnActionBoard("Gold Deposits", 4),
       questionId: 3,
       condition: ({ answers }) =>
         answers[1] === "no" && answers[3] === undefined,
       margin: 50,
     },
     {
-      question: `<div>Teotibot gains <span class="bold">2</span> gold ${getResourceImage(
-        "gold"
-      )}
-    </div><div class="margin">Power up Teotibots worker ${getResourceImage(
-      "powerup"
-    )} on the Gold Deposits ${getActionImage("no4")}
-    Action Board (resolve any Ascensions normally). Then advance the powered-up worker (or the new worker, if the
-    old one triggered Ascension)</div>${advancement(
-      isAlternateTeotibotMovement,
-      topDirectionTile
-    )}`,
+      question: getGoldDepositsReward(
+        isAlternateTeotibotMovement,
+        topDirectionTile,
+        isObsidian,
+        teotibotResourcesToGain
+      ),
       questionId: 4,
       condition: ({ answers }) => answers[3] === "yes",
       isEnd: true,
@@ -1067,6 +1321,7 @@ const decorationQuestions = (
       ),
       questionId: 5,
       condition: ({ answers }) => answers[3] === "no",
+      margin: 50,
       isEnd: true,
     },
   ];
@@ -1075,75 +1330,43 @@ const decorationQuestions = (
 const constructionQuestions = (
   isAlternateTeotibotMovement,
   topDirectionTile,
-  teotibotVPFor10Cocoa
+  teotibotVPFor10Cocoa,
+  isObsidian,
+  teotibotResourcesToGain
 ) => {
   return [
     {
-      question: `<div>Does Teotibot have <span class="bold">2</span> or more stone ${getResourceImage(
-        "stone"
-      )} and at least one worker on the Construction ${getActionImage(
-        "no8"
-      )} Action Board?</div>`,
+      question: hasResourcesOnBoard("Construction", stone, 8, 2, isObsidian),
       questionId: 1,
       condition: ({ answers }) => isEmpty(answers),
       margin: 50,
     },
     {
-      question: `<div>Teotibot spends <span class="bold">2</span> stone ${getResourceImage(
-        "stone"
-      )} and places the leftmost pyramid ${getResourceImage("pyramidt")}
-    tile (rotated randomly) onto the top left,
-    lowest level space available on the Pyramid grid of the Main
-    Board. 
-    Then Teotibot: <ul>
-    <li>Scores Victory Points ${getResourceImage(
-      "vp"
-    )} for the level.</li><li>Advances on the Pyramid ${getResourceImage(
-        "pyramid"
-      )} track.</li>
-    <li><span class="bold">Advances*</span> on any temple by one. ${getResourceImage(
-      "tw"
-    )}</li><li>Scores an additional <span class="bold">2</span> Victory Points ${getResourceImage(
-        "vp"
-      )} (Note: This represents average points the
-    bot would score by matching icons.)</li>
-    </ul></div>
-    <div>
-    Power up ${getResourceImage("powerup")} Teotibots worker ${getDiceImage(
-        "d3"
-      )} on the Construction ${getActionImage("no7")}
-    Action Board (resolve any Ascensions normally). Then advance the powered-up worker (or the new worker, if the
-    old one triggered Ascension)
-    ${advancement(isAlternateTeotibotMovement, topDirectionTile)}
-    ${templeTip}
-  </div>`,
+      question: getConstructionReward(
+        isAlternateTeotibotMovement,
+        topDirectionTile,
+        2,
+        isObsidian
+      ),
       questionId: 2,
       condition: ({ answers }) => answers[1] === "yes",
       isEnd: true,
       margin: 50,
     },
     {
-      question: `<div>Does Teotibot have at least one worker on the Stone Quarry ${getActionImage(
-        "no3"
-      )} Action Board?</div>`,
+      question: isOnActionBoard("Stone Quarry", 3),
       questionId: 3,
       condition: ({ answers }) =>
         answers[1] === "no" && answers[3] === undefined,
       margin: 50,
     },
     {
-      question: `<div>Teotibot gains <span class="bold">2</span> stone ${getResourceImage(
-        "stone"
-      )}
-
-    </div><div class="margin">Power up Teotibots worker ${getResourceImage(
-      "powerup"
-    )} on the Stone Quarry ${getActionImage("no3")}
-    Action Board (this might trigger an Ascension, which is resolved
-    normally). Then advance the powered-up worker (or the new worker, if the
-    old one triggered Ascension)</div>
-    ${advancement(isAlternateTeotibotMovement, topDirectionTile)}
-    `,
+      question: getQuarryReward(
+        isAlternateTeotibotMovement,
+        topDirectionTile,
+        isObsidian,
+        teotibotResourcesToGain
+      ),
       questionId: 4,
       condition: ({ answers }) => answers[3] === "yes",
       isEnd: true,
@@ -1164,84 +1387,46 @@ const constructionQuestions = (
 };
 
 const noblesQuestions = (
-  eclipseStage,
   isAlternateTeotibotMovement,
   topDirectionTile,
-  teotibotVPFor10Cocoa
+  teotibotVPFor10Cocoa,
+  eclipseStage,
+  isObsidian,
+  teotibotResourcesToGain
 ) => {
-  const getElipseBuilding = () => {
-    if (eclipseStage === 0) {
-      return `<li>Place it in the <span class="bold">first (top)</span> row.</li>`;
-    }
-    if (eclipseStage === 1) {
-      return `<li>Place it in the <span class="bold">second (center)</span> row.</li>`;
-    }
-    if (eclipseStage === 2) {
-      return `<li>Place it in the <span class="bold">third (bottom)</span> row.</li>`;
-    }
-  };
   return [
     {
-      question: `<div>Does Teotibot have <span class="bold">2</span> or more wood ${getResourceImage(
-        "wood"
-      )} and at least one worker on the Nobles ${getActionImage(
-        "no6"
-      )} Action Board?</div>`,
+      question: hasResourcesOnBoard("Nobles", wood, 6, 2, isObsidian),
       questionId: 1,
       condition: ({ answers }) => isEmpty(answers),
       margin: 50,
     },
     {
-      question: `<div>Teotibot spends <span class="bold">2</span> wood ${getResourceImage(
-        "wood"
-      )} and builds a Building.
-    <ul>
-    ${getElipseBuilding(eclipseStage)}
-    <li>If a row is full, place it into a space with the lowest printed
-    Victory Point value of all three rows.</li>
-    <li>Score the Victory Points ${getResourceImage(
-      "vp"
-    )} shown on the space just covered,
-    and advance the bot on the Avenue of the Dead ${getResourceImage(
-      "powerup"
-    )} (the same
-    way an actual player would advance).</li>
-    </ul></div>
-    <div>
-    Power up ${getResourceImage("powerup")} Teotibots worker ${getDiceImage(
-        "d3"
-      )} on the Nobles
-    Action Board ${getActionImage(
-      "no6"
-    )} (this might trigger an Ascension, which is resolved
-    normally). Then advance the powered-up worker (or the new worker, if the
-    old one triggered Ascension)
-    ${advancement(isAlternateTeotibotMovement, topDirectionTile)}
-  </div>`,
+      question: getNoblesReward(
+        isAlternateTeotibotMovement,
+        topDirectionTile,
+        eclipseStage,
+        isObsidian
+      ),
       questionId: 2,
       condition: ({ answers }) => answers[1] === "yes",
       isEnd: true,
       margin: 50,
     },
     {
-      question: `<div>Does Teotibot have at least one worker on the Forest ${getActionImage(
-        "no2"
-      )} Action Board? </div>`,
+      question: isOnActionBoard("Forest", 2),
       questionId: 3,
       condition: ({ answers }) =>
         answers[1] === "no" && answers[3] === undefined,
       margin: 50,
     },
     {
-      question: `<div>Teotibot gains <span class="bold">2</span> wood ${getResourceImage(
-        "wood"
-      )}
-    </div>Power up Teotibots worker ${getResourceImage(
-      "powerup"
-    )} on the Forest ${getActionImage("no2")}
-    Action Board (this might trigger an Ascension, which is resolved
-    normally). Then advance the powered-up worker (or the new worker, if the
-    old one triggered Ascension)`,
+      question: getForestReward(
+        isAlternateTeotibotMovement,
+        topDirectionTile,
+        isObsidian,
+        teotibotResourcesToGain
+      ),
       questionId: 4,
       condition: ({ answers }) => answers[3] === "yes",
       isEnd: true,
@@ -1348,19 +1533,19 @@ const eclipseQuestions = (eclipseStage, isHeightOfDevelopment) => {
   const heightOfDevelopmentEclipse = (isHeightOfDevelopment, eclipseStage) => {
     if (isHeightOfDevelopment) {
       if (eclipseStage === 1) {
-        return `<span>Teotibot places a Special Ability marker on ${getResourceImage(
+        return `<span class="height">Teotibot places a Special Ability marker on ${getResourceImage(
           "hod1",
           "icon-dev"
         )}</span>`;
       }
       if (eclipseStage === 2) {
-        return `<span>Teotibot places a Special Ability marker on ${getResourceImage(
+        return `<span class="height">Teotibot places a Special Ability marker on ${getResourceImage(
           "hod2",
           "icon-dev"
         )}</span>`;
       }
       if (eclipseStage === 3) {
-        return `<span>Teotibot places a Special Ability marker on ${getResourceImage(
+        return `<span class="height">Teotibot places a Special Ability marker on ${getResourceImage(
           "hod3",
           "icon-dev"
         )}</span>`;
@@ -1400,6 +1585,7 @@ const eclipseQuestions = (eclipseStage, isHeightOfDevelopment) => {
   ];
 };
 
+// Mastery questions
 export const masteryQuestions = [
   { id: 1, name: `Forest ${getActionImage("no2")}`, action: masteryForest },
   {
@@ -1426,64 +1612,56 @@ export const masteryQuestions = [
   },
 ];
 
-const powerUpMasteryMsg = (isAlternateTeotibotMovement, topDirectionTile) => {
-  return `<div class="margin">Power up the worker in question (this
-    might trigger Ascension, which is resolved normally). Then
-    the bot advances the powered-up worker (or the new worker,
-    if the old one triggered Ascension).
-    ${advancement(isAlternateTeotibotMovement, topDirectionTile)}
-    </div>`;
-};
-
 const masteryForestQuestions = (
   isAlternateTeotibotMovement,
-  topDirectionTile
+  topDirectionTile,
+  isObsidian,
+  teotibotResourcesToGain
 ) => {
   return [
     {
-      question: `<div>Does Teotibot have at least one worker on the Forest ${getActionImage(
-        "no2"
-      )} Action Board? </div>`,
+      question: isOnActionBoard("Forest", 2),
       questionId: 1,
       masteryQuestionId: 1,
       condition: ({ answers }) => isEmpty(answers),
       margin: 50,
     },
     {
-      question: `<div>Teotibot gains <span class="bold">2</span> wood ${getResourceImage(
-        "wood"
-      )}</div>${powerUpMasteryMsg(
+      question: getForestReward(
         isAlternateTeotibotMovement,
-        topDirectionTile
-      )}`,
+        topDirectionTile,
+        isObsidian,
+        teotibotResourcesToGain
+      ),
       questionId: 2,
       condition: ({ answers }) => answers[1] === "yes",
       isEnd: true,
+      margin: 50,
     },
   ];
 };
 
 const masteryQuarryQuestions = (
   isAlternateTeotibotMovement,
-  topDirectionTile
+  topDirectionTile,
+  isObsidian,
+  teotibotResourcesToGain
 ) => {
   return [
     {
-      question: `<div>Does Teotibot have at least one worker on the Stone Quarry ${getActionImage(
-        "no3"
-      )} Action Board?</div>`,
+      question: isOnActionBoard("Stone Quarry", 3),
       questionId: 1,
       masteryQuestionId: 2,
       condition: ({ answers }) => isEmpty(answers),
       margin: 50,
     },
     {
-      question: `<div>Teotibot gains <span class="bold">2</span> stone ${getResourceImage(
-        "stone"
-      )}</div>${powerUpMasteryMsg(
+      question: getQuarryReward(
         isAlternateTeotibotMovement,
-        topDirectionTile
-      )}`,
+        topDirectionTile,
+        isObsidian,
+        teotibotResourcesToGain
+      ),
       questionId: 2,
       condition: ({ answers }) => answers[1] === "yes",
       isEnd: true,
@@ -1494,25 +1672,25 @@ const masteryQuarryQuestions = (
 
 const masteryGoldQuestions = (
   isAlternateTeotibotMovement,
-  topDirectionTile
+  topDirectionTile,
+  isObsidian,
+  teotibotResourcesToGain
 ) => {
   return [
     {
-      question: `<div>Does Teotibot have at least one worker on the Gold Deposits ${getActionImage(
-        "no4"
-      )} Action Board? </div>`,
+      question: isOnActionBoard("Gold Deposits", 4),
       questionId: 1,
       masteryQuestionId: 3,
       condition: ({ answers }) => isEmpty(answers),
       margin: 50,
     },
     {
-      question: `<div>Teotibot gains <span class="bold">2</span> gold ${getResourceImage(
-        "gold"
-      )}</div>${powerUpMasteryMsg(
+      question: getGoldDepositsReward(
         isAlternateTeotibotMovement,
-        topDirectionTile
-      )}`,
+        topDirectionTile,
+        isObsidian,
+        teotibotResourcesToGain
+      ),
       questionId: 2,
       condition: ({ answers }) => answers[1] === "yes",
       isEnd: true,
@@ -1523,42 +1701,23 @@ const masteryGoldQuestions = (
 
 const masteryAlchemyQuestions = (
   isAlternateTeotibotMovement,
-  topDirectionTile
+  topDirectionTile,
+  isObsidian
 ) => {
   return [
     {
-      question: `<div>Does Teotibot have <span class="bold">1</span> or more gold ${getResourceImage(
-        "gold"
-      )} and at least one worker on the Alchemy ${getActionImage(
-        "no5"
-      )} Action Board?</div>`,
+      question: hasResourcesOnBoard("Alchemy", gold, 5, 1, isObsidian),
       questionId: 1,
       masteryQuestionId: 4,
       condition: ({ answers }) => isEmpty(answers),
       margin: 50,
     },
     {
-      question: `<div> Teotibot spends <span class="bold">1</span> gold ${getResourceImage(
-        "gold"
-      )} and then gains
-    the Technology ${getResourceImage(
-      "tech"
-    )} of the lowest number that does not have any markers (yours or Teotibot's). 
-    <ul>
-    <li>If all remaining tiles have your marker on, then the bot
-    gains the lowest numbered Technology which it does not
-    yet have, while you score the 3 Victory Points ${getResourceImage(
-      "vp"
-    )} as normal.</li></ul>
-    Either way, advance on the temple ${getResourceImage(
-      "tw"
-    )} matching the gained
-    Technology ${getResourceImage("tech")} and power up ${getResourceImage(
-        "powerup"
-      )} a worker on this Action Board
-    (resolve any Ascensions normally). Then the bot advances the powered-up worker
-    (or the new worker, if the old one triggered Ascension).
-   </div>${advancement(isAlternateTeotibotMovement, topDirectionTile)}`,
+      question: getAlchemyReward(
+        isAlternateTeotibotMovement,
+        topDirectionTile,
+        isObsidian
+      ),
       questionId: 2,
       condition: ({ answers }) => answers[1] === "yes",
       isEnd: true,
@@ -1569,49 +1728,25 @@ const masteryAlchemyQuestions = (
 
 const masteryNoblesQuestions = (
   isAlternateTeotibotMovement,
-  topDirectionTile
+  topDirectionTile,
+  eclipseStage,
+  isObsidian
 ) => {
   return [
     {
-      question: `<div>Does Teotibot have <span class="bold">2</span> or more wood ${getResourceImage(
-        "wood"
-      )} and at least one worker on the Nobles ${getActionImage(
-        "no6"
-      )} Action Board?</div>`,
+      question: hasResourcesOnBoard("Nobles", wood, 6, 2, isObsidian),
       questionId: 1,
       masteryQuestionId: 5,
       condition: ({ answers }) => isEmpty(answers),
       margin: 50,
     },
     {
-      question: `<div>Teotibot spends <span class="bold">2</span> wood ${getResourceImage(
-        "wood"
-      )} and builds a Building.
-    <ul>
-    <li>Before the first Eclipse, place it in the first (top) row.</li>
-    <li>After the first Eclipse (but before the second), place it in the
-    second (centre) row.</li>
-    <li>After the second Eclipse, place it in the third (bottom) row.</li>
-    <li>If a row is full, place it into a space with the lowest printed
-    Victory Point value of all three rows.</li>
-    <li>Score the Victory Points ${getResourceImage(
-      "vp"
-    )} shown on the space just covered,
-    and advance the bot on the Avenue of the Dead ${getResourceImage(
-      "powerup"
-    )} (the same
-    way an actual player would advance).</li>
-    </ul></div>
-    <div>
-    Power up ${getResourceImage("powerup")} Teotibots worker ${getDiceImage(
-        "d3"
-      )} on the Nobles
-    Action Board ${getActionImage(
-      "no6"
-    )} (this might trigger an Ascension, which is resolved
-    normally). Then advance the powered-up worker (or the new worker, if the
-    old one triggered Ascension)
-  </div>${advancement(isAlternateTeotibotMovement, topDirectionTile)}`,
+      question: getNoblesReward(
+        isAlternateTeotibotMovement,
+        topDirectionTile,
+        eclipseStage,
+        isObsidian
+      ),
       questionId: 2,
       condition: ({ answers }) => answers[1] === "yes",
       isEnd: true,
@@ -1622,46 +1757,22 @@ const masteryNoblesQuestions = (
 
 const masteryDecorationsQuestions = (
   isAlternateTeotibotMovement,
-  topDirectionTile
+  topDirectionTile,
+  isObsidian
 ) => {
   return [
     {
-      question: `<div>Does Teotibot have <span class="bold">2</span> or more gold ${getResourceImage(
-        "gold"
-      )} and at least one worker on the Decorations ${getActionImage(
-        "no7"
-      )} Action Board?</div>`,
+      question: hasResourcesOnBoard("Decorations", gold, 7, 2, isObsidian),
       questionId: 1,
       masteryQuestionId: 6,
       condition: ({ answers }) => isEmpty(answers),
       margin: 50,
     },
     {
-      question: `<div> Teotibot spends <span class="bold">2 gold</span> ${getResourceImage(
-        "gold"
-      )} and places the topmost Decoration 
-    tile onto an available Decorations space on the Pyramid grid on the Main Board (clockwise from the top). 
-    Then Teotibot: <ul>
-    <li>Scores 5 Victory Points ${getResourceImage(
-      "vp"
-    )}.</li><li>Advances on the Pyramid track. ${getResourceImage(
-        "pyramid"
-      )}</li>
-    <li><span class="bold" data-tip data-for='templeAdvance'>Advances*</span> on any temple by one. ${getResourceImage(
-      "tw"
-    )}</li>
-    </ul></div>
-    <div>
-    Power up ${getResourceImage("powerup")} Teotibots worker ${getDiceImage(
-        "d3"
-      )} on the Decorations
-    Action Board ${getActionImage(
-      "no7"
-    )} (resolve any Ascensions normally). Then advance the powered-up worker (or the new worker, if the
-    old one triggered Ascension)
-    ${advancement(isAlternateTeotibotMovement, topDirectionTile)}
-    ${templeTip}
-  </div>`,
+      question: getDecorationsReward(
+        isAlternateTeotibotMovement,
+        topDirectionTile
+      ),
       questionId: 2,
       condition: ({ answers }) => answers[1] === "yes",
       isEnd: true,
@@ -1672,49 +1783,24 @@ const masteryDecorationsQuestions = (
 
 const masteryConstructionQuestions = (
   isAlternateTeotibotMovement,
-  topDirectionTile
+  topDirectionTile,
+  isObsidian
 ) => {
   return [
     {
-      question: `<div>Does Teotibot have <span class="bold">2</span> or more stone ${getResourceImage(
-        "stone"
-      )} and at least one worker on the Construction ${getActionImage(
-        "no8"
-      )} Action Board?</div>`,
+      question: hasResourcesOnBoard("Construction", stone, 8, 2, isObsidian),
       questionId: 1,
       masteryQuestionId: 7,
       condition: ({ answers }) => isEmpty(answers),
       margin: 50,
     },
     {
-      question: `<div>Teotibot spends <span class="bold">2</span> stone ${getResourceImage(
-        "stone"
-      )} and places the leftmost pyramid ${getResourceImage("pyramidt")}
-    tile (rotated randomly) onto the top left,
-    lowest level space available on the Pyramid grid of the Main
-    Board. 
-    Then Teotibot: <ul>
-    <li>Scores Victory Points ${getResourceImage(
-      "vp"
-    )} for the level.</li><li>Advances on the Pyramid ${getResourceImage(
-        "pyramid"
-      )} track.</li>
-    <li><span class="bold">Advances*</span> on any temple by one. ${getResourceImage(
-      "tw"
-    )}</li><li>Scores an additional 2 Victory Points ${getResourceImage(
-        "vp"
-      )} (Note: This represents average points the
-    bot would score by matching icons.)</li>
-    </ul></div>
-    <div>
-    Power up ${getResourceImage("powerup")} Teotibots worker ${getDiceImage(
-        "d3"
-      )} on the Construction ${getActionImage("no7")}
-    Action Board (resolve any Ascensions normally). Then advance the powered-up worker (or the new worker, if the
-    old one triggered Ascension)
-    ${advancement(isAlternateTeotibotMovement, topDirectionTile)}
-    ${templeTip}
-  </div>`,
+      question: getConstructionReward(
+        isAlternateTeotibotMovement,
+        topDirectionTile,
+        2,
+        isObsidian
+      ),
       questionId: 2,
       condition: ({ answers }) => answers[1] === "yes",
       isEnd: true,
@@ -1725,31 +1811,51 @@ const masteryConstructionQuestions = (
 
 export const TilesToQuestions = (
   tileSrc,
+  isAlternateTeotibotMovement,
+  topDirectionTile,
+  isObsidian,
+  teotibotResourcesToGain,
   teotibotStepsPerWorship,
   teotibotVPFor10Cocoa,
   eclipseStage,
-  isHeightOfDevelopment,
-  isAlternateTeotibotMovement,
-  topDirectionTile
+  isHeightOfDevelopment
 ) => {
   var result;
 
   switch (tileSrc) {
     case alchemy:
-      result = alchemyQuestions(isAlternateTeotibotMovement, topDirectionTile);
+      result = alchemyQuestions(
+        isAlternateTeotibotMovement,
+        topDirectionTile,
+        isObsidian,
+      );
       break;
     case construction:
       result = constructionQuestions(
         isAlternateTeotibotMovement,
         topDirectionTile,
-        teotibotVPFor10Cocoa
+        teotibotVPFor10Cocoa,
+        isObsidian,
+        teotibotResourcesToGain
+      );
+      break;
+    case nobles:
+      result = noblesQuestions(
+        isAlternateTeotibotMovement,
+        topDirectionTile,
+        teotibotVPFor10Cocoa,
+        eclipseStage,
+        isObsidian,
+        teotibotResourcesToGain
       );
       break;
     case decorations:
       result = decorationQuestions(
         isAlternateTeotibotMovement,
         topDirectionTile,
-        teotibotVPFor10Cocoa
+        teotibotVPFor10Cocoa,
+        isObsidian,
+        teotibotResourcesToGain
       );
       break;
     case mask_collection:
@@ -1759,61 +1865,64 @@ export const TilesToQuestions = (
         teotibotVPFor10Cocoa
       );
       break;
+    case worship:
+      result = worshipQuestions(teotibotStepsPerWorship);
+      break;
     case mastery:
       result = [];
       break;
     case masteryForest:
       result = masteryForestQuestions(
         isAlternateTeotibotMovement,
-        topDirectionTile
+        topDirectionTile,
+        isObsidian,
+        teotibotResourcesToGain
       );
       break;
     case masteryQuarry:
       result = masteryQuarryQuestions(
         isAlternateTeotibotMovement,
-        topDirectionTile
+        topDirectionTile,
+        isObsidian,
+        teotibotResourcesToGain
       );
       break;
     case masteryGold:
       result = masteryGoldQuestions(
         isAlternateTeotibotMovement,
-        topDirectionTile
+        topDirectionTile,
+        isObsidian,
+        teotibotResourcesToGain
       );
       break;
     case masteryAlchemy:
       result = masteryAlchemyQuestions(
         isAlternateTeotibotMovement,
-        topDirectionTile
+        topDirectionTile,
+        isObsidian
       );
       break;
     case masteryNobles:
       result = masteryNoblesQuestions(
         isAlternateTeotibotMovement,
-        topDirectionTile
+        topDirectionTile,
+        eclipseStage,
+        isObsidian,
       );
       break;
     case masteryDecorations:
       result = masteryDecorationsQuestions(
         isAlternateTeotibotMovement,
-        topDirectionTile
+        topDirectionTile,
+        isObsidian
       );
       break;
     case masteryConstruction:
       result = masteryConstructionQuestions(
         isAlternateTeotibotMovement,
-        topDirectionTile
-      );
-      break;
-    case nobles:
-      result = noblesQuestions(
-        eclipseStage,
-        isAlternateTeotibotMovement,
         topDirectionTile,
-        teotibotVPFor10Cocoa
+        isObsidian
       );
-      break;
-    case worship:
-      result = worshipQuestions(teotibotStepsPerWorship);
       break;
     case eclipse:
       result = eclipseQuestions(eclipseStage, isHeightOfDevelopment);

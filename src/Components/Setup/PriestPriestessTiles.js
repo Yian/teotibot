@@ -6,7 +6,6 @@ import useMeasure from "react-use-measure";
 import { useTransition, a } from "@react-spring/web";
 import { tileContainer, priestPriestessTile } from "../Setup/Setup.css";
 import { shuffle } from "lodash";
-import { basePriestPriestessTiles, baseTeotiPriestPriestessTiles } from "../Constants";
 
 export const PriestPriestessTiles = (props) => {
   // Hook1: Tie media queries to the number of columns
@@ -19,12 +18,14 @@ export const PriestPriestessTiles = (props) => {
   const [ref, { width }] = useMeasure();
 
   // Hook3: Hold items
-  const priestPriestessTiles = props.isTeotibot ? baseTeotiPriestPriestessTiles : basePriestPriestessTiles;
-
-  const [items, set] = useState(priestPriestessTiles);
+  const [items, set] = useState([]);
 
   // Hook4: shuffle data every 2 seconds
   useEffect(() => {
+    if (items.length <= 0) {
+      set(props.priestPriestessTiles);
+    }
+
     const t = setInterval(() => {
       if (items.length > props.numberToPick) {
         items.pop();
