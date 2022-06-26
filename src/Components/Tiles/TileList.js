@@ -422,6 +422,7 @@ export const TileList = (props) => {
             teotibotVPFor10Cocoa={props.teotibotVPFor10Cocoa}
             isAlternateTeotibotMovement={props.isAlternateTeotibotMovement}
             isObsidian={props.isObsidian}
+            isAdvanced={props.isAdvanced}
             topDirectionTile={directionTiles[directionOrdering[0]]}
           />
         )}

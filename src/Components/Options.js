@@ -21,6 +21,20 @@ export const Options = (props) => {
       <div css={activeText} onClick={props.back}>
         <img src={`${process.env.PUBLIC_URL}/resources/back.png`} alt="Back" />
       </div>
+      {/* <div className={"checkbox-container"}>
+            <Checkbox
+              label="Ascend"
+              checked={props.isAscend}
+              onChange={props.onChangeIsAscend}
+            />
+          </div>
+          <div className={"checkbox-container"}>
+            <Checkbox
+              label="Advanced"
+              checked={props.isAdvanced}
+              onChange={props.onChangeIsAdvanced}
+            />
+          </div> */}
       <h2>Expansions</h2>
       <div css={expansionContainer}>
         <div css={expansion}>

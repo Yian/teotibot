@@ -113,6 +113,7 @@ export const resourcesToPreload = [
   "mdiscovery",
   "eclipse",
   "gold",
+  "obsidian",
   "hod1",
   "hod2",
   "hod3",
@@ -959,9 +960,7 @@ export const powerupMsg = (
     "5cocoa"
   )} (exchange <span class="bold">10</span> cocoa for <span class="bold">${teotibotVPFor10Cocoa}</span> VP ${getResourceImage(
     "VP"
-  )}), powers up ${getResourceImage(
-    "powerup"
-  )} its lowest powered worker, and
+  )}), powers up ${getResourceImage("powerup")} its lowest powered worker, and
 then advances it:</div>${advancement(
     isAlternateTeotibotMovement,
     topDirectionTile
@@ -1030,7 +1029,11 @@ const getGoldDepositsReward = (
   isObsidian,
   teotibotResourcesToGain
 ) => {
-  return `<div>Teotibot gains ${getResources(gold, isObsidian, teotibotResourcesToGain)}</div>
+  return `<div>Teotibot gains ${getResources(
+    gold,
+    isObsidian,
+    teotibotResourcesToGain
+  )}</div>
   <div class="margin">Power up Teotibots worker ${getResourceImage(
     "powerup"
   )} on the Gold Deposits ${getActionImage("no4")}
@@ -1047,7 +1050,11 @@ const getQuarryReward = (
   isObsidian,
   teotibotResourcesToGain
 ) => {
-  return `<div>Teotibot gains ${getResources(stone, isObsidian, teotibotResourcesToGain)}</div>
+  return `<div>Teotibot gains ${getResources(
+    stone,
+    isObsidian,
+    teotibotResourcesToGain
+  )}</div>
   <div class="margin">Power up Teotibots worker ${getResourceImage(
     "powerup"
   )} on the Stone Quarry ${getActionImage("no3")}
@@ -1064,7 +1071,11 @@ const getForestReward = (
   isObsidian,
   teotibotResourcesToGain
 ) => {
-  return `<div>Teotibot gains ${getResources(wood, isObsidian, teotibotResourcesToGain)}</div>
+  return `<div>Teotibot gains ${getResources(
+    wood,
+    isObsidian,
+    teotibotResourcesToGain
+  )}</div>
   <div class="margin">Power up Teotibots worker ${getResourceImage(
     "powerup"
   )} on the Forest ${getActionImage("no2")}
@@ -1234,7 +1245,7 @@ ${templeTip}
 const alchemyQuestions = (
   isAlternateTeotibotMovement,
   topDirectionTile,
-  isObsidian,
+  isObsidian
 ) => {
   return [
     {
@@ -1247,7 +1258,7 @@ const alchemyQuestions = (
       question: getAlchemyReward(
         isAlternateTeotibotMovement,
         topDirectionTile,
-        isObsidian,
+        isObsidian
       ),
       questionId: 2,
       condition: ({ answers }) => answers[1] === "yes",
@@ -1827,7 +1838,7 @@ export const TilesToQuestions = (
       result = alchemyQuestions(
         isAlternateTeotibotMovement,
         topDirectionTile,
-        isObsidian,
+        isObsidian
       );
       break;
     case construction:
@@ -1907,7 +1918,7 @@ export const TilesToQuestions = (
         isAlternateTeotibotMovement,
         topDirectionTile,
         eclipseStage,
-        isObsidian,
+        isObsidian
       );
       break;
     case masteryDecorations:
@@ -1926,6 +1937,58 @@ export const TilesToQuestions = (
       break;
     case eclipse:
       result = eclipseQuestions(eclipseStage, isHeightOfDevelopment);
+      break;
+    default:
+      result = [];
+  }
+  return result;
+};
+
+const advancedForestQuestions = (isAlternateTeotibotMovement, topDirectionTile) => {
+  return [
+    {
+      question: `<div>1. If Teotibot has at least one worker on the nobles ${getActionImage(
+        `no5`
+      )} Action Board, it spends 2 wood and builds a building </div>
+
+      <div>2. If Teotibot has at least one worker on the Forest ${getActionImage(
+        `no4`
+      )} Action Board, it gains 2 wood</div>
+      <div>3. If successful, If either of the above steps were successfully performed, 
+      power up a worker on the relevant action board 
+      (this might trigger an Ascension, which is resolved normally).</div>
+      <div>4.  If neither of the above steps were successful, the bot gains 5 cocoa instead, powers up it's lowest powered worker, and then advances it</div>
+      ${advancement()}
+      `,
+      condition: ({ answers }) => isEmpty(answers),
+      margin: 50,
+      isEnd: true,
+    },
+  ];
+};
+
+export const AdvancedTilesToQuestions = (tileSrc, isAlternateTeotibotMovement, topDirectionTile) => {
+  var result;
+
+  switch (tileSrc) {
+    case alchemy:
+      break;
+    case construction:
+      break;
+    case nobles:
+      result = advancedForestQuestions(isAlternateTeotibotMovement, topDirectionTile);
+      break;
+    case decorations:
+      break;
+    case mask_collection:
+      break;
+    case worship:
+      break;
+    case mastery:
+      result = [];
+      break;
+    case eclipse:
+      result = eclipseQuestions();
       break;
     default:
       result = [];

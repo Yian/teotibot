@@ -22,6 +22,7 @@ import {
   Eclipse,
   masteryQuestions,
   TilesToQuestions,
+  AdvancedTilesToQuestions,
 } from "./Constants";
 import { DicePlacement } from "./Setup/DicePlacement";
 import { getNeutralArray } from "./Logic";
@@ -33,17 +34,7 @@ export class QuestionForm extends React.Component {
     this.state = {
       answers: {},
       masteryAnswers: [],
-      questions: TilesToQuestions(
-        props.tileSrc,
-        props.isAlternateTeotibotMovement,
-        props.topDirectionTile,
-        props.isObsidian,
-        props.teotibotResourcesToGain,
-        props.teotibotStepsPerWorship,
-        props.teotibotVPFor10Cocoa,
-        props.eclipseStage,
-        props.isHeightOfDevelopment
-      ),
+      questions: [],
       fromMastery: false,
       neutralPlacements1: [],
       neutralPlacements2: [],
@@ -56,17 +47,29 @@ export class QuestionForm extends React.Component {
   }
 
   componentDidMount() {
-    var tiles = cloneDeep(this.props.tiles);
+    const props = this.props;
+    var tiles = cloneDeep(props.tiles);
 
     this.setState({
       neutralPlacements1:
-        this.props.tileName === Eclipse && this.props.eclipseStage <= 2
+        props.tileName === Eclipse && props.eclipseStage <= 2
           ? getNeutralArray(tiles)
           : [],
       neutralPlacements2:
-        this.props.tileName === Eclipse && this.props.eclipseStage <= 2
+        props.tileName === Eclipse && props.eclipseStage <= 2
           ? getNeutralArray(tiles)
           : [],
+      questions: !props.isAdvanced ? TilesToQuestions(
+        props.tileSrc,
+        props.isAlternateTeotibotMovement,
+        props.topDirectionTile,
+        props.isObsidian,
+        props.teotibotResourcesToGain,
+        props.teotibotStepsPerWorship,
+        props.teotibotVPFor10Cocoa,
+        props.eclipseStage,
+        props.isHeightOfDevelopment
+      ) : AdvancedTilesToQuestions(props.tileSrc, props.isAlternateTeotibotMovement, props.topDirectionTile),
     });
   }
 
@@ -92,7 +95,8 @@ export class QuestionForm extends React.Component {
     isAlternateTeotibotMovement,
     topDirectionTile,
     isObsidian,
-    teotibotResourcesToGain
+    teotibotResourcesToGain,
+    eclipseStage
   ) {
     this.setState({
       questions: TilesToQuestions(
@@ -100,7 +104,10 @@ export class QuestionForm extends React.Component {
         isAlternateTeotibotMovement,
         topDirectionTile,
         isObsidian,
-        teotibotResourcesToGain
+        teotibotResourcesToGain,
+        null,
+        null,
+        eclipseStage,
       ),
       fromMastery: true,
     });
@@ -260,7 +267,8 @@ export class QuestionForm extends React.Component {
                         this.props.isAlternateTeotibotMovement,
                         this.props.topDirectionTile,
                         this.props.isObsidian,
-                        this.props.teotibotResourcesToGain
+                        this.props.teotibotResourcesToGain,
+                        this.props.eclipseStage
                       )
                     }
                   >

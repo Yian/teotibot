@@ -50,6 +50,8 @@ export class AppContainer extends React.Component {
       isSetupComplete: JSON.parse(
         reactLocalStorage.get("isSetupComplete") ?? true
       ),
+      isAscend: false,
+      isAdvanced: false,
       teotibotStartingGold: 2,
       teotibotStartingWood: 2,
       teotibotStartingStone: 2,
@@ -192,6 +194,40 @@ export class AppContainer extends React.Component {
 
   onChangeIsPriestAndPriestess = (e) => {
     this.setIsPriestAndPriestess(
+      e.target.type === "checkbox" ? e.target.checked : e.target.value
+    );
+  };
+
+  setIsAscend = (isAscend) => {
+    this.setState(
+      {
+        isAscend,
+      },
+      () => {
+        reactLocalStorage.set("isAscend", isAscend);
+      }
+    );
+  };
+
+  onChangeIsAscend = (e) => {
+    this.setIsAscend(
+      e.target.type === "checkbox" ? e.target.checked : e.target.value
+    );
+  };
+
+  setIsAdvanced = (isAdvanced) => {
+    this.setState(
+      {
+        isAdvanced,
+      },
+      () => {
+        reactLocalStorage.set("isAdvanced", isAdvanced);
+      }
+    );
+  };
+
+  onChangeIsAdvanced = (e) => {
+    this.setIsAdvanced(
       e.target.type === "checkbox" ? e.target.checked : e.target.value
     );
   };
@@ -521,6 +557,8 @@ export class AppContainer extends React.Component {
           dice2={this.state.dice2}
           teotibotStepsPerWorship={this.state.teotibotStepsPerWorship}
           teotibotResourcesToGain={this.state.teotibotResourcesToGain}
+          isAscend={this.state.isAscend}
+          isAdvanced={this.state.isAdvanced}
         />
       );
     } else if (this.state.screenMode === OptionsScreen) {
@@ -528,6 +566,10 @@ export class AppContainer extends React.Component {
         <Options
           isXitle={this.state.isXitle}
           onChangeXitle={this.onChangeXitle}
+          isAscend={this.state.isAscend}
+          onChangeIsAscend={this.onChangeIsAscend}
+          isAdvanced={this.state.isAdvanced}
+          onChangeIsAdvanced={this.onChangeIsAdvanced}
           isPriestAndPriestess={this.state.isPriestAndPriestess}
           onChangeIsPriestAndPriestess={this.onChangeIsPriestAndPriestess}
           isObsidian={this.state.isObsidian}
