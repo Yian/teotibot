@@ -121,6 +121,10 @@ export const nav = css`
     padding-right: 5px;
   }
   
+  @media only screen and (max-width: 480px) { 
+    font-size: 1rem;
+  }
+
   @media only screen and (max-width: 400px) { 
     height: 40px;
   }
