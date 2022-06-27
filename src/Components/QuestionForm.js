@@ -59,17 +59,29 @@ export class QuestionForm extends React.Component {
         props.tileName === Eclipse && props.eclipseStage <= 2
           ? getNeutralArray(tiles)
           : [],
-      questions: !props.isAdvanced ? TilesToQuestions(
-        props.tileSrc,
-        props.isAlternateTeotibotMovement,
-        props.topDirectionTile,
-        props.isObsidian,
-        props.teotibotResourcesToGain,
-        props.teotibotStepsPerWorship,
-        props.teotibotVPFor10Cocoa,
-        props.eclipseStage,
-        props.isHeightOfDevelopment
-      ) : AdvancedTilesToQuestions(props.tileSrc, props.isAlternateTeotibotMovement, props.topDirectionTile),
+      questions: !props.isAdvanced
+        ? TilesToQuestions(
+            props.tileSrc,
+            props.isAlternateTeotibotMovement,
+            props.topDirectionTile,
+            props.isObsidian,
+            props.teotibotResourcesToGain,
+            props.eclipseStage,
+            props.teotibotStepsPerWorship,
+            props.teotibotVPFor10Cocoa,
+            props.isHeightOfDevelopment
+          )
+        : AdvancedTilesToQuestions(
+            props.tileSrc,
+            props.isAlternateTeotibotMovement,
+            props.topDirectionTile,
+            props.isObsidian,
+            props.teotibotResourcesToGain,
+            props.eclipseStage,
+            props.teotibotStepsPerWorship,
+            props.teotibotVPFor10Cocoa,
+            props.isHeightOfDevelopment
+          ),
     });
   }
 
@@ -105,9 +117,7 @@ export class QuestionForm extends React.Component {
         topDirectionTile,
         isObsidian,
         teotibotResourcesToGain,
-        null,
-        null,
-        eclipseStage,
+        eclipseStage
       ),
       fromMastery: true,
     });
@@ -248,7 +258,7 @@ export class QuestionForm extends React.Component {
             </div>
           )}
 
-          {this.props.tileName === "Mastery" && !this.state.fromMastery && (
+          {!this.props.isAdvanced && this.props.tileName === "Mastery" && !this.state.fromMastery && (
             <div css={masteryForm}>
               <div>Find the bots highest powered unlocked die.</div>
               <div>Select the Action Board below:</div>

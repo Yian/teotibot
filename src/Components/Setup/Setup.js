@@ -304,7 +304,7 @@ export const Setup = (props) => {
       <div css={setupSection} ref={playerResourceRef}>
         <h2>Player setup</h2>
         {showPlayerStartingResources && (
-          <div css={setupSection}>
+          <div>
             <h3>Player Starting Resources:</h3>
             <StartingResources
               startingResources={selectedResources}

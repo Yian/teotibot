@@ -240,8 +240,12 @@ function getRandomArrayIndex(arr) {
   return Math.floor(Math.random() * (arr.length - 1)) + 1;
 }
 
-export function getActionItem(item) {
+export function getActionItemByValue(item) {
   return find(actionNames, ["value", item]);
+}
+
+export function getActionItemByName(actionName) {
+  return find(actionNames, ["name", actionName]);
 }
 
 export function getDiceFace(item) {
@@ -258,30 +262,30 @@ export function getTeotibotArray(
       key: 0,
       diceFace: getDiceFace(teotibotWorkerPowerForAction4),
       number: 4,
-      actionName: getActionItem(4).name,
-      color: getActionItem(4).color,
+      actionName: getActionItemByValue(4).name,
+      color: getActionItemByValue(4).color,
     },
     {
       key: 1,
       diceFace: getDiceFace(teotibotWorkerPowerForAction6),
       number: 6,
-      actionName: getActionItem(6).name,
-      color: getActionItem(6).color,
+      actionName: getActionItemByValue(6).name,
+      color: getActionItemByValue(6).color,
     },
     {
       key: 2,
       diceFace: getDiceFace(teotibotWorkerPowerForAction8),
       number: 8,
-      actionName: getActionItem(8).name,
-      color: getActionItem(8).color,
+      actionName: getActionItemByValue(8).name,
+      color: getActionItemByValue(8).color,
     },
     {
       key: 3,
       diceFace: diceFaces[0],
       number: 7,
       worship: true,
-      actionName: getActionItem(7).name,
-      color: getActionItem(7).color,
+      actionName: getActionItemByValue(7).name,
+      color: getActionItemByValue(7).color,
     },
   ], ['key']);
 }
@@ -314,22 +318,22 @@ export function getNeutralArray(shuffledTiles) {
       key: 0,
       diceFace: diceFaces[0],
       number: mergedActions[0],
-      actionName: getActionItem(mergedActions[0]).name,
-      color: getActionItem(mergedActions[0]).color,
+      actionName: getActionItemByValue(mergedActions[0]).name,
+      color: getActionItemByValue(mergedActions[0]).color,
     },
     {
       key: 1,
       diceFace: diceFaces[0],
       number: mergedActions[1],
-      actionName: getActionItem(mergedActions[1]).name,
-      color: getActionItem(mergedActions[1]).color,
+      actionName: getActionItemByValue(mergedActions[1]).name,
+      color: getActionItemByValue(mergedActions[1]).color,
     },
     {
       key: 2,
       diceFace: diceFaces[0],
       number: mergedActions[2],
-      actionName: getActionItem(mergedActions[2]).name,
-      color: getActionItem(mergedActions[2]).color,
+      actionName: getActionItemByValue(mergedActions[2]).name,
+      color: getActionItemByValue(mergedActions[2]).color,
     },
   ], ['number']);
 }
@@ -352,8 +356,8 @@ export function getPlayerArray(selectedStartTiles) {
       key: i,
       diceFace: diceFaces[0],
       number: item,
-      actionName: getActionItem(item).name,
-      color: getActionItem(item).color,
+      actionName: getActionItemByValue(item).name,
+      color: getActionItemByValue(item).color,
     },)
   });
 

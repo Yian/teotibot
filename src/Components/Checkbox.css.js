@@ -9,3 +9,15 @@ export const appContainer = css`
   font-size: calc(10px + 2vmin);
   color: white;
 `;
+
+export const checkbox = css`
+  display: flex;
+  flex-direction: row;
+`
+
+export const checkboxTooltip = css`
+  margin-left: 2rem;
+  color: chocolate;
+  font-size: 1rem;
+`
+

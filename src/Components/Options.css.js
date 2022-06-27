@@ -123,6 +123,10 @@ export const expansionOptions = css`
   }
 `;
 
+export const generalOption = css`
+  margin: 2rem 1rem;
+`
+
 export const optionsSection = css`
   margin: 2rem 0;
 `;

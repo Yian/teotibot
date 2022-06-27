@@ -1,4 +1,5 @@
 import { css } from "@emotion/react";
+import { mediaQueries } from "../variables";
 
 export const tileListContainer = css`
   display: flex;
@@ -115,6 +116,14 @@ export const nav = css`
   width: 100%;
   background: #ffffff42;
   height: 50px;
+
+  img {
+    padding-right: 5px;
+  }
+  
+  @media only screen and (max-width: 400px) { 
+    height: 40px;
+  }
 `;
 
 export const navButton = css`

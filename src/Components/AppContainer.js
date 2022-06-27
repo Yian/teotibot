@@ -50,8 +50,15 @@ export class AppContainer extends React.Component {
       isSetupComplete: JSON.parse(
         reactLocalStorage.get("isSetupComplete") ?? true
       ),
-      isAscend: false,
-      isAdvanced: false,
+      isAscend: JSON.parse(
+        reactLocalStorage.get("isAscend") ?? true
+      ),
+      isDarkEclipse: JSON.parse(
+        reactLocalStorage.get("isDarkEclipse") ?? true
+      ),
+      isAdvanced: JSON.parse(
+        reactLocalStorage.get("isAdvanced") ?? true
+      ),
       teotibotStartingGold: 2,
       teotibotStartingWood: 2,
       teotibotStartingStone: 2,
@@ -211,6 +218,23 @@ export class AppContainer extends React.Component {
 
   onChangeIsAscend = (e) => {
     this.setIsAscend(
+      e.target.type === "checkbox" ? e.target.checked : e.target.value
+    );
+  };
+
+  setIsDarkEclipse = (isDarkEclipse) => {
+    this.setState(
+      {
+        isDarkEclipse,
+      },
+      () => {
+        reactLocalStorage.set("isDarkEclipse", isDarkEclipse);
+      }
+    );
+  };
+
+  onChangeIsDarkEclipse = (e) => {
+    this.setIsDarkEclipse(
       e.target.type === "checkbox" ? e.target.checked : e.target.value
     );
   };
@@ -464,6 +488,9 @@ export class AppContainer extends React.Component {
     this.setState({
       screenMode: StartScreen,
     });
+
+    reactLocalStorage.remove("eclipseStage");
+    reactLocalStorage.remove("stepsUntilEclipse");
   };
 
   back = () => {
@@ -558,6 +585,7 @@ export class AppContainer extends React.Component {
           teotibotStepsPerWorship={this.state.teotibotStepsPerWorship}
           teotibotResourcesToGain={this.state.teotibotResourcesToGain}
           isAscend={this.state.isAscend}
+          isDarkEclipse={this.state.isDarkEclipse}
           isAdvanced={this.state.isAdvanced}
         />
       );
@@ -568,6 +596,8 @@ export class AppContainer extends React.Component {
           onChangeXitle={this.onChangeXitle}
           isAscend={this.state.isAscend}
           onChangeIsAscend={this.onChangeIsAscend}
+          isDarkEclipse={this.state.isDarkEclipse}
+          onChangeIsDarkEclipse={this.onChangeIsDarkEclipse}
           isAdvanced={this.state.isAdvanced}
           onChangeIsAdvanced={this.onChangeIsAdvanced}
           isPriestAndPriestess={this.state.isPriestAndPriestess}

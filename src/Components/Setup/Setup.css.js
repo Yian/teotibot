@@ -15,7 +15,7 @@ export const setupContainer = css`
 `;
 
 export const setupSection = css`
-  margin: 5rem 0 5rem 0.5rem;
+  margin: 0 0 5rem 0.5rem;
 
   @media ${mediaQueries.isMaxXs} {
     margin: 2rem 0 2rem 0.2rem;

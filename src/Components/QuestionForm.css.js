@@ -108,6 +108,18 @@ export const questionModalContent = css`
     vertical-align: middle;
   }
 
+  .green {
+    color: #35a7c6;
+  }
+
+  .step {
+    color: black;
+  }
+
+  .red {
+    color: red;
+  }
+
   .bold {
     color: #30c5bd;
   }

@@ -78,6 +78,21 @@ export const TileList = (props) => {
     );
   }, []);
 
+  const getInitialEclipseStage = useCallback(() => {
+    return (
+      JSON.parse(reactLocalStorage.get("eclipseStage") ?? null) ??
+      0
+    );
+  }, []);
+
+  const getInitialStepsUntilEclipse = useCallback(() => {
+    return (
+      JSON.parse(reactLocalStorage.get("stepsUntilEclipse") ?? null) ??
+      initialStepsUntilEclipse
+    );
+  }, []);
+
+  const initialStepsUntilEclipse = 10;
   const [tiles] = useState(baseBotTiles);
   const [startTiles, setStartTiles] = useState([]);
   const [directionTiles, setDirectionTiles] = useState([]);
@@ -85,7 +100,8 @@ export const TileList = (props) => {
   const [directionOrdering, setDirectionOrdering] = useState(
     getInitialDirectionTileOrder
   );
-  const [eclipse, setEclipse] = useState(0);
+  const [eclipseStage, setEclipseStage] = useState(getInitialEclipseStage);
+  const [stepsUntilEclipse, setStepsUntilEclipse] = useState(getInitialStepsUntilEclipse);
   const [tilesDisabled, setTilesDisabled] = useState(false);
   const [showForm, setShowForm] = useState(false);
   const [showEclipseForm, setShowEclipseForm] = useState(false);
@@ -372,15 +388,69 @@ export const TileList = (props) => {
     }
   };
 
+  const moveEclipse = (newEclipseValue) => {
+    setEclipseStage(newEclipseValue);
+    reactLocalStorage.set(
+      "eclipseStage",
+      JSON.stringify(newEclipseValue)
+    );
+  }
+
   const handleEclipseClick = () => {
-    if (eclipse <= 2) {
-      setEclipse(eclipse + 1);
+    if (props.isAscend) return;
+
+    if (eclipseStage <= 2) {
+      moveEclipse(eclipseStage + 1);
+
       setShowEclipseForm(true);
     }
   };
 
+  const getStepsLimit = (isDarkEclipse) => {
+    return !isDarkEclipse ? 0 : 1;
+  }
+
+  const handleAscendClick = () => {
+    let newStepsUntilEclipse = 0;
+
+    if (eclipseStage <= 2) {
+      newStepsUntilEclipse = stepsUntilEclipse - 1;
+      setStepsUntilEclipse(newStepsUntilEclipse);
+      reactLocalStorage.set(
+        "stepsUntilEclipse",
+        JSON.stringify(newStepsUntilEclipse)
+      );
+    }
+
+    if (stepsUntilEclipse <= getStepsLimit(props.isDarkEclipse) && eclipseStage <= 2) {
+      let eclipseValue = eclipseStage + 1
+      newStepsUntilEclipse = initialStepsUntilEclipse - eclipseValue;
+
+      moveEclipse(eclipseValue);
+      setStepsUntilEclipse(newStepsUntilEclipse);
+      reactLocalStorage.set(
+        "stepsUntilEclipse",
+        JSON.stringify(newStepsUntilEclipse)
+      );
+      setShowEclipseForm(true);
+    }
+  }
+
   const onCancelEclipseClick = () => {
-    setEclipse(eclipse - 1);
+    let newEclipseValue = eclipseStage - 1
+
+    setEclipseStage(newEclipseValue);
+    reactLocalStorage.set(
+      "eclipseStage",
+      JSON.stringify(newEclipseValue)
+    );
+
+    setStepsUntilEclipse(getStepsLimit(props.isDarkEclipse));
+    reactLocalStorage.set(
+      "stepsUntilEclipse",
+      JSON.stringify(getStepsLimit(props.isDarkEclipse))
+    );
+
     setShowEclipseForm(false);
   };
 
@@ -415,7 +485,7 @@ export const TileList = (props) => {
           <QuestionForm
             onCloseClick={(shouldShuffle) => onCloseClick(shouldShuffle)}
             tileName={tiles[selectedTileIndex].name}
-            eclipseStage={eclipse}
+            eclipseStage={eclipseStage}
             tileSrc={tiles[selectedTileIndex].src}
             teotibotResourcesToGain={props.teotibotResourcesToGain}
             teotibotStepsPerWorship={props.teotibotStepsPerWorship}
@@ -434,7 +504,7 @@ export const TileList = (props) => {
               onCancelEclipseClick(shouldShuffle)
             }
             tileName={Eclipse}
-            eclipseStage={eclipse}
+            eclipseStage={eclipseStage}
             tileSrc={"eclipse"}
             isHeightOfDevelopment={props.isHeightOfDevelopment}
             teotibotVPForTechTiles={props.teotibotVPForTechTiles}
@@ -471,12 +541,19 @@ export const TileList = (props) => {
         <div css={navButton} onClick={handleRollClick}>
           <img src={`${process.env.PUBLIC_URL}/dice/d3.png`} alt="d3" />
         </div>
+        {props.isAscend && <span css={navButton} onClick={handleAscendClick}>
+          <img
+            src={`${process.env.PUBLIC_URL}/resources/ascension.png`}
+            alt="eclipse"
+          />
+          {eclipseStage <= 2 ? `Eclipse in ${stepsUntilEclipse}` : ""} 
+        </span>}
         <span css={navButton} onClick={handleEclipseClick}>
           <img
             src={`${process.env.PUBLIC_URL}/resources/eclipse.png`}
             alt="eclipse"
           />
-          {eclipse <= 2 ? `Eclipse ${eclipse}` : "End game"}
+          {eclipseStage <= 2 ? `Eclipse ${eclipseStage}` : "Game over"}
         </span>
         <div css={navButton}>
           <img

@@ -10,6 +10,7 @@ import {
   expansion,
   expansionContainer,
   teotibotResourceContainer,
+  generalOption,
 } from "./Options.css.js";
 import { activeText } from "./Tiles/TileList.css";
 import { Checkbox } from "./Checkbox";
@@ -21,20 +22,45 @@ export const Options = (props) => {
       <div css={activeText} onClick={props.back}>
         <img src={`${process.env.PUBLIC_URL}/resources/back.png`} alt="Back" />
       </div>
-      {/* <div className={"checkbox-container"}>
-            <Checkbox
-              label="Ascend"
-              checked={props.isAscend}
-              onChange={props.onChangeIsAscend}
-            />
-          </div>
+      <h2>General</h2>
+      <div css={optionsSection}>
+        <div css={generalOption}>
           <div className={"checkbox-container"}>
             <Checkbox
-              label="Advanced"
+              label="Track Ascensions"
+              checked={props.isAscend}
+              onChange={props.onChangeIsAscend}
+              withTooltip={
+                "Click to track number of Ascensions until an Eclipse."
+              }
+            />
+          </div>
+        </div>
+        {props.isAscend && <div css={generalOption}>
+          <div className={"checkbox-container"}>
+            <Checkbox
+              label="Dark Eclipse Variant"
+              checked={props.isDarkEclipse}
+              onChange={props.onChangeIsDarkEclipse}
+              withTooltip={
+                "An Eclipse (scoring) happens immediately after the turn of the player who has caused the light disc to reach the space occupied by the dark disc."
+              }
+            />
+          </div>
+        </div>}
+        <div css={generalOption}>
+          <div className={"checkbox-container"}>
+            <Checkbox
+              label="Advanced bot tile descriptions"
               checked={props.isAdvanced}
               onChange={props.onChangeIsAdvanced}
+              withTooltip={
+                "Shorter bot tile summaries with no steps."
+              }
             />
-          </div> */}
+          </div>
+        </div>
+      </div>
       <h2>Expansions</h2>
       <div css={expansionContainer}>
         <div css={expansion}>
@@ -92,14 +118,14 @@ export const Options = (props) => {
           />
         </div>
         <div css={expansionOptions}>
-        <div className={"checkbox-container"}>
+          <div className={"checkbox-container"}>
             <Checkbox
               label="Obsidian"
               checked={props.isObsidian}
               onChange={props.onChangeIsObsidian}
             />
           </div>
-        <div className={"checkbox-container"}>
+          <div className={"checkbox-container"}>
             <Checkbox
               label="Alt. Teotibot movement"
               checked={props.isAlternateTeotibotMovement}
@@ -118,7 +144,10 @@ export const Options = (props) => {
                 +
               </span>
               <img className="action" src="./actions/no4.png" alt="Gold" />
-              <img src={`./dice/d${props.teotibotWorkerPowerForAction4}.png`} alt=""/>
+              <img
+                src={`./dice/d${props.teotibotWorkerPowerForAction4}.png`}
+                alt=""
+              />
               <span onClick={props.onDecreaseTeotibotWorkerPowerForAction4}>
                 -
               </span>
@@ -128,7 +157,10 @@ export const Options = (props) => {
                 +
               </span>
               <img className="action" src="./actions/no6.png" alt="Gold" />
-              <img src={`./dice/d${props.teotibotWorkerPowerForAction6}.png`} alt=""/>
+              <img
+                src={`./dice/d${props.teotibotWorkerPowerForAction6}.png`}
+                alt=""
+              />
               <span onClick={props.onDecreaseTeotibotWorkerPowerForAction6}>
                 -
               </span>
@@ -138,7 +170,10 @@ export const Options = (props) => {
                 +
               </span>
               <img className="action" src="./actions/no8.png" alt="Gold" />
-              <img src={`./dice/d${props.teotibotWorkerPowerForAction8}.png`} alt=""/>
+              <img
+                src={`./dice/d${props.teotibotWorkerPowerForAction8}.png`}
+                alt=""
+              />
               <span onClick={props.onDecreaseTeotibotWorkerPowerForAction8}>
                 -
               </span>
