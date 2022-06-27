@@ -2115,9 +2115,9 @@ const advancedDecorationsQuestions = (
         2
       )} and places the top most Decoration tile onto an available Decorations space on the Pyramid (clockwise from the top). Then the bot:</div>
       <ul>
-        <li>Scores 5 Victory Points ${getResourceImage("vp")}.</li>
-        <li><span class="bold">Advances*</span> on the Pyramid track ${getResourceImage("pyramid")}.</li>
-        <li><span>Advances</span> on any temple by one.</li>
+        <li>Scores 5 Victory Points ${getResourceImage("vp")}</li>
+        <li><span class="bold">Advances*</span> on the Pyramid track ${getResourceImage("pyramid")}</li>
+        <li><span>Advances</span> on any temple by one</li>
       </ul>
       <div><span class="step">2.</span> <span class="red">If 1. not performed</span> & Teotibot has at <span class="bold">least 1</span> worker on the Gold Deposits  action board, it gains ${gainResourcesNoText(
         gold,
