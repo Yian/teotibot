@@ -2260,7 +2260,6 @@ const advancedMasteryQuestions = (
         true
       )}: Attempt the board's action.</li>
       </ul>
-      </br>
       <div><span class="step">3.</span>
         <span class="red">If the action failed,</span> find the bot's next highest powered unlocked worker, and repeat step 2.
       </div>
