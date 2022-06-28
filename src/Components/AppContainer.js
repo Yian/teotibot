@@ -48,16 +48,16 @@ export class AppContainer extends React.Component {
         reactLocalStorage.get("isObsidian") ?? false
       ),
       isSetupComplete: JSON.parse(
-        reactLocalStorage.get("isSetupComplete") ?? true
+        reactLocalStorage.get("isSetupComplete") ?? false
       ),
       isAscend: JSON.parse(
-        reactLocalStorage.get("isAscend") ?? true
+        reactLocalStorage.get("isAscend") ?? false
       ),
       isDarkEclipse: JSON.parse(
-        reactLocalStorage.get("isDarkEclipse") ?? true
+        reactLocalStorage.get("isDarkEclipse") ?? false
       ),
       isAdvanced: JSON.parse(
-        reactLocalStorage.get("isAdvanced") ?? true
+        reactLocalStorage.get("isAdvanced") ?? false
       ),
       teotibotStartingGold: 2,
       teotibotStartingWood: 2,
