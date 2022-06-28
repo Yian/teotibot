@@ -24,6 +24,7 @@ import { Options } from "./Options";
 import { btnSettings, setup } from "./Setup/Setup.css";
 import { reactLocalStorage } from "reactjs-localstorage";
 import { Loading } from "./Loading";
+import { Heading } from "./Heading";
 
 export class AppContainer extends React.Component {
   constructor(props) {
@@ -523,6 +524,7 @@ export class AppContainer extends React.Component {
           {this.state.imagesLoaded ? (
             <div>
               <ul css={start}>
+              <Heading />
                 <div css={mainImg} />
                 <li onClick={this.start}>Start</li>
                 <li onClick={() => this.options(StartScreen)}>Options</li>

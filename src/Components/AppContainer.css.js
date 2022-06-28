@@ -1,5 +1,4 @@
-
-import { css } from '@emotion/react'
+import { css } from "@emotion/react";
 
 export const appContainer = css`
   width: 100%;
@@ -11,17 +10,17 @@ export const appContainer = css`
 `;
 
 export const mainImg = css`
-    width: 100%;
-    height: 100vh;
-    background-image: url("./backgrounds/main.jpg");
-    position: absolute;
-    background-size: contain;
-    z-index: 0;
-    opacity: 0.4;
-    background-repeat: no-repeat;
-    background-position: center center;
-    background-size: cover;
-    background-attachment: fixed;
+  width: 100%;
+  height: 100vh;
+  background-image: url("./backgrounds/main.jpg");
+  position: absolute;
+  background-size: contain;
+  z-index: 0;
+  opacity: 0.4;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
+  background-attachment: fixed;
 `;
 
 export const loadingText = css`
@@ -43,12 +42,33 @@ export const start = css`
   height: 100vh;
   margin: 0;
   list-style: none;
-  font-size: 5rem;
+  font-size: 4rem;
   padding: 0;
 
   li {
     cursor: pointer;
     z-index: 2;
     color: white;
+  }
+`;
+
+export const heading = css`
+  opacity: 1;
+  transform: none;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  h1 {
+    font-size: 4rem;
+    opacity: 1;
+    z-index: 2;
+    color: chocolate;
+  }
+
+  img {
+    height: 5rem;
+    z-index: 2;
   }
 `;
