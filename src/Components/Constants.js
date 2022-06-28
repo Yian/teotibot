@@ -904,7 +904,7 @@ export const baseTeotiPriestPriestessTiles = [
 ];
 
 const getImage = (imagePath) => {
-  return `<img class="icon" src=".${imagePath}" alt={}/>`;
+  return `<img class="icon" src=".${imagePath}"}/>`;
 };
 
 const getActionImage = (imageName) => {
@@ -968,7 +968,7 @@ export const powerupMsg = (
 5 cocoa ${getResourceImage(
     "5cocoa"
   )} (exchange <span class="bold">10</span> cocoa for <span class="bold">${teotibotVPFor10Cocoa}</span> VP ${getResourceImage(
-    "VP"
+    "vp"
   )}), powers up ${getResourceImage("powerup")} its lowest powered worker, and
 then advances it:</div>${advancement(
     isAlternateTeotibotMovement,
