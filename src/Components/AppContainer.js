@@ -491,6 +491,7 @@ export class AppContainer extends React.Component {
 
     reactLocalStorage.remove("eclipseStage");
     reactLocalStorage.remove("stepsUntilEclipse");
+    reactLocalStorage.remove("isSetupComplete");
   };
 
   back = () => {
