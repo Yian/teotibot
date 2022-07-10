@@ -65,6 +65,7 @@ export const heading = css`
     opacity: 1;
     z-index: 2;
     color: chocolate;
+    margin: 0;
   }
 
   img {

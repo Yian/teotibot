@@ -14,7 +14,14 @@ import { DicePlacement } from "./DicePlacement";
 import { find, remove, cloneDeep, shuffle } from "lodash";
 import { StartingResources } from "./StartingResources";
 import { PriestPriestessTiles } from "./PriestPriestessTiles";
-import { getNeutralArray, getPlayerArray, getTeotibotArray } from "../Logic";
+import {
+  getActionItemByValue,
+  getNeutralArray,
+  getPlayerArray,
+  getRandom,
+  getRandomArrayIndex,
+  getTeotibotArray,
+} from "../Logic";
 import {
   baseStartTiles,
   xitleStartTiles,
@@ -27,6 +34,8 @@ import {
   basePriestPriestessTiles,
   baseTeotiPriestPriestessTiles,
   obsidianPriestPriestessTiles,
+  altarsAndShamansPriestPriestessTiles,
+  getActionImage,
 } from "../Constants";
 
 export const Setup = (props) => {
@@ -39,7 +48,8 @@ export const Setup = (props) => {
   const [techTiles, setTechTiles] = useState([]);
   const [templeTiles, setTempleTiles] = useState([]);
   const [priestPriestessTiles, setPriestPriestessTiles] = useState([]);
-  const [teotibotPriestPriestessTiles, setTeotibotPriestPriestessTiles] = useState([]);
+  const [teotibotPriestPriestessTiles, setTeotibotPriestPriestessTiles] =
+    useState([]);
   const [hasScrolled, setHasScrolled] = useState(false);
   const [selectedStartTiles, setSelectedStartTiles] = useState([]);
   const [selectedResources, setSelectedResources] = useState([]);
@@ -53,6 +63,7 @@ export const Setup = (props) => {
   const [remainingStartTiles, setRemainingStartTiles] = useState([]);
   const [playerPlacements, setPlayerPlacements] = useState([]);
   const [teotibotPlacements, setTeotibotPlacements] = useState([]);
+  const [teotibotShamanPlacement, setTeotibotShamanPlacement] = useState([]);
   const [neutralPlacements1, setNeutralPlacements1] = useState([]);
   const [neutralPlacements2, setNeutralPlacements2] = useState([]);
   const [showPlayerStartingResources, setShowPlayerStartingResources] =
@@ -67,7 +78,7 @@ export const Setup = (props) => {
     useState(false);
   const [showIsHeightOfDevelopment, setShowIsHeightOfDevelopment] =
     useState(false);
-
+  const [showIsAltarsAndShamans, setShowIsAltarsAndShamans] = useState(false);
   const [
     showTeotibotPriestPriestessTiles,
     setShowTeotibotPriestPriestessTiles,
@@ -85,6 +96,11 @@ export const Setup = (props) => {
     );
   }, []);
 
+  const getShamanPlacement = useCallback((shuffledTiles) => {
+    let index = getRandomArrayIndex(shuffledTiles);
+    return shuffledTiles[index].numbers[0];
+  }, []);
+
   const getNeutralPlacement = useCallback((shuffledTiles) => {
     return getNeutralArray(shuffledTiles);
   }, []);
@@ -96,7 +112,8 @@ export const Setup = (props) => {
   const calcDicePlacements = useCallback(() => {
     let shuffledTiles = shuffle(cloneDeep(remainingStartTiles));
     setPlayerPlacements(getPlayerPlacements(selectedStartTiles));
-    setTeotibotPlacements(getTeotibotPlacement(shuffledTiles));
+    setTeotibotPlacements(getTeotibotPlacement());
+    setTeotibotShamanPlacement(getShamanPlacement(shuffledTiles));
     setNeutralPlacements1(getNeutralPlacement(shuffledTiles));
     setNeutralPlacements2(getNeutralPlacement(shuffledTiles));
   }, [selectedStartTiles, remainingStartTiles]);
@@ -139,22 +156,32 @@ export const Setup = (props) => {
     let teotibotPriestPriestessTiles = baseTeotiPriestPriestessTiles;
 
     if (props.isXitle) {
-      startTiles = [...startTiles, ...xitleStartTiles]
+      startTiles = [...startTiles, ...xitleStartTiles];
       techTiles = [...techTiles, ...xitleTechTiles];
     }
 
     if (props.isObsidian) {
-      startTiles = [...startTiles, ...periodStartTiles]
+      startTiles = [...startTiles, ...periodStartTiles];
       techTiles = [...techTiles, ...periodTechTiles];
-      priestPriestessTiles = [...priestPriestessTiles, ...obsidianPriestPriestessTiles]
+      priestPriestessTiles = [
+        ...priestPriestessTiles,
+        ...obsidianPriestPriestessTiles,
+      ];
+    }
+
+    if (props.isAltarsAndShamans) {
+      priestPriestessTiles = [
+        ...priestPriestessTiles,
+        ...altarsAndShamansPriestPriestessTiles,
+      ];
     }
 
     setStartTiles(startTiles);
     setTechTiles(techTiles);
     setTempleTiles(templeTiles);
-    setPriestPriestessTiles(priestPriestessTiles)
-    setTeotibotPriestPriestessTiles(teotibotPriestPriestessTiles)
-  }, [props.isXitle, props.isObsidian]);
+    setPriestPriestessTiles(priestPriestessTiles);
+    setTeotibotPriestPriestessTiles(teotibotPriestPriestessTiles);
+  }, [props.isXitle, props.isObsidian, props.isAltarsAndShamans]);
 
   useEffect(() => {
     if (selectedStartTiles.length >= 2) {
@@ -251,6 +278,9 @@ export const Setup = (props) => {
       if (props.isHeightOfDevelopment) {
         setShowIsHeightOfDevelopment(true);
       }
+      if (props.isAltarsAndShamans) {
+        setShowIsAltarsAndShamans(true);
+      }
       scrollIntoView(teotibotResourceRef);
       setShowTeotibotDice(true);
     }
@@ -315,7 +345,10 @@ export const Setup = (props) => {
         {showPlayerPriestPriestessTiles && (
           <div css={setupSection}>
             <h3>Priest/Priestess Tiles:</h3>
-            <PriestPriestessTiles priestPriestessTiles={priestPriestessTiles} numberToPick={2} />
+            <PriestPriestessTiles
+              priestPriestessTiles={priestPriestessTiles}
+              numberToPick={2}
+            />
           </div>
         )}
         {showPlayerPlacements && (
@@ -339,7 +372,10 @@ export const Setup = (props) => {
         {showTeotibotPriestPriestessTiles && (
           <div>
             <h3>Teotibot Priest/Priestess Tile:</h3>
-            <PriestPriestessTiles priestPriestessTiles={teotibotPriestPriestessTiles} numberToPick={1}/>
+            <PriestPriestessTiles
+              priestPriestessTiles={teotibotPriestPriestessTiles}
+              numberToPick={1}
+            />
           </div>
         )}
         {showTeotibotDice && (
@@ -351,11 +387,27 @@ export const Setup = (props) => {
             />
             {showIsHeightOfDevelopment && (
               <div css={orangeTemple}>
+                <h3>Height of development</h3>
                 <span>
                   Place one of Teotibot's worshippers on the Temple Bonus tile
                   of the orange temple.{" "}
                   <img src={`${process.env.PUBLIC_URL}/resources/to.png`} />
                 </span>
+              </div>
+            )}
+            {showIsAltarsAndShamans && (
+              <div css={orangeTemple}>
+                <h3>Altars and Shamans</h3>
+                <span>
+                Place the Shaman on the Major Discovery space of the first
+Altar counter-clockwise from:
+                </span>
+                <div>
+                <img
+                    src={`${process.env.PUBLIC_URL}/actions/no${teotibotShamanPlacement}.png`}
+                  />
+                  {getActionItemByValue(teotibotShamanPlacement).name}
+                  </div>
               </div>
             )}
           </div>

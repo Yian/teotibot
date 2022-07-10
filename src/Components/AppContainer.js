@@ -29,6 +29,7 @@ import { Heading } from "./Heading";
 export class AppContainer extends React.Component {
   constructor(props) {
     super(props);
+
     this.state = {
       screenMode: StartScreen,
       lastScreen: StartScreen,
@@ -45,21 +46,19 @@ export class AppContainer extends React.Component {
       isAlternateTeotibotMovement: JSON.parse(
         reactLocalStorage.get("isAlternateTeotibotMovement") ?? false
       ),
-      isObsidian: JSON.parse(
-        reactLocalStorage.get("isObsidian") ?? false
+      isObsidian: JSON.parse(reactLocalStorage.get("isObsidian") ?? false),
+      isMansion: JSON.parse(reactLocalStorage.get("isMansion") ?? false),
+      isAltarsAndShamans: JSON.parse(
+        reactLocalStorage.get("isAltarsAndShamans") ?? false
       ),
       isSetupComplete: JSON.parse(
         reactLocalStorage.get("isSetupComplete") ?? false
       ),
-      isAscend: JSON.parse(
-        reactLocalStorage.get("isAscend") ?? false
-      ),
+      isAscend: JSON.parse(reactLocalStorage.get("isAscend") ?? false),
       isDarkEclipse: JSON.parse(
         reactLocalStorage.get("isDarkEclipse") ?? false
       ),
-      isAdvanced: JSON.parse(
-        reactLocalStorage.get("isAdvanced") ?? false
-      ),
+      isAdvanced: JSON.parse(reactLocalStorage.get("isAdvanced") ?? false),
       teotibotStartingGold: 2,
       teotibotStartingWood: 2,
       teotibotStartingStone: 2,
@@ -97,33 +96,23 @@ export class AppContainer extends React.Component {
     });
 
     actionNames.forEach((action) => {
-      imageUrls.push(
-        `${process.env.PUBLIC_URL}/actions/no${action.value}.png`
-      );
+      imageUrls.push(`${process.env.PUBLIC_URL}/actions/no${action.value}.png`);
     });
 
     diceFaces.forEach((action) => {
-      imageUrls.push(
-        `${process.env.PUBLIC_URL}/dice/d${action.value}.png`
-      );
+      imageUrls.push(`${process.env.PUBLIC_URL}/dice/d${action.value}.png`);
     });
 
     resourcesToPreload.forEach((resourceName) => {
-      imageUrls.push(
-        `${process.env.PUBLIC_URL}/resources/${resourceName}.png`
-      );
+      imageUrls.push(`${process.env.PUBLIC_URL}/resources/${resourceName}.png`);
     });
 
     baseBotTiles.forEach((tile) => {
-      imageUrls.push(
-        `${process.env.PUBLIC_URL}/bot_tiles/${tile.src}.png`
-      );
+      imageUrls.push(`${process.env.PUBLIC_URL}/bot_tiles/${tile.src}.png`);
     });
 
     backgroundsToPreload.forEach((background) => {
-      imageUrls.push(
-        `${process.env.PUBLIC_URL}/backgrounds/${background}.jpg`
-      );
+      imageUrls.push(`${process.env.PUBLIC_URL}/backgrounds/${background}.jpg`);
     });
 
     const loadImage = (image) => {
@@ -292,6 +281,11 @@ export class AppContainer extends React.Component {
   };
 
   setIsObsidian = (isObsidian) => {
+    if (!isObsidian) {
+      this.setIsMansion(false);
+      this.setIsAltarsAndShamans(false);
+    }
+
     this.setState(
       {
         isObsidian,
@@ -308,6 +302,44 @@ export class AppContainer extends React.Component {
     );
   };
 
+  setIsMansion = (isMansion) => {
+    this.setState(
+      {
+        isMansion,
+      },
+      () => {
+        reactLocalStorage.set("isMansion", isMansion);
+      }
+    );
+  };
+
+  onChangeIsMansion = (e) => {
+    this.setIsMansion(
+      e.target.type === "checkbox" ? e.target.checked : e.target.value
+    );
+    
+    this.setIsObsidian(true);
+  };
+
+  setIsAltarsAndShamans = (isAltarsAndShamans) => {
+    this.setState(
+      {
+        isAltarsAndShamans,
+      },
+      () => {
+        reactLocalStorage.set("isAltarsAndShamans", isAltarsAndShamans);
+      }
+    );
+  };
+
+  onChangeIsAltarsAndShamans = (e) => {
+    this.setIsAltarsAndShamans(
+      e.target.type === "checkbox" ? e.target.checked : e.target.value
+    );
+
+    this.setIsObsidian(true);
+  };
+
   //Options
 
   //Teotibot starting resources
@@ -318,6 +350,7 @@ export class AppContainer extends React.Component {
       });
     }
   };
+
   onDecreaseTeotibotStartingGold = (e) => {
     if (this.state.teotibotStartingGold > 1) {
       this.setState({
@@ -325,6 +358,7 @@ export class AppContainer extends React.Component {
       });
     }
   };
+
   onIncreaseTeotibotStartingWood = (e) => {
     if (this.state.teotibotStartingWood < 3) {
       this.setState({
@@ -332,6 +366,7 @@ export class AppContainer extends React.Component {
       });
     }
   };
+
   onDecreaseTeotibotStartingWood = (e) => {
     if (this.state.teotibotStartingWood > 1) {
       this.setState({
@@ -339,6 +374,7 @@ export class AppContainer extends React.Component {
       });
     }
   };
+
   onIncreaseTeotibotStartingStone = (e) => {
     if (this.state.teotibotStartingStone < 3) {
       this.setState({
@@ -346,6 +382,7 @@ export class AppContainer extends React.Component {
       });
     }
   };
+
   onDecreaseTeotibotStartingStone = (e) => {
     if (this.state.teotibotStartingStone > 1) {
       this.setState({
@@ -361,6 +398,7 @@ export class AppContainer extends React.Component {
       });
     }
   };
+
   onDecreaseTeotibotVPfor10Cocoa = (e) => {
     if (this.state.teotibotVPFor10Cocoa > 2) {
       this.setState({
@@ -376,6 +414,7 @@ export class AppContainer extends React.Component {
       });
     }
   };
+
   onDecreaseTeotibotStepsPerWorship = (e) => {
     if (this.state.teotibotStepsPerWorship > 1) {
       this.setState({
@@ -391,6 +430,7 @@ export class AppContainer extends React.Component {
       });
     }
   };
+
   onDecreaseTeotibotVPForTempleTiles = (e) => {
     if (this.state.teotibotVPForTempleTiles > 5) {
       this.setState({
@@ -406,6 +446,7 @@ export class AppContainer extends React.Component {
       });
     }
   };
+
   onDecreaseTeotibotVPForTechTiles = (e) => {
     if (this.state.teotibotVPForTechTiles > 0) {
       this.setState({
@@ -422,6 +463,7 @@ export class AppContainer extends React.Component {
       });
     }
   };
+
   onDecreaseTeotibotWorkerPowerForAction4 = (e) => {
     if (this.state.teotibotWorkerPowerForAction4 > 1) {
       this.setState({
@@ -430,6 +472,7 @@ export class AppContainer extends React.Component {
       });
     }
   };
+
   onIncreaseTeotibotWorkerPowerForAction6 = (e) => {
     if (this.state.teotibotWorkerPowerForAction6 < 4) {
       this.setState({
@@ -438,6 +481,7 @@ export class AppContainer extends React.Component {
       });
     }
   };
+
   onDecreaseTeotibotWorkerPowerForAction6 = (e) => {
     if (this.state.teotibotWorkerPowerForAction6 > 1) {
       this.setState({
@@ -446,6 +490,7 @@ export class AppContainer extends React.Component {
       });
     }
   };
+
   onIncreaseTeotibotWorkerPowerForAction8 = (e) => {
     if (this.state.teotibotWorkerPowerForAction8 < 4) {
       this.setState({
@@ -471,6 +516,7 @@ export class AppContainer extends React.Component {
       });
     }
   };
+
   onDecreaseTeotibotResourcesToGain = (e) => {
     if (this.state.teotibotResourcesToGain > 1) {
       this.setState({
@@ -516,22 +562,21 @@ export class AppContainer extends React.Component {
     reactLocalStorage.set("isSetupComplete", true);
   };
 
-  
-  renderApp = () => {   
+  renderApp = () => {
     if (this.state.screenMode === StartScreen) {
       return (
         <div>
           {this.state.imagesLoaded ? (
             <div>
               <ul css={start}>
-              <Heading />
+                <Heading />
                 <div css={mainImg} />
                 <li onClick={this.start}>Start</li>
                 <li onClick={() => this.options(StartScreen)}>Options</li>
               </ul>
             </div>
           ) : (
-            <Loading/>
+            <Loading />
           )}
         </div>
       );
@@ -548,6 +593,7 @@ export class AppContainer extends React.Component {
             startApp={this.startApp}
             isXitle={this.state.isXitle}
             isObsidian={this.state.isObsidian}
+            isAltarsAndShamans={this.state.isAltarsAndShamans}
             isHeightOfDevelopment={this.state.isHeightOfDevelopment}
             isPriestAndPriestess={this.state.isPriestAndPriestess}
             isAlternateTeotibotMovement={this.state.isAlternateTeotibotMovement}
@@ -573,6 +619,8 @@ export class AppContainer extends React.Component {
           back={this.back}
           isXitle={this.state.isXitle}
           isObsidian={this.state.isObsidian}
+          isMansion={this.state.isMansion}
+          isAltarsAndShamans={this.state.isAltarsAndShamans}
           isHeightOfDevelopment={this.state.isHeightOfDevelopment}
           isAlternateTeotibotMovement={this.state.isAlternateTeotibotMovement}
           teotibotVPFor10Cocoa={this.state.teotibotVPFor10Cocoa}
@@ -607,6 +655,10 @@ export class AppContainer extends React.Component {
           onChangeIsPriestAndPriestess={this.onChangeIsPriestAndPriestess}
           isObsidian={this.state.isObsidian}
           onChangeIsObsidian={this.onChangeIsObsidian}
+          isMansion={this.state.isMansion}
+          onChangeIsMansion={this.onChangeIsMansion}
+          isAltarsAndShamans={this.state.isAltarsAndShamans}
+          onChangeIsAltarsAndShamans={this.onChangeIsAltarsAndShamans}
           isSeasonsOfProgress={this.state.isSeasonsOfProgress}
           onChangeIsSeasonsOfProgress={this.onChangeIsSeasonsOfProgress}
           isSetupComplete={this.state.isSetupComplete}

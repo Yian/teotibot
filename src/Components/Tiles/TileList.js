@@ -44,6 +44,8 @@ import {
   initialOrdering,
   alternativeDirectionTilesStep2,
   alternativeDirectionTilesStep3,
+  dFaces,
+  shamanBotTiles,
 } from "../Constants";
 import { cloneDeep } from "lodash-es";
 import Dice from "react-dice-roll";
@@ -54,6 +56,7 @@ export const TileList = (props) => {
     var currentDirectionTileOrdering = JSON.parse(
       reactLocalStorage.get("directionTileOrdering") ?? null
     );
+    
     var defaultDirectionTileOrdering = shuffle(
       props.isAlternateTeotibotMovement
         ? initialAlternativeDirectionOrdering
@@ -93,7 +96,7 @@ export const TileList = (props) => {
   }, []);
 
   const initialStepsUntilEclipse = 10;
-  const [tiles] = useState(baseBotTiles);
+  const [tiles, setTiles] = useState(baseBotTiles);
   const [startTiles, setStartTiles] = useState([]);
   const [directionTiles, setDirectionTiles] = useState([]);
   const [ordering, setOrdering] = useState(getInitialOrdering); //inital ordering;
@@ -316,6 +319,13 @@ export const TileList = (props) => {
   });
 
   useEffect(() => {
+    const tiles = props.isAltarsAndShamans
+      ? shamanBotTiles
+      : baseBotTiles;
+    setTiles(tiles);
+  }, [props.isAltarsAndShamans]);
+
+  useEffect(() => {
     const tiles = props.isXitle
       ? [...baseStartTiles, ...xitleStartTiles]
       : baseStartTiles;
@@ -468,15 +478,6 @@ export const TileList = (props) => {
     [x, selectedTileIndex]
   );
 
-  const dFaces = [
-    `${process.env.PUBLIC_URL}/dice/d1.png`,
-    `${process.env.PUBLIC_URL}/dice/d2.png`,
-    `${process.env.PUBLIC_URL}/dice/d3.png`,
-    `${process.env.PUBLIC_URL}/dice/d4.png`,
-    `${process.env.PUBLIC_URL}/dice/d5.png`,
-    `${process.env.PUBLIC_URL}/dice/d6.png`,
-  ];
-
   return (
     <div css={tileListContainer}>
       <div css={mainImg} />
@@ -492,6 +493,8 @@ export const TileList = (props) => {
             teotibotVPFor10Cocoa={props.teotibotVPFor10Cocoa}
             isAlternateTeotibotMovement={props.isAlternateTeotibotMovement}
             isObsidian={props.isObsidian}
+            isMansion={props.isMansion}
+            isAltarsAndShamans={props.isAltarsAndShamans}
             isAdvanced={props.isAdvanced}
             topDirectionTile={directionTiles[directionOrdering[0]]}
           />

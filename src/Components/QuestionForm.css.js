@@ -13,11 +13,11 @@ export const questionModal = css`
   background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
 `;
 
-export const modalHeading = css`
+export const modalHeading = (margin = 50) => css`
   display: flex;
   flex-direction: row-reverse;
   align-items: center;
-  margin: 50px 0 0 0;
+  margin: ${margin}px 0 0 0;
 
   img {
     width: 200px;
@@ -97,55 +97,6 @@ export const questionModalContent = css`
   @media ${mediaQueries.isLg} {
     width: 65%;
   }
-
-  .icon {
-    height: 1.75rem;
-    vertical-align: middle;
-  }
-
-  .icon-dev {
-    height: 3rem;
-    vertical-align: middle;
-  }
-
-  .green {
-    color: #35a7c6;
-  }
-
-  .step {
-    color: black;
-  }
-
-  .red {
-    color: red;
-  }
-
-  .bold {
-    color: #30c5bd;
-  }
-
-  .height {
-    display: block;
-    margin: 20px 0;
-  }
-  
-  .margin {
-    margin: 1rem 0;
-  }
-
-  .templeTip {
-    margin: 15px 0;
-    color: #35a7c6;
-    font-size: 1.5rem;
-
-    @media ${mediaQueries.isMaxLg} {
-      font-size: 1rem;
-    }
-  }
-
-  .priority {
-    margin: 10px 0;
-  }
 `;
 
 export const questionModalPlacements = css`
@@ -174,11 +125,31 @@ export const modalClose = css`
   cursor: pointer;
 `;
 
-export const buttons = (margin) => css`
+export const content = (margin) => css`
   display: flex;
   flex-direction: row;
   justify-content: space-evenly;
   margin: ${margin ?? 0}px 0;
+  font-size: 1.75rem;
+
+  div {
+    cursor: pointer;
+  }
+
+  div:first-of-type {
+    color: #30c5bd;
+  }
+
+  div:nth-of-type(2) {
+    color: #d15959;
+  }
+`;
+
+export const buttons = (margin) => css`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  margin: 50px 0 ${margin ?? 0}px 0;
   font-size: 1.75rem;
 
   div {

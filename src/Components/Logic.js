@@ -236,7 +236,7 @@ export const getRandom = (arr, n) => {
   return result;
 };
 
-function getRandomArrayIndex(arr) {
+export const getRandomArrayIndex = (arr) => {
   return Math.floor(Math.random() * (arr.length - 1)) + 1;
 }
 
@@ -362,4 +362,22 @@ export function getPlayerArray(selectedStartTiles) {
   });
 
   return playerPositions;
+}
+
+export function getMansionResults(dieResult) {
+  var result = 0;
+  switch (dieResult) {
+    case 1:
+      result = `<span>The <span class="bold">left</span> Royal tile is activated, <span class="weight">if it was previously claimed by either you or Teotibot</span></span>`;
+      break;
+    case 2:
+      result = `<span>The <span class="bold">middle</span> Royal tile is activated, <span class="weight">if it was previously claimed by either you or Teotibot</span></span>`;
+      break;
+    case 3:
+      result = `<span>The <span class="bold">right</span> Royal tile is activated, <span class="weight">if it was previously claimed by either you or Teotibot</span></span>`;
+      break;
+    default:
+      result = `<span class="bold">nothing happens.</span>`;
+  }
+  return result;
 }

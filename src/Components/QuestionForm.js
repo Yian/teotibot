@@ -1,5 +1,5 @@
 /** @jsx jsx */
-import React from "react";
+import React, { useState } from "react";
 import { jsx } from "@emotion/react";
 import parse from "html-react-parser";
 import {
@@ -15,6 +15,7 @@ import {
   btnContinue,
   modalHeadingEclipse,
   endGame,
+  content,
 } from "./QuestionForm.css";
 import {
   powerupMsg,
@@ -23,10 +24,88 @@ import {
   masteryQuestions,
   TilesToQuestions,
   AdvancedTilesToQuestions,
+  shamanText,
 } from "./Constants";
 import { DicePlacement } from "./Setup/DicePlacement";
 import { getNeutralArray } from "./Logic";
 import { cloneDeep } from "lodash";
+import { tippy } from "@tippyjs/react";
+import { Mansion } from "./Mansion";
+
+const Question = (props) => {
+  const [isMansionResult, setIsMansionResult] = useState(false);
+
+  const onMansionResult = (value) => {
+    setIsMansionResult(value);
+  };
+
+  return (
+    <div css={questionForm(props.margin)}>
+      {!isMansionResult && props.children}
+      {props.isMansion && props.showMansion && (
+        <div>
+          <h4>Mansion</h4>
+          <Mansion onMansionResult={onMansionResult} />
+        </div>
+      )}
+      {props.showAltarsAndShamans && props.isAltarsAndShamans && (
+        parse(shamanText())
+      )}
+      {!props.isEnd ? (
+        <div css={content(props.margin)}>
+          <div
+            onClick={
+              !props.endsOnYes
+                ? () => {
+                    props.onSelect("yes");
+                  }
+                : () => props.onExitForm(true)
+            }
+          >
+            yes
+          </div>
+          <div
+            onClick={
+              !props.fromMastery
+                ? () => {
+                    props.onSelect("no");
+                  }
+                : () => {
+                    props.onRestartQuestions(props.masteryQuestionId);
+                  }
+            }
+          >
+            no
+          </div>
+        </div>
+      ) : !props.noButtons ? (
+        <CloseForm
+          margin={props.margin}
+          isEnd={props.isEnd}
+          onExitForm={props.onExitForm}
+          fromMastery={props.fromMastery}
+          questionId={props.questionId}
+          onRestartQuestions={props.onRestartQuestions}
+        />
+      ) : (
+        <div></div>
+      )}
+    </div>
+  );
+};
+
+function CloseForm(props) {
+  return (
+    <div>
+      <div css={buttons(props.margin)}>
+        <div onClick={() => props.onExitForm(true)}>continue</div>
+        {props.questionId !== 1 && (props.isEnd || props.fromMastery) && (
+          <div onClick={props.onRestartQuestions}>restart</div>
+        )}
+      </div>
+    </div>
+  );
+}
 
 export class QuestionForm extends React.Component {
   constructor(props) {
@@ -69,7 +148,7 @@ export class QuestionForm extends React.Component {
             props.eclipseStage,
             props.teotibotStepsPerWorship,
             props.teotibotVPFor10Cocoa,
-            props.isHeightOfDevelopment
+            props.isHeightOfDevelopment,
           )
         : AdvancedTilesToQuestions(
             props.tileSrc,
@@ -82,6 +161,25 @@ export class QuestionForm extends React.Component {
             props.teotibotVPFor10Cocoa,
             props.isHeightOfDevelopment
           ),
+    });
+  }
+
+  componentDidUpdate() {
+    tippy(".tippy", {
+      allowHTML: true,
+      content: `<div class="templeTip"><div>*Advance Teotibot on its highest temple ignoring topmost.</div>
+    <div class="priority">
+      Temple priority: <br/>
+      ${getResourceImage("tb")} ->
+      ${getResourceImage("tr")} ->
+      ${getResourceImage("tg")}
+    </div>
+    <div class="priority">
+      Resource priority:<br/>
+      Least -> ${getResourceImage("gold")} -> ${getResourceImage(
+        "stone"
+      )} -> ${getResourceImage("wood")}
+    </div></div>`,
     });
   }
 
@@ -163,8 +261,9 @@ export class QuestionForm extends React.Component {
             />
           </div>
 
+          {/* //Heading */}
           {this.props.tileName !== Eclipse ? (
-            <div css={modalHeading}>
+            <div css={modalHeading(this.props.isAdvanced ? 100 : 50)}>
               <h2>{this.props.tileName}</h2>
               <img
                 src={`${process.env.PUBLIC_URL}/bot_tiles/${this.props.tileSrc}.png`}
@@ -190,6 +289,10 @@ export class QuestionForm extends React.Component {
               endsOnYes={question.endsOnYes}
               noButtons={question.noButtons}
               margin={question.margin}
+              isMansion={this.props.isMansion}
+              isAltarsAndShamans={this.props.isAltarsAndShamans}
+              showMansion={question.showMansion}
+              showAltarsAndShamans={question.showAltarsAndShamans}
               onExitForm={this.onExitForm}
               fromMastery={fromMastery}
               onRestartQuestions={this.onRestartQuestions}
@@ -258,112 +361,54 @@ export class QuestionForm extends React.Component {
             </div>
           )}
 
-          {!this.props.isAdvanced && this.props.tileName === "Mastery" && !this.state.fromMastery && (
-            <div css={masteryForm}>
-              <div>Find the bots highest powered unlocked die.</div>
-              <div>Select the Action Board below:</div>
-              <ul>
-                {masteryQuestions.map((question) => (
-                  <li
-                    css={
-                      this.state.masteryAnswers.indexOf(question.id) >= 0
-                        ? strikeOut
-                        : {}
-                    }
-                    key={question.id}
-                    onClick={() =>
-                      this.onClickMasteryOption(
-                        question.action,
+          {!this.props.isAdvanced &&
+            this.props.tileName === "Mastery" &&
+            !this.state.fromMastery && (
+              <div css={masteryForm}>
+                <div>Find the bots highest powered unlocked die.</div>
+                <div>Select the Action Board below:</div>
+                <ul>
+                  {masteryQuestions.map((question) => (
+                    <li
+                      css={
+                        this.state.masteryAnswers.indexOf(question.id) >= 0
+                          ? strikeOut
+                          : {}
+                      }
+                      key={question.id}
+                      onClick={() =>
+                        this.onClickMasteryOption(
+                          question.action,
+                          this.props.isAlternateTeotibotMovement,
+                          this.props.topDirectionTile,
+                          this.props.isObsidian,
+                          this.props.teotibotResourcesToGain,
+                          this.props.eclipseStage
+                        )
+                      }
+                    >
+                      {parse(question.name)}
+                    </li>
+                  ))}
+                </ul>
+                {this.state.masteryAnswers.length >= 7 && (
+                  <div>
+                    {parse(
+                      powerupMsg(
                         this.props.isAlternateTeotibotMovement,
                         this.props.topDirectionTile,
-                        this.props.isObsidian,
-                        this.props.teotibotResourcesToGain,
-                        this.props.eclipseStage
+                        this.props.teotibotVPFor10Cocoa
                       )
-                    }
-                  >
-                    {parse(question.name)}
-                  </li>
-                ))}
-              </ul>
-              {this.state.masteryAnswers.length >= 7 && (
-                <div>
-                  {parse(
-                    powerupMsg(
-                      this.props.isAlternateTeotibotMovement,
-                      this.props.topDirectionTile,
-                      this.props.teotibotVPFor10Cocoa
-                    )
-                  )}
-                  <div css={buttons(50)}>
-                    <div onClick={() => this.onExitForm(true)}>continue</div>
+                    )}
+                    <div css={buttons(50)}>
+                      <div onClick={() => this.onExitForm(true)}>continue</div>
+                    </div>
                   </div>
-                </div>
-              )}
-            </div>
-          )}
+                )}
+              </div>
+            )}
         </div>
       </div>
     );
   }
-}
-
-const Question = (props) => {
-  return (
-    <div css={questionForm(props.margin)}>
-      {props.children}
-      {!props.isEnd ? (
-        <div css={buttons(props.margin)}>
-          <div
-            onClick={
-              !props.endsOnYes
-                ? () => {
-                    props.onSelect("yes");
-                  }
-                : () => props.onExitForm(true)
-            }
-          >
-            yes
-          </div>
-          <div
-            onClick={
-              !props.fromMastery
-                ? () => {
-                    props.onSelect("no");
-                  }
-                : () => {
-                    props.onRestartQuestions(props.masteryQuestionId);
-                  }
-            }
-          >
-            no
-          </div>
-        </div>
-      ) : !props.noButtons ? (
-        <CloseForm
-          margin={props.margin}
-          isEnd={props.isEnd}
-          onExitForm={props.onExitForm}
-          fromMastery={props.fromMastery}
-          questionId={props.questionId}
-          onRestartQuestions={props.onRestartQuestions}
-        />
-      ) : (
-        <div></div>
-      )}
-    </div>
-  );
-};
-
-function CloseForm(props) {
-  return (
-    <div>
-      <div css={buttons(props.margin)}>
-        <div onClick={() => props.onExitForm(true)}>continue</div>
-        {props.questionId !== 1 && (props.isEnd || props.fromMastery) && (
-          <div onClick={props.onRestartQuestions}>restart</div>
-        )}
-      </div>
-    </div>
-  );
 }

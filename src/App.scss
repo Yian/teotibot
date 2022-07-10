@@ -69,6 +69,55 @@ body::-webkit-scrollbar {
   }
 }
 
-.player-text {
-  margin-right: 10px;
+.templeTip {
+  margin: 15px 0;
+  color: #35a7c6;
+  font-size: 1.5rem;
+
+  @media (max-width: 1199px) {
+    font-size: 1rem;
+  }
+}
+
+.icon {
+  height: 1.75rem;
+  vertical-align: middle;
+}
+
+.icon-dev {
+  height: 3rem;
+  vertical-align: middle;
+}
+
+.green {
+  color: #35a7c6;
+}
+
+.step {
+  color: black;
+}
+
+.red {
+  color: red;
+}
+
+.bold {
+  color: #30c5bd;
+}
+
+.weight {
+  font-weight: bold;
+}
+
+.height {
+  display: block;
+  margin: 20px 0;
+}
+
+.margin {
+  margin: 1rem 0;
+}
+
+.priority {
+  margin: 10px 0;
 }

@@ -127,6 +127,20 @@ export const Options = (props) => {
           </div>
           <div className={"checkbox-container"}>
             <Checkbox
+              label="Mansion"
+              checked={props.isMansion}
+              onChange={props.onChangeIsMansion}
+            />
+          </div>
+          <div className={"checkbox-container"}>
+            <Checkbox
+              label="Altars and Shamans"
+              checked={props.isAltarsAndShamans}
+              onChange={props.onChangeIsAltarsAndShamans}
+            />
+          </div>
+          <div className={"checkbox-container"}>
+            <Checkbox
               label="Alt. Teotibot movement"
               checked={props.isAlternateTeotibotMovement}
               onChange={props.onChangeAlternateTeotibotMovement}

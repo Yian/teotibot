@@ -35,8 +35,8 @@ export const btnSettings = css`
 
 export const orangeTemple = css`
   display: flex;
+  flex-direction: column;
   justify-content: center;
-  align-items: center;
   margin: 2rem 0;
 
   img {
