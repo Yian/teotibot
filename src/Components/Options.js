@@ -36,27 +36,36 @@ export const Options = (props) => {
             />
           </div>
         </div>
-        {props.isAscend && <div css={generalOption}>
-          <div className={"checkbox-container"}>
-            <Checkbox
-              label="Dark Eclipse Variant"
-              checked={props.isDarkEclipse}
-              onChange={props.onChangeIsDarkEclipse}
-              withTooltip={
-                "An Eclipse (scoring) happens immediately after the turn of the player who has caused the light disc to reach the space occupied by the dark disc."
-              }
-            />
+        {props.isAscend && (
+          <div css={generalOption}>
+            <div className={"checkbox-container"}>
+              <Checkbox
+                label="Dark Eclipse Variant"
+                checked={props.isDarkEclipse}
+                onChange={props.onChangeIsDarkEclipse}
+                withTooltip={
+                  "An Eclipse (scoring) happens immediately after the turn of the player who has caused the light disc to reach the space occupied by the dark disc."
+                }
+              />
+            </div>
           </div>
-        </div>}
+        )}
         <div css={generalOption}>
           <div className={"checkbox-container"}>
             <Checkbox
               label="Advanced bot tile descriptions"
               checked={props.isAdvanced}
               onChange={props.onChangeIsAdvanced}
-              withTooltip={
-                "Shorter bot tile summaries with no steps."
-              }
+              withTooltip={"Shorter bot tile summaries with no steps."}
+            />
+          </div>
+        </div>
+        <div css={generalOption}>
+          <div className={"checkbox-container"}>
+            <Checkbox
+              label="Skip setup"
+              checked={props.isSkipSetup}
+              onChange={props.onChangeIsSkipSetup}
             />
           </div>
         </div>
@@ -137,6 +146,13 @@ export const Options = (props) => {
               label="Altars and Shamans"
               checked={props.isAltarsAndShamans}
               onChange={props.onChangeIsAltarsAndShamans}
+            />
+          </div>
+          <div className={"checkbox-container"}>
+            <Checkbox
+              label="Expanding Empire"
+              checked={props.isEmpires}
+              onChange={props.onChangeIsEmpires}
             />
           </div>
           <div className={"checkbox-container"}>
@@ -276,13 +292,11 @@ export const Options = (props) => {
             </div>
           </div>
         </div>
-        {props.isSetupComplete && (
-          <div css={optionsSection}>
-            <div css={btnNew} onClick={props.newGame}>
-              <span>New game</span>
-            </div>
+        <div css={optionsSection}>
+          <div css={btnNew} onClick={props.newGame}>
+            <span>New game</span>
           </div>
-        )}
+        </div>
       </div>
     </div>
   );

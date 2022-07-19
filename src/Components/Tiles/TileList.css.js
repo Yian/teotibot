@@ -1,4 +1,5 @@
 import { css } from "@emotion/react";
+import { mediaQueries } from "../variables";
 
 export const tileListContainer = css`
   display: flex;
@@ -34,27 +35,27 @@ export const tileList = css`
 `;
 
 export const directionTileImage = css`
-    position: fixed;
-    display: block;
-    top: 35%;
-    overflow: visible;
-    transform-origin: 50% 50% 0px;
-    line-height: 96px;
-    width: 400px;
-    height: 100%;
-    max-width: 100%;
-    cursor: pointer;
-    z-index: 2;
+  position: fixed;
+  display: block;
+  top: 35%;
+  overflow: visible;
+  transform-origin: 50% 50% 0px;
+  line-height: 96px;
+  width: 400px;
+  height: 100%;
+  max-width: 100%;
+  cursor: pointer;
+  z-index: 2;
 
-    @media only screen and (orientation: landscape) {
-      top: 20%;
-    }
+  @media only screen and (orientation: landscape) {
+    top: 20%;
+  }
 
-    @media only screen and (min-height: 24rem) {
-      top: 12%;
-    }
-   background-size: contain;
-   background-repeat: no-repeat;
+  @media only screen and (min-height: 24rem) {
+    top: 12%;
+  }
+  background-size: contain;
+  background-repeat: no-repeat;
 `;
 
 export const directionTileLeft = css`
@@ -119,12 +120,12 @@ export const nav = css`
   img {
     padding-right: 5px;
   }
-  
-  @media only screen and (max-width: 480px) { 
+
+  @media only screen and (max-width: 480px) {
     font-size: 1rem;
   }
 
-  @media only screen and (max-width: 400px) { 
+  @media only screen and (max-width: 400px) {
     height: 40px;
   }
 `;
@@ -166,5 +167,26 @@ export const activeText = css`
 
   @media only screen and (max-width: 450px) {
     font-size: 2rem;
+  }
+`;
+
+export const empire = css`
+  width: 100px;
+  position: fixed;
+  top: 80px;
+  /* left: 38%; */
+  /* transform: translate(-50%, -50%); */
+  left: 10px;
+
+  @media ${mediaQueries.isMaxSm} {
+    width: 75px;
+  }
+
+  @media ${mediaQueries.isSm} {
+    width: 100px;
+  }
+
+  @media ${mediaQueries.isLg} {
+    width: 150px;
   }
 `;

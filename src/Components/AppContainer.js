@@ -6,7 +6,6 @@ import { Setup } from "./Setup/Setup";
 import { appContainer, mainImg, start } from "./AppContainer.css";
 import {
   backgroundsToPreload,
-  baseBotTiles,
   baseStartTiles,
   xitleStartTiles,
   baseTechTiles,
@@ -19,12 +18,15 @@ import {
   diceFaces,
   resourcesToPreload,
   actionNames,
+  botTiles,
+  empireResourcesToPreload,
 } from "./Constants";
 import { Options } from "./Options";
 import { btnSettings, setup } from "./Setup/Setup.css";
 import { reactLocalStorage } from "reactjs-localstorage";
 import { Loading } from "./Loading";
 import { Heading } from "./Heading";
+import { PathTiles } from "./Tiles/PathTiles";
 
 export class AppContainer extends React.Component {
   constructor(props) {
@@ -51,6 +53,7 @@ export class AppContainer extends React.Component {
       isAltarsAndShamans: JSON.parse(
         reactLocalStorage.get("isAltarsAndShamans") ?? false
       ),
+      isEmpires: JSON.parse(reactLocalStorage.get("isEmpires") ?? false),
       isSetupComplete: JSON.parse(
         reactLocalStorage.get("isSetupComplete") ?? false
       ),
@@ -59,6 +62,7 @@ export class AppContainer extends React.Component {
         reactLocalStorage.get("isDarkEclipse") ?? false
       ),
       isAdvanced: JSON.parse(reactLocalStorage.get("isAdvanced") ?? false),
+      isSkipSetup: false,
       teotibotStartingGold: 2,
       teotibotStartingWood: 2,
       teotibotStartingStone: 2,
@@ -107,12 +111,16 @@ export class AppContainer extends React.Component {
       imageUrls.push(`${process.env.PUBLIC_URL}/resources/${resourceName}.png`);
     });
 
-    baseBotTiles.forEach((tile) => {
+    botTiles().forEach((tile) => {
       imageUrls.push(`${process.env.PUBLIC_URL}/bot_tiles/${tile.src}.png`);
     });
 
     backgroundsToPreload.forEach((background) => {
       imageUrls.push(`${process.env.PUBLIC_URL}/backgrounds/${background}.jpg`);
+    });
+    
+    empireResourcesToPreload.forEach((background) => {
+      imageUrls.push(`${process.env.PUBLIC_URL}/empire/${background}.jpg`);
     });
 
     const loadImage = (image) => {
@@ -284,6 +292,7 @@ export class AppContainer extends React.Component {
     if (!isObsidian) {
       this.setIsMansion(false);
       this.setIsAltarsAndShamans(false);
+      this.setIsEmpires(false);
     }
 
     this.setState(
@@ -317,7 +326,7 @@ export class AppContainer extends React.Component {
     this.setIsMansion(
       e.target.type === "checkbox" ? e.target.checked : e.target.value
     );
-    
+
     this.setIsObsidian(true);
   };
 
@@ -338,6 +347,37 @@ export class AppContainer extends React.Component {
     );
 
     this.setIsObsidian(true);
+  };
+
+  setIsEmpires = (isEmpires) => {
+    this.setState(
+      {
+        isEmpires,
+      },
+      () => {
+        reactLocalStorage.set("isEmpires", isEmpires);
+      }
+    );
+  };
+
+  onChangeIsEmpires = (e) => {
+    this.setIsEmpires(
+      e.target.type === "checkbox" ? e.target.checked : e.target.value
+    );
+
+    this.setIsObsidian(true);
+  };
+
+  setIsSkipSetup = (isSkipSetup) => {
+    this.setState({
+      isSkipSetup,
+    });
+  };
+
+  onChangeIsSkipSetup = (e) => {
+    this.setIsSkipSetup(
+      e.target.type === "checkbox" ? e.target.checked : e.target.value
+    );
   };
 
   //Options
@@ -532,8 +572,14 @@ export class AppContainer extends React.Component {
   };
 
   newGame = () => {
+    let screen = StartScreen;
+
+    if (this.state.isSkipSetup) {
+      screen = AppScreen
+    }
+
     this.setState({
-      screenMode: StartScreen,
+      screenMode: screen,
     });
 
     reactLocalStorage.remove("eclipseStage");
@@ -621,6 +667,7 @@ export class AppContainer extends React.Component {
           isObsidian={this.state.isObsidian}
           isMansion={this.state.isMansion}
           isAltarsAndShamans={this.state.isAltarsAndShamans}
+          isEmpires={this.state.isEmpires}
           isHeightOfDevelopment={this.state.isHeightOfDevelopment}
           isAlternateTeotibotMovement={this.state.isAlternateTeotibotMovement}
           teotibotVPFor10Cocoa={this.state.teotibotVPFor10Cocoa}
@@ -659,6 +706,8 @@ export class AppContainer extends React.Component {
           onChangeIsMansion={this.onChangeIsMansion}
           isAltarsAndShamans={this.state.isAltarsAndShamans}
           onChangeIsAltarsAndShamans={this.onChangeIsAltarsAndShamans}
+          isEmpires={this.state.isEmpires}
+          onChangeIsEmpires={this.onChangeIsEmpires}
           isSeasonsOfProgress={this.state.isSeasonsOfProgress}
           onChangeIsSeasonsOfProgress={this.onChangeIsSeasonsOfProgress}
           isSetupComplete={this.state.isSetupComplete}
@@ -735,6 +784,8 @@ export class AppContainer extends React.Component {
           onDecreaseTeotibotResourcesToGain={
             this.onDecreaseTeotibotResourcesToGain
           }
+          isSkipSetup={this.state.isSkipSetup}
+          onChangeIsSkipSetup={this.onChangeIsSkipSetup}
           newGame={this.newGame}
           back={this.back}
         />

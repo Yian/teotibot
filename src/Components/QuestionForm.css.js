@@ -13,38 +13,6 @@ export const questionModal = css`
   background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
 `;
 
-export const modalHeading = (margin = 50) => css`
-  display: flex;
-  flex-direction: row-reverse;
-  align-items: center;
-  margin: ${margin}px 0 0 0;
-
-  img {
-    width: 200px;
-  }
-`;
-
-export const modalHeadingEclipse = css`
-  display: flex;
-  flex-direction: row-reverse;
-  align-items: center;
-  margin: 100px 0 0 0;
-
-  img {
-    width: 50px;
-  }
-`;
-
-export const endGame = css`
-  h3 {
-    margin: 20px 0;
-  }
-`;
-
-export const masteryForm = css`
-  cursor: pointer;
-`;
-
 export const questionModalContent = css`
   display: flex;
   flex-direction: column;
@@ -97,6 +65,38 @@ export const questionModalContent = css`
   @media ${mediaQueries.isLg} {
     width: 65%;
   }
+`;
+
+export const modalHeading = (margin = 50) => css`
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: center;
+  margin: ${margin}px 0 0 0;
+
+  img {
+    width: 200px;
+  }
+`;
+
+export const modalHeadingEclipse = css`
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: center;
+  margin: 100px 0 0 0;
+
+  img {
+    width: 50px;
+  }
+`;
+
+export const endGame = css`
+  h3 {
+    margin: 20px 0;
+  }
+`;
+
+export const masteryForm = css`
+  cursor: pointer;
 `;
 
 export const questionModalPlacements = css`
@@ -171,4 +171,84 @@ export const btnContinue = css`
 
 export const questionForm = (margin) => css`
   margin: ${margin ?? 0}px 0;
+`;
+
+export const pathContent = css`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 85px 0;
+
+  h4 {
+    margin: 0 0 3rem 0;
+  }
+`;
+
+export const empireMapContainer = css`
+  position: relative;
+`
+
+export const empireMap = css`
+  margin: 0 0 1.5rem 0;
+  max-width: 750px;
+  width: 100%;
+`;
+
+export const regionTooltip = (topVal, leftVal) => css`
+    position: absolute;
+    top: ${topVal};
+    left: ${leftVal};
+    color: black;
+    font-size: 3rem;
+    padding: 5%;
+    line-height: 0;
+`
+
+export const drawTile = css`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 1rem 0;
+  border-radius: 10px;
+  border: 1px solid black;
+  background: turquoise;
+  box-sizing: border-box;
+  padding: 10px;
+  cursor: pointer;
+`;
+
+export const pathTile = css`
+  margin: 1rem 0;
+  width: 100%;
+`;
+
+export const pathSelectorContainer = css`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin: 1rem 0;
+  width: 400px;
+
+  @media ${mediaQueries.isMaxXs} {
+    width: 100%;
+  }
+`;
+
+export const pathSelectorQuestionAdvanced = css`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+`;
+
+export const stepContainer = css`
+  align-self: baseline;
+`
+
+export const pathSelectorQuestion = css`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 `;

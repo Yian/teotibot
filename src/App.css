@@ -3,7 +3,8 @@ html {
       overscroll-behavior: contain;
 }
 
-body, #root {
+body,
+#root {
   background: #282c34;
   font-family: "Mayan";
   overflow-x: hidden;
@@ -35,23 +36,6 @@ body::-webkit-scrollbar {
 .button {
   background: red;
   cursor: pointer;
-}
-
-.player-selector {
-  display: flex;
-  list-style: none;
-  cursor: pointer;
-}
-.player-selector .player-item {
-  padding-right: 15px;
-  cursor: pointer;
-}
-.player-selector .player-item.selected {
-  color: blue;
-}
-.player-selector .player-item.disabled {
-  pointer-events: none;
-  opacity: 0.5;
 }
 
 .numbers {
@@ -107,6 +91,14 @@ body::-webkit-scrollbar {
   font-weight: bold;
 }
 
+.mansion h4 {
+  margin: 0 0 1rem 0;
+}
+
+.shaman h4 {
+  margin: 0 0 1rem 0;
+}
+
 .height {
   display: block;
   margin: 20px 0;
@@ -118,4 +110,36 @@ body::-webkit-scrollbar {
 
 .priority {
   margin: 10px 0;
+}
+
+.nothing {
+  display: flex;
+  margin: 0 0 1rem 0;
+}
+
+.path-tile {
+  width: 50%;
+}
+
+.empire-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.region-descriptions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.region-descriptions div {
+  margin: 1rem 0;
+  align-self: baseline;
+}
+.region-descriptions ul {
+  list-style-type: none;
+}
+.region-descriptions img {
+  width: 150px;
+  margin: 1rem 0;
 }/*# sourceMappingURL=App.css.map */

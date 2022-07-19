@@ -1,11 +1,5 @@
 /** @jsx jsx */
-import {
-  useCallback,
-  useEffect,
-  useState,
-  useMemo,
-  useRef,
-} from "react";
+import { useCallback, useEffect, useState, useMemo, useRef } from "react";
 import { jsx } from "@emotion/react";
 import { useSpring, animated, useTransition } from "@react-spring/web";
 import { mainImg } from "../AppContainer.css";
@@ -16,6 +10,7 @@ import {
   nav,
   navButton,
   directionTileImage,
+  empire,
 } from "./TileList.css";
 import { QuestionForm } from "../QuestionForm";
 import {
@@ -33,7 +28,6 @@ import useMedia from "../UseMedia";
 import { shuffle } from "lodash-es";
 import {
   AppScreen,
-  baseBotTiles,
   baseDirectionTiles,
   baseStartTiles,
   xitleStartTiles,
@@ -45,18 +39,19 @@ import {
   alternativeDirectionTilesStep2,
   alternativeDirectionTilesStep3,
   dFaces,
-  shamanBotTiles,
+  botTiles,
 } from "../Constants";
 import { cloneDeep } from "lodash-es";
 import Dice from "react-dice-roll";
 import { reactLocalStorage } from "reactjs-localstorage";
+import { PathTiles } from "./PathTiles";
 
 export const TileList = (props) => {
   const getInitialDirectionTileOrder = useCallback(() => {
     var currentDirectionTileOrdering = JSON.parse(
       reactLocalStorage.get("directionTileOrdering") ?? null
     );
-    
+
     var defaultDirectionTileOrdering = shuffle(
       props.isAlternateTeotibotMovement
         ? initialAlternativeDirectionOrdering
@@ -82,10 +77,7 @@ export const TileList = (props) => {
   }, []);
 
   const getInitialEclipseStage = useCallback(() => {
-    return (
-      JSON.parse(reactLocalStorage.get("eclipseStage") ?? null) ??
-      0
-    );
+    return JSON.parse(reactLocalStorage.get("eclipseStage") ?? null) ?? 0;
   }, []);
 
   const getInitialStepsUntilEclipse = useCallback(() => {
@@ -96,7 +88,7 @@ export const TileList = (props) => {
   }, []);
 
   const initialStepsUntilEclipse = 10;
-  const [tiles, setTiles] = useState(baseBotTiles);
+  const [tiles, setTiles] = useState([]);
   const [startTiles, setStartTiles] = useState([]);
   const [directionTiles, setDirectionTiles] = useState([]);
   const [ordering, setOrdering] = useState(getInitialOrdering); //inital ordering;
@@ -104,9 +96,12 @@ export const TileList = (props) => {
     getInitialDirectionTileOrder
   );
   const [eclipseStage, setEclipseStage] = useState(getInitialEclipseStage);
-  const [stepsUntilEclipse, setStepsUntilEclipse] = useState(getInitialStepsUntilEclipse);
+  const [stepsUntilEclipse, setStepsUntilEclipse] = useState(
+    getInitialStepsUntilEclipse
+  );
   const [tilesDisabled, setTilesDisabled] = useState(false);
   const [showForm, setShowForm] = useState(false);
+  const [showEmpire, setShowEmpire] = useState(false);
   const [showEclipseForm, setShowEclipseForm] = useState(false);
   const [selectedTileIndex, setSelectedTileIndex] = useState(0);
   const [showDice, setShowDice] = useState(false);
@@ -144,6 +139,7 @@ export const TileList = (props) => {
   });
 
   var tileWidth = width / columns;
+  var mapWidth = width / (columns*2);
 
   if (checkOrientation) {
     tileWidth = width / (columns / 0.8);
@@ -234,6 +230,31 @@ export const TileList = (props) => {
     trail: 25,
   });
 
+  // const [empireTileItems] = useMemo(() => {
+  //   let empireTileItems = empireTiles?.map((child, i) => {
+  //     const x = calculateXEmpireTile(mapWidth, columns, props.isAlternateTeotibotMovement);
+  //     const y = calculateYEmpireTile(mapWidth, columns, props.isAlternateTeotibotMovement);
+
+  //     return {
+  //       ...child,
+  //       width: mapWidth,
+  //       x,
+  //       y,
+  //     };
+  //   });
+  //   return [empireTileItems];
+  // }, [columns, mapWidth, tileWidth, props.isAlternateTeotibotMovement]);
+
+  // const empireTileItemTransitions = useTransition(empireTileItems, {
+  //   key: (item) => item.index,
+  //   from: ({ x, y, rotateY, width }) => ({ x, y, width, rotateY, opacity: 0 }),
+  //   enter: ({ x, y, rotateY, width }) => ({ x, y, width, rotateY, opacity: 1 }),
+  //   update: ({ x, y, rotateY, width }) => ({ x, y, width, rotateY }),
+  //   leave: { height: 0, opacity: 0 },
+  //   config: { duration: 500, mass: 5, tension: 500, friction: 50 },
+  //   trail: 25,
+  // });
+
   const shuffleTiles = (tileIndex) => {
     if (ordering.indexOf(tileIndex) >= 6 || ordering.indexOf(tileIndex) === 4)
       return; //clicked extra tiles
@@ -319,11 +340,8 @@ export const TileList = (props) => {
   });
 
   useEffect(() => {
-    const tiles = props.isAltarsAndShamans
-      ? shamanBotTiles
-      : baseBotTiles;
-    setTiles(tiles);
-  }, [props.isAltarsAndShamans]);
+    setTiles(botTiles(props.isAltarsAndShamans, props.isEmpires));
+  }, [props.isAltarsAndShamans, props.isEmpires]);
 
   useEffect(() => {
     const tiles = props.isXitle
@@ -379,6 +397,7 @@ export const TileList = (props) => {
   const onCloseClick = (shouldShuffle) => {
     setShowForm(false);
     setShowEclipseForm(false);
+    setShowEmpire(false);
     if (shouldShuffle) {
       shuffleTiles(selectedTileIndex);
     }
@@ -400,11 +419,8 @@ export const TileList = (props) => {
 
   const moveEclipse = (newEclipseValue) => {
     setEclipseStage(newEclipseValue);
-    reactLocalStorage.set(
-      "eclipseStage",
-      JSON.stringify(newEclipseValue)
-    );
-  }
+    reactLocalStorage.set("eclipseStage", JSON.stringify(newEclipseValue));
+  };
 
   const handleEclipseClick = () => {
     if (props.isAscend) return;
@@ -418,7 +434,7 @@ export const TileList = (props) => {
 
   const getStepsLimit = (isDarkEclipse) => {
     return !isDarkEclipse ? 0 : 1;
-  }
+  };
 
   const handleAscendClick = () => {
     let newStepsUntilEclipse = 0;
@@ -432,8 +448,11 @@ export const TileList = (props) => {
       );
     }
 
-    if (stepsUntilEclipse <= getStepsLimit(props.isDarkEclipse) && eclipseStage <= 2) {
-      let eclipseValue = eclipseStage + 1
+    if (
+      stepsUntilEclipse <= getStepsLimit(props.isDarkEclipse) &&
+      eclipseStage <= 2
+    ) {
+      let eclipseValue = eclipseStage + 1;
       newStepsUntilEclipse = initialStepsUntilEclipse - eclipseValue;
 
       moveEclipse(eclipseValue);
@@ -444,16 +463,13 @@ export const TileList = (props) => {
       );
       setShowEclipseForm(true);
     }
-  }
+  };
 
   const onCancelEclipseClick = () => {
-    let newEclipseValue = eclipseStage - 1
+    let newEclipseValue = eclipseStage - 1;
 
     setEclipseStage(newEclipseValue);
-    reactLocalStorage.set(
-      "eclipseStage",
-      JSON.stringify(newEclipseValue)
-    );
+    reactLocalStorage.set("eclipseStage", JSON.stringify(newEclipseValue));
 
     setStepsUntilEclipse(getStepsLimit(props.isDarkEclipse));
     reactLocalStorage.set(
@@ -462,6 +478,10 @@ export const TileList = (props) => {
     );
 
     setShowEclipseForm(false);
+  };
+
+  const onShowEmpireClick = () => {
+    setShowEmpire(true);
   };
 
   const getStyle = useCallback(
@@ -495,6 +515,7 @@ export const TileList = (props) => {
             isObsidian={props.isObsidian}
             isMansion={props.isMansion}
             isAltarsAndShamans={props.isAltarsAndShamans}
+            isEmpires={props.isEmpires}
             isAdvanced={props.isAdvanced}
             topDirectionTile={directionTiles[directionOrdering[0]]}
           />
@@ -515,6 +536,16 @@ export const TileList = (props) => {
           />
         )}
       </div>
+      {props.isEmpires && <img
+        css={empire}
+        src={`${process.env.PUBLIC_URL}/empire/empire_map.jpg`}
+        onClick={onShowEmpireClick}
+      />}
+      {showEmpire && (
+        <PathTiles
+          onCloseClick={(shouldShuffle) => onCloseClick(shouldShuffle)}
+        />
+      )}
       <div ref={ref} css={tileList} style={{ height: 0 }}>
         {tileTransitions((style, tile) => (
           <animated.img
@@ -540,17 +571,31 @@ export const TileList = (props) => {
           />
         ))}
       </div>
+      {/* <div css={tileList}>
+        {empireTileItemTransitions((style, empireTile) => (
+          <animated.img
+            onContextMenu={(e) => e.preventDefault()}
+            draggable="false"
+            key={empireTile.index}
+            onClick={onShowEmpireClick}
+            src={`${process.env.PUBLIC_URL}/empire/${empireTile.name}.jpg`}
+            style={style}
+          />
+        ))}
+      </div> */}
       <div css={nav}>
         <div css={navButton} onClick={handleRollClick}>
           <img src={`${process.env.PUBLIC_URL}/dice/d3.png`} alt="d3" />
         </div>
-        {props.isAscend && <span css={navButton} onClick={handleAscendClick}>
-          <img
-            src={`${process.env.PUBLIC_URL}/resources/ascension.png`}
-            alt="eclipse"
-          />
-          {eclipseStage <= 2 ? `Eclipse in ${stepsUntilEclipse}` : ""} 
-        </span>}
+        {props.isAscend && (
+          <span css={navButton} onClick={handleAscendClick}>
+            <img
+              src={`${process.env.PUBLIC_URL}/resources/ascension.png`}
+              alt="eclipse"
+            />
+            {eclipseStage <= 2 ? `Eclipse in ${stepsUntilEclipse}` : ""}
+          </span>
+        )}
         <span css={navButton} onClick={handleEclipseClick}>
           <img
             src={`${process.env.PUBLIC_URL}/resources/eclipse.png`}

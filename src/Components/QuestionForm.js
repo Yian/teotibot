@@ -16,6 +16,9 @@ import {
   modalHeadingEclipse,
   endGame,
   content,
+  pathSelectorQuestion,
+  pathSelectorQuestionAdvanced,
+  stepContainer,
 } from "./QuestionForm.css";
 import {
   powerupMsg,
@@ -25,12 +28,16 @@ import {
   TilesToQuestions,
   AdvancedTilesToQuestions,
   shamanText,
+  hasResourcesNoText,
+  getActionBoard,
 } from "./Constants";
 import { DicePlacement } from "./Setup/DicePlacement";
 import { getNeutralArray } from "./Logic";
 import { cloneDeep } from "lodash";
 import { tippy } from "@tippyjs/react";
 import { Mansion } from "./Mansion";
+import { PathSelector } from "./PathSelector";
+import { EmpireMap } from "./EmpireMap";
 
 const Question = (props) => {
   const [isMansionResult, setIsMansionResult] = useState(false);
@@ -41,16 +48,49 @@ const Question = (props) => {
 
   return (
     <div css={questionForm(props.margin)}>
+      {!isMansionResult && props.isAdvanced && props.showPathSelector && (
+        <div css={pathSelectorQuestionAdvanced}>
+          <div css={stepContainer}>
+            <span class="step">1.</span> If Teotibot has{" "}
+            {parse(hasResourcesNoText("wood", props.isObsidian, 2))} and at{" "}
+            <span class="bold">least 1</span> worker on the{" "}
+            {parse(getActionBoard("Conquest"))}
+          </div>
+
+          <span>
+            It will place two Warriors in Teotihuacan, one at a time, resolving
+            all moves as explained in the Empire reward section. If it has no
+            more Warriors, skip this step.
+          </span>
+
+          <PathSelector />
+
+          <EmpireMap/>
+        </div>
+      )}
+      {/* Show path selector for basic forms */}
+      {!isMansionResult && !props.isAdvanced && props.showPathSelector && (
+        <div css={pathSelectorQuestion}>
+          <span>
+            Teotibot will place two Warriors in Teotihuacan (if able), one at a
+            time. When one of its warriors is pushed out of Teotihuacan, draw a
+            new path tile. The tile shows the region the warrior will move into:
+          </span>
+          <PathSelector />
+          <EmpireMap />
+        </div>
+      )}
       {!isMansionResult && props.children}
+      {/* Show mansion component for all forms */}
       {props.isMansion && props.showMansion && (
-        <div>
+        <div className="mansion">
           <h4>Mansion</h4>
           <Mansion onMansionResult={onMansionResult} />
         </div>
       )}
-      {props.showAltarsAndShamans && props.isAltarsAndShamans && (
-        parse(shamanText())
-      )}
+      {props.showAltarsAndShamans &&
+        props.isAltarsAndShamans &&
+        parse(shamanText())}
       {!props.isEnd ? (
         <div css={content(props.margin)}>
           <div
@@ -149,6 +189,7 @@ export class QuestionForm extends React.Component {
             props.teotibotStepsPerWorship,
             props.teotibotVPFor10Cocoa,
             props.isHeightOfDevelopment,
+            props.isEmpires
           )
         : AdvancedTilesToQuestions(
             props.tileSrc,
@@ -159,13 +200,14 @@ export class QuestionForm extends React.Component {
             props.eclipseStage,
             props.teotibotStepsPerWorship,
             props.teotibotVPFor10Cocoa,
-            props.isHeightOfDevelopment
+            props.isHeightOfDevelopment,
+            props.isEmpires
           ),
     });
   }
 
   componentDidUpdate() {
-    tippy(".tippy", {
+    tippy(".temple-tip", {
       allowHTML: true,
       content: `<div class="templeTip"><div>*Advance Teotibot on its highest temple ignoring topmost.</div>
     <div class="priority">
@@ -263,7 +305,7 @@ export class QuestionForm extends React.Component {
 
           {/* //Heading */}
           {this.props.tileName !== Eclipse ? (
-            <div css={modalHeading(this.props.isAdvanced ? 100 : 50)}>
+            <div css={modalHeading((this.props.isAdvanced || this.props.tileName === "Empire and Build") ? 100 : 70)}>
               <h2>{this.props.tileName}</h2>
               <img
                 src={`${process.env.PUBLIC_URL}/bot_tiles/${this.props.tileSrc}.png`}
@@ -292,6 +334,8 @@ export class QuestionForm extends React.Component {
               isMansion={this.props.isMansion}
               isAltarsAndShamans={this.props.isAltarsAndShamans}
               showMansion={question.showMansion}
+              showPathSelector={question.showPathSelector}
+              isAdvanced={question.isAdvanced}
               showAltarsAndShamans={question.showAltarsAndShamans}
               onExitForm={this.onExitForm}
               fromMastery={fromMastery}
@@ -368,7 +412,7 @@ export class QuestionForm extends React.Component {
                 <div>Find the bots highest powered unlocked die.</div>
                 <div>Select the Action Board below:</div>
                 <ul>
-                  {masteryQuestions.map((question) => (
+                  {masteryQuestions(this.props.isEmpires).map((question) => (
                     <li
                       css={
                         this.state.masteryAnswers.indexOf(question.id) >= 0

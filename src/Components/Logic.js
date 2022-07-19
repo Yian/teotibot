@@ -1,5 +1,5 @@
 import { find, union, sortBy } from "lodash";
-import { actionNames, diceFaces, } from "./Constants";
+import { actionNames, diceFaces } from "./Constants";
 
 export const right = "right";
 export const left = "left";
@@ -115,7 +115,7 @@ export const calculateYTile = (index, tileWidth, media, altmovement) => {
     } else {
       return media === 3 ? tileWidth * 1.5 : tileWidth;
     }
-  }
+  };
 
   switch (index) {
     case 0:
@@ -137,7 +137,7 @@ export const calculateYTile = (index, tileWidth, media, altmovement) => {
       result = tileWidth;
       break;
     default:
-      result = getExtraTileYLoc(altmovement)
+      result = getExtraTileYLoc(altmovement);
   }
   return result;
 };
@@ -150,9 +150,9 @@ export const calculateXTile = (index, width, media, altmovement) => {
     if (altmovement) {
       return tile04 + width;
     } else {
-      return media === 3 ? tile04 + width : width * 1.5
+      return media === 3 ? tile04 + width : width * 1.5;
     }
-  }
+  };
 
   switch (index) {
     case 0:
@@ -193,7 +193,7 @@ export const calculateXDirectionTile = (index, width, media) => {
       result = media === 3 ? tile04 : width * 1.5;
       break;
     case 3:
-      result = media === 3 ? tile04 - width  : width * 1.5;
+      result = media === 3 ? tile04 - width : width * 1.5;
       break;
     default:
       result = width * 1.5;
@@ -208,18 +208,33 @@ export const calculateYDirectionTile = (index, width, media) => {
       result = media === 3 ? width * 1.5 : 0;
       break;
     case 1:
-      result = media === 3 ? width * 1.5 : width/2;
+      result = media === 3 ? width * 1.5 : width / 2;
       break;
     case 2:
       result = media === 3 ? width * 2 : width;
       break;
     case 3:
-      result = media === 3 ? width * 2 : width*1.5;
+      result = media === 3 ? width * 2 : width * 1.5;
       break;
     default:
       result = width;
   }
   return result;
+};
+
+export const calculateXEmpireTile = (width, media, altmovement) => {
+  if (altmovement) {
+   // return media === 3 ? width : -width * 0.6;
+  }
+  return -width*2;
+};
+
+export const calculateYEmpireTile = (width, media, altmovement) => {
+  if (altmovement) {
+    //return media === 3 ? 2 * width : width + width / 2;
+  }
+
+  return 0;
 };
 
 export const getRandom = (arr, n) => {
@@ -238,7 +253,7 @@ export const getRandom = (arr, n) => {
 
 export const getRandomArrayIndex = (arr) => {
   return Math.floor(Math.random() * (arr.length - 1)) + 1;
-}
+};
 
 export function getActionItemByValue(item) {
   return find(actionNames, ["value", item]);
@@ -257,37 +272,40 @@ export function getTeotibotArray(
   teotibotWorkerPowerForAction6,
   teotibotWorkerPowerForAction8
 ) {
-  return sortBy([
-    {
-      key: 0,
-      diceFace: getDiceFace(teotibotWorkerPowerForAction4),
-      number: 4,
-      actionName: getActionItemByValue(4).name,
-      color: getActionItemByValue(4).color,
-    },
-    {
-      key: 1,
-      diceFace: getDiceFace(teotibotWorkerPowerForAction6),
-      number: 6,
-      actionName: getActionItemByValue(6).name,
-      color: getActionItemByValue(6).color,
-    },
-    {
-      key: 2,
-      diceFace: getDiceFace(teotibotWorkerPowerForAction8),
-      number: 8,
-      actionName: getActionItemByValue(8).name,
-      color: getActionItemByValue(8).color,
-    },
-    {
-      key: 3,
-      diceFace: diceFaces[0],
-      number: 7,
-      worship: true,
-      actionName: getActionItemByValue(7).name,
-      color: getActionItemByValue(7).color,
-    },
-  ], ['key']);
+  return sortBy(
+    [
+      {
+        key: 0,
+        diceFace: getDiceFace(teotibotWorkerPowerForAction4),
+        number: 4,
+        actionName: getActionItemByValue(4).name,
+        color: getActionItemByValue(4).color,
+      },
+      {
+        key: 1,
+        diceFace: getDiceFace(teotibotWorkerPowerForAction6),
+        number: 6,
+        actionName: getActionItemByValue(6).name,
+        color: getActionItemByValue(6).color,
+      },
+      {
+        key: 2,
+        diceFace: getDiceFace(teotibotWorkerPowerForAction8),
+        number: 8,
+        actionName: getActionItemByValue(8).name,
+        color: getActionItemByValue(8).color,
+      },
+      {
+        key: 3,
+        diceFace: diceFaces[0],
+        number: 7,
+        worship: true,
+        actionName: getActionItemByValue(7).name,
+        color: getActionItemByValue(7).color,
+      },
+    ],
+    ["key"]
+  );
 }
 
 export function getNeutralArray(shuffledTiles) {
@@ -298,7 +316,7 @@ export function getNeutralArray(shuffledTiles) {
   const shuffledTile = shuffledTiles[index];
 
   if (shuffledTile.duplicateNumbers) {
-    dupNumbers.push(shuffledTiles[index].numbers[0])
+    dupNumbers.push(shuffledTiles[index].numbers[0]);
   }
 
   shuffledTiles.splice(index, 1);
@@ -307,35 +325,38 @@ export function getNeutralArray(shuffledTiles) {
   let numbers2 = shuffledTiles[index].numbers;
 
   if (shuffledTiles[index].duplicateNumbers) {
-    dupNumbers.push(shuffledTiles[index].numbers[0])
+    dupNumbers.push(shuffledTiles[index].numbers[0]);
   }
 
   shuffledTiles.splice(index, 1);
 
   let mergedActions = [...union(numbers1, numbers2), ...dupNumbers];
-  return sortBy([
-    {
-      key: 0,
-      diceFace: diceFaces[0],
-      number: mergedActions[0],
-      actionName: getActionItemByValue(mergedActions[0]).name,
-      color: getActionItemByValue(mergedActions[0]).color,
-    },
-    {
-      key: 1,
-      diceFace: diceFaces[0],
-      number: mergedActions[1],
-      actionName: getActionItemByValue(mergedActions[1]).name,
-      color: getActionItemByValue(mergedActions[1]).color,
-    },
-    {
-      key: 2,
-      diceFace: diceFaces[0],
-      number: mergedActions[2],
-      actionName: getActionItemByValue(mergedActions[2]).name,
-      color: getActionItemByValue(mergedActions[2]).color,
-    },
-  ], ['number']);
+  return sortBy(
+    [
+      {
+        key: 0,
+        diceFace: diceFaces[0],
+        number: mergedActions[0],
+        actionName: getActionItemByValue(mergedActions[0]).name,
+        color: getActionItemByValue(mergedActions[0]).color,
+      },
+      {
+        key: 1,
+        diceFace: diceFaces[0],
+        number: mergedActions[1],
+        actionName: getActionItemByValue(mergedActions[1]).name,
+        color: getActionItemByValue(mergedActions[1]).color,
+      },
+      {
+        key: 2,
+        diceFace: diceFaces[0],
+        number: mergedActions[2],
+        actionName: getActionItemByValue(mergedActions[2]).name,
+        color: getActionItemByValue(mergedActions[2]).color,
+      },
+    ],
+    ["number"]
+  );
 }
 
 export function getPlayerArray(selectedStartTiles) {
@@ -343,12 +364,12 @@ export function getPlayerArray(selectedStartTiles) {
   let playerPositions = [];
 
   selectedStartTiles.forEach((selectedStartTile) => {
-      actions = union([...actions, ...selectedStartTile.numbers]);
+    actions = union([...actions, ...selectedStartTile.numbers]);
   });
 
   var dupNumberTiles = find(selectedStartTiles, ["duplicateNumbers", true]);
   if (dupNumberTiles) {
-   actions.push(dupNumberTiles.numbers[0])
+    actions.push(dupNumberTiles.numbers[0]);
   }
 
   sortBy(actions).forEach((item, i) => {
@@ -358,7 +379,7 @@ export function getPlayerArray(selectedStartTiles) {
       number: item,
       actionName: getActionItemByValue(item).name,
       color: getActionItemByValue(item).color,
-    },)
+    });
   });
 
   return playerPositions;
@@ -377,7 +398,7 @@ export function getMansionResults(dieResult) {
       result = `<span>The <span class="bold">right</span> Royal tile is activated, <span class="weight">if it was previously claimed by either you or Teotibot</span></span>`;
       break;
     default:
-      result = `<span class="bold">nothing happens.</span>`;
+      result = `<span class="bold nothing">nothing happens.</span>`;
   }
   return result;
 }

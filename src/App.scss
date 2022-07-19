@@ -2,7 +2,8 @@ html {
   overscroll-behavior: contain;
 }
 
-body, #root {
+body,
+#root {
   background: #282c34;
   font-family: "Mayan";
   overflow-x: hidden;
@@ -36,26 +37,6 @@ body::-webkit-scrollbar {
   cursor: pointer;
 }
 
-.player-selector {
-  display: flex;
-  list-style: none;
-  cursor: pointer;
-
-  .player-item {
-    padding-right: 15px;
-    cursor: pointer;
-
-    &.selected {
-      color: blue;
-    }
-
-    &.disabled {
-      pointer-events: none;
-      opacity: 0.5;
-    }
-  }
-}
-
 .numbers {
   list-style: none;
   display: flex;
@@ -63,7 +44,7 @@ body::-webkit-scrollbar {
   width: 100%;
   padding: 0;
   margin: 0;
-    
+
   li {
     cursor: pointer;
   }
@@ -109,6 +90,18 @@ body::-webkit-scrollbar {
   font-weight: bold;
 }
 
+.mansion {
+  h4 {
+    margin: 0 0 1rem 0;
+  }
+}
+
+.shaman {
+  h4 {
+    margin: 0 0 1rem 0;
+  }
+}
+
 .height {
   display: block;
   margin: 20px 0;
@@ -120,4 +113,39 @@ body::-webkit-scrollbar {
 
 .priority {
   margin: 10px 0;
+}
+
+.nothing {
+  display: flex;
+  margin: 0 0 1rem 0;
+}
+
+.path-tile {
+  width: 50%;
+}
+
+.empire-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.region-descriptions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  div {
+    margin: 1rem 0;
+    align-self: baseline;
+  }
+
+  ul {
+    list-style-type: none;
+  }
+
+  img {
+    width: 150px;
+    margin: 1rem 0;
+  }
 }
