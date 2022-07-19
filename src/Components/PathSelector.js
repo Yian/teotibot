@@ -29,7 +29,9 @@ export const PathSelector = (props) => {
           style={{
             opacity: x.to({ range: [0, 1], output: [0, 1] }),
           }}>
-           <img css={pathTile} src={`${process.env.PUBLIC_URL}/empire/PT${tileNo}.jpg`} />
+           <animated.img style={{
+            opacity: x.to({ range: [0, 1], output: [0, 1] }),
+          }} css={pathTile} src={`${process.env.PUBLIC_URL}/empire/PT${tileNo}.jpg`} />
         </animated.div>
     </div>
   );
