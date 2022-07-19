@@ -6,7 +6,7 @@ import { generateRandomInteger } from "./Logic";
 import { pathTile, drawTile, pathSelectorContainer } from "./QuestionForm.css";
 
 export const PathSelector = (props) => {
-  const [tileNo, setTileNo] = useState(0);
+  const [tileNo, setTileNo] = useState(1);
   const [state, toggle] = useState(false);
   const { x } = useSpring({
     from: { x: 0 },
