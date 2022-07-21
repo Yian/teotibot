@@ -1791,7 +1791,36 @@ const maskQuestions = (
   isAlternateTeotibotMovement,
   topDirectionTile,
   teotibotVPFor10Cocoa,
-  isAltarsAndShamans
+) => {
+  return [
+    {
+      question: `${maskQuestionText()}
+  <div>Did the above yield any Masks?</div>`,
+      questionId: 1,
+      isEnd: false,
+      endsOnYes: true,
+      condition: ({ answers }) => isEmpty(answers),
+      margin: 50,
+    },
+    {
+      question: powerupMsg(
+        isAlternateTeotibotMovement,
+        topDirectionTile,
+        teotibotVPFor10Cocoa
+      ),
+      questionId: 2,
+      condition: ({ answers }) => answers[1] === "no",
+      isEnd: true,
+      margin: 50,
+      showMansion: true,
+    },
+  ];
+};
+
+const maskQuestionsShaman = (
+  isAlternateTeotibotMovement,
+  topDirectionTile,
+  teotibotVPFor10Cocoa,
 ) => {
   return [
     {
@@ -1823,7 +1852,7 @@ const maskQuestions = (
       isEnd: true,
       margin: 50,
       showMansion: true,
-      showAltarsAndShamans: isAltarsAndShamans,
+      showAltarsAndShamans: true,
     },
   ];
 };
@@ -2241,15 +2270,13 @@ export const TilesToQuestions = (
         isAlternateTeotibotMovement,
         topDirectionTile,
         teotibotVPFor10Cocoa,
-        false
       );
       break;
     case mask_period:
-      result = maskQuestions(
+      result = maskQuestionsShaman(
         isAlternateTeotibotMovement,
         topDirectionTile,
         teotibotVPFor10Cocoa,
-        true
       );
       break;
     case worship:
