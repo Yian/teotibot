@@ -1900,10 +1900,8 @@ const eclipseQuestions = (eclipseStage, isHeightOfDevelopment) => {
     <li>Score lowest visible number on the Buildings row for each step progressed on the Avenue of the Dead ${getResourceImage(
       "avenue"
     )}.</li>
-    <li>The player (or players) furthest ahead on the Pyramid track scores <span class="bold">${getVpForEclipse(
-      eclipseStage
-    )}</span> Victory Points ${getResourceImage("vp")}.</li>
-    <li>Each player scores <span class="bold">4</span> points for each step they have moved up on the Pyramid track. ${getResourceImage(
+    <li>The player (or players) furthest ahead on the Pyramid track scores <span class="bold">4</span> Victory Points ${getResourceImage("vp")}.</li>
+    <li>Each player scores <span class="bold">${getVpForEclipse(eclipseStage)}</span> points for each step they have moved up on the Pyramid track. ${getResourceImage(
       "pyramid"
     )}.</li>
     <li>Reset the Pyramid track for all players, by moving all player markers to their starting position.</li>
