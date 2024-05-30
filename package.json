@@ -2,6 +2,7 @@
   "name": "teotibot",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://yian.github.io/teotibot",
   "dependencies": {
     "@babel/helper-builder-react-jsx": "^7.16.7",
     "@emotion/react": "^11.9.0",
