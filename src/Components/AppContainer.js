@@ -139,6 +139,7 @@ export class AppContainer extends React.Component {
       })
       .catch((err) => {
         console.log("Failed to load images", err);
+        this.setState({ imagesLoaded: true });
       });
 
     if (JSON.parse(reactLocalStorage.get("isSetupComplete") ?? false)) {
