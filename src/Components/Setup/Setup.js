@@ -41,6 +41,7 @@ import {
 
 export const Setup = (props) => {
   const startTileRef = useRef(null);
+  const royalTileRef = useRef(null);
   const playerResourceRef = useRef(null);
   const teotibotResourceRef = useRef(null);
   const neutralPlayerResourceRef = useRef(null);
@@ -273,6 +274,7 @@ export const Setup = (props) => {
 
     if (showRoyalTiles) {
       setShowStartTiles(true);
+      scrollIntoView(royalTileRef);
     }
 
     if (showPlayerStartingResources) {
@@ -334,14 +336,16 @@ export const Setup = (props) => {
           <TempleTiles templeTiles={templeTiles} onRest={onRest} />
         </div>
       )}
-      {showRoyalTiles && (
-        <div css={setupSection}>
+
+        <div css={setupSection} ref={royalTileRef}>
+        {showRoyalTiles && (
           <div css={setupSection}>
             <h3>Royal Tiles</h3>
             <RoyalTiles royalTiles={royalTiles} onRest={onRest} />
           </div>
+                )}
         </div>
-      )}
+
       <div css={setupSection} ref={startTileRef}>
         {showStartTiles && (
           <div>
