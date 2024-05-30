@@ -84,7 +84,7 @@ export const StartingResources = (props) => {
             <div css={startResource}>
               <span>{item.quantity}</span>
               <a.img
-                src={`${process.env.PUBLIC_URL}/resources/${item.type}.png`}
+                src={`${process.env.PUBLIC_URL}/game_resources/${item.type}.png`}
               />
             </div>
           </a.div>
