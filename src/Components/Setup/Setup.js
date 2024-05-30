@@ -4,6 +4,7 @@ import { jsx } from "@emotion/react";
 import { StartTiles } from "./StartTiles";
 import { TechTiles } from "./TechTiles";
 import { TempleTiles } from "./TempleTiles";
+import { RoyalTiles } from "./RoyalTiles";
 import {
   btnContinue,
   orangeTemple,
@@ -18,7 +19,6 @@ import {
   getActionItemByValue,
   getNeutralArray,
   getPlayerArray,
-  getRandom,
   getRandomArrayIndex,
   getTeotibotArray,
 } from "../Logic";
@@ -28,6 +28,7 @@ import {
   initialTeotibotStartingResources,
   periodStartTiles,
   baseTechTiles,
+  baseRoyalTiles,
   xitleTechTiles,
   periodTechTiles,
   baseTempleTiles,
@@ -47,6 +48,7 @@ export const Setup = (props) => {
   const [startTiles, setStartTiles] = useState([]);
   const [techTiles, setTechTiles] = useState([]);
   const [templeTiles, setTempleTiles] = useState([]);
+  const [royalTiles, setRoyalTiles] = useState([]);
   const [priestPriestessTiles, setPriestPriestessTiles] = useState([]);
   const [teotibotPriestPriestessTiles, setTeotibotPriestPriestessTiles] =
     useState([]);
@@ -73,6 +75,7 @@ export const Setup = (props) => {
   const [showPlayerPlacements, setShowPlayerPlacements] = useState(false);
   const [showTechs, setShowTechs] = useState(true);
   const [showTemples, setShowTemples] = useState(false);
+  const [showRoyalTiles, setShowRoyalTiles] = useState(false);
   const [showStartTiles, setShowStartTiles] = useState(false);
   const [showPlayerPriestPriestessTiles, setShowPlayerPriestPriestessTiles] =
     useState(false);
@@ -145,6 +148,9 @@ export const Setup = (props) => {
       });
     });
 
+    //add 1 Cocoa for player start
+    addResourceQuantities(result, { type: "cocoa", quantity: 1 });
+
     return result;
   }, []);
 
@@ -152,6 +158,7 @@ export const Setup = (props) => {
     let startTiles = baseStartTiles;
     let techTiles = baseTechTiles;
     let templeTiles = baseTempleTiles;
+    let royalTiles = baseRoyalTiles;
     let priestPriestessTiles = basePriestPriestessTiles;
     let teotibotPriestPriestessTiles = baseTeotiPriestPriestessTiles;
 
@@ -179,6 +186,7 @@ export const Setup = (props) => {
     setStartTiles(startTiles);
     setTechTiles(techTiles);
     setTempleTiles(templeTiles);
+    setRoyalTiles(royalTiles);
     setPriestPriestessTiles(priestPriestessTiles);
     setTeotibotPriestPriestessTiles(teotibotPriestPriestessTiles);
   }, [props.isXitle, props.isObsidian, props.isAltarsAndShamans]);
@@ -258,9 +266,15 @@ export const Setup = (props) => {
     if (showTechs) {
       setShowTemples(true);
     }
+
     if (showTemples) {
+      setShowRoyalTiles(true);
+    }
+
+    if (showRoyalTiles) {
       setShowStartTiles(true);
     }
+
     if (showPlayerStartingResources) {
       setShowPlayerPlacements(true);
       scrollIntoView(playerResourceRef);
@@ -310,7 +324,7 @@ export const Setup = (props) => {
     <div css={setupContainer}>
       {showTechs && (
         <div css={setupSection}>
-          <h3>Upgrade Tiles</h3>
+          <h3>Technology Tiles</h3>
           <TechTiles techTiles={techTiles} onRest={onRest} />
         </div>
       )}
@@ -318,6 +332,14 @@ export const Setup = (props) => {
         <div css={setupSection}>
           <h3>Temple Tiles</h3>
           <TempleTiles templeTiles={templeTiles} onRest={onRest} />
+        </div>
+      )}
+      {showRoyalTiles && (
+        <div css={setupSection}>
+          <div css={setupSection}>
+            <h3>Royal Tiles</h3>
+            <RoyalTiles royalTiles={royalTiles} onRest={onRest} />
+          </div>
         </div>
       )}
       <div css={setupSection} ref={startTileRef}>
@@ -399,15 +421,15 @@ export const Setup = (props) => {
               <div css={orangeTemple}>
                 <h3>Altars and Shamans</h3>
                 <span>
-                Place the Shaman on the Major Discovery space of the first
-Altar counter-clockwise from:
+                  Place the Shaman on the Major Discovery space of the first
+                  Altar counter-clockwise from:
                 </span>
                 <div>
-                <img
+                  <img
                     src={`${process.env.PUBLIC_URL}/actions/no${teotibotShamanPlacement}.png`}
                   />
                   {getActionItemByValue(teotibotShamanPlacement).name}
-                  </div>
+                </div>
               </div>
             )}
           </div>

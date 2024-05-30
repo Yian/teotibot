@@ -10,8 +10,8 @@ import Tippy, { useSingleton } from "@tippyjs/react";
 import { removeRandomItemFromArray } from '../Logic';
 import "tippy.js/dist/tippy.css";
 
-export const TechTiles = (props) => {
-  const tileHeight = 350;
+export const RoyalTiles = (props) => {
+  const tileHeight = 175;
   const [source, target] = useSingleton();
 
   // Hook1: Tie media queries to the number of columns
@@ -26,17 +26,66 @@ export const TechTiles = (props) => {
   
   const [items, setTiles] = useState([]);
 
+const removeRandomItemFromArray = (array) => {
+  // Create a copy of the array to avoid modifying the original array
+  let tilesCopy = [...array];
+
+  // Helper function to count the number of items in each category
+  const countCategories = (tiles) => {
+    return tiles.reduce((acc, tile) => {
+      acc[tile.category] = (acc[tile.category] || 0) + 1;
+      return acc;
+    }, {});
+  };
+
+  // Get initial counts of each category
+  let categoryCounts = countCategories(tilesCopy);
+
+  // Function to get a random integer between min and max (inclusive)
+  const getRandomInt = (min, max) => {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+  };
+
+  // Loop until only three items remain in total
+  while (tilesCopy.length > 3) {
+    // Get an array of categories with more than one item
+    const removableCategories = Object.keys(categoryCounts).filter(category => categoryCounts[category] > 1);
+
+    if (removableCategories.length > 0) {
+      // Select a random category from the removable categories
+      const randomCategory = removableCategories[getRandomInt(0, removableCategories.length - 1)];
+
+      // Get all items in the selected category
+      const categoryItems = tilesCopy.filter(tile => tile.category === randomCategory);
+
+      // Select a random item from the category items
+      const itemToRemove = categoryItems[getRandomInt(0, categoryItems.length - 1)];
+
+      // Remove the selected item from the tiles copy
+      tilesCopy = tilesCopy.filter(tile => tile !== itemToRemove);
+
+      // Update the counts after removal
+      categoryCounts = countCategories(tilesCopy);
+    } else {
+      break;
+    }
+  }
+
+  return orderBy(tilesCopy, ['category'], ['asc']);
+  }
+
   // Hook4: shuffle data every 2 seconds
   useEffect(() => {
     if (items.length <= 0) {
-      setTiles(props.techTiles);
+      var tiles = removeRandomItemFromArray(props.royalTiles);
+
+      setTiles(tiles);
     }
 
     const t = setInterval(() => {
-      if (items.length >= 7) {
-        removeRandomItemFromArray(items);
+      if (items.length >= 4) {
+
         setTiles(shuffle);
-        setTiles(orderBy(items, ['order'], ['asc']));
       } 
     }, 100);
     return () => clearInterval(t);
@@ -81,7 +130,7 @@ export const TechTiles = (props) => {
             onContextMenu={(e) => e.preventDefault()}
             css={techTile}
             style={style}
-            src={`${process.env.PUBLIC_URL}/tech_tiles/${item.src}/${item.name}.jpg`}
+            src={`${process.env.PUBLIC_URL}/royal_tiles/${item.src}/${item.name}.jpg`}
           />
         </Tippy>
       ))}

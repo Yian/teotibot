@@ -6,8 +6,8 @@ import useMeasure from "react-use-measure";
 import { useTransition, a } from "@react-spring/web";
 import { tileContainer, templeTile } from "../Setup/Setup.css";
 import { shuffle } from "lodash";
-import { baseTempleTiles } from "../Constants";
 import Tippy, { useSingleton } from "@tippyjs/react";
+import { removeRandomItemFromArray } from "../Logic";
 import "tippy.js/dist/tippy.css";
 
 export const TempleTiles = (props) => {
@@ -34,7 +34,7 @@ export const TempleTiles = (props) => {
 
     const t = setInterval(() => {
       if (items.length >= 4) {
-        items.pop();
+        removeRandomItemFromArray(items);
         set(shuffle);
       }
     }, 100);

@@ -153,7 +153,7 @@ export const empireResourcesToPreload = [
   "region9",
   "region10",
   "region11",
-]
+];
 
 const avenue = "avenue";
 const any = "any";
@@ -841,137 +841,159 @@ export const baseTechTiles = [
     tooltip:
       "Each time you land on or move a worker over the Palace (1) Action Board, you gain 1 cocoa.",
     src: base,
-  },
-  {
-    name: "TT2",
-    tooltip:
-      "Each time you perform the Main action of Alchemy (5) or Nobles (6) Action Boards, gain 3 Victory Points.",
-    src: base,
+    order: 1,
   },
   {
     name: "TT3",
     tooltip:
-      "Each time you perform the Main action of Forest (2), Stone Quarry (3), Gold Deposits (4), you get one (additional) wood, stone, gold, respectively.",
+      "Each time you perform the Main action of Alchemy (5) or Nobles (6) Action Boards, gain 3 Victory Points.",
     src: base,
-  },
-  {
-    name: "TT4",
-    tooltip:
-      "Each time you perform the Main action of the Forest (2), Stone Quarry (3), or Gold Deposits (4) Action Boards, gain 1 cocoa and 1 Victory Point.",
-    src: base,
+    order: 3,
   },
   {
     name: "TT5",
     tooltip:
-      "Each time you perform the Main action of the Decorations (7) Action Board, gain 4 Victory Points.",
+      "Each time you perform the Main action of Forest (2), Stone Quarry (3), Gold Deposits (4), you get one (additional) wood, stone, gold, respectively.",
     src: base,
-  },
-  {
-    name: "TT6",
-    tooltip:
-      "Each time you perform the Main action of the Construction (8) Action Board, gain 3 Victory Points (regardless of the number of tiles placed).",
-    src: base,
+    order: 5,
   },
   {
     name: "TT7",
     tooltip:
-      "Each time one of your workers gains a power-up as part of a Main action, you may pay 1 cocoa to power up once more (same or different worker) on the same Action Board.",
+      "Each time you perform the Main action of the Forest (2), Stone Quarry (3), or Gold Deposits (4) Action Boards, gain 1 cocoa and 1 Victory Point.",
     src: base,
-  },
-  {
-    name: "TT8",
-    tooltip:
-      "Each time you perform the Main action of the Construction (8) Action Board, resolve it as if you had an additional worker, that also granted a discount of 1 resource.",
-    src: base,
+    order: 7,
   },
   {
     name: "TT9",
     tooltip:
+      "Each time you perform the Main action of the Decorations (7) Action Board, gain 4 Victory Points.",
+    src: base,
+    order: 9,
+  },
+  {
+    name: "TT11",
+    tooltip:
+      "Each time you perform the Main action of the Construction (8) Action Board, gain 3 Victory Points (regardless of the number of tiles placed).",
+    src: base,
+    order: 11,
+  },
+  {
+    name: "TT13",
+    tooltip:
+      "Each time one of your workers gains a power-up as part of a Main action, you may pay 1 cocoa to power up once more (same or different worker) on the same Action Board.",
+    src: base,
+    order: 13,
+  },
+  {
+    name: "TT15",
+    tooltip:
+      "Each time you perform the Main action of the Construction (8) Action Board, resolve it as if you had an additional worker, that also granted a discount of 1 resource.",
+    src: base,
+    order: 15,
+  },
+  {
+    name: "TT17",
+    tooltip:
       "Each time you perform the Main action of the Construction (8) Action Board, advance on one temple (regardless of the number of tiles placed).",
     src: base,
+    order: 17,
   },
 ];
 
 export const xitleTechTiles = [
   {
-    name: "XTT1",
+    name: "TT00",
     tooltip:
       "Each time you move a worker onto or past the Palace (1) Action Board, you may immediately exchange up to 4 resources of one type (wood, stone, or gold) into the same number of resources of a different type",
     src: xitle,
+    order: 0,
   },
   {
-    name: "XTT2",
+    name: "TT02",
     tooltip:
       "When taking the Collect Cocoa action, collect 1 more cocoa than normal.",
     src: xitle,
+    order: 2,
   },
   {
-    name: "XTT3",
+    name: "TT06",
     tooltip:
       "At the end of your turn, if you unlocked one or more of your workers, gain 4 Victory Points.",
     src: xitle,
+    order: 6,
   },
   {
-    name: "XTT4",
+    name: "TT08",
     tooltip:
       "When claiming a mask Discovery tile, gain 2 Victory Points. If you acquired both this Technology and a mask Discovery tile as a benefits from your Starting tiles, immediately apply the benefit of this Technology.",
     src: xitle,
+    order: 8,
   },
   {
-    name: "XTT5",
+    name: "TT10",
     tooltip:
       "During Eclipse scoring, after paying the salary for your workers as normal, you may pay 1 additional cocoa for each worker you have. If you do so, immediately gain 2 Victory Points for each worker you have.",
     src: xitle,
+    order: 10,
   },
   {
-    name: "XTT6",
+    name: "TT12",
     tooltip:
       "After performing the Main action of the Decorations/Architecture (7) Action Board, if you placed one or more Decoration tiles, advance your marker one additional step on the Pyramid track.",
     src: xitle,
+    order: 12,
   },
   {
-    name: "XTT7",
+    name: "TT14",
     tooltip:
       "At the end of your turn, if you unlocked all of your locked workers — either by paying cocoa (normally 3 cocoa) or by unlocking them for free (in lieu of taking a normal turn) — advance your marker once on a temple of your choice.",
     src: xitle,
+    order: 14,
   },
   {
-    name: "XTT8",
+    name: "TT16",
     tooltip:
       "When performing the Main action of the Decorations/Architecture (7) Action Board, you may place Decoration tiles without consideration for which way the arrow is pointing.",
     src: xitle,
+    order: 16,
   },
   {
-    name: "XTT9",
+    name: "TT18",
     tooltip:
       "After performing the Main action of the Nobles (6) Action Board, if you placed one or more Buildings, advance your marker once on a temple of your choice.",
     src: xitle,
+    order: 18,
   },
   {
-    name: "XTT10",
+    name: "TT20",
     tooltip:
       "Before taking a normal turn, you may move one of your unlocked workers exactly 1 space backwards (counterclockwise), but without performing an action with that worker. Afterwards, move a different unlocked worker, and perform an action on the Action Board the second worker moved to, as normal.",
     src: xitle,
+    order: 20,
   },
 ];
 
 export const periodTechTiles = [
   {
-    name: "PTT1",
+    name: "TT1.5",
     tooltip: "When gaining “any resource” you may gain obsidian instead.",
     src: period,
+    order: 1.5,
   },
   {
-    name: "PTT2",
+    name: "TT3.5",
     tooltip:
       "You may spend 1 obsidian in place of up to 3 cocoa. No change is given.",
     src: period,
+    order: 3.5,
   },
   {
-    name: "PTT3",
+    name: "TT5.5",
     tooltip:
       "Whenever you perform the Collect Cocoa action or Worship at a Royal tile, gain 1 obsidian.",
     src: period,
+    order: 5.5,
   },
 ];
 
@@ -1026,6 +1048,116 @@ export const basePriestPriestessTiles = [
   { name: "pp8", src: base },
   { name: "pp9", src: base },
   { name: "pp10", src: base },
+];
+
+//Royal Tiles
+export const baseRoyalTiles = [
+  {
+    name: "rtc0",
+    category: "c",
+    order: "0",
+    tooltip:
+      "You may ad one tile to the Pyramid if the locked worker has a power of 1, 2, or 3. You may add two tiles to the Pyramid if the locked worker has a power of 4 or 5. Pay cost as usual but gain no rewards from any technology tiles.",
+    src: base,
+  },
+  {
+    name: "rtc1",
+    category: "c",
+    order: "1",
+    tooltip: "Gain 1 more cocoa than the power of the locked worker.",
+    src: base,
+  },
+  {
+    name: "rtc3",
+    category: "c",
+    order: "3",
+    tooltip:
+      "Pay 1 resource to receive 2 cocoa up to as many time as the power of the worker.",
+    src: base,
+  },
+  {
+    name: "rtc8",
+    category: "c",
+    order: "8",
+    tooltip:
+      "Pay 1 cocoa to advance on any temple by one. Do this as many times as the power of the locked worked minus one.",
+    src: base,
+  },
+  {
+    name: "rtb2",
+    category: "b",
+    order: "2",
+    tooltip:
+      "Pay 1 cocoa to receive 1 wood and 1 stone up to as many times as the power of the worker.",
+    src: base,
+  },
+  {
+    name: "rtb6",
+    category: "b",
+    order: "6",
+    tooltip:
+      "Pay 1 cocoa to receive 1 gold and 1 stone up to as many times as the power of the worker.",
+    src: base,
+  },
+  {
+    name: "rtb7",
+    category: "b",
+    order: "7",
+    tooltip:
+      "Pay 1 cocoa and 1 resource to receive as many resources of any type as the power of the worker.",
+    src: base,
+  },
+  {
+    name: "rta4",
+    category: "a",
+    order: "4",
+    tooltip:
+      "Score 2 points for every technology you have or the power of the locked worker, whichever is lower.",
+    src: base,
+  },
+  {
+    name: "rta5",
+    category: "a",
+    order: "5",
+    tooltip:
+      "Score 2 points for your position on the Pyramid track or the power of the locked worker, whichever is lower.",
+    src: base,
+  },
+  {
+    name: "rta9",
+    category: "a",
+    order: "9",
+    tooltip:
+      "Score 1 point for your position on the Avenue of the Dead or the power of the locked worker plus one, whichever is lower",
+    src: base,
+  },
+];
+
+export const periodRoyalTiles = [
+  {
+    name: "rta10",
+    category: "a",
+    order: "10",
+    tooltip:
+      "Score 2 points for every pair of Major Discovery tiles you own or the power of the locked worker, whichever is lower.",
+    src: period,
+  },
+  {
+    name: "rtb11",
+    category: "b",
+    order: "11",
+    tooltip:
+      "Spend 3 cocoa (once) to receive obsidian equal to the power of the locked worker.",
+    src: period,
+  },
+  {
+    name: "rtc12",
+    category: "c",
+    order: "12",
+    tooltip:
+      "Pay 1 obsidian to receive 1 cocoa and 2 victory points up to as many times as the power of the worker.",
+    src: period,
+  },
 ];
 
 export const obsidianPriestPriestessTiles = [{ name: "ppp1", src: period }];
@@ -1790,7 +1922,7 @@ immediately draw a replacement for it.
 const maskQuestions = (
   isAlternateTeotibotMovement,
   topDirectionTile,
-  teotibotVPFor10Cocoa,
+  teotibotVPFor10Cocoa
 ) => {
   return [
     {
@@ -1820,7 +1952,7 @@ const maskQuestions = (
 const maskQuestionsShaman = (
   isAlternateTeotibotMovement,
   topDirectionTile,
-  teotibotVPFor10Cocoa,
+  teotibotVPFor10Cocoa
 ) => {
   return [
     {
@@ -1900,10 +2032,14 @@ const eclipseQuestions = (eclipseStage, isHeightOfDevelopment) => {
     <li>Score lowest visible number on the Buildings row for each step progressed on the Avenue of the Dead ${getResourceImage(
       "avenue"
     )}.</li>
-    <li>The player (or players) furthest ahead on the Pyramid track scores <span class="bold">4</span> Victory Points ${getResourceImage("vp")}.</li>
-    <li>Each player scores <span class="bold">${getVpForEclipse(eclipseStage)}</span> points for each step they have moved up on the Pyramid track. ${getResourceImage(
-      "pyramid"
+    <li>The player (or players) furthest ahead on the Pyramid track scores <span class="bold">4</span> Victory Points ${getResourceImage(
+      "vp"
     )}.</li>
+    <li>Each player scores <span class="bold">${getVpForEclipse(
+      eclipseStage
+    )}</span> points for each step they have moved up on the Pyramid track. ${getResourceImage(
+        "pyramid"
+      )}.</li>
     <li>Reset the Pyramid track for all players, by moving all player markers to their starting position.</li>
     <li>Each player organizes their masks into one or more sets, where each set is comprised of different masks. Then each set scores points, depending on the number of masks in that set:
     Each set of <span class="bold">1</span>/2/<span class="bold">3</span>/4/<span class="bold">5</span>/6/<span class="bold">7</span> masks score <span class="bold">1</span>/3/<span class="bold">6</span>/10/<span class="bold">15</span>/21/<span class="bold">28</span> Victory Points.</li>
@@ -2267,14 +2403,14 @@ export const TilesToQuestions = (
       result = maskQuestions(
         isAlternateTeotibotMovement,
         topDirectionTile,
-        teotibotVPFor10Cocoa,
+        teotibotVPFor10Cocoa
       );
       break;
     case mask_period:
       result = maskQuestionsShaman(
         isAlternateTeotibotMovement,
         topDirectionTile,
-        teotibotVPFor10Cocoa,
+        teotibotVPFor10Cocoa
       );
       break;
     case worship:
@@ -2695,7 +2831,10 @@ const advancedMasteryQuestions = (
       )}</li>
 
       <li>${getActionBoard("Alchemy", true)}: Attempt the board's action.</li>
-      <li>${getActionBoard(isEmpires ? "Conquest" : "Nobles", true)}: Attempt the board's action.</li>
+      <li>${getActionBoard(
+        isEmpires ? "Conquest" : "Nobles",
+        true
+      )}: Attempt the board's action.</li>
       <li>${getActionBoard(
         "Decorations",
         true

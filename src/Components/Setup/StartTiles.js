@@ -7,6 +7,7 @@ import { useSpring, useTransition, a } from "@react-spring/web";
 import { startTile } from "./Setup.css";
 import { shuffle, find } from "lodash";
 import Tippy, { useSingleton } from "@tippyjs/react";
+import { removeRandomItemFromArray } from "../Logic";
 import "tippy.js/dist/tippy.css";
 
 export const StartTiles = (props) => {
@@ -38,7 +39,7 @@ export const StartTiles = (props) => {
     }
     const t = setInterval(() => {
       if (items.length >= 5) {
-        items.pop();
+        removeRandomItemFromArray(items);
         set(shuffle);
       }
     }, 50);

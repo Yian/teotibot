@@ -12,6 +12,15 @@ export const swapArrayLocs = (arr, index1, index2) => {
   [arr[index1], arr[index2]] = [arr[index2], arr[index1]];
 };
 
+export const removeRandomItemFromArray = (array) => {
+  if (array.length === 0) return undefined; // If the array is empty, return undefined.
+
+  const randomIndex = Math.floor(Math.random() * array.length); // Generate a random index.
+  const removedItem = array.splice(randomIndex, 1)[0]; // Remove the item at the random index.
+
+  return removedItem; // Return the removed item.
+}
+
 export const orderTiles = (
   newOrder,
   tileIndex,
