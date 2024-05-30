@@ -585,7 +585,7 @@ export const TileList = (props) => {
       </div> */}
       <div css={nav}>
         <div css={navButton} onClick={handleRollClick}>
-          <img src={`${process.env.PUBLIC_URL}/dice/d3.png`} alt="d3" />
+          <img src={`${process.env.PUBLIC_URL}/game_dice/d3.png`} alt="d3" />
         </div>
         {props.isAscend && (
           <span css={navButton} onClick={handleAscendClick}>

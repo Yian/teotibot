@@ -104,7 +104,7 @@ export class AppContainer extends React.Component {
     });
 
     diceFaces.forEach((action) => {
-      imageUrls.push(`${process.env.PUBLIC_URL}/dice/d${action.value}.png`);
+      imageUrls.push(`${process.env.PUBLIC_URL}/game_dice/d${action.value}.png`);
     });
 
     resourcesToPreload.forEach((resourceName) => {

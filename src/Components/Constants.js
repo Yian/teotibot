@@ -234,12 +234,12 @@ export const diceTilePositions = {
 };
 
 export const dFaces = [
-  `${process.env.PUBLIC_URL}/dice/d1.png`,
-  `${process.env.PUBLIC_URL}/dice/d2.png`,
-  `${process.env.PUBLIC_URL}/dice/d3.png`,
-  `${process.env.PUBLIC_URL}/dice/d4.png`,
-  `${process.env.PUBLIC_URL}/dice/d5.png`,
-  `${process.env.PUBLIC_URL}/dice/d6.png`,
+  `${process.env.PUBLIC_URL}/game_dice/d1.png`,
+  `${process.env.PUBLIC_URL}/game_dice/d2.png`,
+  `${process.env.PUBLIC_URL}/game_dice/d3.png`,
+  `${process.env.PUBLIC_URL}/game_dice/d4.png`,
+  `${process.env.PUBLIC_URL}/game_dice/d5.png`,
+  `${process.env.PUBLIC_URL}/game_dice/d6.png`,
 ];
 
 export const regionDescriptions = [
@@ -1188,7 +1188,7 @@ export const getPathTileImage = (tileNo) => {
 };
 
 const getDiceImage = (imageName) => {
-  return `<img class="icon" src="./dice/${imageName}.png" alt=${imageName}}/>`;
+  return `<img class="icon" src="./game_dice/${imageName}.png" alt=${imageName}}/>`;
 };
 
 export const getActionBoard = (actionName, noText) => {
@@ -1209,14 +1209,14 @@ const advancement = (isAlternateTeotibotMovement, topDirectionTile) => {
   }
 };
 
-const baseAdvancement = `<ul><li>${getImage("/dice/d1.png")}${getImage(
-  "/dice/d2.png"
+const baseAdvancement = `<ul><li>${getImage("/game_dice/d1.png")}${getImage(
+  "/game_dice/d2.png"
 )}${getImage(
-  "/dice/d3.png"
+  "/game_dice/d3.png"
 )} clockwise to the <span class="bold">next</span> Action Board.</li><li>${getImage(
-  "/dice/d4.png"
+  "/game_dice/d4.png"
 )}${getImage(
-  "/dice/d5.png"
+  "/game_dice/d5.png"
 )} clockwise to the <span class="bold">second</span> Action Board.</li></ul>`;
 
 const altAdvancement = (topDirectionTile) => {

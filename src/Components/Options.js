@@ -175,7 +175,7 @@ export const Options = (props) => {
               </span>
               <img className="action" src="./actions/no4.png" alt="Gold" />
               <img
-                src={`./dice/d${props.teotibotWorkerPowerForAction4}.png`}
+                src={`./game_dice/d${props.teotibotWorkerPowerForAction4}.png`}
                 alt=""
               />
               <span onClick={props.onDecreaseTeotibotWorkerPowerForAction4}>
@@ -188,7 +188,7 @@ export const Options = (props) => {
               </span>
               <img className="action" src="./actions/no6.png" alt="Gold" />
               <img
-                src={`./dice/d${props.teotibotWorkerPowerForAction6}.png`}
+                src={`./game_dice/d${props.teotibotWorkerPowerForAction6}.png`}
                 alt=""
               />
               <span onClick={props.onDecreaseTeotibotWorkerPowerForAction6}>
@@ -201,7 +201,7 @@ export const Options = (props) => {
               </span>
               <img className="action" src="./actions/no8.png" alt="Gold" />
               <img
-                src={`./dice/d${props.teotibotWorkerPowerForAction8}.png`}
+                src={`./game_dice/d${props.teotibotWorkerPowerForAction8}.png`}
                 alt=""
               />
               <span onClick={props.onDecreaseTeotibotWorkerPowerForAction8}>

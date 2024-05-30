@@ -80,7 +80,7 @@ export const DicePlacement = (props) => {
             )}
             <a.img
               css={diceFace}
-              src={`${process.env.PUBLIC_URL}/dice/${item.diceFace.name}.png`}
+              src={`${process.env.PUBLIC_URL}/game_dice/${item.diceFace.name}.png`}
             />
             <a.img
               css={action}
