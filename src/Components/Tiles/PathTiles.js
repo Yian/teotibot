@@ -26,7 +26,7 @@ export const PathTiles = (props) => {
       <div css={questionModalContent}>
         <img
           css={modalClose}
-          src={`${process.env.PUBLIC_URL}/resources/back.png`}
+          src={`${process.env.PUBLIC_URL}/game_resources/back.png`}
           onClick={() => props.onCloseClick(false)}
           alt="Cancel"
         />

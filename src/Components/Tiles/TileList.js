@@ -590,7 +590,7 @@ export const TileList = (props) => {
         {props.isAscend && (
           <span css={navButton} onClick={handleAscendClick}>
             <img
-              src={`${process.env.PUBLIC_URL}/resources/ascension.png`}
+              src={`${process.env.PUBLIC_URL}/game_resources/ascension.png`}
               alt="eclipse"
             />
             {eclipseStage <= 2 ? `Eclipse in ${stepsUntilEclipse}` : ""}
@@ -598,7 +598,7 @@ export const TileList = (props) => {
         )}
         <span css={navButton} onClick={handleEclipseClick}>
           <img
-            src={`${process.env.PUBLIC_URL}/resources/eclipse.png`}
+            src={`${process.env.PUBLIC_URL}/game_resources/eclipse.png`}
             alt="eclipse"
           />
           {eclipseStage <= 2 ? `Eclipse ${eclipseStage}` : "Game over"}
@@ -607,7 +607,7 @@ export const TileList = (props) => {
           <img
             css={{}}
             onClick={() => props.options(AppScreen)}
-            src="./resources/settings.png"
+            src="./game_resources/settings.png"
             alt="Settings"
           />
         </div>

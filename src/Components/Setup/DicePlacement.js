@@ -75,7 +75,7 @@ export const DicePlacement = (props) => {
             {item.worship && (
               <a.img
                 css={diceFace}
-                src={`${process.env.PUBLIC_URL}/resources/worshipspace.png`}
+                src={`${process.env.PUBLIC_URL}/game_resources/worshipspace.png`}
               />
             )}
             <a.img

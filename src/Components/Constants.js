@@ -1198,7 +1198,7 @@ export const getActionBoard = (actionName, noText) => {
 };
 
 export const getResourceImage = (imageName, className = "icon") => {
-  return `<img class="${className}" src="./resources/${imageName}.png" alt=${imageName}}/>`;
+  return `<img class="${className}" src="./game_resources/${imageName}.png" alt=${imageName}}/>`;
 };
 
 const advancement = (isAlternateTeotibotMovement, topDirectionTile) => {

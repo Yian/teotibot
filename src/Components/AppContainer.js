@@ -108,7 +108,7 @@ export class AppContainer extends React.Component {
     });
 
     resourcesToPreload.forEach((resourceName) => {
-      imageUrls.push(`${process.env.PUBLIC_URL}/resources/${resourceName}.png`);
+      imageUrls.push(`${process.env.PUBLIC_URL}/game_resources/${resourceName}.png`);
     });
 
     botTiles().forEach((tile) => {
@@ -633,7 +633,7 @@ export class AppContainer extends React.Component {
           <img
             css={btnSettings}
             onClick={() => this.options(SetupScreen)}
-            src="./resources/settings-white.png"
+            src="./game_resources/settings-white.png"
             alt="Settings"
           />
           <Setup

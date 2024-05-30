@@ -20,7 +20,7 @@ export const Options = (props) => {
   return (
     <div css={options}>
       <div css={activeText} onClick={props.back}>
-        <img src={`${process.env.PUBLIC_URL}/resources/back.png`} alt="Back" />
+        <img src={`${process.env.PUBLIC_URL}/game_resources/back.png`} alt="Back" />
       </div>
       <h2>General</h2>
       <div css={optionsSection}>
@@ -216,19 +216,19 @@ export const Options = (props) => {
             <div css={teotibotResourceContainer}>
               <span onClick={props.onIncreaseTeotibotStartingGold}>+</span>
               <span>{props.teotibotStartingGold}</span>
-              <img src="./resources/gold.png" alt="Gold" />{" "}
+              <img src="./game_resources/gold.png" alt="Gold" />{" "}
               <span onClick={props.onDecreaseTeotibotStartingGold}>-</span>
             </div>
             <div css={teotibotResourceContainer}>
               <span onClick={props.onIncreaseTeotibotStartingWood}>+</span>
               <span>{props.teotibotStartingWood}</span>
-              <img src="./resources/wood.png" alt="Wood" />{" "}
+              <img src="./game_resources/wood.png" alt="Wood" />{" "}
               <span onClick={props.onDecreaseTeotibotStartingWood}>-</span>
             </div>
             <div css={teotibotResourceContainer}>
               <span onClick={props.onIncreaseTeotibotStartingStone}>+</span>
               <span>{props.teotibotStartingStone}</span>
-              <img src="./resources/stone.png" alt="Stone" />{" "}
+              <img src="./game_resources/stone.png" alt="Stone" />{" "}
               <span onClick={props.onDecreaseTeotibotStartingStone}>-</span>
             </div>
           </div>
@@ -239,8 +239,8 @@ export const Options = (props) => {
             <div css={teotibotResourceContainer}>
               <span onClick={props.onIncreaseTeotibotVPfor10Cocoa}>+</span>
               <span>{props.teotibotVPFor10Cocoa}</span>
-              <img className="vp" src="./resources/vp.png" alt="VP" />{" "}
-              <img src="./resources/cocoa.png" alt="VP" />{" "}
+              <img className="vp" src="./game_resources/vp.png" alt="VP" />{" "}
+              <img src="./game_resources/cocoa.png" alt="VP" />{" "}
               <span onClick={props.onDecreaseTeotibotVPfor10Cocoa}>-</span>
             </div>
           </div>
@@ -251,7 +251,7 @@ export const Options = (props) => {
             <div css={teotibotResourceContainer}>
               <span onClick={props.onIncreaseTeotibotStepsPerWorship}>+</span>
               <span>{props.teotibotStepsPerWorship}</span>
-              <img src="./resources/worshipspace.png" alt="VP" />{" "}
+              <img src="./game_resources/worshipspace.png" alt="VP" />{" "}
               <span onClick={props.onDecreaseTeotibotStepsPerWorship}>-</span>
             </div>
           </div>
@@ -262,7 +262,7 @@ export const Options = (props) => {
             <div css={teotibotResourceContainer}>
               <span onClick={props.onIncreaseTeotibotVPForTempleTiles}>+</span>
               <span>{props.teotibotVPForTempleTiles}</span>
-              <img src="./resources/templebonus.jpg" alt="VP" />{" "}
+              <img src="./game_resources/templebonus.jpg" alt="VP" />{" "}
               <span onClick={props.onDecreaseTeotibotVPForTempleTiles}>-</span>
             </div>
           </div>
@@ -273,8 +273,8 @@ export const Options = (props) => {
             <div css={teotibotResourceContainer}>
               <span onClick={props.onIncreaseTeotibotVPForTechTiles}>+</span>
               <span>{props.teotibotVPForTechTiles}</span>
-              <img className="vp" src="./resources/vp.png" alt="VP" />{" "}
-              <img src="./resources/tech.png" alt="VP" />{" "}
+              <img className="vp" src="./game_resources/vp.png" alt="VP" />{" "}
+              <img src="./game_resources/tech.png" alt="VP" />{" "}
               <span onClick={props.onDecreaseTeotibotVPForTechTiles}>-</span>
             </div>
           </div>
@@ -285,9 +285,9 @@ export const Options = (props) => {
             <div css={teotibotResourceContainer}>
               <span onClick={props.onIncreaseTeotibotResourcesToGain}>+</span>
               <span>{props.teotibotResourcesToGain}</span>
-              <img src="./resources/any.png" alt="any" />
+              <img src="./game_resources/any.png" alt="any" />
               <span>1</span>
-              <img src="./resources/obsidian.png" alt="any" />
+              <img src="./game_resources/obsidian.png" alt="any" />
               <span onClick={props.onDecreaseTeotibotResourcesToGain}>-</span>
             </div>
           </div>

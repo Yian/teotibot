@@ -22,7 +22,7 @@ export const Heading = () => {
               output: [1, 0.97, 0.9, 1.1, 0.9, 1.1, 1.03, 1],
             }),
           }}>
-           <img src="./resources/pyramidt.png" alt="Stone" /><h1>Teotibot</h1>
+           <img src="./game_resources/pyramidt.png" alt="Stone" /><h1>Teotibot</h1>
         </animated.div>
       </div>
     )

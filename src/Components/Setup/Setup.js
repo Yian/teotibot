@@ -417,7 +417,7 @@ export const Setup = (props) => {
                 <span>
                   Place one of Teotibot's worshippers on the Temple Bonus tile
                   of the orange temple.{" "}
-                  <img src={`${process.env.PUBLIC_URL}/resources/to.png`} />
+                  <img src={`${process.env.PUBLIC_URL}/game_resources/to.png`} />
                 </span>
               </div>
             )}

@@ -298,7 +298,7 @@ export class QuestionForm extends React.Component {
             }
           >
             <img
-              src={`${process.env.PUBLIC_URL}/resources/back.png`}
+              src={`${process.env.PUBLIC_URL}/game_resources/back.png`}
               alt="Cancel"
             />
           </div>
@@ -316,7 +316,7 @@ export class QuestionForm extends React.Component {
             <div css={modalHeadingEclipse}>
               <h2>{this.props.tileName}</h2>
               <img
-                src={`${process.env.PUBLIC_URL}/resources/${this.props.tileSrc}.png`}
+                src={`${process.env.PUBLIC_URL}/game_resources/${this.props.tileSrc}.png`}
                 alt={this.props.tileName}
               />
             </div>
