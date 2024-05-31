@@ -33,6 +33,7 @@ import {
   xitleStartTiles,
   diceTilePositions,
   Eclipse,
+  Neutral,
   initialDirectionOrdering,
   initialAlternativeDirectionOrdering,
   initialOrdering,
@@ -108,6 +109,7 @@ export const TileList = (props) => {
   const [enableRoll, setEnableRoll] = useState(true);
   const [dice1Rolled, setDice1Rolled] = useState(0);
   const [dice2Rolled, setDice2Rolled] = useState(0);
+  const [showNeutralMovements, setShowNeutralMovements] = useState(false);
 
   // Hook1: Tie media queries to the number of columns
   const columns = useMedia(
@@ -139,7 +141,7 @@ export const TileList = (props) => {
   });
 
   var tileWidth = width / columns;
-  var mapWidth = width / (columns*2);
+  var mapWidth = width / (columns * 2);
 
   if (checkOrientation) {
     tileWidth = width / (columns / 0.8);
@@ -394,13 +396,26 @@ export const TileList = (props) => {
     }, 700);
   };
 
+
+  const onCloseNeutral = () => {
+    setShowNeutralMovements(false);
+    shuffleTiles(selectedTileIndex);
+    setShowDice(false);
+  }
+
   const onCloseClick = (shouldShuffle) => {
     setShowForm(false);
     setShowEclipseForm(false);
     setShowEmpire(false);
+
     if (shouldShuffle) {
-      shuffleTiles(selectedTileIndex);
+      if (props.isMoveNeutral) {
+        setShowNeutralMovements(true);
+      } else {
+        shuffleTiles(selectedTileIndex);
+      }
     }
+
     setShowDice(false);
   };
 
@@ -505,6 +520,7 @@ export const TileList = (props) => {
         {showForm && (
           <QuestionForm
             onCloseClick={(shouldShuffle) => onCloseClick(shouldShuffle)}
+            isMoveNeutral={props.isMoveNeutral}
             tileName={tiles[selectedTileIndex].name}
             eclipseStage={eclipseStage}
             tileSrc={tiles[selectedTileIndex].src}
@@ -535,12 +551,22 @@ export const TileList = (props) => {
             teotibotVPForTempleTiles={props.teotibotVPForTempleTiles}
           />
         )}
+        {showNeutralMovements && (
+          <QuestionForm
+            tiles={cloneDeep(startTiles)}
+            tileName={Neutral}
+            tileSrc={"worker"}
+            onCloseNeutral={onCloseNeutral}
+          />
+        )}
       </div>
-      {props.isEmpires && <img
-        css={empire}
-        src={`${process.env.PUBLIC_URL}/empire/empire_map.jpg`}
-        onClick={onShowEmpireClick}
-      />}
+      {props.isEmpires && (
+        <img
+          css={empire}
+          src={`${process.env.PUBLIC_URL}/empire/empire_map.jpg`}
+          onClick={onShowEmpireClick}
+        />
+      )}
       {showEmpire && (
         <PathTiles
           onCloseClick={(shouldShuffle) => onCloseClick(shouldShuffle)}

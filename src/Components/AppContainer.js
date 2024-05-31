@@ -61,6 +61,9 @@ export class AppContainer extends React.Component {
       isDarkEclipse: JSON.parse(
         reactLocalStorage.get("isDarkEclipse") ?? false
       ),
+      isMoveNeutral: JSON.parse(
+        reactLocalStorage.get("isMoveNeutral") ?? false
+      ),
       isAdvanced: JSON.parse(reactLocalStorage.get("isAdvanced") ?? false),
       isSkipSetup: false,
       teotibotStartingGold: 2,
@@ -232,12 +235,29 @@ export class AppContainer extends React.Component {
     );
   };
 
+  setIsMoveNeutral = (isMoveNeutral) => {
+    this.setState(
+      {
+        isMoveNeutral,
+      },
+      () => {
+        reactLocalStorage.set("isMoveNeutral", isMoveNeutral);
+      }
+    );
+  };
+
   onChangeIsDarkEclipse = (e) => {
     this.setIsDarkEclipse(
       e.target.type === "checkbox" ? e.target.checked : e.target.value
     );
   };
-
+  
+  onChangeIsMoveNeutral = (e) => {
+    this.setIsMoveNeutral(
+      e.target.type === "checkbox" ? e.target.checked : e.target.value
+    );
+  };
+  
   setIsAdvanced = (isAdvanced) => {
     this.setState(
       {
@@ -671,6 +691,7 @@ export class AppContainer extends React.Component {
           isEmpires={this.state.isEmpires}
           isHeightOfDevelopment={this.state.isHeightOfDevelopment}
           isAlternateTeotibotMovement={this.state.isAlternateTeotibotMovement}
+          isMoveNeutral={this.state.isMoveNeutral}
           teotibotVPFor10Cocoa={this.state.teotibotVPFor10Cocoa}
           teotibotVPForTechTiles={this.state.teotibotVPForTechTiles}
           teotibotVPForTempleTiles={this.state.teotibotVPForTempleTiles}
@@ -697,6 +718,8 @@ export class AppContainer extends React.Component {
           onChangeIsAscend={this.onChangeIsAscend}
           isDarkEclipse={this.state.isDarkEclipse}
           onChangeIsDarkEclipse={this.onChangeIsDarkEclipse}
+          isMoveNeutral={this.state.isMoveNeutral}
+          onChangeIsMoveNeutral={this.onChangeIsMoveNeutral}
           isAdvanced={this.state.isAdvanced}
           onChangeIsAdvanced={this.onChangeIsAdvanced}
           isPriestAndPriestess={this.state.isPriestAndPriestess}

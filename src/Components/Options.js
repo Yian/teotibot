@@ -20,10 +20,22 @@ export const Options = (props) => {
   return (
     <div css={options}>
       <div css={activeText} onClick={props.back}>
-        <img src={`${process.env.PUBLIC_URL}/game_resources/back.png`} alt="Back" />
+        <img
+          src={`${process.env.PUBLIC_URL}/game_resources/back.png`}
+          alt="Back"
+        />
       </div>
       <h2>General</h2>
       <div css={optionsSection}>
+        <div css={generalOption}>
+          <div className={"checkbox-container"}>
+            <Checkbox
+              label="Skip setup"
+              checked={props.isSkipSetup}
+              onChange={props.onChangeIsSkipSetup}
+            />
+          </div>
+        </div>
         <div css={generalOption}>
           <div className={"checkbox-container"}>
             <Checkbox
@@ -53,19 +65,19 @@ export const Options = (props) => {
         <div css={generalOption}>
           <div className={"checkbox-container"}>
             <Checkbox
-              label="Advanced bot tile descriptions"
-              checked={props.isAdvanced}
-              onChange={props.onChangeIsAdvanced}
-              withTooltip={"Shorter bot tile summaries with no steps."}
+              label="Move Neutral Players every turn"
+              checked={props.isMoveNeutral}
+              onChange={props.onChangeIsMoveNeutral}
             />
           </div>
         </div>
         <div css={generalOption}>
           <div className={"checkbox-container"}>
             <Checkbox
-              label="Skip setup"
-              checked={props.isSkipSetup}
-              onChange={props.onChangeIsSkipSetup}
+              label="Advanced bot tile descriptions"
+              checked={props.isAdvanced}
+              onChange={props.onChangeIsAdvanced}
+              withTooltip={"Shorter bot tile summaries with no steps."}
             />
           </div>
         </div>

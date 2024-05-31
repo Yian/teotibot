@@ -23,6 +23,7 @@ import {
 import {
   powerupMsg,
   getResourceImage,
+  getActionImage,
   Eclipse,
   masteryQuestions,
   TilesToQuestions,
@@ -30,6 +31,7 @@ import {
   shamanText,
   hasResourcesNoText,
   getActionBoard,
+  Neutral,
 } from "./Constants";
 import { DicePlacement } from "./Setup/DicePlacement";
 import { getNeutralArray } from "./Logic";
@@ -65,7 +67,7 @@ const Question = (props) => {
 
           <PathSelector />
 
-          <EmpireMap/>
+          <EmpireMap />
         </div>
       )}
       {/* Show path selector for basic forms */}
@@ -99,7 +101,7 @@ const Question = (props) => {
                 ? () => {
                     props.onSelect("yes");
                   }
-                : () => props.onExitForm(true)
+                : () => props.onExitForm(false)
             }
           >
             yes
@@ -161,6 +163,7 @@ export class QuestionForm extends React.Component {
 
     this.onExitForm = this.onExitForm.bind(this);
     this.onCancelEclipse = this.onCancelEclipse.bind(this);
+    this.onExitNeutral = this.onExitNeutral.bind(this);
     this.onRestartQuestions = this.onRestartQuestions.bind(this);
     this.onClickMasteryOption = this.onClickMasteryOption.bind(this);
   }
@@ -171,11 +174,13 @@ export class QuestionForm extends React.Component {
 
     this.setState({
       neutralPlacements1:
-        props.tileName === Eclipse && props.eclipseStage <= 2
+        (props.tileName === Eclipse && props.eclipseStage <= 2) ||
+        props.tileName === Neutral
           ? getNeutralArray(tiles)
           : [],
       neutralPlacements2:
-        props.tileName === Eclipse && props.eclipseStage <= 2
+        (props.tileName === Eclipse && props.eclipseStage <= 2) ||
+        props.tileName === Neutral
           ? getNeutralArray(tiles)
           : [],
       questions: !props.isAdvanced
@@ -222,6 +227,25 @@ export class QuestionForm extends React.Component {
         "stone"
       )} -> ${getResourceImage("wood")}
     </div></div>`,
+    });
+    tippy(".ascend-tip", {
+      allowHTML: true,
+      content: `<div class="templeTip">
+      <div class="tooltip-text">
+       <span>- Advance when worker ${getResourceImage(
+         "worker"
+       )} reaches level 6</span>
+       <span>- Advance Marker one step on the avenue ${getResourceImage(
+         "avenue"
+       )} track.</span>
+       <span>- Move new die to the Palace action board ${getActionImage(
+         "no1"
+       )}</span>
+       <span>- Select the reward: 5vp, 5 cocoa, Temple Advance.</span>
+        <span>- Pay 3 to advance twice on 1 or 2 temples.</span>
+        <span>- If only 3 workers, gain your 4th worker starting power of 3, place in palace 1 general area.</span>
+        <span>- Advance the light disc on the Calendar track by one. This might trigger an Eclipse.</span>
+      </div></div>`,
     });
   }
 
@@ -271,6 +295,10 @@ export class QuestionForm extends React.Component {
     this.props.onCancelEclipseClick();
   }
 
+  onExitNeutral() {
+    this.props.onCloseNeutral();
+  }
+
   render() {
     var answers = this.state.answers;
     var questions = this.state.questions;
@@ -289,30 +317,24 @@ export class QuestionForm extends React.Component {
     return (
       <div css={questionModal}>
         <div css={questionModalContent}>
-          <div
-            css={modalClose}
-            onClick={
-              this.props.tileName === Eclipse
-                ? () => this.onCancelEclipse()
-                : () => this.onExitForm(false)
-            }
-          >
-            <img
-              src={`${process.env.PUBLIC_URL}/game_resources/back.png`}
-              alt="Cancel"
-            />
-          </div>
+          {this.props.isMoveNeutral && (
+            <div
+              css={modalClose}
+              onClick={
+                this.props.tileName === Eclipse
+                  ? () => this.onCancelEclipse()
+                  : () => this.onExitForm(false)
+              }
+            >
+              <img
+                src={`${process.env.PUBLIC_URL}/game_resources/back.png`}
+                alt="Cancel"
+              />
+            </div>
+          )}
 
           {/* //Heading */}
-          {this.props.tileName !== Eclipse ? (
-            <div css={modalHeading((this.props.isAdvanced || this.props.tileName === "Empire and Build") ? 100 : 70)}>
-              <h2>{this.props.tileName}</h2>
-              <img
-                src={`${process.env.PUBLIC_URL}/bot_tiles/${this.props.tileSrc}.png`}
-                alt={this.props.tileName}
-              />{" "}
-            </div>
-          ) : (
+          {this.props.tileName === Eclipse ? (
             <div css={modalHeadingEclipse}>
               <h2>{this.props.tileName}</h2>
               <img
@@ -320,8 +342,32 @@ export class QuestionForm extends React.Component {
                 alt={this.props.tileName}
               />
             </div>
+          ) : this.props.tileName === Neutral ? (
+            <div css={modalHeadingEclipse}>
+              <h2>Neutral Player</h2>
+              <img
+                src={`${process.env.PUBLIC_URL}/game_resources/${this.props.tileSrc}.png`}
+                alt={this.props.tileName}
+              />
+            </div>
+          ) : (
+            <div
+              css={modalHeading(
+                this.props.isAdvanced ||
+                  this.props.tileName === "Empire and Build"
+                  ? 100
+                  : 70
+              )}
+            >
+              <h2>{this.props.tileName}</h2>
+              <img
+                src={`${process.env.PUBLIC_URL}/bot_tiles/${this.props.tileSrc}.png`}
+                alt={this.props.tileName}
+              />
+            </div>
           )}
 
+          {/* Questions */}
           {qs.map((question) => (
             <Question
               key={question.questionId}
@@ -353,6 +399,16 @@ export class QuestionForm extends React.Component {
           ))}
 
           {this.props.tileName === Eclipse && this.props.eclipseStage <= 2 && (
+            <div css={questionModalPlacements}>
+              <h3>Neutral placements</h3>
+              <h4>Neutral player 1</h4>
+              <DicePlacement dicePlacements={neutralPlacements1} />
+              <h4>Neutral player 2</h4>
+              <DicePlacement dicePlacements={neutralPlacements2} />
+            </div>
+          )}
+
+          {this.props.tileName === Neutral && (
             <div css={questionModalPlacements}>
               <h3>Neutral placements</h3>
               <h4>Neutral player 1</h4>
@@ -400,6 +456,14 @@ export class QuestionForm extends React.Component {
           {this.props.tileName === Eclipse && (
             <div css={buttons}>
               <div css={btnContinue} onClick={() => this.onExitForm(false)}>
+                continue
+              </div>
+            </div>
+          )}
+
+          {this.props.tileName === Neutral && (
+            <div css={buttons}>
+              <div css={btnContinue} onClick={this.onExitNeutral}>
                 continue
               </div>
             </div>

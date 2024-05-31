@@ -115,6 +115,15 @@ body::-webkit-scrollbar {
   margin: 10px 0;
 }
 
+.tooltip-text {
+  display: flex;
+  flex-direction: column;
+  
+  span: {
+    display: flex;
+  }
+}
+
 .nothing {
   display: flex;
   margin: 0 0 1rem 0;

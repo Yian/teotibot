@@ -198,6 +198,7 @@ const conquest = "conquest";
 const eclipse = "eclipse";
 
 export const Eclipse = "Eclipse";
+export const Neutral = "Neutral";
 export const noNeutralDice = 3;
 
 export const StartScreen = 1;
@@ -1412,7 +1413,7 @@ bot would score by matching icons.)</li>
 Power up ${getResourceImage("powerup")} Teotibots worker ${getDiceImage(
     "d3"
   )} on the Construction ${getActionImage("no8")}
-Action Board (resolve any Ascensions normally). Then advance the powered-up worker (or the new worker, if the
+Action Board (resolve any <span class="ascend-tip bold">Ascensions</span> normally). Then advance the powered-up worker (or the new worker, if the
 old one triggered Ascension)
 ${advancement(isAlternateTeotibotMovement, topDirectionTile)}
 </div>`;
@@ -1461,7 +1462,7 @@ yet have, while you score the <span class="bold">3</span> Victory Points ${getRe
 Technology ${getResourceImage("tech")} and power up ${getResourceImage(
     "powerup"
   )} a worker on this Action Board
-(resolve any Ascensions normally). Then the bot advances the powered-up worker
+(resolve any <span class="ascend-tip bold">Ascensions</span> normally). Then the bot advances the powered-up worker
 (or the new worker, if the old one triggered Ascension).</li></ul>
 ${advancement(isAlternateTeotibotMovement, topDirectionTile)}
 </div>
@@ -1530,7 +1531,7 @@ Power up ${getResourceImage("powerup")} Teotibots worker ${getDiceImage(
   )} on the Decorations
 Action Board ${getActionImage(
     "no7"
-  )} (resolve any Ascensions normally). Then advance the powered-up worker (or the new worker, if the
+  )} (resolve any <span class="ascend-tip bold">Ascensions</span> normally). Then advance the powered-up worker (or the new worker, if the
 old one triggered Ascension)
 ${advancement(isAlternateTeotibotMovement, topDirectionTile)}
 </div>`;
@@ -1845,7 +1846,7 @@ const empireAndBuildQuestions = (
     Power up ${getResourceImage("powerup")} Teotibots worker ${getDiceImage(
         "d3"
       )} on the Conquest ${getActionImage("no6")}
-  Action Board (resolve any Ascensions normally). Then advance the powered-up worker (or the new worker, if the
+  Action Board (resolve any <span class="ascend-tip bold">Ascensions</span> normally). Then advance the powered-up worker (or the new worker, if the
   old one triggered Ascension)
     ${advancement(isAlternateTeotibotMovement, topDirectionTile)}`,
       questionId: 2,
@@ -2242,7 +2243,7 @@ const masteryEmpiresQuestions = (
     Power up ${getResourceImage("powerup")} Teotibots worker ${getDiceImage(
         "d3"
       )} on the Conquest ${getActionImage("no6")}
-  Action Board (resolve any Ascensions normally). Then advance the powered-up worker (or the new worker, if the
+  Action Board (resolve any <span class="ascend-tip bold">Ascensions</span> normally). Then advance the powered-up worker (or the new worker, if the
   old one triggered Ascension)
     ${advancement(isAlternateTeotibotMovement, topDirectionTile)}`,
       questionId: 2,
@@ -2529,7 +2530,7 @@ const advancedNoblesQuestions = (
       </br>
       <div><span class="step">3.</span> <span class="green">If 1. or 2. performed</span> power ${getResourceImage(
         "powerup"
-      )} up a worker on the relevant Action Board (resolve any Ascensions normally). Then advance the powered-up worker (or the new worker, if the old one triggered ascension).</div>
+      )} up a worker on the relevant Action Board (resolve any <span class="ascend-tip bold">Ascensions</span> normally). Then advance the powered-up worker (or the new worker, if the old one triggered ascension).</div>
       </br>
       <div>
       <span class="step">4.</span> <span class="red">If neither performed:</span>
@@ -2577,7 +2578,7 @@ const advancedEmpireAndBuildQuestions = (
       </br>
       <div><span class="step">3.</span> <span class="green">If 1. or 2. performed</span> power ${getResourceImage(
         "powerup"
-      )} up a worker on the relevant Action Board (resolve any Ascensions normally). Then advance the powered-up worker (or the new worker, if the old one triggered ascension).</div>
+      )} up a worker on the relevant Action Board (resolve any <span class="ascend-tip bold">Ascensions</span> normally). Then advance the powered-up worker (or the new worker, if the old one triggered ascension).</div>
       </br>
       <div>
       <span class="step">4.</span> <span class="red">If neither performed:</span>
@@ -2637,7 +2638,7 @@ const advancedConstructionQuestions = (
       </br>
       <div><span class="step">3.</span> <span class="green">If 1. or 2. performed</span> power ${getResourceImage(
         "powerup"
-      )} up a worker on the relevant Action Board (resolve any Ascensions normally). Then advance the powered-up worker (or the new worker, if the old one triggered ascension).</div>
+      )} up a worker on the relevant Action Board (resolve any <span class="ascend-tip bold">Ascensions</span> normally). Then advance the powered-up worker (or the new worker, if the old one triggered ascension).</div>
       </br>
       <div><span class="step">4.</span> <span class="red">If neither performed:</span></div>
       ${powerupMsg(
@@ -2689,7 +2690,7 @@ const advancedDecorationsQuestions = (
       </br>
       <div><span class="step">3.</span> <span class="green">If 1. or 2. performed</span> power ${getResourceImage(
         "powerup"
-      )} up a worker on the relevant Action Board (resolve any Ascensions normally). Then advance the powered-up worker (or the new worker, if the old one triggered ascension).</div>
+      )} up a worker on the relevant Action Board (resolve any <span class="ascend-tip bold">Ascensions</span> normally). Then advance the powered-up worker (or the new worker, if the old one triggered ascension).</div>
       </br>
       <div><span class="step">4.</span> <span class="red">If neither performed:</span></div>
       ${powerupMsg(
@@ -2742,7 +2743,7 @@ const advancedAlchemyQuestions = (
       technology ${getResourceImage("tech")} and power up ${getResourceImage(
         "powerup"
       )} a worker on this Action Board
-      (resolve any Ascensions normally). Then the bot advances the powered-up worker
+      (resolve any <span class="ascend-tip bold">Ascensions</span> normally). Then the bot advances the powered-up worker
       (or the new worker, if the old one triggered Ascension).</li></ul></div>
       ${advancement(isAlternateTeotibotMovement, topDirectionTile)}
      <div><span class="step">2.</span> <span class="red">If the above step failed,</span> power up ${getResourceImage(

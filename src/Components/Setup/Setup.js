@@ -90,6 +90,7 @@ export const Setup = (props) => {
   const [showTeotibotDice, setShowTeotibotDice] = useState(false);
   const [showNeutralPlayer1, setShowNeutralPlayer1] = useState(false);
   const [showNeutralPlayer2, setShowNeutralPlayer2] = useState(false);
+  const [showBoardSetup, setShowBoardSetup] = useState(false);
   const [showContinue, setShowContinue] = useState(false);
 
   const getTeotibotPlacement = useCallback(() => {
@@ -209,6 +210,7 @@ export const Setup = (props) => {
       setShowTeotibotDice(false);
       setShowNeutralPlayer1(false);
       setShowNeutralPlayer2(false);
+      setShowBoardSetup(false);
       setShowPlayerStartingResources(false);
       setShowPlayerPriestPriestessTiles(false);
       setShowTeotibotPriestPriestessTiles(false);
@@ -310,6 +312,7 @@ export const Setup = (props) => {
     if (showNeutralPlayer2) {
       setShowContinue(true);
       scrollIntoView(continueRef, true);
+      setShowBoardSetup(true);
     }
   };
 
@@ -459,6 +462,12 @@ export const Setup = (props) => {
             />
           </div>
         )}
+      </div>
+      <div css={setupSection}>
+      {showBoardSetup && (<div>
+        <h2>Board Setup</h2>
+        <img src="./game_resources/temple_setup.png"/>
+        </div>)}
       </div>
       <div ref={continueRef}>
         {showContinue && (
