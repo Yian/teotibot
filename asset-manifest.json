@@ -1,18 +1,18 @@
 {
   "files": {
-    "main.css": "/teotibot/static/css/main.e081d23a.chunk.css",
-    "main.js": "/teotibot/static/js/main.49e2ecc9.chunk.js",
-    "main.js.map": "/teotibot/static/js/main.49e2ecc9.chunk.js.map",
+    "main.css": "/teotibot/static/css/main.1333a586.chunk.css",
+    "main.js": "/teotibot/static/js/main.3d3d31f2.chunk.js",
+    "main.js.map": "/teotibot/static/js/main.3d3d31f2.chunk.js.map",
     "runtime~main.js": "/teotibot/static/js/runtime~main.97619256.js",
     "runtime~main.js.map": "/teotibot/static/js/runtime~main.97619256.js.map",
     "static/css/2.ab540311.chunk.css": "/teotibot/static/css/2.ab540311.chunk.css",
-    "static/js/2.c2511e0d.chunk.js": "/teotibot/static/js/2.c2511e0d.chunk.js",
-    "static/js/2.c2511e0d.chunk.js.map": "/teotibot/static/js/2.c2511e0d.chunk.js.map",
+    "static/js/2.14033b7e.chunk.js": "/teotibot/static/js/2.14033b7e.chunk.js",
+    "static/js/2.14033b7e.chunk.js.map": "/teotibot/static/js/2.14033b7e.chunk.js.map",
     "index.html": "/teotibot/index.html",
-    "precache-manifest.22246ce5fb2e17e5af7e4148c4d94602.js": "/teotibot/precache-manifest.22246ce5fb2e17e5af7e4148c4d94602.js",
+    "precache-manifest.babbc6de2f4df3955b4f45555061cc29.js": "/teotibot/precache-manifest.babbc6de2f4df3955b4f45555061cc29.js",
     "service-worker.js": "/teotibot/service-worker.js",
     "static/css/2.ab540311.chunk.css.map": "/teotibot/static/css/2.ab540311.chunk.css.map",
-    "static/css/main.e081d23a.chunk.css.map": "/teotibot/static/css/main.e081d23a.chunk.css.map",
+    "static/css/main.1333a586.chunk.css.map": "/teotibot/static/css/main.1333a586.chunk.css.map",
     "static/media/App.css": "/teotibot/static/media/Mayan.234229e0.ttf"
   }
 }
