@@ -1,6 +1,6 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "396185f349a30d5b810e15f61ba8eaf2",
+    "revision": "34e697b322827879b26d42daddb1c6e3",
     "url": "/teotibot/index.html"
   },
   {
@@ -8,16 +8,16 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/teotibot/static/css/2.ab540311.chunk.css"
   },
   {
-    "revision": "2231ac7d7b7eb0e0ade5",
-    "url": "/teotibot/static/css/main.1333a586.chunk.css"
+    "revision": "9e8f12b896ce197f4421",
+    "url": "/teotibot/static/css/main.dc318006.chunk.css"
   },
   {
     "revision": "b2aec48b148ae23239d4",
     "url": "/teotibot/static/js/2.14033b7e.chunk.js"
   },
   {
-    "revision": "2231ac7d7b7eb0e0ade5",
-    "url": "/teotibot/static/js/main.3d3d31f2.chunk.js"
+    "revision": "9e8f12b896ce197f4421",
+    "url": "/teotibot/static/js/main.4cc2ef7a.chunk.js"
   },
   {
     "revision": "5c70a438e702b569ea43",
