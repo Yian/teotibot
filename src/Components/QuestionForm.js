@@ -101,7 +101,7 @@ const Question = (props) => {
                 ? () => {
                     props.onSelect("yes");
                   }
-                : () => props.onExitForm(false)
+                : () => props.onExitForm(true)
             }
           >
             yes
